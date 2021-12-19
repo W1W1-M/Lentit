@@ -14,6 +14,10 @@
 		3D5901E8276FC92700373871 /* LendingLogbookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901E7276FC92700373871 /* LendingLogbookTests.swift */; };
 		3D5901F2276FC92700373871 /* LendingLogbookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F1276FC92700373871 /* LendingLogbookUITests.swift */; };
 		3D5901F4276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F3276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift */; };
+		3D590204276FD16100373871 /* Lends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590203276FD16100373871 /* Lends.swift */; };
+		3D590206276FD36000373871 /* LentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590205276FD36000373871 /* LentItem.swift */; };
+		3D590208276FD91F00373871 /* LentItemDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590207276FD91F00373871 /* LentItemDetail.swift */; };
+		3D59020A276FDDF200373871 /* SidebarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590209276FDDF200373871 /* SidebarMenu.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		3D5901ED276FC92700373871 /* LendingLogbookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LendingLogbookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5901F1276FC92700373871 /* LendingLogbookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendingLogbookUITests.swift; sourceTree = "<group>"; };
 		3D5901F3276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendingLogbookUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3D590203276FD16100373871 /* Lends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lends.swift; sourceTree = "<group>"; };
+		3D590205276FD36000373871 /* LentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItem.swift; sourceTree = "<group>"; };
+		3D590207276FD91F00373871 /* LentItemDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemDetail.swift; sourceTree = "<group>"; };
+		3D590209276FDDF200373871 /* SidebarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +102,10 @@
 		3D5901D5276FC92500373871 /* LendingLogbook */ = {
 			isa = PBXGroup;
 			children = (
+				3D590202276FD05100373871 /* ViewModels */,
+				3D590201276FD04700373871 /* Models */,
+				3D590200276FD02B00373871 /* Views */,
 				3D5901D6276FC92500373871 /* LendingLogbookApp.swift */,
-				3D5901D8276FC92500373871 /* ContentView.swift */,
 				3D5901DA276FC92700373871 /* Assets.xcassets */,
 				3D5901DC276FC92700373871 /* Preview Content */,
 			);
@@ -125,6 +135,32 @@
 				3D5901F3276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift */,
 			);
 			path = LendingLogbookUITests;
+			sourceTree = "<group>";
+		};
+		3D590200276FD02B00373871 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3D5901D8276FC92500373871 /* ContentView.swift */,
+				3D590203276FD16100373871 /* Lends.swift */,
+				3D590207276FD91F00373871 /* LentItemDetail.swift */,
+				3D590209276FDDF200373871 /* SidebarMenu.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3D590201276FD04700373871 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3D590202276FD05100373871 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3D590205276FD36000373871 /* LentItem.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +294,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D5901D9276FC92500373871 /* ContentView.swift in Sources */,
+				3D590208276FD91F00373871 /* LentItemDetail.swift in Sources */,
+				3D590204276FD16100373871 /* Lends.swift in Sources */,
+				3D59020A276FDDF200373871 /* SidebarMenu.swift in Sources */,
 				3D5901D7276FC92500373871 /* LendingLogbookApp.swift in Sources */,
+				3D590206276FD36000373871 /* LentItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
