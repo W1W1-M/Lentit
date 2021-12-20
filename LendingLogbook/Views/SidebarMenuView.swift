@@ -1,5 +1,5 @@
 //
-//  SidebarMenu.swift
+//  SidebarMenuView.swift
 //  LendingLogbook
 //
 //  Created by William Mead on 19/12/2021.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SidebarMenu: View {
+struct SidebarMenuView: View {
     var body: some View {
         List() {
             HStack {
@@ -25,10 +25,10 @@ struct SidebarMenu: View {
     }
 }
 
-struct SidebarMenu_Previews: PreviewProvider {
+struct SidebarMenuView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SidebarMenu()
+            SidebarMenuView()
         }
     }
 }

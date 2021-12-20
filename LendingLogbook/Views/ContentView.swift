@@ -9,25 +9,36 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
+    @ObservedObject var lentItemsStore: LentItemStore = LentItemStore(itemData: LentItemStore.sampleData)
     var body: some View {
         switch sizeClass {
         case .regular:
             NavigationView {
-                SidebarMenu()
-                Lends()
-                LentItemDetail()
+                SidebarMenuView()
+                LentItemsListView(
+                    lentItemsStore: lentItemsStore
+                )
+                LentItemDetailView(
+                    lentItem: LentItemStore.sampleData[0]
+                )
             }
         case .compact:
             NavigationView {
-                Lends()
+                LentItemsListView(
+                    lentItemsStore: lentItemsStore
+                )
             }
         case .none:
             NavigationView {
-                Lends()
+                LentItemsListView(
+                    lentItemsStore: lentItemsStore
+                )
             }
         case .some(_):
             NavigationView {
-                Lends()
+                LentItemsListView(
+                    lentItemsStore: lentItemsStore
+                )
             }
         }
     }
@@ -35,6 +46,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().previewInterfaceOrientation(.landscapeLeft)
+        if #available(iOS 15.0, *) {
+            ContentView().previewInterfaceOrientation(.landscapeLeft)
+        } else {
+            ContentView()
+        }
     }
 }
