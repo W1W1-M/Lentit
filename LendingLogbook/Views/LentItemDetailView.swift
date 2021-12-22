@@ -9,37 +9,33 @@ import SwiftUI
 
 struct LentItemDetailView: View {
     @ObservedObject var lentItemVM: LentItemVM
-    @ObservedObject var lentItem: LentItemModel
     @State var editDisabled: Bool = true
-    // Custom init
-    init(lentItem: LentItemModel)  {
-        self.lentItemVM = LentItemVM(lentItem: lentItem)
-        self.lentItem = lentItem
-    }
     var body: some View {
         Form {
             Section(header: Text("Loan")) {
                 HStack {
-                    Text("To")
+                    Text("To").foregroundColor(.secondary)
                     Spacer()
                     TextField("Borrower", text: $lentItemVM.borrowerText)
                         .disabled(editDisabled)
+                        .font(.headline)
                         .multilineTextAlignment(.trailing)
                 }
                 HStack {
+                    Text("On").foregroundColor(.secondary)
                     DatePicker(
-                        "On",
+                        "",
                         selection: $lentItemVM.lendDate,
                         displayedComponents: .date
                     ).disabled(editDisabled)
                 }
                 HStack {
-                    Text("For")
+                    Text("For").foregroundColor(.secondary)
                     Spacer()
-                    Text("\(lentItemVM.lendTimeText)")
+                    Text("\(lentItemVM.lendTimeText)").italic()
                 }
                 HStack {
-                    Text("Due")
+                    Text("Due").foregroundColor(.secondary)
                     Spacer()
                     Text("\(lentItemVM.lendExpiryText)")
                 }
@@ -49,20 +45,21 @@ struct LentItemDetailView: View {
                     Text("\(lentItemVM.emojiText)")
                     TextField("Description", text: $lentItemVM.nameText)
                         .disabled(editDisabled)
+                        .font(.headline)
                 }
                 HStack {
                     TextField("Description", text: $lentItemVM.descriptionText)
                         .disabled(editDisabled)
                 }
                 HStack {
-                    Text("Category")
+                    Text("Category").foregroundColor(.secondary)
                     Spacer()
                     Text("\(lentItemVM.categoryText)")
                 }
                 HStack {
-                    Text("Value")
+                    Text("Value").foregroundColor(.secondary)
                     Spacer()
-                    Text("\(lentItemVM.valueText)")
+                    Text("\(lentItemVM.valueText)").italic()
                 }
             }
         }.navigationTitle("\(lentItemVM.emojiText) \(lentItemVM.nameText)")
@@ -84,7 +81,7 @@ struct LentItemDetailView: View {
 struct LentItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
         LentItemDetailView(
-            lentItem: LentItemStore.sampleData[0]
+            lentItemVM: LentItemVM()
         ).previewLayout(.sizeThatFits)
     }
 }

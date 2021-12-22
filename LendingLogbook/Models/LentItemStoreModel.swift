@@ -1,5 +1,5 @@
 //
-//  LentItemStore.swift
+//  LentItemStoreModel.swift
 //  LendingLogbook
 //
 //  Created by William Mead on 20/12/2021.
@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-class LentItemStore: ObservableObject {
+class LentItemStoreModel: ObservableObject {
     @Published var storedItems: [LentItemModel]
     init(itemData: [LentItemModel]) {
         self.storedItems = itemData
     }
 }
 
-extension LentItemStore {
+extension LentItemStoreModel {
     static var sampleData: [LentItemModel] = [
         LentItemModel(
             id: UUID(),

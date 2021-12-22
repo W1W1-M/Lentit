@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct LendingLogbookApp: App {
+    @StateObject var lentItemsListVM: LentItemListVM = LentItemListVM()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(lentItemsListVM)
         }
     }
 }
