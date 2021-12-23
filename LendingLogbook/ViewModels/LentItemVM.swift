@@ -7,7 +7,7 @@
 import Foundation
 /// Lent item view model class
 class LentItemVM: ObservableObject, Identifiable {
-    // MARK: - Variables
+// MARK: - Variables
     @Published var lentItem: LentItemModel
     @Published var id: UUID
     @Published var nameText: String {
@@ -44,6 +44,7 @@ class LentItemVM: ObservableObject, Identifiable {
     @Published var lendDateText: String
     @Published var lendTimeText: String
     @Published var lendExpiryText: String
+// MARK: - Init
     /// Custom init to initialize view model with default data
     init() {
         self.lentItem = LentItemStoreModel.sampleData[0]
@@ -59,7 +60,7 @@ class LentItemVM: ObservableObject, Identifiable {
         self.lendTimeText = "2 days"
         self.lendExpiryText = "22/02/2002"
     }
-    // MARK: - Functions
+// MARK: - Functions
     /// Function to set lent item view model
     /// - Parameter lentItem: Lent item model
     func setLentItemVM(for lentItem: LentItemModel) {

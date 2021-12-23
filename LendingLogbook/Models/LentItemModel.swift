@@ -4,11 +4,10 @@
 //
 //  Created by William Mead on 20/12/2021.
 //
-
 import Foundation
-
 /// Data model for a lended item
 class LentItemModel: ObservableObject, Identifiable {
+// MARK: - Variables
     var id: UUID
     @Published var name: String
     @Published var emoji: String
@@ -19,7 +18,18 @@ class LentItemModel: ObservableObject, Identifiable {
     @Published var lendDate: Date
     @Published var lendTime: TimeInterval
     @Published var lendExpiry: Date
-    /// Custom init
+// MARK: - Init
+    /// Custom initialization
+    /// - Parameters:
+    ///   - id: UUID
+    ///   - name: String
+    ///   - emoji: String
+    ///   - description: String
+    ///   - value: Double
+    ///   - category: String
+    ///   - borrower: String
+    ///   - lendDate: Date
+    ///   - lendTime: TimeInterval
     init(
         id: UUID,
         name: String,

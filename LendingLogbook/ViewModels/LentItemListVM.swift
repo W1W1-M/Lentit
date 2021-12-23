@@ -8,6 +8,7 @@
 import Foundation
 
 class LentItemListVM: ObservableObject {
+// MARK: - Variables
     @Published var lentItemStore: [LentItemModel] {
         // On change reload lent items count & VMs
         didSet{
@@ -17,6 +18,7 @@ class LentItemListVM: ObservableObject {
     }
     @Published var lentItemVMs: [LentItemVM]
     @Published var lentItemsCountText: String
+// MARK: - Init
     /// Custom initialization
     init() {
         // Initialize with empty data
@@ -32,6 +34,7 @@ class LentItemListVM: ObservableObject {
         // Initialize lent items count wiith lent items from store
         self.lentItemsCountText = "\(self.lentItemStore.count) items"
     }
+// MARK: - Functions
     /// Function to set lent item view models with lent item models from store
     /// - Parameter lentItemStore: Array of lent item models
     /// - Returns: Array of lent item view models
