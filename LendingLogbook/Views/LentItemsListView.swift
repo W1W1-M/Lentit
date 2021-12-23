@@ -17,10 +17,8 @@ struct LentItemsListView: View {
                 Text("\(lentItemsListVM.lentItemsCountText)")
             }) {
                 List {
-                    ForEach(lentItemsListVM.lentItemVMs) { LentItemVM in
-                        NavigationLink(destination: LentItemDetailView(lentItemVM: LentItemVM)) {
-                            LentListItemView(lentItemVM: LentItemVM)
-                        }
+                    ForEach(lentItemsListVM.lentItemStore) { LentItemModel in
+                        LentListItemView(lentItemModel: LentItemModel)
                     }.onDelete(perform: { IndexSet in
                         lentItemsListVM.lentItemStore.remove(atOffsets: IndexSet)
                     })
@@ -67,19 +65,26 @@ struct LentItemsListView: View {
 }
 
 struct LentListItemView: View {
-    @ObservedObject var lentItemVM: LentItemVM
+    @ObservedObject var lentItemModel: LentItemModel
+    @StateObject var lentItemVM: LentItemVM = LentItemVM()
     var body: some View {
-        HStack {
-            Button {
-                
-            } label: {
-                HStack {
-                    Text("\(lentItemVM.emojiText) \(lentItemVM.nameText)").foregroundColor(.primary)
-                    Spacer()
-                    Text("\(lentItemVM  .borrowerText)").foregroundColor(.accentColor)
+        NavigationLink(destination: LentItemDetailView(lentItemVM: lentItemVM)) {
+            HStack {
+                Button {
+                    
+                } label: {
+                    HStack {
+                        Text("\(lentItemVM.emojiText) \(lentItemVM.nameText)").foregroundColor(.primary)
+                        Spacer()
+                        Text("\(lentItemVM  .borrowerText)").foregroundColor(.accentColor)
+                    }
                 }
             }
         }
+        .onAppear(perform: {
+            // Set lent item view model with lent item data
+            lentItemVM.setLentItemVM(for: lentItemModel)
+        })
     }
 }
 
@@ -90,7 +95,7 @@ struct LentItemsListView_Previews: PreviewProvider {
         }.environmentObject(LentItemListVM())
         //
         LentListItemView(
-            lentItemVM: LentItemVM()
+            lentItemModel: LentItemStoreModel.sampleData[0]
         ).previewLayout(.sizeThatFits)
     }
 }

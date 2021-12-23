@@ -11,13 +11,37 @@ import Foundation
 class LentItemVM: ObservableObject, Identifiable {
     @Published var lentItem: LentItemModel
     @Published var id: UUID
-    @Published var nameText: String
+    @Published var nameText: String {
+        didSet{
+            lentItem.name = nameText
+        }
+    }
     @Published var emojiText: String
-    @Published var descriptionText: String
+    @Published var descriptionText: String {
+        didSet{
+            lentItem.description = descriptionText
+        }
+    }
     @Published var valueText: String
-    @Published var categoryText: String
-    @Published var borrowerText: String
-    @Published var lendDate: Date
+    @Published var categoryText: String {
+        didSet{
+            lentItem.category = categoryText
+        }
+    }
+    @Published var borrowerText: String {
+        didSet{
+            lentItem.borrower = borrowerText
+        }
+    }
+    @Published var lendDate: Date {
+        didSet{
+            lentItem.lendDate = lendDate
+            // On change of lent item Date update lend date text, lend expiry & lend expiry text
+            lendDateText = setLentItemDateText(for: lentItem.lendDate)
+            lentItem.lendExpiry = setLentItemExpiry(from: lentItem.lendDate, lendTime: lentItem.lendTime)
+            lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
+        }
+    }
     @Published var lendDateText: String
     @Published var lendTimeText: String
     @Published var lendExpiryText: String
@@ -50,12 +74,12 @@ class LentItemVM: ObservableObject, Identifiable {
         let timeFormat = DateComponentsFormatter()
         timeFormat.unitsStyle = .short
         timeFormat.allowedUnits = [.day, .month, .year]
-        if let lendTime = timeFormat.string(from: 60000.0) {
+        if let lendTime = timeFormat.string(from: 120000.0) {
             self.lendTimeText = lendTime
         } else {
             self.lendTimeText = "?"
         }
-        self.lendExpiryText = dateFormat.string(from: Date(timeInterval: 60000.0, since: Date()))
+        self.lendExpiryText = dateFormat.string(from: Date(timeInterval: 120000.0, since: Date()))
     }
     /// Function to set lent item view model
     /// - Parameter lentItem: <#lentItem description#>
@@ -77,11 +101,7 @@ class LentItemVM: ObservableObject, Identifiable {
         self.categoryText = lentItem.category
         self.borrowerText = lentItem.borrower
         self.lendDate = lentItem.lendDate
-        //
-        let dateFormat = DateFormatter()
-        dateFormat.locale = .current
-        dateFormat.dateStyle = .medium
-        self.lendDateText = dateFormat.string(from: lentItem.lendDate)
+        self.lendDateText = setLentItemDateText(for: lentItem.lendDate)
         //
         let timeFormat = DateComponentsFormatter()
         timeFormat.unitsStyle = .short
@@ -91,6 +111,35 @@ class LentItemVM: ObservableObject, Identifiable {
         } else {
             self.lendTimeText = "?"
         }
-        self.lendExpiryText = dateFormat.string(from: lentItem.lendExpiry)
+        self.lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
+    }
+    /// Function to set item lent date text
+    /// - Parameter lendDate: Item lend Date
+    /// - Returns: Item lend date String
+    func setLentItemDateText(for lendDate: Date) -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.locale = .current
+        dateFormat.dateStyle = .medium
+        let lendDateText: String = dateFormat.string(from: lendDate)
+        return lendDateText
+    }
+    /// <#Description#>
+    /// - Parameter lendExpiry: <#lendExpiry description#>
+    /// - Returns: <#description#>
+    func setLentItemExpiryText(for lendExpiry: Date) -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.locale = .current
+        dateFormat.dateStyle = .medium
+        let lendExpiryText: String = dateFormat.string(from: lendExpiry)
+        return lendExpiryText
+    }
+    /// <#Description#>
+    /// - Parameters:
+    ///   - lendDate: <#lendDate description#>
+    ///   - lendTime: <#lendTime description#>
+    /// - Returns: <#description#>
+    func setLentItemExpiry(from lendDate: Date, lendTime: TimeInterval) -> Date {
+        let lendExpiry: Date = Date(timeInterval: lendTime, since: lendDate)
+        return lendExpiry
     }
 }

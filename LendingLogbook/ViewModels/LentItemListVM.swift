@@ -9,7 +9,7 @@ import Foundation
 
 class LentItemListVM: ObservableObject {
     @Published var lentItemStore: [LentItemModel] {
-        /// on change reload lent items count & VMs
+        // On change reload lent items count & VMs
         didSet{
             lentItemsCountText = setLentItemsCount(for: lentItemStore)
             lentItemVMs = setLentItemsVMs(for: lentItemStore)
@@ -19,17 +19,17 @@ class LentItemListVM: ObservableObject {
     @Published var lentItemsCountText: String
     /// Custom initialization
     init() {
-        /// Initialize with empty data
+        // Initialize with empty data
         self.lentItemStore = []
         self.lentItemVMs = []
         self.lentItemsCountText = ""
-        /// Initialize lent item view models with lent items from store
+        // Initialize lent item view models with lent items from store
         for LentItemModel in self.lentItemStore {
             let lentItemVM = LentItemVM()
             lentItemVM.setLentItemVM(for: LentItemModel)
             lentItemVMs.append(lentItemVM)
         }
-        /// Initialize lent items count wiith lent items from store
+        // Initialize lent items count wiith lent items from store
         self.lentItemsCountText = "\(self.lentItemStore.count) items"
     }
     /// Function to set lent item view models with lent item models from store
@@ -62,7 +62,7 @@ class LentItemListVM: ObservableObject {
             category: "category",
             borrower: "borrower",
             lendDate: Date(),
-            lendTime: 60000.0
+            lendTime: 120000.0
         )
         lentItemStore.append(newLentItem)
     }

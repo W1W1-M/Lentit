@@ -54,12 +54,17 @@ struct LentItemDetailView: View {
                 HStack {
                     Text("Category").foregroundColor(.secondary)
                     Spacer()
-                    Text("\(lentItemVM.categoryText)")
+                    TextField("Category", text: $lentItemVM.categoryText)
+                        .disabled(editDisabled)
+                        .multilineTextAlignment(.trailing)
                 }
                 HStack {
                     Text("Value").foregroundColor(.secondary)
                     Spacer()
-                    Text("\(lentItemVM.valueText)").italic()
+                    TextField("Value", text: $lentItemVM.valueText)
+                        .disabled(editDisabled)
+                        .multilineTextAlignment(.trailing)
+                        .keyboardType(.numberPad)
                 }
             }
         }.navigationTitle("\(lentItemVM.emojiText) \(lentItemVM.nameText)")
@@ -80,8 +85,6 @@ struct LentItemDetailView: View {
 
 struct LentItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        LentItemDetailView(
-            lentItemVM: LentItemVM()
-        ).previewLayout(.sizeThatFits)
+        LentItemDetailView(lentItemVM: LentItemVM()).previewLayout(.sizeThatFits)
     }
 }
