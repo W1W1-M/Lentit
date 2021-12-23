@@ -5,7 +5,7 @@
 //  Created by William Mead on 19/12/2021.
 //
 import Foundation
-/// Lent item view model class
+/// Lent item view model
 class LentItemVM: ObservableObject, Identifiable {
 // MARK: - Variables
     @Published var lentItem: LentItemModel

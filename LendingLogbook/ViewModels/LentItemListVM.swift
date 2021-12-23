@@ -4,9 +4,8 @@
 //
 //  Created by William Mead on 21/12/2021.
 //
-
 import Foundation
-
+/// Lent item list view model
 class LentItemListVM: ObservableObject {
 // MARK: - Variables
     @Published var lentItemStore: [LentItemModel] {

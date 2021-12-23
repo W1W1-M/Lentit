@@ -4,14 +4,12 @@
 //
 //  Created by William Mead on 20/12/2021.
 //
-
 import Foundation
-import SwiftUI
-
+/// Store for lent items
 class LentItemStoreModel: ObservableObject {
     @Published var storedItems: [LentItemModel]
-    init(itemData: [LentItemModel]) {
-        self.storedItems = itemData
+    init() {
+        self.storedItems = []
     }
 }
 
