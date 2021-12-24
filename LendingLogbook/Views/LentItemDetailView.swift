@@ -12,6 +12,35 @@ struct LentItemDetailView: View {
     @State var editDisabled: Bool = true
     var body: some View {
         Form {
+            Section(header: Text("Item")) {
+                HStack {
+                    TextField("Description", text: $lentItemVM.nameText)
+                        .disabled(editDisabled)
+                        .font(.headline)
+                }
+                HStack {
+                    TextField("Description", text: $lentItemVM.descriptionText)
+                        .disabled(editDisabled)
+                }
+                HStack {
+                    Text("Category").foregroundColor(.secondary)
+                    Spacer()
+                    Picker("Category", selection: $lentItemVM.category) {
+                        ForEach(LentItemCategories.categories) { LentItemCategoryModel in
+                            Text("\(LentItemCategoryModel.name)").tag(LentItemCategoryModel)
+                        }
+                    }.pickerStyle(.menu)
+                    .disabled(editDisabled)
+                }
+                HStack {
+                    Text("Value").foregroundColor(.secondary)
+                    Spacer()
+                    TextField("Value", text: $lentItemVM.valueText)
+                        .disabled(editDisabled)
+                        .multilineTextAlignment(.trailing)
+                        .keyboardType(.numberPad)
+                }
+            }
             Section(header: Text("Loan")) {
                 HStack {
                     Text("To").foregroundColor(.secondary)
@@ -40,34 +69,7 @@ struct LentItemDetailView: View {
                     Text("\(lentItemVM.lendExpiryText)")
                 }
             }
-            Section(header: Text("Item")) {
-                HStack {
-                    Text("\(lentItemVM.emojiText)")
-                    TextField("Description", text: $lentItemVM.nameText)
-                        .disabled(editDisabled)
-                        .font(.headline)
-                }
-                HStack {
-                    TextField("Description", text: $lentItemVM.descriptionText)
-                        .disabled(editDisabled)
-                }
-                HStack {
-                    Text("Category").foregroundColor(.secondary)
-                    Spacer()
-                    TextField("Category", text: $lentItemVM.categoryText)
-                        .disabled(editDisabled)
-                        .multilineTextAlignment(.trailing)
-                }
-                HStack {
-                    Text("Value").foregroundColor(.secondary)
-                    Spacer()
-                    TextField("Value", text: $lentItemVM.valueText)
-                        .disabled(editDisabled)
-                        .multilineTextAlignment(.trailing)
-                        .keyboardType(.numberPad)
-                }
-            }
-        }.navigationTitle("\(lentItemVM.emojiText) \(lentItemVM.nameText)")
+        }.navigationTitle("\(lentItemVM.nameText)")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {

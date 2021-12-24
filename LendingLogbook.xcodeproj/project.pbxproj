@@ -20,6 +20,7 @@
 		3D590206276FD36000373871 /* LentItemVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590205276FD36000373871 /* LentItemVM.swift */; };
 		3D590208276FD91F00373871 /* LentItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590207276FD91F00373871 /* LentItemDetailView.swift */; };
 		3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590209276FDDF200373871 /* SidebarMenuView.swift */; };
+		3D86AEAA2776042300FF4803 /* LentItemCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */; };
 		3DD36F032771E1DE002C333C /* LentItemListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD36F022771E1DE002C333C /* LentItemListVM.swift */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		3D590205276FD36000373871 /* LentItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemVM.swift; sourceTree = "<group>"; };
 		3D590207276FD91F00373871 /* LentItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemDetailView.swift; sourceTree = "<group>"; };
 		3D590209276FDDF200373871 /* SidebarMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuView.swift; sourceTree = "<group>"; };
+		3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemCategoryModel.swift; sourceTree = "<group>"; };
 		3DD36F022771E1DE002C333C /* LentItemListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemListVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 			children = (
 				3D352D8E27709993000F8148 /* LentItemModel.swift */,
 				3D5551F12770E9300007BE3E /* LentItemStoreModel.swift */,
+				3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				3DD36F032771E1DE002C333C /* LentItemListVM.swift in Sources */,
 				3D590204276FD16100373871 /* LentItemsListView.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
+				3D86AEAA2776042300FF4803 /* LentItemCategoryModel.swift in Sources */,
 				3D5901D7276FC92500373871 /* LendingLogbookApp.swift in Sources */,
 				3D5551F22770E9300007BE3E /* LentItemStoreModel.swift in Sources */,
 				3D590206276FD36000373871 /* LentItemVM.swift in Sources */,

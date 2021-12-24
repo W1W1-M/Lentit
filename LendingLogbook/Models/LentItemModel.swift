@@ -10,40 +10,38 @@ class LentItemModel: ObservableObject, Identifiable {
 // MARK: - Variables
     var id: UUID
     @Published var name: String
-    @Published var emoji: String
     @Published var description: String
     @Published var value: Double
-    @Published var category: String
+    @Published var category: LentItemCategoryModel
     @Published var borrower: String
     @Published var lendDate: Date
     @Published var lendTime: TimeInterval
     @Published var lendExpiry: Date
+    @Published var justAdded: Bool
 // MARK: - Init
     /// Custom initialization
     /// - Parameters:
     ///   - id: UUID
     ///   - name: String
-    ///   - emoji: String
     ///   - description: String
     ///   - value: Double
-    ///   - category: String
+    ///   - category: LentItemCategoryModel
     ///   - borrower: String
     ///   - lendDate: Date
     ///   - lendTime: TimeInterval
     init(
         id: UUID,
         name: String,
-        emoji: String,
         description: String,
         value: Double,
-        category: String,
+        category: LentItemCategoryModel,
         borrower: String,
         lendDate: Date,
-        lendTime: TimeInterval
+        lendTime: TimeInterval,
+        justAdded: Bool
     ) {
         self.id = id
         self.name = name
-        self.emoji = emoji
         self.description = description
         self.value = value
         self.category = category
@@ -51,5 +49,6 @@ class LentItemModel: ObservableObject, Identifiable {
         self.lendDate = lendDate
         self.lendTime = lendTime
         self.lendExpiry = Date(timeInterval: lendTime, since: lendDate)
+        self.justAdded = justAdded
     }
 }

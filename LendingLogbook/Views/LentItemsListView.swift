@@ -18,7 +18,9 @@ struct LentItemsListView: View {
             }) {
                 List {
                     ForEach(lentItemsListVM.lentItemStore) { LentItemModel in
-                        LentListItemView(lentItemModel: LentItemModel)
+                        LentListItemView(
+                            lentItemModel: LentItemModel
+                        )
                     }.onDelete(perform: { IndexSet in
                         lentItemsListVM.lentItemStore.remove(atOffsets: IndexSet)
                     })
@@ -67,16 +69,20 @@ struct LentItemsListView: View {
 struct LentListItemView: View {
     @ObservedObject var lentItemModel: LentItemModel
     @StateObject var lentItemVM: LentItemVM = LentItemVM()
+    @State var navigationLinkIsActive: Bool = false
     var body: some View {
-        NavigationLink(destination: LentItemDetailView(lentItemVM: lentItemVM)) {
+        NavigationLink(
+            destination: LentItemDetailView(lentItemVM: lentItemVM),
+            isActive: $navigationLinkIsActive
+        ) {
             HStack {
                 Button {
                     
                 } label: {
                     HStack {
-                        Text("\(lentItemVM.emojiText) \(lentItemVM.nameText)").foregroundColor(.primary)
+                        Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
                         Spacer()
-                        Text("\(lentItemVM  .borrowerText)").foregroundColor(.accentColor)
+                        Text("\(lentItemVM.borrowerText)").foregroundColor(.accentColor)
                     }
                 }
             }
@@ -84,6 +90,11 @@ struct LentListItemView: View {
         .onAppear(perform: {
             // Set lent item view model with lent item data
             lentItemVM.setLentItemVM(for: lentItemModel)
+            // Navigation to newly added item
+            if(lentItemVM.justAdded) {
+                lentItemVM.justAdded = false
+                navigationLinkIsActive = true
+            }
         })
     }
 }

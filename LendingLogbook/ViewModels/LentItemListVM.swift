@@ -57,14 +57,14 @@ class LentItemListVM: ObservableObject {
     func addLentItem() {
         let newLentItem = LentItemModel(
             id: UUID(),
-            name: "name",
-            emoji: "😀",
-            description: "description",
-            value: 10.0,
-            category: "category",
-            borrower: "borrower",
+            name: "",
+            description: "",
+            value: 0,
+            category: LentItemCategories.categories[0],
+            borrower: "",
             lendDate: Date(),
-            lendTime: 120000.0
+            lendTime: 0.0,
+            justAdded: true
         )
         lentItemStore.append(newLentItem)
     }

@@ -15,16 +15,15 @@ class LentItemVM: ObservableObject, Identifiable {
             lentItem.name = nameText
         }
     }
-    @Published var emojiText: String
     @Published var descriptionText: String {
         didSet{
             lentItem.description = descriptionText
         }
     }
     @Published var valueText: String
-    @Published var categoryText: String {
+    @Published var category: LentItemCategoryModel {
         didSet{
-            lentItem.category = categoryText
+            lentItem.category = category
         }
     }
     @Published var borrowerText: String {
@@ -44,21 +43,26 @@ class LentItemVM: ObservableObject, Identifiable {
     @Published var lendDateText: String
     @Published var lendTimeText: String
     @Published var lendExpiryText: String
+    @Published var justAdded: Bool {
+        didSet {
+            lentItem.justAdded = justAdded
+        }
+    }
 // MARK: - Init
     /// Custom init to initialize view model with default data
     init() {
         self.lentItem = LentItemStoreModel.sampleData[0]
         self.id = UUID()
-        self.nameText = "Unknown name"
-        self.emojiText = "🤨"
+        self.nameText = "📦 Unknown"
         self.descriptionText = "Unknown item"
         self.valueText = "0€"
-        self.categoryText = "Unknown category"
+        self.category = LentItemCategories.categories[4]
         self.borrowerText = "Unknown borrower"
         self.lendDate = Date()
         self.lendDateText = "20/02/2002"
         self.lendTimeText = "2 days"
         self.lendExpiryText = "22/02/2002"
+        self.justAdded = false
     }
 // MARK: - Functions
     /// Function to set lent item view model
@@ -67,7 +71,6 @@ class LentItemVM: ObservableObject, Identifiable {
         self.lentItem = lentItem
         self.id = lentItem.id
         self.nameText = lentItem.name
-        self.emojiText = lentItem.emoji
         self.descriptionText = lentItem.description
         //
         let numberFormat = NumberFormatter()
@@ -78,12 +81,13 @@ class LentItemVM: ObservableObject, Identifiable {
         } else {
             self.valueText = "?"
         }
-        self.categoryText = lentItem.category
+        self.category = lentItem.category
         self.borrowerText = lentItem.borrower
         self.lendDate = lentItem.lendDate
         self.lendDateText = setLentItemDateText(for: lentItem.lendDate)
         self.lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
         self.lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
+        self.justAdded = lentItem.justAdded
     }
     /// Function to set item lend date text
     /// - Parameter lendDate: Item lend Date

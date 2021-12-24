@@ -18,35 +18,35 @@ extension LentItemStoreModel {
         LentItemModel(
             id: UUID(),
             name: "IronMan bluray",
-            emoji: "💿",
             description: "Film about some guy in an armored suit",
             value: 10.00,
-            category: "Films",
+            category: LentItemCategories.categories[0],
             borrower: "Sarah",
             lendDate: Date(),
-            lendTime: 600000.0
+            lendTime: 600000.0,
+            justAdded: true
         ),
         LentItemModel(
             id: UUID(),
             name: "Captain America shield",
-            emoji: "🛡",
             description: "An old rusty medievil shield",
             value: 250.00,
-            category: "Suits",
+            category: LentItemCategories.categories[0],
             borrower: "Anthony",
             lendDate: Date(),
-            lendTime: 1200000.0
+            lendTime: 1200000.0,
+            justAdded: true
         ),
         LentItemModel(
             id: UUID(),
             name: "Spiderman lego",
-            emoji: "🧸",
             description: "Red lego bricks",
             value: 30.00,
-            category: "Toys",
+            category: LentItemCategories.categories[0],
             borrower: "Charly",
             lendDate: Date(),
-            lendTime: 1800000.0
+            lendTime: 1800000.0,
+            justAdded: true
         )
     ]
 }
