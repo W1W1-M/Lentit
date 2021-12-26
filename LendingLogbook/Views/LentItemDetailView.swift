@@ -82,6 +82,13 @@ struct LentItemDetailView: View {
                 }
             }
         }
+        .onAppear(perform: {
+            // Unlock lent item edit mode if just added
+            if(lentItemVM.justAdded) {
+                lentItemVM.justAdded = false
+                editDisabled = false
+            }
+        })
     }
 }
 

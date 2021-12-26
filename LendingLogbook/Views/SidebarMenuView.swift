@@ -8,20 +8,44 @@
 import SwiftUI
 
 struct SidebarMenuView: View {
+    @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
-        List() {
-            HStack {
-                Text("Lend")
-                Spacer()
-                Image(systemName: "square.and.arrow.up")
-            }.font(.headline)
-            HStack {
-                Text("Borrow")
-                Spacer()
-                Image(systemName: "square.and.arrow.down")
-            }.font(.headline)
+        List {
+            Section(header:
+                HStack {
+                    Image(systemName: "list.dash")
+                    Text("Categories")
+                }
+            ) {
+                ForEach(LentItemCategories.categories) { LentItemCategoryModel in
+                    Button {
+                        lentItemsListVM.activeCategory = LentItemCategoryModel
+                    } label: {
+                        if(lentItemsListVM.activeCategory == LentItemCategoryModel) {
+                            HStack {
+                                Text("\(LentItemCategoryModel.name)")
+                                Spacer()
+                                Image(systemName: "checkmark").foregroundColor(.accentColor)
+                            }
+                        } else {
+                            Text("\(LentItemCategoryModel.name)")
+                        }
+                    }
+                }
+            }
+            Section(header:
+                HStack {
+                    Image(systemName: "person.2")
+                    Text("Borrowers")
+                }
+            ) {
+                HStack {
+                    Text("?")
+                    Spacer()
+                }
+            }
         }.listStyle(SidebarListStyle())
-        .navigationTitle("📒 Lending Logbook")
+        .navigationTitle("📒 Lend Logs")
     }
 }
 

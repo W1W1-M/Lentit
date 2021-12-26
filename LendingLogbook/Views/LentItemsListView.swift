@@ -17,9 +17,9 @@ struct LentItemsListView: View {
                 Text("\(lentItemsListVM.lentItemsCountText)")
             }) {
                 List {
-                    ForEach(lentItemsListVM.lentItemStore) { LentItemModel in
+                    ForEach(lentItemsListVM.lentItemVMs) { LentItemVM in
                         LentListItemView(
-                            lentItemModel: LentItemModel
+                            lentItemVM: LentItemVM
                         )
                     }.onDelete(perform: { IndexSet in
                         lentItemsListVM.lentItemStore.remove(atOffsets: IndexSet)
@@ -67,8 +67,7 @@ struct LentItemsListView: View {
 }
 
 struct LentListItemView: View {
-    @ObservedObject var lentItemModel: LentItemModel
-    @StateObject var lentItemVM: LentItemVM = LentItemVM()
+    @ObservedObject var lentItemVM: LentItemVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
@@ -88,11 +87,8 @@ struct LentListItemView: View {
             }
         }
         .onAppear(perform: {
-            // Set lent item view model with lent item data
-            lentItemVM.setLentItemVM(for: lentItemModel)
             // Navigation to newly added item
             if(lentItemVM.justAdded) {
-                lentItemVM.justAdded = false
                 navigationLinkIsActive = true
             }
         })
@@ -106,7 +102,7 @@ struct LentItemsListView_Previews: PreviewProvider {
         }.environmentObject(LentItemListVM())
         //
         LentListItemView(
-            lentItemModel: LentItemStoreModel.sampleData[0]
+            lentItemVM: LentItemVM()
         ).previewLayout(.sizeThatFits)
     }
 }

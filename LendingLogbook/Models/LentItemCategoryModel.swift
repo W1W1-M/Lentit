@@ -22,6 +22,7 @@ struct LentItemCategoryModel: Identifiable, Hashable {
 /// <#Description#>
 struct LentItemCategories {
     static let categories: [LentItemCategoryModel] = [
+        LentItemCategoryModel(name: "🗂 All"),
         LentItemCategoryModel(name: "📚 Books"),
         LentItemCategoryModel(name: "🚗 Cars"),
         LentItemCategoryModel(name: "👔 Clothes"),
