@@ -25,7 +25,7 @@ class LentItemListVM: ObservableObject {
     }
     @Published var activeSort: SortingOrder {
         didSet{
-            lentItemVMs = setLentItemsVMs(for: lentItemStore)
+            lentItemVMs = sortedLentItemVMs(for: lentItemVMs)
         }
     }
 // MARK: - Init
@@ -64,6 +64,12 @@ class LentItemListVM: ObservableObject {
                 }
             }
         }
+        lentItemVMs = sortedLentItemVMs(for: lentItemVMs)
+        return lentItemVMs
+    }
+    /// Function to sort lent item view models with active sort order
+    func sortedLentItemVMs(for lentItemVMs: [LentItemVM]) -> [LentItemVM] {
+        var lentItemVMs = lentItemVMs
         // Use switch case to sort array
         switch activeSort {
         case SortingOrders.byItemName:
@@ -82,7 +88,7 @@ class LentItemListVM: ObservableObject {
         return lentItemVMs
     }
     /// Function to set lent items count with lent items views models
-    /// - Parameter lentItemVMs: Array of len item view models
+    /// - Parameter lentItemVMs: Array of lent item view models
     /// - Returns: String of number of lent items
     func setLentItemsCount(for lentItemVMs: [LentItemVM]) -> String {
         let lentItemsCountText = "\(lentItemVMs.count) items"
@@ -95,7 +101,7 @@ class LentItemListVM: ObservableObject {
             name: "",
             description: "",
             value: 0,
-            category: LentItemCategories.categories[0],
+            category: LentItemCategories.categories[5],
             borrower: "",
             lendDate: Date(),
             lendTime: 0.0,

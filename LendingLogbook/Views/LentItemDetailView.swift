@@ -14,7 +14,7 @@ struct LentItemDetailView: View {
         Form {
             Section(header: Text("Item")) {
                 HStack {
-                    TextField("Description", text: $lentItemVM.nameText)
+                    TextField("🆕 Name", text: $lentItemVM.nameText)
                         .disabled(editDisabled)
                         .font(.headline)
                 }
@@ -45,7 +45,7 @@ struct LentItemDetailView: View {
                 HStack {
                     Text("To").foregroundColor(.secondary)
                     Spacer()
-                    TextField("Borrower", text: $lentItemVM.borrowerText)
+                    TextField("Borrower 🧑", text: $lentItemVM.borrowerText)
                         .disabled(editDisabled)
                         .font(.headline)
                         .multilineTextAlignment(.trailing)

@@ -9,13 +9,9 @@ import SwiftUI
 
 struct LentItemsListView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
-    @State var search: String = ""
     var body: some View {
         Form {
-            TextField("Search", text: $search)
-            Section(header: HStack {
-                Text("\(lentItemsListVM.lentItemsCountText)")
-            }) {
+            Section(header: LentItemsListHeaderView()) {
                 List {
                     ForEach(lentItemsListVM.lentItemVMs) { LentItemVM in
                         LentListItemView(
@@ -66,6 +62,19 @@ struct LentItemsListView: View {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+struct LentItemsListHeaderView: View {
+    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    var body: some View {
+        HStack {
+            if(lentItemsListVM.lentItemVMs.isEmpty) {
+                EmptyView()
+            } else {
+                Text("\(lentItemsListVM.lentItemsCountText)")
             }
         }
     }
