@@ -23,6 +23,11 @@ class LentItemListVM: ObservableObject {
             lentItemsCountText = setLentItemsCount(for: lentItemVMs)
         }
     }
+    @Published var activeSort: SortingOrder {
+        didSet{
+            lentItemVMs = setLentItemsVMs(for: lentItemStore)
+        }
+    }
 // MARK: - Init
     /// Custom initialization
     init() {
@@ -31,7 +36,19 @@ class LentItemListVM: ObservableObject {
         self.lentItemVMs = []
         self.lentItemsCountText = ""
         self.activeCategory = LentItemCategories.categories[0]
-        // Initialize lent item view models with lent items from store using active category
+        self.activeSort = SortingOrders.byItemName
+        // Initialize lent items view models with lent items from store
+        self.lentItemVMs = setLentItemsVMs(for: lentItemStore)
+        // Initialize lent items count with lent items from store
+        self.lentItemsCountText = "\(self.lentItemStore.count) items"
+    }
+// MARK: - Functions
+    /// Function to set lent item view models with lent item models from store
+    /// - Parameter lentItemStore: Array of lent item models
+    /// - Returns: Array of lent item view models
+    func setLentItemsVMs(for lentItemStore: [LentItemModel]) -> [LentItemVM] {
+        var lentItemVMs: [LentItemVM] = []
+        // Filter array depending on active category
         if(activeCategory == LentItemCategories.categories[0]) {
             for LentItemModel in self.lentItemStore {
                 let lentItemVM = LentItemVM()
@@ -47,28 +64,19 @@ class LentItemListVM: ObservableObject {
                 }
             }
         }
-        // Initialize lent items count wiith lent items from store
-        self.lentItemsCountText = "\(self.lentItemStore.count) items"
-    }
-// MARK: - Functions
-    /// Function to set lent item view models with lent item models from store
-    /// - Parameter lentItemStore: Array of lent item models
-    /// - Returns: Array of lent item view models
-    func setLentItemsVMs(for lentItemStore: [LentItemModel]) -> [LentItemVM] {
-        var lentItemVMs: [LentItemVM] = []
-        if(activeCategory == LentItemCategories.categories[0]) {
-            for LentItemModel in self.lentItemStore {
-                let lentItemVM = LentItemVM()
-                lentItemVM.setLentItemVM(for: LentItemModel)
-                lentItemVMs.append(lentItemVM)
+        // Use switch case to sort array
+        switch activeSort {
+        case SortingOrders.byItemName:
+            lentItemVMs.sort {
+                $0.nameText < $1.nameText
             }
-        } else {
-            for LentItemModel in self.lentItemStore {
-                if(LentItemModel.category == activeCategory) {
-                    let lentItemVM = LentItemVM()
-                    lentItemVM.setLentItemVM(for: LentItemModel)
-                    lentItemVMs.append(lentItemVM)
-                }
+        case SortingOrders.byLendDate:
+            lentItemVMs.sort {
+                $0.lendDate > $1.lendDate
+            }
+        default:
+            lentItemVMs.sort {
+                $0.id < $1.id
             }
         }
         return lentItemVMs
@@ -99,5 +107,21 @@ class LentItemListVM: ObservableObject {
     /// - Parameter indexSet: Set of indexes to use to delete corresponding array objects
     func removeLentItems(at indexSet: IndexSet) {
         self.lentItemStore.remove(atOffsets: indexSet)
+    }
+}
+
+struct SortingOrders {
+    static var byItemName: SortingOrder = SortingOrder(name: "byItemName")
+    static var byLendDate: SortingOrder = SortingOrder(name: "byLendDate")
+}
+
+struct SortingOrder: Equatable {
+    let id: UUID
+    let name: String
+    /// <#Description#>
+    /// - Parameter name: <#name description#>
+    init(name: String) {
+        self.id = UUID()
+        self.name = name
     }
 }

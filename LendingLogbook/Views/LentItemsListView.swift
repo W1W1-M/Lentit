@@ -29,31 +29,36 @@ struct LentItemsListView: View {
         }.navigationTitle("Lent items")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                HStack {
-                    EditButton()
-                    Button {
-                        lentItemsListVM.addLentItem()
-                    } label: {
-                        HStack {
-                            Text("Add")
-                            Image(systemName: "plus.circle")
-                        }
+                Button {
+                    lentItemsListVM.addLentItem()
+                } label: {
+                    HStack {
+                        Text("Add")
+                        Image(systemName: "plus.circle")
                     }
                 }
             }
             ToolbarItem(placement: .bottomBar) {
                 HStack {
-                    Button {
-                        
-                    } label: {
-                        HStack {
-                            Image(systemName: "line.horizontal.3.decrease.circle")
-                            Text("Filter")
-                        }
-                    }
+                    EditButton()
                     Spacer()
-                    Button {
-                        
+                    Menu {
+                        Button {
+                            lentItemsListVM.activeSort = SortingOrders.byLendDate
+                        } label: {
+                            HStack {
+                                Text("by lend date")
+                                Image(systemName: "calendar.circle")
+                            }
+                        }
+                        Button {
+                            lentItemsListVM.activeSort = SortingOrders.byItemName
+                        } label: {
+                            HStack {
+                                Text("by item name")
+                                Image(systemName: "pencil.circle")
+                            }
+                        }
                     } label: {
                         HStack {
                             Text("Sort")
