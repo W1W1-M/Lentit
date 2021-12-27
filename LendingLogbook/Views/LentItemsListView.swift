@@ -24,6 +24,9 @@ struct LentItemsListView: View {
             }
         }.navigationTitle("Lent items")
         .toolbar {
+            ToolbarItem(placement: .navigation) {
+                EditButton()
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     lentItemsListVM.addLentItem()
@@ -36,7 +39,28 @@ struct LentItemsListView: View {
             }
             ToolbarItem(placement: .bottomBar) {
                 HStack {
-                    EditButton()
+                    Menu {
+                        ForEach(LentItemCategories.categories) { LentItemCategoryModel in
+                            Button {
+                                lentItemsListVM.activeCategory = LentItemCategoryModel
+                            } label: {
+                                if(lentItemsListVM.activeCategory == LentItemCategoryModel) {
+                                    HStack {
+                                        Text("\(LentItemCategoryModel.name)")
+                                        Spacer()
+                                        Image(systemName: "checkmark").foregroundColor(.accentColor)
+                                    }
+                                } else {
+                                    Text("\(LentItemCategoryModel.name)")
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "line.3.horizontal.decrease.circle")
+                            Text("Category")
+                        }
+                    }
                     Spacer()
                     Menu {
                         Button {

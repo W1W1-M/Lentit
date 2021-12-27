@@ -20,12 +20,13 @@ class LentItemListVM: ObservableObject {
     @Published var activeCategory: LentItemCategoryModel {
         didSet{
             lentItemVMs = setLentItemsVMs(for: lentItemStore)
+            lentItemVMs = filteredLentItemVMs(for: lentItemVMs, by: activeCategory)
             lentItemsCountText = setLentItemsCount(for: lentItemVMs)
         }
     }
     @Published var activeSort: SortingOrder {
         didSet{
-            lentItemVMs = sortedLentItemVMs(for: lentItemVMs)
+            lentItemVMs = sortedLentItemVMs(for: lentItemVMs, by: activeSort)
         }
     }
 // MARK: - Init
@@ -64,28 +65,40 @@ class LentItemListVM: ObservableObject {
                 }
             }
         }
-        lentItemVMs = sortedLentItemVMs(for: lentItemVMs)
+        lentItemVMs = sortedLentItemVMs(for: lentItemVMs, by: activeSort)
         return lentItemVMs
     }
+    /// Function to filter lent item view models
+    func filteredLentItemVMs(for lentItemVMs: [LentItemVM], by activeCategory: LentItemCategoryModel) -> [LentItemVM] {
+        var filteredLentItemVMs = lentItemVMs
+        if(activeCategory == LentItemCategories.categories[0]) {
+            return filteredLentItemVMs
+        } else {
+            filteredLentItemVMs = filteredLentItemVMs.filter {
+                $0.category == activeCategory
+            }
+            return filteredLentItemVMs
+        }
+    }
     /// Function to sort lent item view models with active sort order
-    func sortedLentItemVMs(for lentItemVMs: [LentItemVM]) -> [LentItemVM] {
-        var lentItemVMs = lentItemVMs
+    func sortedLentItemVMs(for lentItemVMs: [LentItemVM], by activeSort: SortingOrder) -> [LentItemVM] {
+        var sortedLentItemVMs = lentItemVMs
         // Use switch case to sort array
         switch activeSort {
         case SortingOrders.byItemName:
-            lentItemVMs.sort {
+            sortedLentItemVMs.sort {
                 $0.nameText < $1.nameText
             }
         case SortingOrders.byLendDate:
-            lentItemVMs.sort {
+            sortedLentItemVMs.sort {
                 $0.lendDate > $1.lendDate
             }
         default:
-            lentItemVMs.sort {
+            sortedLentItemVMs.sort {
                 $0.id < $1.id
             }
         }
-        return lentItemVMs
+        return sortedLentItemVMs
     }
     /// Function to set lent items count with lent items views models
     /// - Parameter lentItemVMs: Array of lent item view models
