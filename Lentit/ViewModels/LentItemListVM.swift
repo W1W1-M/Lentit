@@ -36,7 +36,7 @@ class LentItemListVM: ObservableObject {
         self.lentItemStore = LentItemStoreModel.sampleData
         self.lentItemVMs = []
         self.lentItemsCountText = ""
-        self.activeCategory = LentItemCategories.categories[0]
+        self.activeCategory = LentItemCategories.all
         self.activeSort = SortingOrders.byItemName
         // Initialize lent items view models with lent items from store
         self.lentItemVMs = setLentItemsVMs(for: lentItemStore)
@@ -49,29 +49,25 @@ class LentItemListVM: ObservableObject {
     /// - Returns: Array of lent item view models
     func setLentItemsVMs(for lentItemStore: [LentItemModel]) -> [LentItemVM] {
         var lentItemVMs: [LentItemVM] = []
-        // Filter array depending on active category
-        if(activeCategory == LentItemCategories.categories[0]) {
-            for LentItemModel in self.lentItemStore {
-                let lentItemVM = LentItemVM()
-                lentItemVM.setLentItemVM(for: LentItemModel)
-                lentItemVMs.append(lentItemVM)
-            }
-        } else {
-            for LentItemModel in self.lentItemStore {
-                if(LentItemModel.category == activeCategory) {
-                    let lentItemVM = LentItemVM()
-                    lentItemVM.setLentItemVM(for: LentItemModel)
-                    lentItemVMs.append(lentItemVM)
-                }
-            }
+        for LentItemModel in self.lentItemStore {
+            let lentItemVM = LentItemVM()
+            lentItemVM.setLentItemVM(for: LentItemModel)
+            lentItemVMs.append(lentItemVM)
         }
+        // Filter array with active category
+        lentItemVMs = filteredLentItemVMs(for: lentItemVMs, by: activeCategory)
+        // Sort array with active sort order
         lentItemVMs = sortedLentItemVMs(for: lentItemVMs, by: activeSort)
         return lentItemVMs
     }
     /// Function to filter lent item view models
+    /// - Parameters:
+    ///   - lentItemVMs: Lent item view models Array
+    ///   - activeCategory: Active LentItemCategoryModel
+    /// - Returns: Array of filtered lent items view models
     func filteredLentItemVMs(for lentItemVMs: [LentItemVM], by activeCategory: LentItemCategoryModel) -> [LentItemVM] {
         var filteredLentItemVMs = lentItemVMs
-        if(activeCategory == LentItemCategories.categories[0]) {
+        if(activeCategory == LentItemCategories.all) {
             return filteredLentItemVMs
         } else {
             filteredLentItemVMs = filteredLentItemVMs.filter {
@@ -81,6 +77,10 @@ class LentItemListVM: ObservableObject {
         }
     }
     /// Function to sort lent item view models with active sort order
+    /// - Parameters:
+    ///   - lentItemVMs: Lent item view models Array
+    ///   - activeSort: Active SortingOrder
+    /// - Returns: Array of sorted  lent items view models
     func sortedLentItemVMs(for lentItemVMs: [LentItemVM], by activeSort: SortingOrder) -> [LentItemVM] {
         var sortedLentItemVMs = lentItemVMs
         // Use switch case to sort array
@@ -114,7 +114,7 @@ class LentItemListVM: ObservableObject {
             name: "",
             description: "",
             value: 0,
-            category: LentItemCategories.categories[5],
+            category: LentItemCategories.categories[4],
             borrower: "",
             lendDate: Date(),
             lendTime: 0.0,

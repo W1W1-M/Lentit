@@ -17,6 +17,17 @@ struct SidebarMenuView: View {
                     Text("Categories")
                 }
             ) {
+                Button {
+                    lentItemsListVM.activeCategory = LentItemCategories.all
+                } label: {
+                    HStack {
+                        Text("🗂 All")
+                        if(lentItemsListVM.activeCategory == LentItemCategories.all) {
+                            Spacer()
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                }
                 ForEach(LentItemCategories.categories) { LentItemCategoryModel in
                     Button {
                         lentItemsListVM.activeCategory = LentItemCategoryModel

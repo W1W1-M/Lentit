@@ -142,13 +142,13 @@ class LentItemVM: ObservableObject, Identifiable {
             return lendTimeText
         }
     }
-    /// <#Description#>
+    /// Function to get lent item lend time from lend date and lend expiry date
     /// - Parameters:
-    ///   - lendDate: <#lendDate description#>
-    ///   - lendExpiry: <#lendExpiry description#>
-    /// - Returns: <#description#>
+    ///   - lendDate: Item lend Date
+    ///   - lendExpiry: Item lend expiry Date
+    /// - Returns: Itel lend Time Interval
     func setLentItemTime(from lendDate: Date, to lendExpiry: Date) -> TimeInterval {
-        let lendTime = lendDate.timeIntervalSince(lendExpiry)
+        let lendTime = lendExpiry.timeIntervalSince(lendDate)
         return lendTime
     }
     /// Function to set lent item value text
