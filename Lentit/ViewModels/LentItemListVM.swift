@@ -1,6 +1,6 @@
 //
 //  LentItemStoreVM.swift
-//  LendingLogbook
+//  Lentit
 //
 //  Created by William Mead on 21/12/2021.
 //

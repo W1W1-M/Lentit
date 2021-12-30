@@ -1,13 +1,13 @@
 //
-//  LendingLogbookUITestsLaunchTests.swift
-//  LendingLogbookUITests
+//  LentitUITestsLaunchTests.swift
+//  LentitUITests
 //
 //  Created by William Mead on 19/12/2021.
 //
 
 import XCTest
 
-class LendingLogbookUITestsLaunchTests: XCTestCase {
+class LentitUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

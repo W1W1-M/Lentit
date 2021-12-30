@@ -1,6 +1,6 @@
 //
 //  SidebarMenuView.swift
-//  LendingLogbook
+//  Lentit
 //
 //  Created by William Mead on 19/12/2021.
 //
@@ -45,7 +45,7 @@ struct SidebarMenuView: View {
                 }
             }
         }.listStyle(SidebarListStyle())
-        .navigationTitle("📒 Lend Logs")
+        .navigationTitle("📒 Lentit")
     }
 }
 

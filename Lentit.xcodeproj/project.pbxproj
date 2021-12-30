@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		3D352D8F27709993000F8148 /* LentItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D352D8E27709993000F8148 /* LentItemModel.swift */; };
 		3D5551F22770E9300007BE3E /* LentItemStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5551F12770E9300007BE3E /* LentItemStoreModel.swift */; };
-		3D5901D7276FC92500373871 /* LendingLogbookApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D6276FC92500373871 /* LendingLogbookApp.swift */; };
+		3D5901D7276FC92500373871 /* LentitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D6276FC92500373871 /* LentitApp.swift */; };
 		3D5901D9276FC92500373871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D8276FC92500373871 /* ContentView.swift */; };
 		3D5901DB276FC92700373871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5901DA276FC92700373871 /* Assets.xcassets */; };
 		3D5901DE276FC92700373871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5901DD276FC92700373871 /* Preview Assets.xcassets */; };
-		3D5901E8276FC92700373871 /* LendingLogbookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901E7276FC92700373871 /* LendingLogbookTests.swift */; };
-		3D5901F2276FC92700373871 /* LendingLogbookUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F1276FC92700373871 /* LendingLogbookUITests.swift */; };
-		3D5901F4276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F3276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift */; };
+		3D5901E8276FC92700373871 /* LentitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901E7276FC92700373871 /* LentitTests.swift */; };
+		3D5901F2276FC92700373871 /* LentitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F1276FC92700373871 /* LentitUITests.swift */; };
+		3D5901F4276FC92700373871 /* LentitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F3276FC92700373871 /* LentitUITestsLaunchTests.swift */; };
 		3D590204276FD16100373871 /* LentItemsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590203276FD16100373871 /* LentItemsListView.swift */; };
 		3D590206276FD36000373871 /* LentItemVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590205276FD36000373871 /* LentItemVM.swift */; };
 		3D590208276FD91F00373871 /* LentItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590207276FD91F00373871 /* LentItemDetailView.swift */; };
@@ -44,16 +44,16 @@
 /* Begin PBXFileReference section */
 		3D352D8E27709993000F8148 /* LentItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemModel.swift; sourceTree = "<group>"; };
 		3D5551F12770E9300007BE3E /* LentItemStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemStoreModel.swift; sourceTree = "<group>"; };
-		3D5901D3276FC92500373871 /* LendingLogbook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LendingLogbook.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D5901D6276FC92500373871 /* LendingLogbookApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendingLogbookApp.swift; sourceTree = "<group>"; };
+		3D5901D3276FC92500373871 /* Lentit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lentit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D5901D6276FC92500373871 /* LentitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitApp.swift; sourceTree = "<group>"; };
 		3D5901D8276FC92500373871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3D5901DA276FC92700373871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D5901DD276FC92700373871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		3D5901E3276FC92700373871 /* LendingLogbookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LendingLogbookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D5901E7276FC92700373871 /* LendingLogbookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendingLogbookTests.swift; sourceTree = "<group>"; };
-		3D5901ED276FC92700373871 /* LendingLogbookUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LendingLogbookUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D5901F1276FC92700373871 /* LendingLogbookUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendingLogbookUITests.swift; sourceTree = "<group>"; };
-		3D5901F3276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LendingLogbookUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3D5901E3276FC92700373871 /* LentitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D5901E7276FC92700373871 /* LentitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitTests.swift; sourceTree = "<group>"; };
+		3D5901ED276FC92700373871 /* LentitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D5901F1276FC92700373871 /* LentitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitUITests.swift; sourceTree = "<group>"; };
+		3D5901F3276FC92700373871 /* LentitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3D590203276FD16100373871 /* LentItemsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemsListView.swift; sourceTree = "<group>"; };
 		3D590205276FD36000373871 /* LentItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemVM.swift; sourceTree = "<group>"; };
 		3D590207276FD91F00373871 /* LentItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemDetailView.swift; sourceTree = "<group>"; };
@@ -90,9 +90,9 @@
 		3D5901CA276FC92500373871 = {
 			isa = PBXGroup;
 			children = (
-				3D5901D5276FC92500373871 /* LendingLogbook */,
-				3D5901E6276FC92700373871 /* LendingLogbookTests */,
-				3D5901F0276FC92700373871 /* LendingLogbookUITests */,
+				3D5901D5276FC92500373871 /* Lentit */,
+				3D5901E6276FC92700373871 /* LentitTests */,
+				3D5901F0276FC92700373871 /* LentitUITests */,
 				3D5901D4276FC92500373871 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -100,24 +100,24 @@
 		3D5901D4276FC92500373871 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3D5901D3276FC92500373871 /* LendingLogbook.app */,
-				3D5901E3276FC92700373871 /* LendingLogbookTests.xctest */,
-				3D5901ED276FC92700373871 /* LendingLogbookUITests.xctest */,
+				3D5901D3276FC92500373871 /* Lentit.app */,
+				3D5901E3276FC92700373871 /* LentitTests.xctest */,
+				3D5901ED276FC92700373871 /* LentitUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3D5901D5276FC92500373871 /* LendingLogbook */ = {
+		3D5901D5276FC92500373871 /* Lentit */ = {
 			isa = PBXGroup;
 			children = (
-				3D5901D6276FC92500373871 /* LendingLogbookApp.swift */,
+				3D5901D6276FC92500373871 /* LentitApp.swift */,
 				3D5901DA276FC92700373871 /* Assets.xcassets */,
 				3D5901DC276FC92700373871 /* Preview Content */,
 				3D590201276FD04700373871 /* Models */,
 				3D590202276FD05100373871 /* ViewModels */,
 				3D590200276FD02B00373871 /* Views */,
 			);
-			path = LendingLogbook;
+			path = Lentit;
 			sourceTree = "<group>";
 		};
 		3D5901DC276FC92700373871 /* Preview Content */ = {
@@ -128,21 +128,21 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		3D5901E6276FC92700373871 /* LendingLogbookTests */ = {
+		3D5901E6276FC92700373871 /* LentitTests */ = {
 			isa = PBXGroup;
 			children = (
-				3D5901E7276FC92700373871 /* LendingLogbookTests.swift */,
+				3D5901E7276FC92700373871 /* LentitTests.swift */,
 			);
-			path = LendingLogbookTests;
+			path = LentitTests;
 			sourceTree = "<group>";
 		};
-		3D5901F0276FC92700373871 /* LendingLogbookUITests */ = {
+		3D5901F0276FC92700373871 /* LentitUITests */ = {
 			isa = PBXGroup;
 			children = (
-				3D5901F1276FC92700373871 /* LendingLogbookUITests.swift */,
-				3D5901F3276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift */,
+				3D5901F1276FC92700373871 /* LentitUITests.swift */,
+				3D5901F3276FC92700373871 /* LentitUITestsLaunchTests.swift */,
 			);
-			path = LendingLogbookUITests;
+			path = LentitUITests;
 			sourceTree = "<group>";
 		};
 		3D590200276FD02B00373871 /* Views */ = {
@@ -178,9 +178,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3D5901D2276FC92500373871 /* LendingLogbook */ = {
+		3D5901D2276FC92500373871 /* Lentit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D5901F7276FC92700373871 /* Build configuration list for PBXNativeTarget "LendingLogbook" */;
+			buildConfigurationList = 3D5901F7276FC92700373871 /* Build configuration list for PBXNativeTarget "Lentit" */;
 			buildPhases = (
 				3D5901CF276FC92500373871 /* Sources */,
 				3D5901D0276FC92500373871 /* Frameworks */,
@@ -190,14 +190,14 @@
 			);
 			dependencies = (
 			);
-			name = LendingLogbook;
+			name = Lentit;
 			productName = LendingLogbook;
-			productReference = 3D5901D3276FC92500373871 /* LendingLogbook.app */;
+			productReference = 3D5901D3276FC92500373871 /* Lentit.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3D5901E2276FC92700373871 /* LendingLogbookTests */ = {
+		3D5901E2276FC92700373871 /* LentitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D5901FA276FC92700373871 /* Build configuration list for PBXNativeTarget "LendingLogbookTests" */;
+			buildConfigurationList = 3D5901FA276FC92700373871 /* Build configuration list for PBXNativeTarget "LentitTests" */;
 			buildPhases = (
 				3D5901DF276FC92700373871 /* Sources */,
 				3D5901E0276FC92700373871 /* Frameworks */,
@@ -208,14 +208,14 @@
 			dependencies = (
 				3D5901E5276FC92700373871 /* PBXTargetDependency */,
 			);
-			name = LendingLogbookTests;
+			name = LentitTests;
 			productName = LendingLogbookTests;
-			productReference = 3D5901E3276FC92700373871 /* LendingLogbookTests.xctest */;
+			productReference = 3D5901E3276FC92700373871 /* LentitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		3D5901EC276FC92700373871 /* LendingLogbookUITests */ = {
+		3D5901EC276FC92700373871 /* LentitUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D5901FD276FC92700373871 /* Build configuration list for PBXNativeTarget "LendingLogbookUITests" */;
+			buildConfigurationList = 3D5901FD276FC92700373871 /* Build configuration list for PBXNativeTarget "LentitUITests" */;
 			buildPhases = (
 				3D5901E9276FC92700373871 /* Sources */,
 				3D5901EA276FC92700373871 /* Frameworks */,
@@ -226,9 +226,9 @@
 			dependencies = (
 				3D5901EF276FC92700373871 /* PBXTargetDependency */,
 			);
-			name = LendingLogbookUITests;
+			name = LentitUITests;
 			productName = LendingLogbookUITests;
-			productReference = 3D5901ED276FC92700373871 /* LendingLogbookUITests.xctest */;
+			productReference = 3D5901ED276FC92700373871 /* LentitUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -254,7 +254,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3D5901CE276FC92500373871 /* Build configuration list for PBXProject "LendingLogbook" */;
+			buildConfigurationList = 3D5901CE276FC92500373871 /* Build configuration list for PBXProject "Lentit" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -267,9 +267,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3D5901D2276FC92500373871 /* LendingLogbook */,
-				3D5901E2276FC92700373871 /* LendingLogbookTests */,
-				3D5901EC276FC92700373871 /* LendingLogbookUITests */,
+				3D5901D2276FC92500373871 /* Lentit */,
+				3D5901E2276FC92700373871 /* LentitTests */,
+				3D5901EC276FC92700373871 /* LentitUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -311,7 +311,7 @@
 				3D590204276FD16100373871 /* LentItemsListView.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
 				3D86AEAA2776042300FF4803 /* LentItemCategoryModel.swift in Sources */,
-				3D5901D7276FC92500373871 /* LendingLogbookApp.swift in Sources */,
+				3D5901D7276FC92500373871 /* LentitApp.swift in Sources */,
 				3D5551F22770E9300007BE3E /* LentItemStoreModel.swift in Sources */,
 				3D590206276FD36000373871 /* LentItemVM.swift in Sources */,
 				3D352D8F27709993000F8148 /* LentItemModel.swift in Sources */,
@@ -322,7 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D5901E8276FC92700373871 /* LendingLogbookTests.swift in Sources */,
+				3D5901E8276FC92700373871 /* LentitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,8 +330,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D5901F4276FC92700373871 /* LendingLogbookUITestsLaunchTests.swift in Sources */,
-				3D5901F2276FC92700373871 /* LendingLogbookUITests.swift in Sources */,
+				3D5901F4276FC92700373871 /* LentitUITestsLaunchTests.swift in Sources */,
+				3D5901F2276FC92700373871 /* LentitUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,12 +340,12 @@
 /* Begin PBXTargetDependency section */
 		3D5901E5276FC92700373871 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3D5901D2276FC92500373871 /* LendingLogbook */;
+			target = 3D5901D2276FC92500373871 /* Lentit */;
 			targetProxy = 3D5901E4276FC92700373871 /* PBXContainerItemProxy */;
 		};
 		3D5901EF276FC92700373871 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3D5901D2276FC92500373871 /* LendingLogbook */;
+			target = 3D5901D2276FC92500373871 /* Lentit */;
 			targetProxy = 3D5901EE276FC92700373871 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -474,7 +474,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LendingLogbook/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Lentit/Preview Content\"";
 				DEVELOPMENT_TEAM = 93YH69Z9HR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -490,8 +490,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LendingLogbook;
-				PRODUCT_NAME = LendingLogbook;
+				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.Lentit;
+				PRODUCT_NAME = Lentit;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -505,7 +505,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LendingLogbook/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Lentit/Preview Content\"";
 				DEVELOPMENT_TEAM = 93YH69Z9HR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -521,8 +521,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LendingLogbook;
-				PRODUCT_NAME = LendingLogbook;
+				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.Lentit;
+				PRODUCT_NAME = Lentit;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -545,12 +545,12 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LendingLogbookTests;
+				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LentitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LendingLogbook.app/LendingLogbook";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lentit.app/Lentit";
 			};
 			name = Debug;
 		};
@@ -570,12 +570,12 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LendingLogbookTests;
+				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LentitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LendingLogbook.app/LendingLogbook";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lentit.app/Lentit";
 			};
 			name = Release;
 		};
@@ -593,12 +593,12 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LendingLogbookUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LentitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = LendingLogbook;
+				TEST_TARGET_NAME = Lentit;
 			};
 			name = Debug;
 		};
@@ -616,19 +616,19 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LendingLogbookUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = WilliamMead.LentitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = LendingLogbook;
+				TEST_TARGET_NAME = Lentit;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3D5901CE276FC92500373871 /* Build configuration list for PBXProject "LendingLogbook" */ = {
+		3D5901CE276FC92500373871 /* Build configuration list for PBXProject "Lentit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D5901F5276FC92700373871 /* Debug */,
@@ -637,7 +637,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D5901F7276FC92700373871 /* Build configuration list for PBXNativeTarget "LendingLogbook" */ = {
+		3D5901F7276FC92700373871 /* Build configuration list for PBXNativeTarget "Lentit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D5901F8276FC92700373871 /* Debug */,
@@ -646,7 +646,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D5901FA276FC92700373871 /* Build configuration list for PBXNativeTarget "LendingLogbookTests" */ = {
+		3D5901FA276FC92700373871 /* Build configuration list for PBXNativeTarget "LentitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D5901FB276FC92700373871 /* Debug */,
@@ -655,7 +655,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D5901FD276FC92700373871 /* Build configuration list for PBXNativeTarget "LendingLogbookUITests" */ = {
+		3D5901FD276FC92700373871 /* Build configuration list for PBXNativeTarget "LentitUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D5901FE276FC92700373871 /* Debug */,

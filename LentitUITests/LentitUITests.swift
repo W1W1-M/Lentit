@@ -1,13 +1,13 @@
 //
-//  LendingLogbookUITests.swift
-//  LendingLogbookUITests
+//  LentitUITests.swift
+//  LentitUITests
 //
 //  Created by William Mead on 19/12/2021.
 //
 
 import XCTest
 
-class LendingLogbookUITests: XCTestCase {
+class LentitUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
