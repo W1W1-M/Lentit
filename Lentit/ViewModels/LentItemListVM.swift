@@ -33,7 +33,7 @@ class LentItemListVM: ObservableObject {
     /// Custom initialization
     init() {
         // Initialize with empty data
-        self.lentItemStore = []
+        self.lentItemStore = LentItemStoreModel.sampleData
         self.lentItemVMs = []
         self.lentItemsCountText = ""
         self.activeCategory = LentItemCategories.categories[0]

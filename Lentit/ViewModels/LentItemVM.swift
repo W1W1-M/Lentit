@@ -20,7 +20,11 @@ class LentItemVM: ObservableObject, Identifiable {
             lentItem.description = descriptionText
         }
     }
-    @Published var valueText: String
+    @Published var valueText: String {
+        didSet{
+            lentItem.value = setLentItemValue(for: valueText)
+        }
+    }
     @Published var category: LentItemCategoryModel {
         didSet{
             lentItem.category = category
@@ -34,14 +38,23 @@ class LentItemVM: ObservableObject, Identifiable {
     @Published var lendDate: Date {
         didSet{
             lentItem.lendDate = lendDate
-            // On change of lent item Date update lend date text, lend expiry & lend expiry text
+            // On change of lent item Date update lend date text, lend time, lend time text, lend expiry & lend expiry text
             lendDateText = setLentItemDateText(for: lentItem.lendDate)
-            lentItem.lendExpiry = setLentItemExpiry(from: lentItem.lendDate, lendTime: lentItem.lendTime)
-            lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
+            lentItem.lendTime = setLentItemTime(from: lentItem.lendDate, to: lentItem.lendExpiry)
+            lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
         }
     }
     @Published var lendDateText: String
+    @Published var lendTime: TimeInterval
     @Published var lendTimeText: String
+    @Published var lendExpiry: Date {
+        didSet{
+            lentItem.lendExpiry = lendExpiry
+            lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
+            lentItem.lendTime = setLentItemTime(from: lentItem.lendDate, to: lentItem.lendExpiry)
+            lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
+        }
+    }
     @Published var lendExpiryText: String
     @Published var justAdded: Bool {
         didSet {
@@ -60,7 +73,9 @@ class LentItemVM: ObservableObject, Identifiable {
         self.borrowerText = "Unknown borrower"
         self.lendDate = Date()
         self.lendDateText = "20/02/2002"
+        self.lendTime = 0
         self.lendTimeText = "2 days"
+        self.lendExpiry = Date()
         self.lendExpiryText = "22/02/2002"
         self.justAdded = false
     }
@@ -72,20 +87,14 @@ class LentItemVM: ObservableObject, Identifiable {
         self.id = lentItem.id
         self.nameText = lentItem.name
         self.descriptionText = lentItem.description
-        //
-        let numberFormat = NumberFormatter()
-        numberFormat.locale = .current
-        numberFormat.numberStyle = .currency
-        if let value = numberFormat.string(from: NSNumber(value: lentItem.value)) {
-            self.valueText = value
-        } else {
-            self.valueText = "?"
-        }
+        self.valueText = setLentItemValueText(for: lentItem.value)
         self.category = lentItem.category
         self.borrowerText = lentItem.borrower
         self.lendDate = lentItem.lendDate
         self.lendDateText = setLentItemDateText(for: lentItem.lendDate)
+        self.lendTime = lentItem.lendTime
         self.lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
+        self.lendExpiry = lentItem.lendExpiry
         self.lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
         self.justAdded = lentItem.justAdded
     }
@@ -131,6 +140,41 @@ class LentItemVM: ObservableObject, Identifiable {
         } else {
             let lendTimeText = ""
             return lendTimeText
+        }
+    }
+    /// <#Description#>
+    /// - Parameters:
+    ///   - lendDate: <#lendDate description#>
+    ///   - lendExpiry: <#lendExpiry description#>
+    /// - Returns: <#description#>
+    func setLentItemTime(from lendDate: Date, to lendExpiry: Date) -> TimeInterval {
+        let lendTime = lendDate.timeIntervalSince(lendExpiry)
+        return lendTime
+    }
+    /// Function to set lent item value text
+    /// - Parameter value: Lent item value Double
+    /// - Returns: Lent item value String
+    func setLentItemValueText(for itemValue: Double) -> String {
+        let numberFormat = NumberFormatter()
+        numberFormat.locale = .current
+        numberFormat.numberStyle = .currency
+        if let value = numberFormat.string(from: NSNumber(value: itemValue)) {
+            let valueText = value
+            return valueText
+        } else {
+            let valueText = "?"
+            return valueText
+        }
+    }
+    /// Function to set lent item value
+    /// - Parameter valueText: Lent item value String
+    /// - Returns: Lent item value Double
+    func setLentItemValue(for valueText: String) -> Double {
+        if let value = Double(valueText) {
+            return value
+        } else {
+            let value: Double = 0.0
+            return value
         }
     }
 }
