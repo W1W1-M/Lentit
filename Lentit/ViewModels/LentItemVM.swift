@@ -20,9 +20,14 @@ class LentItemVM: ObservableObject, Identifiable {
             lentItem.description = descriptionText
         }
     }
+    @Published var value: Double {
+        didSet{
+            lentItem.value = value
+        }
+    }
     @Published var valueText: String {
         didSet{
-            lentItem.value = setLentItemValue(for: valueText)
+            value = setLentItemValue(for: valueText)
         }
     }
     @Published var category: LentItemCategoryModel {
@@ -40,19 +45,22 @@ class LentItemVM: ObservableObject, Identifiable {
             lentItem.lendDate = lendDate
             // On change of lent item Date update lend date text, lend time, lend time text, lend expiry & lend expiry text
             lendDateText = setLentItemDateText(for: lentItem.lendDate)
-            lentItem.lendTime = setLentItemTime(from: lentItem.lendDate, to: lentItem.lendExpiry)
-            lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
+            lendTime = setLentItemTime(from: lentItem.lendDate, to: lentItem.lendExpiry)
         }
     }
     @Published var lendDateText: String
-    @Published var lendTime: TimeInterval
+    @Published var lendTime: TimeInterval {
+        didSet{
+            lentItem.lendTime = lendTime
+            lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
+        }
+    }
     @Published var lendTimeText: String
     @Published var lendExpiry: Date {
         didSet{
             lentItem.lendExpiry = lendExpiry
             lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
-            lentItem.lendTime = setLentItemTime(from: lentItem.lendDate, to: lentItem.lendExpiry)
-            lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
+            lendTime = setLentItemTime(from: lentItem.lendDate, to: lentItem.lendExpiry)
         }
     }
     @Published var lendExpiryText: String
@@ -68,6 +76,7 @@ class LentItemVM: ObservableObject, Identifiable {
         self.id = UUID()
         self.nameText = "📦 Unknown"
         self.descriptionText = "Unknown item"
+        self.value = 0.0
         self.valueText = "0€"
         self.category = LentItemCategories.categories[4]
         self.borrowerText = "Unknown borrower"
@@ -87,6 +96,7 @@ class LentItemVM: ObservableObject, Identifiable {
         self.id = lentItem.id
         self.nameText = lentItem.name
         self.descriptionText = lentItem.description
+        self.value = lentItem.value
         self.valueText = setLentItemValueText(for: lentItem.value)
         self.category = lentItem.category
         self.borrowerText = lentItem.borrower

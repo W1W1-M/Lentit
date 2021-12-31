@@ -15,7 +15,7 @@ struct ContentView: View {
             NavigationView {
                 SidebarMenuView()
                 LentItemsListView()
-                LentItemDetailView(lentItemVM: LentItemVM())
+                EmptyView()
             }
         case .compact:
             NavigationView {
