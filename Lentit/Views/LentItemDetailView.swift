@@ -10,6 +10,7 @@ import SwiftUI
 struct LentItemDetailView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var editDisabled: Bool = true
+    let today: Date = Date()
     var body: some View {
         Form {
             Section(header: Text("Item")) {
@@ -64,13 +65,26 @@ struct LentItemDetailView: View {
                     Text("\(lentItemVM.lendTimeText)").italic()
                 }
                 HStack {
-                    Text("Due").foregroundColor(.secondary)
-                    Spacer()
-                    DatePicker(
-                        "",
-                        selection: $lentItemVM.lendExpiry,
-                        displayedComponents: .date
-                    ).disabled(editDisabled)
+                    if(today > lentItemVM.lendExpiry) {
+                        Text("Due").foregroundColor(.secondary)
+                        Spacer()
+                        Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
+                        Spacer()
+                        DatePicker(
+                            "",
+                            selection: $lentItemVM.lendExpiry,
+                            displayedComponents: .date
+                        ).disabled(editDisabled)
+                    } else {
+                        Text("Due").foregroundColor(.secondary)
+                        Spacer()
+                        DatePicker(
+                            "",
+                            selection: $lentItemVM.lendExpiry,
+                            displayedComponents: .date
+                        ).disabled(editDisabled)
+                    }
+                    
                 }
             }
         }.navigationTitle("\(lentItemVM.nameText)")

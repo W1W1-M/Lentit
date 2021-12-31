@@ -118,6 +118,7 @@ class LentItemListVM: ObservableObject {
             borrower: "",
             lendDate: Date(),
             lendTime: 0.0,
+            lendExpiry: Date(),
             justAdded: true
         )
         lentItemStore.append(newLentItem)

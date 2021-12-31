@@ -17,32 +17,7 @@ struct SidebarMenuView: View {
                     Text("Categories")
                 }
             ) {
-                Button {
-                    lentItemsListVM.activeCategory = LentItemCategories.all
-                } label: {
-                    HStack {
-                        Text("🗂 All")
-                        if(lentItemsListVM.activeCategory == LentItemCategories.all) {
-                            Spacer()
-                            Image(systemName: "checkmark")
-                        }
-                    }
-                }
-                ForEach(LentItemCategories.categories) { LentItemCategoryModel in
-                    Button {
-                        lentItemsListVM.activeCategory = LentItemCategoryModel
-                    } label: {
-                        if(lentItemsListVM.activeCategory == LentItemCategoryModel) {
-                            HStack {
-                                Text("\(LentItemCategoryModel.name)")
-                                Spacer()
-                                Image(systemName: "checkmark").foregroundColor(.accentColor)
-                            }
-                        } else {
-                            Text("\(LentItemCategoryModel.name)")
-                        }
-                    }
-                }
+                CategoriesListMenuItems()
             }
             Section(header:
                 HStack {
@@ -60,10 +35,44 @@ struct SidebarMenuView: View {
     }
 }
 
+struct CategoriesListMenuItems: View {
+    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    var body: some View {
+        Group {
+            Button {
+                lentItemsListVM.activeCategory = LentItemCategories.all
+            } label: {
+                HStack {
+                    Text("🗂 All")
+                    if(lentItemsListVM.activeCategory == LentItemCategories.all) {
+                        Spacer()
+                        Image(systemName: "checkmark")
+                    }
+                }
+            }
+            ForEach(LentItemCategories.categories) { LentItemCategoryModel in
+                Button {
+                    lentItemsListVM.activeCategory = LentItemCategoryModel
+                } label: {
+                    if(lentItemsListVM.activeCategory == LentItemCategoryModel) {
+                        HStack {
+                            Text("\(LentItemCategoryModel.name)")
+                            Spacer()
+                            Image(systemName: "checkmark").foregroundColor(.accentColor)
+                        }
+                    } else {
+                        Text("\(LentItemCategoryModel.name)")
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct SidebarMenuView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             SidebarMenuView()
-        }
+        }.environmentObject(LentItemListVM())
     }
 }

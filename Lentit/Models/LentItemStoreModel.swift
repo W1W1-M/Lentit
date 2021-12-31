@@ -24,17 +24,19 @@ extension LentItemStoreModel {
             borrower: "Sarah",
             lendDate: Date(),
             lendTime: 600000.0,
+            lendExpiry: Date(timeInterval: 600000.0, since: Date()),
             justAdded: false
         ),
         LentItemModel(
             id: UUID(),
-            name: "🛡 Captain America shield",
+            name: "🛡 Vibranium shield",
             description: "An old rusty medievil shield",
             value: 250.00,
             category: LentItemCategories.categories[2],
             borrower: "Anthony",
-            lendDate: Date(),
-            lendTime: 1200000.0,
+            lendDate: Date(timeIntervalSince1970: 600000.0),
+            lendTime: 600000.0,
+            lendExpiry: Date(timeInterval: 600000.0, since: Date(timeIntervalSince1970: 600000.0)),
             justAdded: false
         ),
         LentItemModel(
@@ -46,6 +48,7 @@ extension LentItemStoreModel {
             borrower: "Charly",
             lendDate: Date(),
             lendTime: 1800000.0,
+            lendExpiry: Date(timeInterval: 1200000.0, since: Date()),
             justAdded: false
         )
     ]

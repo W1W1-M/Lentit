@@ -40,21 +40,7 @@ struct LentItemsListView: View {
             ToolbarItem(placement: .bottomBar) {
                 HStack {
                     Menu {
-                        ForEach(LentItemCategories.categories) { LentItemCategoryModel in
-                            Button {
-                                lentItemsListVM.activeCategory = LentItemCategoryModel
-                            } label: {
-                                if(lentItemsListVM.activeCategory == LentItemCategoryModel) {
-                                    HStack {
-                                        Text("\(LentItemCategoryModel.name)")
-                                        Spacer()
-                                        Image(systemName: "checkmark").foregroundColor(.accentColor)
-                                    }
-                                } else {
-                                    Text("\(LentItemCategoryModel.name)")
-                                }
-                            }
-                        }
+                        CategoriesListMenuItems()
                     } label: {
                         HStack {
                             Image(systemName: "line.3.horizontal.decrease.circle")
@@ -68,7 +54,9 @@ struct LentItemsListView: View {
                         } label: {
                             HStack {
                                 Text("by lend date")
-                                Image(systemName: "calendar.circle")
+                                if(lentItemsListVM.activeSort == SortingOrders.byLendDate) {
+                                    Image(systemName: "checkmark")
+                                }
                             }
                         }
                         Button {
@@ -76,7 +64,9 @@ struct LentItemsListView: View {
                         } label: {
                             HStack {
                                 Text("by item name")
-                                Image(systemName: "pencil.circle")
+                                if(lentItemsListVM.activeSort == SortingOrders.byItemName) {
+                                    Image(systemName: "checkmark")
+                                }
                             }
                         }
                     } label: {
@@ -107,6 +97,7 @@ struct LentItemsListHeaderView: View {
 struct LentListItemView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var navigationLinkIsActive: Bool = false
+    let today: Date = Date()
     var body: some View {
         NavigationLink(
             destination: LentItemDetailView(lentItemVM: lentItemVM),
@@ -116,11 +107,22 @@ struct LentListItemView: View {
                 Button {
                     
                 } label: {
-                    HStack {
-                        Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
-                        Spacer()
-                        Text("\(lentItemVM.borrowerText)").foregroundColor(.accentColor)
+                    if(today > lentItemVM.lendExpiry) {
+                        HStack {
+                            Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
+                            Spacer()
+                            Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
+                            Spacer()
+                            Text("\(lentItemVM.borrowerText)").foregroundColor(.accentColor)
+                        }
+                    } else {
+                        HStack {
+                            Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
+                            Spacer()
+                            Text("\(lentItemVM.borrowerText)").foregroundColor(.accentColor)
+                        }
                     }
+                    
                 }
             }
         }

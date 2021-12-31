@@ -29,6 +29,8 @@ class LentItemModel: ObservableObject, Identifiable {
     ///   - borrower: String
     ///   - lendDate: Date
     ///   - lendTime: TimeInterval
+    ///   - lendExpiry: Date
+    ///   - justAdded: Bool
     init(
         id: UUID,
         name: String,
@@ -38,6 +40,7 @@ class LentItemModel: ObservableObject, Identifiable {
         borrower: String,
         lendDate: Date,
         lendTime: TimeInterval,
+        lendExpiry: Date,
         justAdded: Bool
     ) {
         self.id = id
@@ -48,7 +51,7 @@ class LentItemModel: ObservableObject, Identifiable {
         self.borrower = borrower
         self.lendDate = lendDate
         self.lendTime = lendTime
-        self.lendExpiry = Date(timeInterval: lendTime, since: lendDate)
+        self.lendExpiry = lendExpiry
         self.justAdded = justAdded
     }
 }
