@@ -22,7 +22,8 @@ struct LentItemsListView: View {
                     })
                 }
             }
-        }.navigationTitle("Lent items")
+        }.navigationTitle("Lentit")
+        .navigationViewStyle(DefaultNavigationViewStyle())
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 EditButton()
@@ -37,45 +38,8 @@ struct LentItemsListView: View {
                     }
                 }
             }
-            ToolbarItem(placement: .bottomBar) {
-                HStack {
-                    Menu {
-                        CategoriesListMenuItems()
-                    } label: {
-                        HStack {
-                            Image(systemName: "line.3.horizontal.decrease.circle")
-                            Text("Category")
-                        }
-                    }
-                    Spacer()
-                    Menu {
-                        Button {
-                            lentItemsListVM.activeSort = SortingOrders.byLendDate
-                        } label: {
-                            HStack {
-                                Text("by lend date")
-                                if(lentItemsListVM.activeSort == SortingOrders.byLendDate) {
-                                    Image(systemName: "checkmark")
-                                }
-                            }
-                        }
-                        Button {
-                            lentItemsListVM.activeSort = SortingOrders.byItemName
-                        } label: {
-                            HStack {
-                                Text("by item name")
-                                if(lentItemsListVM.activeSort == SortingOrders.byItemName) {
-                                    Image(systemName: "checkmark")
-                                }
-                            }
-                        }
-                    } label: {
-                        HStack {
-                            Text("Sort")
-                            Image(systemName: "arrow.up.arrow.down.circle")
-                        }
-                    }
-                }
+            ToolbarItemGroup(placement: .bottomBar) {
+                BottomToolbar()
             }
         }
     }
@@ -132,6 +96,49 @@ struct LentListItemView: View {
                 navigationLinkIsActive = true
             }
         })
+    }
+}
+
+struct BottomToolbar: View {
+    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    var body: some View {
+        Group {
+            Menu {
+                CategoriesListMenuItems()
+            } label: {
+                HStack {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                    Text("Category")
+                }
+            }
+            Menu {
+                Button {
+                    lentItemsListVM.activeSort = SortingOrders.byLendDate
+                } label: {
+                    HStack {
+                        Text("by lend date")
+                        if(lentItemsListVM.activeSort == SortingOrders.byLendDate) {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                }
+                Button {
+                    lentItemsListVM.activeSort = SortingOrders.byItemName
+                } label: {
+                    HStack {
+                        Text("by item name")
+                        if(lentItemsListVM.activeSort == SortingOrders.byItemName) {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Sort")
+                    Image(systemName: "arrow.up.arrow.down.circle")
+                }
+            }
+        }
     }
 }
 

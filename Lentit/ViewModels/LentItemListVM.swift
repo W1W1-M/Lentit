@@ -5,6 +5,7 @@
 //  Created by William Mead on 21/12/2021.
 //
 import Foundation
+// MARK: - Classes
 /// Lent item list view model
 class LentItemListVM: ObservableObject {
 // MARK: - Variables
@@ -129,7 +130,7 @@ class LentItemListVM: ObservableObject {
         self.lentItemStore.remove(atOffsets: indexSet)
     }
 }
-
+// MARK: - Structs
 struct SortingOrders {
     static var byItemName: SortingOrder = SortingOrder(name: "byItemName")
     static var byLendDate: SortingOrder = SortingOrder(name: "byLendDate")
