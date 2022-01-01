@@ -7,9 +7,19 @@
 import Foundation
 /// Store for lent items
 class LentItemStoreModel: ObservableObject {
+// MARK: - Variables
     @Published var storedItems: [LentItemModel]
     init() {
         self.storedItems = []
+    }
+// MARK: - Functions
+    func addLentItem(newItem lentItem: LentItemModel) {
+        storedItems.append(lentItem)
+    }
+    func removeLentItem(oldItem lentItem: LentItemModel) {
+        if let oldIndex = storedItems.firstIndex(of: lentItem) {
+            storedItems.remove(at: oldIndex)
+        }
     }
 }
 

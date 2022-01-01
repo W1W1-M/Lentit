@@ -6,7 +6,7 @@
 //
 import Foundation
 /// Data model for a lended item
-class LentItemModel: ObservableObject, Identifiable {
+class LentItemModel: ObservableObject, Identifiable, Equatable {
 // MARK: - Variables
     var id: UUID
     @Published var name: String
@@ -53,5 +53,9 @@ class LentItemModel: ObservableObject, Identifiable {
         self.lendTime = lendTime
         self.lendExpiry = lendExpiry
         self.justAdded = justAdded
+    }
+// MARK: - Functions
+    static func == (lhs: LentItemModel, rhs: LentItemModel) -> Bool {
+        return lhs.id == rhs.id
     }
 }
