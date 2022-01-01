@@ -107,6 +107,11 @@ struct LentItemDetailView: View {
                 editDisabled = false
             }
         })
+        .onChange(of: lentItemVM.valueText, perform: { _ in
+            // Filter unwanted characters & set value text
+            lentItemVM.valueText = lentItemVM.filterLentItemValueText(for: lentItemVM.valueText)
+            lentItemVM.valueText = lentItemVM.setLentItemValueText(for: lentItemVM.lentItem.value)
+        })
     }
 }
 

@@ -20,7 +20,7 @@ class LentItemVM: ObservableObject, Identifiable {
             lentItem.description = descriptionText
         }
     }
-    @Published var value: Double {
+    @Published var value: Int {
         didSet{
             lentItem.value = value
         }
@@ -76,14 +76,14 @@ class LentItemVM: ObservableObject, Identifiable {
         self.id = UUID()
         self.nameText = "📦 Unknown"
         self.descriptionText = "Unknown item"
-        self.value = 0.0
-        self.valueText = "0€"
+        self.value = 100
+        self.valueText = "100€"
         self.category = LentItemCategories.categories[4]
         self.borrowerText = "Unknown borrower"
         self.lendDate = Date()
         self.lendDateText = "20/02/2002"
         self.lendTime = 0
-        self.lendTimeText = "2 days"
+        self.lendTimeText = "0 days"
         self.lendExpiry = Date()
         self.lendExpiryText = "22/02/2002"
         self.justAdded = false
@@ -161,13 +161,14 @@ class LentItemVM: ObservableObject, Identifiable {
         let lendTime = lendExpiry.timeIntervalSince(lendDate)
         return lendTime
     }
-    /// Function to set lent item value text
+    /// Function to set & format lent item value text
     /// - Parameter value: Lent item value Double
     /// - Returns: Lent item value String
-    func setLentItemValueText(for itemValue: Double) -> String {
+    func setLentItemValueText(for itemValue: Int) -> String {
         let numberFormat = NumberFormatter()
         numberFormat.locale = .current
         numberFormat.numberStyle = .currency
+        numberFormat.maximumFractionDigits = 0
         if let value = numberFormat.string(from: NSNumber(value: itemValue)) {
             let valueText = value
             return valueText
@@ -179,12 +180,20 @@ class LentItemVM: ObservableObject, Identifiable {
     /// Function to set lent item value
     /// - Parameter valueText: Lent item value String
     /// - Returns: Lent item value Double
-    func setLentItemValue(for valueText: String) -> Double {
-        if let value = Double(valueText) {
+    func setLentItemValue(for valueText: String) -> Int {
+        let filteredValueText = filterLentItemValueText(for: valueText)
+        if let value = Int(filteredValueText) {
             return value
         } else {
-            let value: Double = 0.0
+            let value: Int = 0
             return value
         }
+    }
+    /// <#Description#>
+    /// - Parameter valueText: <#valueText description#>
+    /// - Returns: <#description#>
+    func filterLentItemValueText(for valueText: String) -> String {
+        let filteredValueText = valueText.filter("1234567890".contains)
+        return filteredValueText
     }
 }

@@ -11,7 +11,7 @@ class LentItemModel: ObservableObject, Identifiable {
     var id: UUID
     @Published var name: String
     @Published var description: String
-    @Published var value: Double
+    @Published var value: Int
     @Published var category: LentItemCategoryModel
     @Published var borrower: String
     @Published var lendDate: Date
@@ -24,7 +24,7 @@ class LentItemModel: ObservableObject, Identifiable {
     ///   - id: UUID
     ///   - name: String
     ///   - description: String
-    ///   - value: Double
+    ///   - value: Int
     ///   - category: LentItemCategoryModel
     ///   - borrower: String
     ///   - lendDate: Date
@@ -35,7 +35,7 @@ class LentItemModel: ObservableObject, Identifiable {
         id: UUID,
         name: String,
         description: String,
-        value: Double,
+        value: Int,
         category: LentItemCategoryModel,
         borrower: String,
         lendDate: Date,
