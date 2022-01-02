@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct LentItemDetailView: View {
+    @EnvironmentObject var lentItemsListVM: LentItemListVM
     @ObservedObject var lentItemVM: LentItemVM
     @State var editDisabled: Bool = true
+    @Binding var navigationLinkIsActive: Bool
     let today: Date = Date()
     var body: some View {
         Form {
@@ -89,14 +91,25 @@ struct LentItemDetailView: View {
             }
         }.navigationTitle("\(lentItemVM.nameText)")
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    editDisabled.toggle()
-                } label: {
-                    HStack {
-                        Text("Edit")
-                        Image(systemName: editDisabled ? "lock" : "lock.open")
+            ToolbarItemGroup(placement: .bottomBar) {
+                Group {
+                    Button {
+                        editDisabled.toggle()
+                    } label: {
+                        HStack {
+                            Text("Edit")
+                            Image(systemName: editDisabled ? "lock" : "lock.open")
+                        }
                     }
+                    Button {
+                        navigationLinkIsActive = false
+                        lentItemsListVM.removeLentItem(for: lentItemVM)
+                    } label: {
+                        HStack {
+                            Text("Delete")
+                            Image(systemName: "trash")
+                        }
+                    }.disabled(editDisabled)
                 }
             }
         }
@@ -117,6 +130,9 @@ struct LentItemDetailView: View {
 
 struct LentItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        LentItemDetailView(lentItemVM: LentItemVM()).previewLayout(.sizeThatFits)
+        LentItemDetailView(
+            lentItemVM: LentItemVM(),
+            navigationLinkIsActive: .constant(true)
+        ).previewLayout(.sizeThatFits)
     }
 }

@@ -10,12 +10,16 @@ class LentItemStoreModel: ObservableObject {
 // MARK: - Variables
     @Published var storedItems: [LentItemModel]
     init() {
-        self.storedItems = []
+        self.storedItems = LentItemStoreModel.sampleData
     }
-// MARK: - Functions
+    // MARK: - Functions
+    /// <#Description#>
+    /// - Parameter lentItem: <#lentItem description#>
     func addLentItem(newItem lentItem: LentItemModel) {
         storedItems.append(lentItem)
     }
+    /// <#Description#>
+    /// - Parameter lentItem: <#lentItem description#>
     func removeLentItem(oldItem lentItem: LentItemModel) {
         if let oldIndex = storedItems.firstIndex(of: lentItem) {
             storedItems.remove(at: oldIndex)

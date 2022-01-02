@@ -9,7 +9,7 @@ import Foundation
 /// Lent item list view model
 class LentItemListVM: ObservableObject {
 // MARK: - Variables
-    @Published var lentItemStore: [LentItemModel] {
+    @Published var lentItemStore: LentItemStoreModel {
         // On change reload lent items count & VMs
         didSet{
             lentItemVMs = setLentItemsVMs(for: lentItemStore)
@@ -34,7 +34,7 @@ class LentItemListVM: ObservableObject {
     /// Custom initialization
     init() {
         // Initialize with empty data
-        self.lentItemStore = LentItemStoreModel.sampleData
+        self.lentItemStore = LentItemStoreModel()
         self.lentItemVMs = []
         self.lentItemsCountText = ""
         self.activeCategory = LentItemCategories.all
@@ -42,15 +42,15 @@ class LentItemListVM: ObservableObject {
         // Initialize lent items view models with lent items from store
         self.lentItemVMs = setLentItemsVMs(for: lentItemStore)
         // Initialize lent items count with lent items from store
-        self.lentItemsCountText = "\(self.lentItemStore.count) items"
+        self.lentItemsCountText = "\(self.lentItemStore.storedItems.count) items"
     }
 // MARK: - Functions
     /// Function to set lent item view models with lent item models from store
     /// - Parameter lentItemStore: Array of lent item models
     /// - Returns: Array of lent item view models
-    func setLentItemsVMs(for lentItemStore: [LentItemModel]) -> [LentItemVM] {
+    func setLentItemsVMs(for lentItemStore: LentItemStoreModel) -> [LentItemVM] {
         var lentItemVMs: [LentItemVM] = []
-        for LentItemModel in self.lentItemStore {
+        for LentItemModel in self.lentItemStore.storedItems {
             let lentItemVM = LentItemVM()
             lentItemVM.setLentItemVM(for: LentItemModel)
             lentItemVMs.append(lentItemVM)
@@ -122,12 +122,18 @@ class LentItemListVM: ObservableObject {
             lendExpiry: Date(),
             justAdded: true
         )
-        lentItemStore.append(newLentItem)
+        lentItemStore.addLentItem(newItem: newLentItem)
+        // Reload lent items count & VMs
+        lentItemVMs = setLentItemsVMs(for: lentItemStore)
+        lentItemsCountText = setLentItemsCount(for: lentItemVMs)
     }
     /// Function to remove a lent item from lent item store
     /// - Parameter indexSet: Set of indexes to use to delete corresponding array objects
-    func removeLentItems(at indexSet: IndexSet) {
-        self.lentItemStore.remove(atOffsets: indexSet)
+    func removeLentItem(for lentItemVM: LentItemVM) {
+        lentItemStore.removeLentItem(oldItem: lentItemVM.lentItem)
+        // Reload lent items count & VMs
+        lentItemVMs = setLentItemsVMs(for: lentItemStore)
+        lentItemsCountText = setLentItemsCount(for: lentItemVMs)
     }
 }
 // MARK: - Structs

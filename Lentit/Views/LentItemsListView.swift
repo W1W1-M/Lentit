@@ -17,17 +17,12 @@ struct LentItemsListView: View {
                         LentListItemView(
                             lentItemVM: LentItemVM
                         )
-                    }.onDelete(perform: { IndexSet in
-                        lentItemsListVM.lentItemStore.remove(atOffsets: IndexSet)
-                    })
+                    }
                 }
             }
         }.navigationTitle("Lentit")
         .navigationViewStyle(DefaultNavigationViewStyle())
         .toolbar {
-            ToolbarItem(placement: .navigation) {
-                EditButton()
-            }
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     lentItemsListVM.addLentItem()
@@ -64,7 +59,10 @@ struct LentListItemView: View {
     let today: Date = Date()
     var body: some View {
         NavigationLink(
-            destination: LentItemDetailView(lentItemVM: lentItemVM),
+            destination: LentItemDetailView(
+                lentItemVM: lentItemVM,
+                navigationLinkIsActive: $navigationLinkIsActive
+            ),
             isActive: $navigationLinkIsActive
         ) {
             if(today > lentItemVM.lendExpiry) {
