@@ -67,26 +67,19 @@ struct LentListItemView: View {
             destination: LentItemDetailView(lentItemVM: lentItemVM),
             isActive: $navigationLinkIsActive
         ) {
-            HStack {
-                Button {
-                    
-                } label: {
-                    if(today > lentItemVM.lendExpiry) {
-                        HStack {
-                            Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
-                            Spacer()
-                            Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
-                            Spacer()
-                            Text("\(lentItemVM.borrowerText)").foregroundColor(.accentColor)
-                        }
-                    } else {
-                        HStack {
-                            Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
-                            Spacer()
-                            Text("\(lentItemVM.borrowerText)").foregroundColor(.accentColor)
-                        }
-                    }
-                    
+            if(today > lentItemVM.lendExpiry) {
+                HStack {
+                    Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
+                    Spacer()
+                    Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
+                    Spacer()
+                    Text("\(lentItemVM.lendDateText)").foregroundColor(.accentColor)
+                }
+            } else {
+                HStack {
+                    Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
+                    Spacer()
+                    Text("\(lentItemVM.lendDateText)").foregroundColor(.accentColor)
                 }
             }
         }

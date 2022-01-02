@@ -114,7 +114,7 @@ class LentItemVM: ObservableObject, Identifiable {
     func setLentItemDateText(for lendDate: Date) -> String {
         let dateFormat = DateFormatter()
         dateFormat.locale = .current
-        dateFormat.dateStyle = .medium
+        dateFormat.dateStyle = .short
         let lendDateText: String = dateFormat.string(from: lendDate)
         return lendDateText
     }
@@ -124,7 +124,7 @@ class LentItemVM: ObservableObject, Identifiable {
     func setLentItemExpiryText(for lendExpiry: Date) -> String {
         let dateFormat = DateFormatter()
         dateFormat.locale = .current
-        dateFormat.dateStyle = .medium
+        dateFormat.dateStyle = .short
         let lendExpiryText: String = dateFormat.string(from: lendExpiry)
         return lendExpiryText
     }
