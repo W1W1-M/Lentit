@@ -107,7 +107,7 @@ class LentItemListVM: ObservableObject {
     func addLentItem() {
         let newLentItem = LentItemModel(
             id: UUID(),
-            name: "",
+            name: "🆕 New item",
             description: "",
             value: 0,
             category: LentItemCategories.categories[4],

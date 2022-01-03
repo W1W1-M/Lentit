@@ -11,6 +11,7 @@ struct LentItemDetailView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     @ObservedObject var lentItemVM: LentItemVM
     @State var editDisabled: Bool = true
+    @State var alertPresented: Bool = false
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         Form {
@@ -26,11 +27,26 @@ struct LentItemDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .bottomBar) {
                 LentItemDetailBottomToolbarView(
-                    lentItemVM: lentItemVM,
                     editDisabled: $editDisabled,
-                    navigationLinkIsActive: $navigationLinkIsActive
+                    alertPresented: $alertPresented
                 )
             }
+        }
+        .alert(isPresented: $alertPresented) {
+            Alert(
+                title: Text("Delete \(lentItemVM.nameText)"),
+                message: Text("Are you sure you want to delete this item ?"),
+                primaryButton: .default(
+                    Text("Cancel")
+                ),
+                secondaryButton: .destructive(
+                    Text("Delete"),
+                    action: {
+                        navigationLinkIsActive = false
+                        lentItemsListVM.removeLentItem(for: lentItemVM)
+                    }
+                )
+            )
         }
         .onAppear(perform: {
             // Unlock edit mode if lent item just added
@@ -128,16 +144,13 @@ struct LentItemLoanSectionView: View {
 }
 // MARK: -
 struct LentItemDetailBottomToolbarView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
-    @ObservedObject var lentItemVM: LentItemVM
     @Binding var editDisabled: Bool
-    @Binding var navigationLinkIsActive: Bool
+    @Binding var alertPresented: Bool
     var body: some View {
         Group {
             // Delete lent item button
             Button {
-                navigationLinkIsActive = false
-                lentItemsListVM.removeLentItem(for: lentItemVM)
+                alertPresented = true
             } label: {
                 HStack {
                     Text("Delete")
