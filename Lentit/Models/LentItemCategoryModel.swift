@@ -7,19 +7,19 @@
 
 import Foundation
 
-/// <#Description#>
+/// Custom type for lent item category
 struct LentItemCategoryModel: Identifiable, Hashable {
     let id: UUID
     let name: String
-    /// <#Description#>
-    /// - Parameter name: <#name description#>
+    /// Custom initialization
+    /// - Parameter name: String to describe lent item category
     init(name: String) {
         self.id = UUID()
         self.name = name
     }
 }
 
-/// <#Description#>
+/// Predefined lent item categories
 struct LentItemCategories {
     static let all: LentItemCategoryModel = LentItemCategoryModel(name: "🗂 All")
     static let categories: [LentItemCategoryModel] = [

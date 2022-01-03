@@ -189,9 +189,9 @@ class LentItemVM: ObservableObject, Identifiable {
             return value
         }
     }
-    /// <#Description#>
-    /// - Parameter valueText: <#valueText description#>
-    /// - Returns: <#description#>
+    /// Function to filter non numeric characters from value text user input
+    /// - Parameter valueText: String of lent item value
+    /// - Returns: String of lent item value containing only numeric characters
     func filterLentItemValueText(for valueText: String) -> String {
         let filteredValueText = valueText.filter("1234567890".contains)
         return filteredValueText

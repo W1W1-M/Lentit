@@ -9,13 +9,7 @@ import Foundation
 /// Lent item list view model
 class LentItemListVM: ObservableObject {
 // MARK: - Variables
-    @Published var lentItemStore: LentItemStoreModel {
-        // On change reload lent items count & VMs
-        didSet{
-            lentItemVMs = setLentItemsVMs(for: lentItemStore)
-            lentItemsCountText = setLentItemsCount(for: lentItemVMs)
-        }
-    }
+    @Published var lentItemStore: LentItemStoreModel
     @Published var lentItemVMs: [LentItemVM]
     @Published var lentItemsCountText: String
     @Published var activeCategory: LentItemCategoryModel {
@@ -42,7 +36,7 @@ class LentItemListVM: ObservableObject {
         // Initialize lent items view models with lent items from store
         self.lentItemVMs = setLentItemsVMs(for: lentItemStore)
         // Initialize lent items count with lent items from store
-        self.lentItemsCountText = "\(self.lentItemStore.storedItems.count) items"
+        self.lentItemsCountText = "\(self.lentItemStore.getLentItemStoreCount()) items"
     }
 // MARK: - Functions
     /// Function to set lent item view models with lent item models from store
@@ -50,7 +44,8 @@ class LentItemListVM: ObservableObject {
     /// - Returns: Array of lent item view models
     func setLentItemsVMs(for lentItemStore: LentItemStoreModel) -> [LentItemVM] {
         var lentItemVMs: [LentItemVM] = []
-        for LentItemModel in self.lentItemStore.storedItems {
+        let lentItems: [LentItemModel] = lentItemStore.getStoredLentItems()
+        for LentItemModel in lentItems {
             let lentItemVM = LentItemVM()
             lentItemVM.setLentItemVM(for: LentItemModel)
             lentItemVMs.append(lentItemVM)
@@ -123,6 +118,8 @@ class LentItemListVM: ObservableObject {
             justAdded: true
         )
         lentItemStore.addLentItem(newItem: newLentItem)
+        // Make sure all categories are shown to see new item
+        activeCategory = LentItemCategories.all
         // Reload lent items count & VMs
         lentItemVMs = setLentItemsVMs(for: lentItemStore)
         lentItemsCountText = setLentItemsCount(for: lentItemVMs)
@@ -145,8 +142,8 @@ struct SortingOrders {
 struct SortingOrder: Equatable {
     let id: UUID
     let name: String
-    /// <#Description#>
-    /// - Parameter name: <#name description#>
+    /// Custom initialization
+    /// - Parameter name: String to describe sorting order
     init(name: String) {
         self.id = UUID()
         self.name = name

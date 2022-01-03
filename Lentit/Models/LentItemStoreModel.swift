@@ -5,6 +5,7 @@
 //  Created by William Mead on 20/12/2021.
 //
 import Foundation
+// MARK: - Classes
 /// Store for lent items
 class LentItemStoreModel: ObservableObject {
 // MARK: - Variables
@@ -12,21 +13,32 @@ class LentItemStoreModel: ObservableObject {
     init() {
         self.storedItems = LentItemStoreModel.sampleData
     }
-    // MARK: - Functions
-    /// <#Description#>
-    /// - Parameter lentItem: <#lentItem description#>
+// MARK: - Functions
+    /// Function to  add a new lent item to the store
+    /// - Parameter lentItem: Added lent item object
     func addLentItem(newItem lentItem: LentItemModel) {
         storedItems.append(lentItem)
     }
-    /// <#Description#>
-    /// - Parameter lentItem: <#lentItem description#>
+    /// Function to delete a new lent item to the store
+    /// - Parameter lentItem: Deleted lent item object
     func removeLentItem(oldItem lentItem: LentItemModel) {
         if let oldIndex = storedItems.firstIndex(of: lentItem) {
             storedItems.remove(at: oldIndex)
         }
     }
+    /// Function to get lent items in store
+    /// - Returns: Array of lent item objects
+    func getStoredLentItems() -> [LentItemModel] {
+        return storedItems
+    }
+    /// Function to get number of stored lent items
+    /// - Returns: Int of number of lent item objects in store
+    func getLentItemStoreCount() -> Int {
+        let storeCount = storedItems.count
+        return storeCount
+    }
 }
-
+// MARK: - Extensions
 extension LentItemStoreModel {
     static var sampleData: [LentItemModel] = [
         LentItemModel(

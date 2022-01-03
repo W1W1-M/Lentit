@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// MARK: - Views
 struct ContentView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
     var body: some View {
@@ -32,7 +32,7 @@ struct ContentView: View {
         }
     }
 }
-
+// MARK: - Previews
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 15.0, *) {

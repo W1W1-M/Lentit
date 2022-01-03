@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// MARK: - Views
 struct SidebarMenuView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
@@ -34,7 +34,7 @@ struct SidebarMenuView: View {
         .navigationTitle("📒 Lentit")
     }
 }
-
+// MARK: -
 struct CategoriesListMenuItems: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
@@ -68,7 +68,7 @@ struct CategoriesListMenuItems: View {
         }
     }
 }
-
+// MARK: - Previews
 struct SidebarMenuView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {

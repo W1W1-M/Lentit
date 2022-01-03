@@ -5,6 +5,7 @@
 //  Created by William Mead on 20/12/2021.
 //
 import Foundation
+// MARK: - Classes
 /// Data model for a lended item
 class LentItemModel: ObservableObject, Identifiable, Equatable {
 // MARK: - Variables

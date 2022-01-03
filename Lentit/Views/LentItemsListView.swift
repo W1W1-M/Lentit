@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// MARK: - Views
 struct LentItemsListView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
@@ -34,12 +34,12 @@ struct LentItemsListView: View {
                 }
             }
             ToolbarItemGroup(placement: .bottomBar) {
-                BottomToolbar()
+                LentItemsListBottomToolbarView()
             }
         }
     }
 }
-
+// MARK: -
 struct LentItemsListHeaderView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
@@ -52,7 +52,7 @@ struct LentItemsListHeaderView: View {
         }
     }
 }
-
+// MARK: -
 struct LentListItemView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var navigationLinkIsActive: Bool = false
@@ -89,8 +89,8 @@ struct LentListItemView: View {
         })
     }
 }
-
-struct BottomToolbar: View {
+// MARK: -
+struct LentItemsListBottomToolbarView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
         Group {
@@ -132,9 +132,10 @@ struct BottomToolbar: View {
         }
     }
 }
-
+// MARK: - Previews
 struct LentItemsListView_Previews: PreviewProvider {
     static var previews: some View {
+        //
         NavigationView {
             LentItemsListView()
         }.environmentObject(LentItemListVM())
