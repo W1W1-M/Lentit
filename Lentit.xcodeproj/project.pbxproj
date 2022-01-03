@@ -60,6 +60,7 @@
 		3D590209276FDDF200373871 /* SidebarMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuView.swift; sourceTree = "<group>"; };
 		3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemCategoryModel.swift; sourceTree = "<group>"; };
 		3DCC2A5027831F20005C252B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3DCC2A5127832238005C252B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3DD36F022771E1DE002C333C /* LentItemListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemListVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +92,7 @@
 		3D5901CA276FC92500373871 = {
 			isa = PBXGroup;
 			children = (
+				3DCC2A5127832238005C252B /* LICENSE */,
 				3DCC2A5027831F20005C252B /* README.md */,
 				3D5901D5276FC92500373871 /* Lentit */,
 				3D5901E6276FC92700373871 /* LentitTests */,
