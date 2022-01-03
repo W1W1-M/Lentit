@@ -15,6 +15,9 @@
 * Open source
 * Target: iOS 14 >
 
+## Project assets in releases
+* Mind map in MindNode format
+
 ## Contributing
 If you would like to contribute I'm open, let's chat !
 

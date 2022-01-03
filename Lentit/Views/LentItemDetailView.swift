@@ -111,27 +111,17 @@ struct LentItemLoanSectionView: View {
                 Text("\(lentItemVM.lendTimeText)").italic()
             }
             HStack {
+                Text("Due").foregroundColor(.secondary)
+                Spacer()
                 if(today > lentItemVM.lendExpiry) {
-                    Text("Due").foregroundColor(.secondary)
-                    Spacer()
                     Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
-                    Spacer()
-                    DatePicker(
-                        "",
-                        selection: $lentItemVM.lendExpiry,
-                        displayedComponents: .date
-                    ).disabled(editDisabled)
-                        .fixedSize()
-                } else {
-                    Text("Due").foregroundColor(.secondary)
-                    Spacer()
-                    DatePicker(
-                        "",
-                        selection: $lentItemVM.lendExpiry,
-                        displayedComponents: .date
-                    ).disabled(editDisabled)
                 }
-                
+                DatePicker(
+                    "",
+                    selection: $lentItemVM.lendExpiry,
+                    displayedComponents: .date
+                ).disabled(editDisabled)
+                .fixedSize()
             }
         }
     }

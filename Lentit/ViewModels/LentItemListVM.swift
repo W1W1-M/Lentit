@@ -36,7 +36,7 @@ class LentItemListVM: ObservableObject {
         // Initialize lent items view models with lent items from store
         self.lentItemVMs = setLentItemsVMs(for: lentItemStore)
         // Initialize lent items count with lent items from store
-        self.lentItemsCountText = "\(self.lentItemStore.getLentItemStoreCount()) items"
+        self.lentItemsCountText = "\(self.lentItemStore.getLentItemStoreCount())"
     }
 // MARK: - Functions
     /// Function to set lent item view models with lent item models from store
@@ -85,9 +85,9 @@ class LentItemListVM: ObservableObject {
             sortedLentItemVMs.sort {
                 $0.nameText < $1.nameText
             }
-        case SortingOrders.byLendDate:
+        case SortingOrders.byLendExpiry:
             sortedLentItemVMs.sort {
-                $0.lendDate > $1.lendDate
+                $0.lendExpiry < $1.lendExpiry
             }
         default:
             sortedLentItemVMs.sort {
@@ -100,7 +100,7 @@ class LentItemListVM: ObservableObject {
     /// - Parameter lentItemVMs: Array of lent item view models
     /// - Returns: String of number of lent items
     func setLentItemsCount(for lentItemVMs: [LentItemVM]) -> String {
-        let lentItemsCountText = "\(lentItemVMs.count) items"
+        let lentItemsCountText = "\(lentItemVMs.count)"
         return lentItemsCountText
     }
     /// Function to add a lent item to lent item store
@@ -136,7 +136,7 @@ class LentItemListVM: ObservableObject {
 // MARK: - Structs
 struct SortingOrders {
     static var byItemName: SortingOrder = SortingOrder(name: "byItemName")
-    static var byLendDate: SortingOrder = SortingOrder(name: "byLendDate")
+    static var byLendExpiry: SortingOrder = SortingOrder(name: "byLendExpiry")
 }
 
 struct SortingOrder: Equatable {

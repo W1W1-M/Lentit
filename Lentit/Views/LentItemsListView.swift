@@ -20,7 +20,7 @@ struct LentItemsListView: View {
                     }
                 }
             }
-        }.navigationTitle("Lentit")
+        }.navigationTitle("📒 Lentit")
         .navigationViewStyle(DefaultNavigationViewStyle())
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -47,7 +47,11 @@ struct LentItemsListHeaderView: View {
             if(lentItemsListVM.lentItemVMs.isEmpty) {
                 EmptyView()
             } else {
-                Text("\(lentItemsListVM.lentItemsCountText)")
+                HStack {
+                    Text("\(lentItemsListVM.lentItemsCountText) items")
+                    Spacer()
+                    Text("\(lentItemsListVM.activeCategory.name)")
+                }
             }
         }
     }
@@ -70,14 +74,13 @@ struct LentListItemView: View {
                     Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
                     Spacer()
                     Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
-                    Spacer()
                     Text("\(lentItemVM.lendDateText)").foregroundColor(.accentColor)
                 }
             } else {
                 HStack {
                     Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
                     Spacer()
-                    Text("\(lentItemVM.lendDateText)").foregroundColor(.accentColor)
+                    Text("\(lentItemVM.lendExpiryText)").foregroundColor(.accentColor)
                 }
             }
         }
@@ -104,11 +107,11 @@ struct LentItemsListBottomToolbarView: View {
             }
             Menu {
                 Button {
-                    lentItemsListVM.activeSort = SortingOrders.byLendDate
+                    lentItemsListVM.activeSort = SortingOrders.byLendExpiry
                 } label: {
                     HStack {
-                        Text("by lend date")
-                        if(lentItemsListVM.activeSort == SortingOrders.byLendDate) {
+                        Text("by expiry date")
+                        if(lentItemsListVM.activeSort == SortingOrders.byLendExpiry) {
                             Image(systemName: "checkmark")
                         }
                     }
