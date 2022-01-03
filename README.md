@@ -1,6 +1,6 @@
-![release](https://img.shields.io/github/v/release/W1W1-M/PackAPrefPane?display_name=tag)
-![code-size](https://img.shields.io/github/languages/code-size/W1W1-M/PackAPrefPane)
-![license](https://img.shields.io/github/license/W1W1-M/PackAPrefPane)
+![release](https://img.shields.io/github/v/release/W1W1-M/Lentit?display_name=tag)
+![code-size](https://img.shields.io/github/languages/code-size/W1W1-M/Lentit)
+![license](https://img.shields.io/github/license/W1W1-M/Lentit)
 
 # **Lentit**
 
