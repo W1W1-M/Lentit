@@ -69,19 +69,13 @@ struct LentListItemView: View {
             ),
             isActive: $navigationLinkIsActive
         ) {
-            if(today > lentItemVM.lendExpiry) {
-                HStack {
-                    Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
-                    Spacer()
+            HStack {
+                Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
+                Spacer()
+                if(today > lentItemVM.lendExpiry) {
                     Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
-                    Text("\(lentItemVM.lendDateText)").foregroundColor(.accentColor)
                 }
-            } else {
-                HStack {
-                    Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
-                    Spacer()
-                    Text("\(lentItemVM.lendExpiryText)").foregroundColor(.accentColor)
-                }
+                Text("\(lentItemVM.lendDateText)").foregroundColor(.accentColor)
             }
         }
         .onAppear(perform: {

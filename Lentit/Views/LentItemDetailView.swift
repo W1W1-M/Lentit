@@ -12,54 +12,62 @@ struct LentItemDetailView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var editDisabled: Bool = true
     @State var alertPresented: Bool = false
+    @State var detailViewPresented: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
-        Form {
-            LentItemInfoSectionView(
-                lentItemVM: lentItemVM,
-                editDisabled: $editDisabled
-            )
-            LentItemLoanSectionView(
-                lentItemVM: lentItemVM,
-                editDisabled: $editDisabled
-            )
-        }.navigationTitle("\(lentItemVM.nameText)")
-        .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                LentItemDetailBottomToolbarView(
-                    editDisabled: $editDisabled,
-                    alertPresented: $alertPresented
-                )
-            }
-        }
-        .alert(isPresented: $alertPresented) {
-            Alert(
-                title: Text("Delete \(lentItemVM.nameText)"),
-                message: Text("Are you sure you want to delete this item ?"),
-                primaryButton: .default(
-                    Text("Cancel")
-                ),
-                secondaryButton: .destructive(
-                    Text("Delete"),
-                    action: {
-                        navigationLinkIsActive = false
-                        lentItemsListVM.removeLentItem(for: lentItemVM)
+        VStack {
+            if(detailViewPresented) { // Show lent item detail view by default
+                Form {
+                    LentItemInfoSectionView(
+                        lentItemVM: lentItemVM,
+                        editDisabled: $editDisabled
+                    )
+                    LentItemLoanSectionView(
+                        lentItemVM: lentItemVM,
+                        editDisabled: $editDisabled
+                    )
+                }.navigationTitle("\(lentItemVM.nameText)")
+                .toolbar {
+                    ToolbarItemGroup(placement: .bottomBar) {
+                        LentItemDetailBottomToolbarView(
+                            editDisabled: $editDisabled,
+                            alertPresented: $alertPresented
+                        )
                     }
-                )
-            )
-        }
-        .onAppear(perform: {
-            // Unlock edit mode if lent item just added
-            if(lentItemVM.justAdded) {
-                lentItemVM.justAdded = false
-                editDisabled = false
+                }
+                .alert(isPresented: $alertPresented) {
+                    Alert(
+                        title: Text("Delete \(lentItemVM.nameText)"),
+                        message: Text("Are you sure you want to delete this item ?"),
+                        primaryButton: .default(
+                            Text("Cancel")
+                        ),
+                        secondaryButton: .destructive(
+                            Text("Delete"),
+                            action: {
+                                navigationLinkIsActive = false
+                                lentItemsListVM.removeLentItem(for: lentItemVM)
+                                detailViewPresented = false // Show empty detail view after lent item deleted
+                            }
+                        )
+                    )
+                }
+                .onAppear(perform: {
+                    // Unlock edit mode if lent item just added
+                    if(lentItemVM.justAdded) {
+                        lentItemVM.justAdded = false
+                        editDisabled = false
+                    }
+                })
+                .onChange(of: lentItemVM.valueText, perform: { _ in
+                    // Filter unwanted characters & set value text
+                    lentItemVM.valueText = lentItemVM.filterLentItemValueText(for: lentItemVM.valueText)
+                    lentItemVM.valueText = lentItemVM.setLentItemValueText(for: lentItemVM.lentItem.value)
+                })
+            } else {
+                EmptyView()
             }
-        })
-        .onChange(of: lentItemVM.valueText, perform: { _ in
-            // Filter unwanted characters & set value text
-            lentItemVM.valueText = lentItemVM.filterLentItemValueText(for: lentItemVM.valueText)
-            lentItemVM.valueText = lentItemVM.setLentItemValueText(for: lentItemVM.lentItem.value)
-        })
+        }
     }
 }
 // MARK: -
