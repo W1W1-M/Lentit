@@ -45,7 +45,7 @@ struct LentItemDetailView: View {
                         secondaryButton: .destructive(
                             Text("Delete"),
                             action: {
-                                navigationLinkIsActive = false
+                                navigationLinkIsActive = false // Navigate back to lent item list
                                 lentItemsListVM.removeLentItem(for: lentItemVM)
                                 detailViewPresented = false // Show empty detail view after lent item deleted
                             }
@@ -126,6 +126,7 @@ struct LentItemLoanSectionView: View {
                 DatePicker(
                     "",
                     selection: $lentItemVM.lendDate,
+                    in: ...lentItemVM.lendExpiry,
                     displayedComponents: .date
                 ).disabled(editDisabled)
             }
@@ -143,6 +144,7 @@ struct LentItemLoanSectionView: View {
                 DatePicker(
                     "",
                     selection: $lentItemVM.lendExpiry,
+                    in: lentItemVM.lendDate...,
                     displayedComponents: .date
                 ).disabled(editDisabled)
                 .fixedSize()
