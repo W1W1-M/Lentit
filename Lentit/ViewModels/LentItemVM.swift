@@ -35,9 +35,9 @@ class LentItemVM: ObservableObject, Identifiable {
             lentItem.category = category
         }
     }
-    @Published var borrowerText: String {
+    @Published var borrowerId: UUID {
         didSet{
-            lentItem.borrower = borrowerText
+            lentItem.borrowerId = borrowerId
         }
     }
     @Published var lendDate: Date {
@@ -72,14 +72,14 @@ class LentItemVM: ObservableObject, Identifiable {
 // MARK: - Init
     /// Custom init to initialize view model with default data
     init() {
-        self.lentItem = LentItemStoreModel.sampleData[0]
+        self.lentItem = DataStoreModel.sampleLentItemData[0]
         self.id = UUID()
         self.nameText = "📦 Unknown"
         self.descriptionText = "Unknown item"
         self.value = 100
         self.valueText = "100€"
         self.category = LentItemCategories.categories[4]
-        self.borrowerText = "Unknown borrower"
+        self.borrowerId = UUID()
         self.lendDate = Date()
         self.lendDateText = "20/02/2002"
         self.lendTime = 0
@@ -93,13 +93,13 @@ class LentItemVM: ObservableObject, Identifiable {
     /// - Parameter lentItem: Lent item model
     func setLentItemVM(for lentItem: LentItemModel) {
         self.lentItem = lentItem
-        self.id = lentItem.id
+        self.id = lentItem.id // Shared with lent item data object
         self.nameText = lentItem.name
         self.descriptionText = lentItem.description
         self.value = lentItem.value
         self.valueText = setLentItemValueText(for: lentItem.value)
         self.category = lentItem.category
-        self.borrowerText = lentItem.borrower
+        self.borrowerId = lentItem.borrowerId
         self.lendDate = lentItem.lendDate
         self.lendDateText = setLentItemDateText(for: lentItem.lendDate)
         self.lendTime = lentItem.lendTime

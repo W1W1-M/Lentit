@@ -9,12 +9,13 @@ import Foundation
 /// Lent item list view model
 class LentItemListVM: ObservableObject {
 // MARK: - Variables
-    @Published var lentItemStore: LentItemStoreModel
+    @Published var dataStore: DataStoreModel
     @Published var lentItemVMs: [LentItemVM]
+    @Published var borrowerVMs: [BorrowerVM]
     @Published var lentItemsCountText: String
     @Published var activeCategory: LentItemCategoryModel {
         didSet{
-            lentItemVMs = setLentItemsVMs(for: lentItemStore)
+            lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
             lentItemVMs = filteredLentItemVMs(for: lentItemVMs, by: activeCategory)
             lentItemsCountText = setLentItemsCount(for: lentItemVMs)
         }
@@ -28,23 +29,24 @@ class LentItemListVM: ObservableObject {
     /// Custom initialization
     init() {
         // Initialize with empty data
-        self.lentItemStore = LentItemStoreModel()
+        self.dataStore = DataStoreModel()
         self.lentItemVMs = []
+        self.borrowerVMs = []
         self.lentItemsCountText = ""
         self.activeCategory = LentItemCategories.all
         self.activeSort = SortingOrders.byItemName
-        // Initialize lent items view models with lent items from store
-        self.lentItemVMs = setLentItemsVMs(for: lentItemStore)
+        // Initialize lent items & borrowers view models with data from store
+        self.lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
+        self.borrowerVMs = setBorrowersVMs(for: dataStore.readStoredBorrowers())
         // Initialize lent items count with lent items from store
-        self.lentItemsCountText = "\(self.lentItemStore.getLentItemStoreCount())"
+        self.lentItemsCountText = "\(self.dataStore.getLentItemStoreCount())"
     }
 // MARK: - Functions
     /// Function to set lent item view models with lent item models from store
     /// - Parameter lentItemStore: Array of lent item models
     /// - Returns: Array of lent item view models
-    func setLentItemsVMs(for lentItemStore: LentItemStoreModel) -> [LentItemVM] {
+    func setLentItemsVMs(for lentItems: [LentItemModel]) -> [LentItemVM] {
         var lentItemVMs: [LentItemVM] = []
-        let lentItems: [LentItemModel] = lentItemStore.getStoredLentItems()
         for LentItemModel in lentItems {
             let lentItemVM = LentItemVM()
             lentItemVM.setLentItemVM(for: LentItemModel)
@@ -55,6 +57,21 @@ class LentItemListVM: ObservableObject {
         // Sort array with active sort order
         lentItemVMs = sortedLentItemVMs(for: lentItemVMs, by: activeSort)
         return lentItemVMs
+    }
+    /// <#Description#>
+    /// - Parameter borrowers: <#borrowers description#>
+    /// - Returns: <#description#>
+    func setBorrowersVMs(for borrowers: [BorrowerModel]) -> [BorrowerVM] {
+        var borrowersVMs: [BorrowerVM] = []
+        for BorrowerModel in borrowers {
+            let borrowerVM = BorrowerVM()
+            borrowerVM.setBorrowerVM(for: BorrowerModel)
+            borrowersVMs.append(borrowerVM)
+        }
+        borrowersVMs.sort {
+            $0.nameText > $1.nameText
+        }
+        return borrowersVMs
     }
     /// Function to filter lent item view models
     /// - Parameters:
@@ -106,30 +123,28 @@ class LentItemListVM: ObservableObject {
     /// Function to add a lent item to lent item store
     func addLentItem() {
         let newLentItem = LentItemModel(
-            id: UUID(),
             name: "🆕 New item",
             description: "",
             value: 0,
             category: LentItemCategories.categories[4],
-            borrower: "",
             lendDate: Date(),
             lendTime: 0.0,
             lendExpiry: Date(),
             justAdded: true
         )
-        lentItemStore.addLentItem(newItem: newLentItem)
+        dataStore.createLentItem(newItem: newLentItem)
         // Make sure all categories are shown to see new item
         activeCategory = LentItemCategories.all
         // Reload lent items count & VMs
-        lentItemVMs = setLentItemsVMs(for: lentItemStore)
+        lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
         lentItemsCountText = setLentItemsCount(for: lentItemVMs)
     }
     /// Function to remove a lent item from lent item store
     /// - Parameter indexSet: Set of indexes to use to delete corresponding array objects
     func removeLentItem(for lentItemVM: LentItemVM) {
-        lentItemStore.removeLentItem(oldItem: lentItemVM.lentItem)
+        dataStore.deleteLentItem(oldItem: lentItemVM.lentItem)
         // Reload lent items count & VMs
-        lentItemVMs = setLentItemsVMs(for: lentItemStore)
+        lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
         lentItemsCountText = setLentItemsCount(for: lentItemVMs)
     }
 }

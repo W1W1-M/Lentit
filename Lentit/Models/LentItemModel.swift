@@ -14,7 +14,7 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
     @Published var description: String
     @Published var value: Int
     @Published var category: LentItemCategoryModel
-    @Published var borrower: String
+    @Published var borrowerId: UUID
     @Published var lendDate: Date
     @Published var lendTime: TimeInterval
     @Published var lendExpiry: Date
@@ -22,34 +22,30 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
 // MARK: - Init
     /// Custom initialization
     /// - Parameters:
-    ///   - id: UUID
     ///   - name: String
     ///   - description: String
     ///   - value: Int
     ///   - category: LentItemCategoryModel
-    ///   - borrower: String
     ///   - lendDate: Date
     ///   - lendTime: TimeInterval
     ///   - lendExpiry: Date
     ///   - justAdded: Bool
     init(
-        id: UUID,
         name: String,
         description: String,
         value: Int,
         category: LentItemCategoryModel,
-        borrower: String,
         lendDate: Date,
         lendTime: TimeInterval,
         lendExpiry: Date,
         justAdded: Bool
     ) {
-        self.id = id
+        self.id = UUID()
         self.name = name
         self.description = description
         self.value = value
         self.category = category
-        self.borrower = borrower
+        self.borrowerId = UUID()
         self.lendDate = lendDate
         self.lendTime = lendTime
         self.lendExpiry = lendExpiry

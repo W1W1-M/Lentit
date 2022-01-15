@@ -36,7 +36,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 15.0, *) {
-            ContentView().previewInterfaceOrientation(.landscapeLeft)
+            ContentView().previewInterfaceOrientation(.portrait)
                 .environmentObject(LentItemListVM())
         } else {
             ContentView()

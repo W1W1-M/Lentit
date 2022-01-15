@@ -12,6 +12,7 @@ struct LentItemDetailView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var editDisabled: Bool = true
     @State var alertPresented: Bool = false
+    @State var activeAlert: AlertModel = Alerts.deleteLentItem
     @State var detailViewPresented: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
@@ -24,7 +25,8 @@ struct LentItemDetailView: View {
                     )
                     LentItemLoanSectionView(
                         lentItemVM: lentItemVM,
-                        editDisabled: $editDisabled
+                        editDisabled: $editDisabled,
+                        borrowersVMs: lentItemsListVM.borrowerVMs
                     )
                 }.navigationTitle("\(lentItemVM.nameText)")
                 .toolbar {
@@ -36,21 +38,26 @@ struct LentItemDetailView: View {
                     }
                 }
                 .alert(isPresented: $alertPresented) {
-                    Alert(
-                        title: Text("Delete \(lentItemVM.nameText)"),
-                        message: Text("Are you sure you want to delete this item ?"),
-                        primaryButton: .default(
-                            Text("Cancel")
-                        ),
-                        secondaryButton: .destructive(
-                            Text("Delete"),
-                            action: {
-                                navigationLinkIsActive = false // Navigate back to lent item list
-                                lentItemsListVM.removeLentItem(for: lentItemVM)
-                                detailViewPresented = false // Show empty detail view after lent item deleted
-                            }
+                    switch activeAlert {
+                    case Alerts.deleteLentItem:
+                        return Alert(
+                            title: Text("Delete \(lentItemVM.nameText)"),
+                            message: Text("Are you sure you want to delete this item ?"),
+                            primaryButton: .default(
+                                Text("Cancel")
+                            ),
+                            secondaryButton: .destructive(
+                                Text("Delete"),
+                                action: {
+                                    navigationLinkIsActive = false // Navigate back to lent item list
+                                    lentItemsListVM.removeLentItem(for: lentItemVM)
+                                    detailViewPresented = false // Show empty detail view after lent item deleted
+                                }
+                            )
                         )
-                    )
+                    default:
+                        return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
+                    }
                 }
                 .onAppear(perform: {
                     // Unlock edit mode if lent item just added
@@ -93,7 +100,7 @@ struct LentItemInfoSectionView: View {
                         Text("\(LentItemCategoryModel.name)").tag(LentItemCategoryModel)
                     }
                 }.pickerStyle(.menu)
-                    .disabled(editDisabled)
+                .disabled(editDisabled)
             }
             HStack {
                 Text("Value").foregroundColor(.secondary)
@@ -110,16 +117,26 @@ struct LentItemInfoSectionView: View {
 struct LentItemLoanSectionView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @Binding var editDisabled: Bool
+    let borrowersVMs: [BorrowerVM]
     let today: Date = Date()
     var body: some View {
         Section(header: Text("Loan")) {
             HStack {
                 Text("To").foregroundColor(.secondary)
                 Spacer()
-                TextField("Borrower", text: $lentItemVM.borrowerText)
-                    .disabled(editDisabled)
-                    .font(.headline)
-                    .multilineTextAlignment(.trailing)
+                Picker("Borrower", selection: $lentItemVM.borrowerId) {
+                    ForEach(borrowersVMs) { BorrowerVM in
+                        Text("\(BorrowerVM.nameText)").tag(BorrowerVM.id)
+                    }
+                }.pickerStyle(.menu)
+                .disabled(editDisabled)
+                Button {
+                    
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle")
+                    }
+                }
             }
             HStack {
                 Text("On").foregroundColor(.secondary)
