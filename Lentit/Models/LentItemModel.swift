@@ -18,6 +18,8 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
     @Published var lendDate: Date
     @Published var lendTime: TimeInterval
     @Published var lendExpiry: Date
+    @Published var returned: Bool
+    @Published var sold: Bool
     @Published var justAdded: Bool
 // MARK: - Init
     /// Custom initialization
@@ -29,7 +31,10 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
     ///   - lendDate: Date
     ///   - lendTime: TimeInterval
     ///   - lendExpiry: Date
+    ///   - returned: <#returned description#>
+    ///   - sold: <#sold description#>
     ///   - justAdded: Bool
+    ///   - borrowerID: <#borrowerID description#>
     init(
         name: String,
         description: String,
@@ -38,18 +43,23 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
         lendDate: Date,
         lendTime: TimeInterval,
         lendExpiry: Date,
-        justAdded: Bool
+        returned: Bool,
+        sold: Bool,
+        justAdded: Bool,
+        borrowerID: UUID
     ) {
         self.id = UUID()
         self.name = name
         self.description = description
         self.value = value
         self.category = category
-        self.borrowerId = UUID()
         self.lendDate = lendDate
         self.lendTime = lendTime
         self.lendExpiry = lendExpiry
+        self.returned = returned
+        self.sold = sold
         self.justAdded = justAdded
+        self.borrowerId = borrowerID
     }
 // MARK: - Functions
     static func == (lhs: LentItemModel, rhs: LentItemModel) -> Bool {

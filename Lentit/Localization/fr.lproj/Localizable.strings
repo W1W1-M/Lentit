@@ -1,0 +1,69 @@
+/* No comment provided by engineer. */
+"%@ items" = "%@ objets";
+
+/* No comment provided by engineer. */
+"📒 Lentit" = "📒 Cprêté";
+
+/* No comment provided by engineer. */
+"Add" = "Ajouter";
+
+/* No comment provided by engineer. */
+"Borrower" = "Emprunteur";
+
+/* No comment provided by engineer. */
+"Borrowers" = "Emprunteurs";
+
+/* No comment provided by engineer. */
+"by expiry date" = "par date d'expiration";
+
+/* No comment provided by engineer. */
+"by item name" = "par nom d'objet";
+
+/* No comment provided by engineer. */
+"Cancel" = "Annuler";
+
+/* No comment provided by engineer. */
+"Categories" = "Catégories";
+
+/* No comment provided by engineer. */
+"Category" = "Catégorie";
+
+/* No comment provided by engineer. */
+"Delete" = "Supprimer";
+
+/* No comment provided by engineer. */
+"Delete %@" = "Supprimer %@";
+
+/* No comment provided by engineer. */
+"Description" = "Description";
+
+/* No comment provided by engineer. */
+"Due" = "Fin";
+
+/* No comment provided by engineer. */
+"Edit" = "Modifier";
+
+/* No comment provided by engineer. */
+"For" = "Pour";
+
+/* No comment provided by engineer. */
+"Item" = "Objet";
+
+/* No comment provided by engineer. */
+"Loan" = "Prêt";
+
+/* No comment provided by engineer. */
+"Name" = "Nom";
+
+/* No comment provided by engineer. */
+"On" = "Le";
+
+/* No comment provided by engineer. */
+"Sort" = "Trier";
+
+/* No comment provided by engineer. */
+"To" = "A";
+
+/* No comment provided by engineer. */
+"Value" = "Valeur";
+

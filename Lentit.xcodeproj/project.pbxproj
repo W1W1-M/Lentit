@@ -11,6 +11,9 @@
 		3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD96E2793033000B52F3C /* BorrowerModel.swift */; };
 		3D4FD9712793092600B52F3C /* BorrowerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD9702793092600B52F3C /* BorrowerVM.swift */; };
 		3D4FD975279365B800B52F3C /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD974279365B800B52F3C /* AlertModel.swift */; };
+		3D4FD97A279379E200B52F3C /* Lentit-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FD978279379E200B52F3C /* Lentit-InfoPlist.strings */; };
+		3D4FD97D279379E200B52F3C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FD97B279379E200B52F3C /* Localizable.strings */; };
+		3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54BDE32794A920001DF0AD /* ItemDetailView.swift */; };
 		3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5551F12770E9300007BE3E /* DataStoreModel.swift */; };
 		3D5901D7276FC92500373871 /* LentitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D6276FC92500373871 /* LentitApp.swift */; };
 		3D5901D9276FC92500373871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D8276FC92500373871 /* ContentView.swift */; };
@@ -25,6 +28,8 @@
 		3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590209276FDDF200373871 /* SidebarMenuView.swift */; };
 		3D86AEAA2776042300FF4803 /* LentItemCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */; };
 		3DD36F032771E1DE002C333C /* LentItemListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD36F022771E1DE002C333C /* LentItemListVM.swift */; };
+		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
+		3DDE13E327945D5C00EBB6E7 /* BorrowersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E227945D5C00EBB6E7 /* BorrowersListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +54,9 @@
 		3D4FD96E2793033000B52F3C /* BorrowerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerModel.swift; sourceTree = "<group>"; };
 		3D4FD9702793092600B52F3C /* BorrowerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerVM.swift; sourceTree = "<group>"; };
 		3D4FD974279365B800B52F3C /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		3D4FD979279379E200B52F3C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/Lentit-InfoPlist.strings"; sourceTree = "<group>"; };
+		3D4FD97C279379E200B52F3C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3D54BDE32794A920001DF0AD /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		3D5551F12770E9300007BE3E /* DataStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreModel.swift; sourceTree = "<group>"; };
 		3D5901D3276FC92500373871 /* Lentit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lentit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5901D6276FC92500373871 /* LentitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitApp.swift; sourceTree = "<group>"; };
@@ -68,6 +76,8 @@
 		3DCC2A5027831F20005C252B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3DCC2A5127832238005C252B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3DD36F022771E1DE002C333C /* LentItemListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemListVM.swift; sourceTree = "<group>"; };
+		3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
+		3DDE13E227945D5C00EBB6E7 /* BorrowersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowersListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +105,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D4FD97E279379FC00B52F3C /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				3D4FD978279379E200B52F3C /* Lentit-InfoPlist.strings */,
+				3D4FD97B279379E200B52F3C /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 		3D5901CA276FC92500373871 = {
 			isa = PBXGroup;
 			children = (
@@ -120,9 +139,10 @@
 		3D5901D5276FC92500373871 /* Lentit */ = {
 			isa = PBXGroup;
 			children = (
-				3D5901D6276FC92500373871 /* LentitApp.swift */,
 				3D5901DA276FC92700373871 /* Assets.xcassets */,
+				3D5901D6276FC92500373871 /* LentitApp.swift */,
 				3D5901DC276FC92700373871 /* Preview Content */,
+				3D4FD97E279379FC00B52F3C /* Localization */,
 				3D590201276FD04700373871 /* Models */,
 				3D590202276FD05100373871 /* ViewModels */,
 				3D590200276FD02B00373871 /* Views */,
@@ -158,10 +178,12 @@
 		3D590200276FD02B00373871 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3DDE13E227945D5C00EBB6E7 /* BorrowersListView.swift */,
 				3D5901D8276FC92500373871 /* ContentView.swift */,
 				3D590207276FD91F00373871 /* LentItemDetailView.swift */,
 				3D590203276FD16100373871 /* LentItemsListView.swift */,
 				3D590209276FDDF200373871 /* SidebarMenuView.swift */,
+				3D54BDE32794A920001DF0AD /* ItemDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -174,6 +196,7 @@
 				3D5551F12770E9300007BE3E /* DataStoreModel.swift */,
 				3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */,
 				3D352D8E27709993000F8148 /* LentItemModel.swift */,
+				3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -274,6 +297,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 3D5901CA276FC92500373871;
 			productRefGroup = 3D5901D4276FC92500373871 /* Products */;
@@ -293,6 +317,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D5901DE276FC92700373871 /* Preview Assets.xcassets in Resources */,
+				3D4FD97D279379E200B52F3C /* Localizable.strings in Resources */,
+				3D4FD97A279379E200B52F3C /* Lentit-InfoPlist.strings in Resources */,
 				3D5901DB276FC92700373871 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,9 +351,12 @@
 				3D590204276FD16100373871 /* LentItemsListView.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
 				3D86AEAA2776042300FF4803 /* LentItemCategoryModel.swift in Sources */,
+				3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */,
+				3DDE13E327945D5C00EBB6E7 /* BorrowersListView.swift in Sources */,
 				3D5901D7276FC92500373871 /* LentitApp.swift in Sources */,
 				3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */,
 				3D4FD9712793092600B52F3C /* BorrowerVM.swift in Sources */,
+				3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */,
 				3D590206276FD36000373871 /* LentItemVM.swift in Sources */,
 				3D352D8F27709993000F8148 /* LentItemModel.swift in Sources */,
 				3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */,
@@ -365,6 +394,25 @@
 			targetProxy = 3D5901EE276FC92700373871 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3D4FD978279379E200B52F3C /* Lentit-InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D4FD979279379E200B52F3C /* fr */,
+			);
+			name = "Lentit-InfoPlist.strings";
+			sourceTree = "<group>";
+		};
+		3D4FD97B279379E200B52F3C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3D4FD97C279379E200B52F3C /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		3D5901F5276FC92700373871 /* Debug */ = {
@@ -424,6 +472,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -478,6 +527,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};

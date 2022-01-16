@@ -13,19 +13,18 @@ struct LentItemDetailView: View {
     @State var editDisabled: Bool = true
     @State var alertPresented: Bool = false
     @State var activeAlert: AlertModel = Alerts.deleteLentItem
+    @State var sheetPresented: Bool = false
+    @State var activeSheet: SheetModel = Sheets.borrowersList
     @State var detailViewPresented: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         VStack {
             if(detailViewPresented) { // Show lent item detail view by default
                 Form {
-                    LentItemInfoSectionView(
-                        lentItemVM: lentItemVM,
-                        editDisabled: $editDisabled
-                    )
                     LentItemLoanSectionView(
                         lentItemVM: lentItemVM,
                         editDisabled: $editDisabled,
+                        sheetPresented: $sheetPresented,
                         borrowersVMs: lentItemsListVM.borrowerVMs
                     )
                 }.navigationTitle("\(lentItemVM.nameText)")
@@ -59,12 +58,24 @@ struct LentItemDetailView: View {
                         return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
                     }
                 }
+                .sheet(isPresented: $sheetPresented) {
+                    switch activeSheet {
+                    case Sheets.borrowersList:
+                        BorrowersListView(
+                            lentItemVM: lentItemVM,
+                            sheetPresented: $sheetPresented
+                        )
+                    default:
+                        EmptyView()
+                    }
+                }
                 .onAppear(perform: {
                     // Unlock edit mode if lent item just added
                     if(lentItemVM.justAdded) {
                         lentItemVM.justAdded = false
                         editDisabled = false
                     }
+                    print(lentItemVM.borrowerId)
                 })
                 .onChange(of: lentItemVM.valueText, perform: { _ in
                     // Filter unwanted characters & set value text
@@ -78,65 +89,28 @@ struct LentItemDetailView: View {
     }
 }
 // MARK: -
-struct LentItemInfoSectionView: View {
+struct LentItemLoanSectionView: View {
+    @EnvironmentObject var lentItemsListVM: LentItemListVM
     @ObservedObject var lentItemVM: LentItemVM
     @Binding var editDisabled: Bool
+    @Binding var sheetPresented: Bool
+    let borrowersVMs: [BorrowerVM]
+    let today: Date = Date()
     var body: some View {
-        Section(header: Text("Item")) {
+        Section(header: Text("Loan")) {
             HStack {
                 TextField("Name", text: $lentItemVM.nameText)
                     .disabled(editDisabled)
                     .font(.headline)
             }
             HStack {
-                TextField("Description", text: $lentItemVM.descriptionText)
-                    .disabled(editDisabled)
-            }
-            HStack {
-                Text("Category").foregroundColor(.secondary)
-                Spacer()
-                Picker("Category", selection: $lentItemVM.category) {
-                    ForEach(LentItemCategories.categories) { LentItemCategoryModel in
-                        Text("\(LentItemCategoryModel.name)").tag(LentItemCategoryModel)
-                    }
-                }.pickerStyle(.menu)
-                .disabled(editDisabled)
-            }
-            HStack {
-                Text("Value").foregroundColor(.secondary)
-                Spacer()
-                TextField("Value", text: $lentItemVM.valueText)
-                    .disabled(editDisabled)
-                    .multilineTextAlignment(.trailing)
-                    .keyboardType(.numberPad)
-            }
-        }
-    }
-}
-// MARK: -
-struct LentItemLoanSectionView: View {
-    @ObservedObject var lentItemVM: LentItemVM
-    @Binding var editDisabled: Bool
-    let borrowersVMs: [BorrowerVM]
-    let today: Date = Date()
-    var body: some View {
-        Section(header: Text("Loan")) {
-            HStack {
                 Text("To").foregroundColor(.secondary)
                 Spacer()
-                Picker("Borrower", selection: $lentItemVM.borrowerId) {
-                    ForEach(borrowersVMs) { BorrowerVM in
-                        Text("\(BorrowerVM.nameText)").tag(BorrowerVM.id)
-                    }
-                }.pickerStyle(.menu)
-                .disabled(editDisabled)
                 Button {
-                    
+                    sheetPresented = true
                 } label: {
-                    HStack {
-                        Image(systemName: "plus.circle")
-                    }
-                }
+                    Text("\(lentItemVM.borrowerNameText)")
+                }.disabled(editDisabled)
             }
             HStack {
                 Text("On").foregroundColor(.secondary)
@@ -148,23 +122,47 @@ struct LentItemLoanSectionView: View {
                 ).disabled(editDisabled)
             }
             HStack {
-                Text("For").foregroundColor(.secondary)
-                Spacer()
-                Text("\(lentItemVM.lendTimeText)").italic()
+                Text("Reminder").foregroundColor(.secondary)
             }
-            HStack {
-                Text("Due").foregroundColor(.secondary)
-                Spacer()
-                if(today > lentItemVM.lendExpiry) {
-                    Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
+            if(editDisabled) {
+                if(!lentItemVM.sold) {
+                    HStack {
+                        if(lentItemVM.returned) {
+                            Text("Returned").foregroundColor(.secondary)
+                            Spacer()
+                            Image(systemName: "checkmark")
+                        } else {
+                            Toggle(isOn: $lentItemVM.returned) {
+                                Text("Returned").foregroundColor(.secondary)
+                            }.disabled(editDisabled)
+                        }
+                    }
                 }
-                DatePicker(
-                    "",
-                    selection: $lentItemVM.lendExpiry,
-                    in: lentItemVM.lendDate...,
-                    displayedComponents: .date
-                ).disabled(editDisabled)
-                .fixedSize()
+            } else {
+                Toggle(isOn: $lentItemVM.returned) {
+                    Text("Returned").foregroundColor(.secondary)
+                }.disabled(editDisabled)
+            }
+            if(editDisabled) {
+                if(!lentItemVM.returned) {
+                    HStack {
+                        if(lentItemVM.sold) {
+                            Text("Sold").foregroundColor(.secondary)
+                            Spacer()
+                            Image(systemName: "checkmark")
+                        } else {
+                            Toggle(isOn: $lentItemVM.sold) {
+                                Text("Sold").foregroundColor(.secondary)
+                            }.disabled(editDisabled)
+                        }
+                    }
+                }
+            } else {
+                HStack {
+                    Toggle(isOn: $lentItemVM.sold) {
+                        Text("Sold").foregroundColor(.secondary)
+                    }.disabled(editDisabled)
+                }
             }
         }
     }
@@ -203,5 +201,6 @@ struct LentItemDetailView_Previews: PreviewProvider {
             lentItemVM: LentItemVM(),
             navigationLinkIsActive: .constant(true)
         ).previewLayout(.sizeThatFits)
+        .environmentObject(LentItemListVM())
     }
 }

@@ -72,7 +72,10 @@ extension DataStoreModel {
             lendDate: Date(),
             lendTime: 600000.0,
             lendExpiry: Date(timeInterval: 600000.0, since: Date()),
-            justAdded: false
+            returned: false,
+            sold: false,
+            justAdded: false,
+            borrowerID: sampleBorrowerData[0].id
         ),
         LentItemModel(
             name: "🛡 Vibranium shield",
@@ -82,7 +85,10 @@ extension DataStoreModel {
             lendDate: Date(timeIntervalSince1970: 600000.0),
             lendTime: 600000.0,
             lendExpiry: Date(timeInterval: 600000.0, since: Date(timeIntervalSince1970: 600000.0)),
-            justAdded: false
+            returned: false,
+            sold: false,
+            justAdded: false,
+            borrowerID: sampleBorrowerData[1].id
         ),
         LentItemModel(
             name: "🕷 Spiderman lego",
@@ -92,7 +98,10 @@ extension DataStoreModel {
             lendDate: Date(),
             lendTime: 1800000.0,
             lendExpiry: Date(timeInterval: 1200000.0, since: Date()),
-            justAdded: false
+            returned: false,
+            sold: false,
+            justAdded: false,
+            borrowerID: sampleBorrowerData[2].id
         )
     ]
     static var sampleBorrowerData: [BorrowerModel] = [

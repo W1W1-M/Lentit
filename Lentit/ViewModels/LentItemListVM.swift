@@ -47,9 +47,17 @@ class LentItemListVM: ObservableObject {
     /// - Returns: Array of lent item view models
     func setLentItemsVMs(for lentItems: [LentItemModel]) -> [LentItemVM] {
         var lentItemVMs: [LentItemVM] = []
-        for LentItemModel in lentItems {
+        for lentItem in lentItems {
+            // Get lent item borrower
+            let borrowers = dataStore.readStoredBorrowers()
+            var lentItemBorrowerIndex = 0
+            if let borrowerIndex = borrowers.firstIndex(where: { $0.id == lentItem.borrowerId}) {
+                lentItemBorrowerIndex = borrowerIndex
+            }
+            let lentItemBorrower: BorrowerModel = borrowers[lentItemBorrowerIndex]
+            // Set lent item view model
             let lentItemVM = LentItemVM()
-            lentItemVM.setLentItemVM(for: LentItemModel)
+            lentItemVM.setLentItemVM(for: lentItem, and: lentItemBorrower)
             lentItemVMs.append(lentItemVM)
         }
         // Filter array with active category
@@ -130,7 +138,10 @@ class LentItemListVM: ObservableObject {
             lendDate: Date(),
             lendTime: 0.0,
             lendExpiry: Date(),
-            justAdded: true
+            returned: false,
+            sold: false,
+            justAdded: true,
+            borrowerID: UUID()
         )
         dataStore.createLentItem(newItem: newLentItem)
         // Make sure all categories are shown to see new item
@@ -146,6 +157,11 @@ class LentItemListVM: ObservableObject {
         // Reload lent items count & VMs
         lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
         lentItemsCountText = setLentItemsCount(for: lentItemVMs)
+    }
+    func addBorrower() {
+        let newBorrower = BorrowerModel(name: "mew")
+        dataStore.createBorrower(newBorrower: newBorrower)
+        borrowerVMs = setBorrowersVMs(for: dataStore.readStoredBorrowers())
     }
 }
 // MARK: - Structs

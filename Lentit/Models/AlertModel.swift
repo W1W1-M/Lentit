@@ -6,7 +6,7 @@
 //
 
 import Foundation
-// Custom type for alerts
+/// Custom type for alerts
 struct AlertModel: Identifiable, Hashable {
     let id: UUID
     let name: String

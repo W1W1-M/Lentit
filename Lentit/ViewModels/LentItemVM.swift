@@ -35,11 +35,6 @@ class LentItemVM: ObservableObject, Identifiable {
             lentItem.category = category
         }
     }
-    @Published var borrowerId: UUID {
-        didSet{
-            lentItem.borrowerId = borrowerId
-        }
-    }
     @Published var lendDate: Date {
         didSet{
             lentItem.lendDate = lendDate
@@ -64,11 +59,27 @@ class LentItemVM: ObservableObject, Identifiable {
         }
     }
     @Published var lendExpiryText: String
+    @Published var returned: Bool {
+        didSet{
+            lentItem.returned = returned
+        }
+    }
+    @Published var sold: Bool {
+        didSet{
+            lentItem.sold = sold
+        }
+    }
     @Published var justAdded: Bool {
         didSet {
             lentItem.justAdded = justAdded
         }
     }
+    @Published var borrowerId: UUID {
+        didSet{
+            lentItem.borrowerId = borrowerId
+        }
+    }
+    @Published var borrowerNameText: String
 // MARK: - Init
     /// Custom init to initialize view model with default data
     init() {
@@ -80,18 +91,21 @@ class LentItemVM: ObservableObject, Identifiable {
         self.valueText = "100€"
         self.category = LentItemCategories.categories[4]
         self.borrowerId = UUID()
+        self.borrowerNameText = "Unknown borrower"
         self.lendDate = Date()
         self.lendDateText = "20/02/2002"
         self.lendTime = 0
         self.lendTimeText = "0 days"
         self.lendExpiry = Date()
         self.lendExpiryText = "22/02/2002"
+        self.returned = false
+        self.sold = false
         self.justAdded = false
     }
 // MARK: - Functions
     /// Function to set lent item view model
     /// - Parameter lentItem: Lent item model
-    func setLentItemVM(for lentItem: LentItemModel) {
+    func setLentItemVM(for lentItem: LentItemModel, and borrower: BorrowerModel) {
         self.lentItem = lentItem
         self.id = lentItem.id // Shared with lent item data object
         self.nameText = lentItem.name
@@ -100,12 +114,15 @@ class LentItemVM: ObservableObject, Identifiable {
         self.valueText = setLentItemValueText(for: lentItem.value)
         self.category = lentItem.category
         self.borrowerId = lentItem.borrowerId
+        self.borrowerNameText = borrower.name
         self.lendDate = lentItem.lendDate
         self.lendDateText = setLentItemDateText(for: lentItem.lendDate)
         self.lendTime = lentItem.lendTime
         self.lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
         self.lendExpiry = lentItem.lendExpiry
         self.lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
+        self.returned = lentItem.returned
+        self.sold = lentItem.sold
         self.justAdded = lentItem.justAdded
     }
     /// Function to set item lend date text
@@ -195,5 +212,8 @@ class LentItemVM: ObservableObject, Identifiable {
     func filterLentItemValueText(for valueText: String) -> String {
         let filteredValueText = valueText.filter("1234567890".contains)
         return filteredValueText
+    }
+    func setBorrowerId(to newBorrowerId: UUID) {
+        borrowerId = newBorrowerId
     }
 }
