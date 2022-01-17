@@ -117,7 +117,6 @@ struct LentItemLoanSectionView: View {
                 DatePicker(
                     "",
                     selection: $lentItemVM.lendDate,
-                    in: ...lentItemVM.lendExpiry,
                     displayedComponents: .date
                 ).disabled(editDisabled)
             }
@@ -125,44 +124,21 @@ struct LentItemLoanSectionView: View {
                 Text("Reminder").foregroundColor(.secondary)
             }
             if(editDisabled) {
-                if(!lentItemVM.sold) {
+                if(lentItemVM.returnedSold) {
                     HStack {
-                        if(lentItemVM.returned) {
-                            Text("Returned").foregroundColor(.secondary)
-                            Spacer()
-                            Image(systemName: "checkmark")
-                        } else {
-                            Toggle(isOn: $lentItemVM.returned) {
-                                Text("Returned").foregroundColor(.secondary)
-                            }.disabled(editDisabled)
-                        }
+                        Text("Returned").foregroundColor(.secondary)
+                        Spacer()
+                        Image(systemName: "checkmark")
                     }
-                }
-            } else {
-                Toggle(isOn: $lentItemVM.returned) {
-                    Text("Returned").foregroundColor(.secondary)
-                }.disabled(editDisabled)
-            }
-            if(editDisabled) {
-                if(!lentItemVM.returned) {
-                    HStack {
-                        if(lentItemVM.sold) {
-                            Text("Sold").foregroundColor(.secondary)
-                            Spacer()
-                            Image(systemName: "checkmark")
-                        } else {
-                            Toggle(isOn: $lentItemVM.sold) {
-                                Text("Sold").foregroundColor(.secondary)
-                            }.disabled(editDisabled)
-                        }
-                    }
-                }
-            } else {
-                HStack {
-                    Toggle(isOn: $lentItemVM.sold) {
-                        Text("Sold").foregroundColor(.secondary)
+                } else {
+                    Toggle(isOn: $lentItemVM.returnedSold) {
+                        Text("Returned / Sold").foregroundColor(.secondary)
                     }.disabled(editDisabled)
                 }
+            } else {
+                Toggle(isOn: $lentItemVM.returnedSold) {
+                    Text("Returned / Sold").foregroundColor(.secondary)
+                }.disabled(editDisabled)
             }
         }
     }

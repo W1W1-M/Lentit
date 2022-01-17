@@ -49,12 +49,7 @@ class LentItemListVM: ObservableObject {
         var lentItemVMs: [LentItemVM] = []
         for lentItem in lentItems {
             // Get lent item borrower
-            let borrowers = dataStore.readStoredBorrowers()
-            var lentItemBorrowerIndex = 0
-            if let borrowerIndex = borrowers.firstIndex(where: { $0.id == lentItem.borrowerId}) {
-                lentItemBorrowerIndex = borrowerIndex
-            }
-            let lentItemBorrower: BorrowerModel = borrowers[lentItemBorrowerIndex]
+            let lentItemBorrower = getLentItemBorrower(for: lentItem)
             // Set lent item view model
             let lentItemVM = LentItemVM()
             lentItemVM.setLentItemVM(for: lentItem, and: lentItemBorrower)
@@ -131,15 +126,14 @@ class LentItemListVM: ObservableObject {
     /// Function to add a lent item to lent item store
     func addLentItem() {
         let newLentItem = LentItemModel(
-            name: "🆕 New item",
+            name: "🆕 New loan",
             description: "",
             value: 0,
             category: LentItemCategories.categories[4],
             lendDate: Date(),
             lendTime: 0.0,
             lendExpiry: Date(),
-            returned: false,
-            sold: false,
+            returnedSold: false,
             justAdded: true,
             borrowerID: UUID()
         )
@@ -158,10 +152,19 @@ class LentItemListVM: ObservableObject {
         lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
         lentItemsCountText = setLentItemsCount(for: lentItemVMs)
     }
-    func addBorrower() {
-        let newBorrower = BorrowerModel(name: "mew")
+    func addBorrower(named name: String) {
+        let newBorrower = BorrowerModel(name: name)
         dataStore.createBorrower(newBorrower: newBorrower)
         borrowerVMs = setBorrowersVMs(for: dataStore.readStoredBorrowers())
+    }
+    func getLentItemBorrower(for lentItem: LentItemModel) -> BorrowerModel {
+        let borrowers = dataStore.readStoredBorrowers()
+        var lentItemBorrowerIndex = 0
+        if let borrowerIndex = borrowers.firstIndex(where: { $0.id == lentItem.borrowerId}) {
+            lentItemBorrowerIndex = borrowerIndex
+        }
+        let lentItemBorrower: BorrowerModel = borrowers[lentItemBorrowerIndex]
+        return lentItemBorrower
     }
 }
 // MARK: - Structs

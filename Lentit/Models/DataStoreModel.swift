@@ -46,15 +46,23 @@ class DataStoreModel: ObservableObject {
         return storeCount
     }
     // MARK: - Borrower
+    /// <#Description#>
+    /// - Parameter borrower: <#borrower description#>
     func createBorrower(newBorrower borrower: BorrowerModel) {
         storedBorrowers.append(borrower)
     }
+    /// <#Description#>
+    /// - Returns: <#description#>
     func readStoredBorrowers() -> [BorrowerModel] {
         return storedBorrowers
     }
+    /// <#Description#>
+    /// - Parameter borrowerVM: <#borrowerVM description#>
     func updateBorrower(for borrowerVM: BorrowerVM) {
         // WIP
     }
+    /// <#Description#>
+    /// - Parameter borrower: <#borrower description#>
     func deleteBorrower(oldBorrower borrower: BorrowerModel) {
         if let oldIndex = storedBorrowers.firstIndex(of: borrower) {
             storedBorrowers.remove(at: oldIndex)
@@ -72,8 +80,7 @@ extension DataStoreModel {
             lendDate: Date(),
             lendTime: 600000.0,
             lendExpiry: Date(timeInterval: 600000.0, since: Date()),
-            returned: false,
-            sold: false,
+            returnedSold: false,
             justAdded: false,
             borrowerID: sampleBorrowerData[0].id
         ),
@@ -85,8 +92,7 @@ extension DataStoreModel {
             lendDate: Date(timeIntervalSince1970: 600000.0),
             lendTime: 600000.0,
             lendExpiry: Date(timeInterval: 600000.0, since: Date(timeIntervalSince1970: 600000.0)),
-            returned: false,
-            sold: false,
+            returnedSold: false,
             justAdded: false,
             borrowerID: sampleBorrowerData[1].id
         ),
@@ -98,8 +104,7 @@ extension DataStoreModel {
             lendDate: Date(),
             lendTime: 1800000.0,
             lendExpiry: Date(timeInterval: 1200000.0, since: Date()),
-            returned: false,
-            sold: false,
+            returnedSold: false,
             justAdded: false,
             borrowerID: sampleBorrowerData[2].id
         )

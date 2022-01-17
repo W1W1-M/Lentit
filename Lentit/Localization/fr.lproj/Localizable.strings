@@ -1,5 +1,5 @@
 /* No comment provided by engineer. */
-"%@ items" = "%@ objets";
+"%@ loans" = "%@ prêts";
 
 /* No comment provided by engineer. */
 "📒 Lentit" = "📒 Cprêté";
@@ -67,3 +67,8 @@
 /* No comment provided by engineer. */
 "Value" = "Valeur";
 
+/* No comment provided by engineer. */
+"Reminder" = "Rappel";
+
+/* No comment provided by engineer. */
+"Returned / Sold" = "Rendu / Vendu";

@@ -11,14 +11,55 @@ struct BorrowersListView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     @ObservedObject var lentItemVM: LentItemVM
     @Binding var sheetPresented: Bool
+    @State var newBorrowerPresented: Bool = false
+    @State var newBorrowerName: String = ""
     var body: some View {
-        List {
-            ForEach(lentItemsListVM.borrowerVMs) { BorrowerVM in
-                Button {
-                    lentItemVM.setBorrowerId(to: BorrowerVM.id)
-                    sheetPresented = false
-                } label: {
-                    Text("\(BorrowerVM.nameText)")
+        NavigationView {
+            List {
+                if(newBorrowerPresented) {
+                    HStack {
+                        TextField("name", text: $newBorrowerName)
+                        Spacer()
+                        Button {
+                            lentItemsListVM.addBorrower(named: newBorrowerName)
+                            newBorrowerPresented = false
+                        } label: {
+                            Text("OK")
+                        }
+                    }
+                }
+                ForEach(lentItemsListVM.borrowerVMs) { BorrowerVM in
+                    Button {
+                        lentItemVM.setLentItemBorrower(to: BorrowerVM)
+                        sheetPresented = false
+                    } label: {
+                        HStack {
+                            Text("\(BorrowerVM.nameText)")
+                            Spacer()
+                            if(lentItemVM.borrowerId == BorrowerVM.id) {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                }
+            }.navigationTitle("Borrowers")
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button {
+                        sheetPresented = false
+                    } label: {
+                        Text("Close")
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        newBorrowerPresented = true
+                    } label: {
+                        HStack {
+                            Text("Add")
+                            Image(systemName: "plus.circle")
+                        }
+                    }
                 }
             }
         }

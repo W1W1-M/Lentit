@@ -48,7 +48,7 @@ struct LentItemsListHeaderView: View {
                 EmptyView()
             } else {
                 HStack {
-                    Text("\(lentItemsListVM.lentItemsCountText) items")
+                    Text("\(lentItemsListVM.lentItemsCountText) loans")
                     Spacer()
                     Text("\(lentItemsListVM.activeCategory.name)")
                 }
@@ -60,7 +60,6 @@ struct LentItemsListHeaderView: View {
 struct LentListItemView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var navigationLinkIsActive: Bool = false
-    let today: Date = Date()
     var body: some View {
         NavigationLink(
             destination: LentItemDetailView(
@@ -72,10 +71,7 @@ struct LentListItemView: View {
             HStack {
                 Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
                 Spacer()
-                if(today > lentItemVM.lendExpiry) {
-                    Image(systemName: "calendar.badge.exclamationmark").foregroundColor(Color.red)
-                }
-                Text("\(lentItemVM.lendDateText)").foregroundColor(.accentColor)
+                Text("\(lentItemVM.borrowerNameText)").foregroundColor(.accentColor)
             }
         }
         .onAppear(perform: {

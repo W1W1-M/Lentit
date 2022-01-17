@@ -18,8 +18,7 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
     @Published var lendDate: Date
     @Published var lendTime: TimeInterval
     @Published var lendExpiry: Date
-    @Published var returned: Bool
-    @Published var sold: Bool
+    @Published var returnedSold: Bool
     @Published var justAdded: Bool
 // MARK: - Init
     /// Custom initialization
@@ -31,8 +30,7 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
     ///   - lendDate: Date
     ///   - lendTime: TimeInterval
     ///   - lendExpiry: Date
-    ///   - returned: <#returned description#>
-    ///   - sold: <#sold description#>
+    ///   - returnedSold: <#returned description#>
     ///   - justAdded: Bool
     ///   - borrowerID: <#borrowerID description#>
     init(
@@ -43,8 +41,7 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
         lendDate: Date,
         lendTime: TimeInterval,
         lendExpiry: Date,
-        returned: Bool,
-        sold: Bool,
+        returnedSold: Bool,
         justAdded: Bool,
         borrowerID: UUID
     ) {
@@ -56,8 +53,7 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
         self.lendDate = lendDate
         self.lendTime = lendTime
         self.lendExpiry = lendExpiry
-        self.returned = returned
-        self.sold = sold
+        self.returnedSold = returnedSold
         self.justAdded = justAdded
         self.borrowerId = borrowerID
     }

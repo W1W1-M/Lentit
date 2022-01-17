@@ -59,14 +59,9 @@ class LentItemVM: ObservableObject, Identifiable {
         }
     }
     @Published var lendExpiryText: String
-    @Published var returned: Bool {
+    @Published var returnedSold: Bool {
         didSet{
-            lentItem.returned = returned
-        }
-    }
-    @Published var sold: Bool {
-        didSet{
-            lentItem.sold = sold
+            lentItem.returnedSold = returnedSold
         }
     }
     @Published var justAdded: Bool {
@@ -98,8 +93,7 @@ class LentItemVM: ObservableObject, Identifiable {
         self.lendTimeText = "0 days"
         self.lendExpiry = Date()
         self.lendExpiryText = "22/02/2002"
-        self.returned = false
-        self.sold = false
+        self.returnedSold = false
         self.justAdded = false
     }
 // MARK: - Functions
@@ -121,8 +115,7 @@ class LentItemVM: ObservableObject, Identifiable {
         self.lendTimeText = setLentItemTimeText(for: lentItem.lendTime)
         self.lendExpiry = lentItem.lendExpiry
         self.lendExpiryText = setLentItemExpiryText(for: lentItem.lendExpiry)
-        self.returned = lentItem.returned
-        self.sold = lentItem.sold
+        self.returnedSold = lentItem.returnedSold
         self.justAdded = lentItem.justAdded
     }
     /// Function to set item lend date text
@@ -213,7 +206,8 @@ class LentItemVM: ObservableObject, Identifiable {
         let filteredValueText = valueText.filter("1234567890".contains)
         return filteredValueText
     }
-    func setBorrowerId(to newBorrowerId: UUID) {
-        borrowerId = newBorrowerId
+    func setLentItemBorrower(to newBorrower: BorrowerVM) {
+        borrowerId = newBorrower.id
+        borrowerNameText = newBorrower.nameText
     }
 }
