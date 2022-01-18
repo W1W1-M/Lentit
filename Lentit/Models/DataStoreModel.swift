@@ -9,9 +9,11 @@ import Foundation
 /// Store for lent items
 class DataStoreModel: ObservableObject {
 // MARK: - Variables
+    @Published var storedLoans: [LoanModel]
     @Published var storedItems: [LentItemModel]
     @Published var storedBorrowers: [BorrowerModel]
     init() {
+        self.storedLoans = DataStoreModel.sampleLoanData
         self.storedItems = DataStoreModel.sampleLentItemData
         self.storedBorrowers = DataStoreModel.sampleBorrowerData
     }
@@ -71,6 +73,17 @@ class DataStoreModel: ObservableObject {
 }
 // MARK: - Extensions
 extension DataStoreModel {
+    static var sampleLoanData: [LoanModel] = [
+        LoanModel(
+            lendDate: Date(),
+            lendTime: 600000.0,
+            lendExpiry: Date(timeInterval: 600000.0, since: Date()),
+            reminder: Date(timeInterval: 600000.0, since: Date()),
+            justAdded: false,
+            itemId: sampleLentItemData[0].id,
+            borrowerId: sampleBorrowerData[0].id
+        )
+    ]
     static var sampleLentItemData: [LentItemModel] = [
         LentItemModel(
             name: "💿 IronMan bluray",
@@ -82,7 +95,7 @@ extension DataStoreModel {
             lendExpiry: Date(timeInterval: 600000.0, since: Date()),
             returnedSold: false,
             justAdded: false,
-            borrowerID: sampleBorrowerData[0].id
+            borrowerId: sampleBorrowerData[0].id
         ),
         LentItemModel(
             name: "🛡 Vibranium shield",
@@ -94,7 +107,7 @@ extension DataStoreModel {
             lendExpiry: Date(timeInterval: 600000.0, since: Date(timeIntervalSince1970: 600000.0)),
             returnedSold: false,
             justAdded: false,
-            borrowerID: sampleBorrowerData[1].id
+            borrowerId: sampleBorrowerData[1].id
         ),
         LentItemModel(
             name: "🕷 Spiderman lego",
@@ -106,7 +119,7 @@ extension DataStoreModel {
             lendExpiry: Date(timeInterval: 1200000.0, since: Date()),
             returnedSold: false,
             justAdded: false,
-            borrowerID: sampleBorrowerData[2].id
+            borrowerId: sampleBorrowerData[2].id
         )
     ]
     static var sampleBorrowerData: [BorrowerModel] = [

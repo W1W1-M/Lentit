@@ -95,7 +95,6 @@ struct LentItemLoanSectionView: View {
     @Binding var editDisabled: Bool
     @Binding var sheetPresented: Bool
     let borrowersVMs: [BorrowerVM]
-    let today: Date = Date()
     var body: some View {
         Section(header: Text("Loan")) {
             HStack {
@@ -122,6 +121,12 @@ struct LentItemLoanSectionView: View {
             }
             HStack {
                 Text("Reminder").foregroundColor(.secondary)
+                DatePicker(
+                    "",
+                    selection: $lentItemVM.lendExpiry,
+                    in: lentItemVM.lendDate...,
+                    displayedComponents: .date
+                ).disabled(editDisabled)
             }
             if(editDisabled) {
                 if(lentItemVM.returnedSold) {

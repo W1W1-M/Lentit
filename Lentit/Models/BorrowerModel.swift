@@ -12,10 +12,12 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Variables
     @Published var id: UUID
     @Published var name: String
+    @Published var loanIds: [UUID]
 // MARK: - Init
     init(name: String) {
         self.id = UUID()
         self.name = name
+        self.loanIds = []
     }
 // MARK: - Functions
     static func == (lhs: BorrowerModel, rhs: BorrowerModel) -> Bool {

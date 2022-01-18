@@ -13,7 +13,7 @@ class LentItemListVM: ObservableObject {
     @Published var lentItemVMs: [LentItemVM]
     @Published var borrowerVMs: [BorrowerVM]
     @Published var lentItemsCountText: String
-    @Published var activeCategory: LentItemCategoryModel {
+    @Published var activeCategory: ItemCategoryModel {
         didSet{
             lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
             lentItemVMs = filteredLentItemVMs(for: lentItemVMs, by: activeCategory)
@@ -79,9 +79,9 @@ class LentItemListVM: ObservableObject {
     /// Function to filter lent item view models
     /// - Parameters:
     ///   - lentItemVMs: Lent item view models Array
-    ///   - activeCategory: Active LentItemCategoryModel
+    ///   - activeCategory: Active ItemCategoryModel
     /// - Returns: Array of filtered lent items view models
-    func filteredLentItemVMs(for lentItemVMs: [LentItemVM], by activeCategory: LentItemCategoryModel) -> [LentItemVM] {
+    func filteredLentItemVMs(for lentItemVMs: [LentItemVM], by activeCategory: ItemCategoryModel) -> [LentItemVM] {
         var filteredLentItemVMs = lentItemVMs
         if(activeCategory == LentItemCategories.all) {
             return filteredLentItemVMs
@@ -135,7 +135,7 @@ class LentItemListVM: ObservableObject {
             lendExpiry: Date(),
             returnedSold: false,
             justAdded: true,
-            borrowerID: UUID()
+            borrowerId: UUID()
         )
         dataStore.createLentItem(newItem: newLentItem)
         // Make sure all categories are shown to see new item

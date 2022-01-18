@@ -13,7 +13,8 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
     @Published var name: String
     @Published var description: String
     @Published var value: Int
-    @Published var category: LentItemCategoryModel
+    @Published var category: ItemCategoryModel
+    @Published var loanIds: [UUID]
     @Published var borrowerId: UUID
     @Published var lendDate: Date
     @Published var lendTime: TimeInterval
@@ -26,24 +27,24 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
     ///   - name: String
     ///   - description: String
     ///   - value: Int
-    ///   - category: LentItemCategoryModel
+    ///   - category: ItemCategoryModel
     ///   - lendDate: Date
     ///   - lendTime: TimeInterval
     ///   - lendExpiry: Date
     ///   - returnedSold: <#returned description#>
     ///   - justAdded: Bool
-    ///   - borrowerID: <#borrowerID description#>
+    ///   - borrowerId: <#borrowerID description#>
     init(
         name: String,
         description: String,
         value: Int,
-        category: LentItemCategoryModel,
+        category: ItemCategoryModel,
         lendDate: Date,
         lendTime: TimeInterval,
         lendExpiry: Date,
         returnedSold: Bool,
         justAdded: Bool,
-        borrowerID: UUID
+        borrowerId: UUID
     ) {
         self.id = UUID()
         self.name = name
@@ -55,7 +56,8 @@ class LentItemModel: ObservableObject, Identifiable, Equatable {
         self.lendExpiry = lendExpiry
         self.returnedSold = returnedSold
         self.justAdded = justAdded
-        self.borrowerId = borrowerID
+        self.loanIds = []
+        self.borrowerId = borrowerId
     }
 // MARK: - Functions
     static func == (lhs: LentItemModel, rhs: LentItemModel) -> Bool {

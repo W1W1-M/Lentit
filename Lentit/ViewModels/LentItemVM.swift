@@ -30,7 +30,7 @@ class LentItemVM: ObservableObject, Identifiable {
             value = setLentItemValue(for: valueText)
         }
     }
-    @Published var category: LentItemCategoryModel {
+    @Published var category: ItemCategoryModel {
         didSet{
             lentItem.category = category
         }

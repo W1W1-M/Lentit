@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D13A65327960DD6008FDC42 /* LoanModel.swift */; };
 		3D352D8F27709993000F8148 /* LentItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D352D8E27709993000F8148 /* LentItemModel.swift */; };
 		3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD96E2793033000B52F3C /* BorrowerModel.swift */; };
 		3D4FD9712793092600B52F3C /* BorrowerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD9702793092600B52F3C /* BorrowerVM.swift */; };
@@ -26,7 +27,7 @@
 		3D590206276FD36000373871 /* LentItemVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590205276FD36000373871 /* LentItemVM.swift */; };
 		3D590208276FD91F00373871 /* LentItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590207276FD91F00373871 /* LentItemDetailView.swift */; };
 		3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590209276FDDF200373871 /* SidebarMenuView.swift */; };
-		3D86AEAA2776042300FF4803 /* LentItemCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */; };
+		3D86AEAA2776042300FF4803 /* ItemCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D86AEA92776042300FF4803 /* ItemCategoryModel.swift */; };
 		3DD36F032771E1DE002C333C /* LentItemListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD36F022771E1DE002C333C /* LentItemListVM.swift */; };
 		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
 		3DDE13E327945D5C00EBB6E7 /* BorrowersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E227945D5C00EBB6E7 /* BorrowersListView.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D13A65327960DD6008FDC42 /* LoanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanModel.swift; sourceTree = "<group>"; };
 		3D352D8E27709993000F8148 /* LentItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemModel.swift; sourceTree = "<group>"; };
 		3D4FD96E2793033000B52F3C /* BorrowerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerModel.swift; sourceTree = "<group>"; };
 		3D4FD9702793092600B52F3C /* BorrowerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerVM.swift; sourceTree = "<group>"; };
@@ -72,7 +74,7 @@
 		3D590205276FD36000373871 /* LentItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemVM.swift; sourceTree = "<group>"; };
 		3D590207276FD91F00373871 /* LentItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemDetailView.swift; sourceTree = "<group>"; };
 		3D590209276FDDF200373871 /* SidebarMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuView.swift; sourceTree = "<group>"; };
-		3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemCategoryModel.swift; sourceTree = "<group>"; };
+		3D86AEA92776042300FF4803 /* ItemCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategoryModel.swift; sourceTree = "<group>"; };
 		3DCC2A5027831F20005C252B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3DCC2A5127832238005C252B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3DD36F022771E1DE002C333C /* LentItemListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemListVM.swift; sourceTree = "<group>"; };
@@ -194,8 +196,9 @@
 				3D4FD974279365B800B52F3C /* AlertModel.swift */,
 				3D4FD96E2793033000B52F3C /* BorrowerModel.swift */,
 				3D5551F12770E9300007BE3E /* DataStoreModel.swift */,
-				3D86AEA92776042300FF4803 /* LentItemCategoryModel.swift */,
+				3D86AEA92776042300FF4803 /* ItemCategoryModel.swift */,
 				3D352D8E27709993000F8148 /* LentItemModel.swift */,
+				3D13A65327960DD6008FDC42 /* LoanModel.swift */,
 				3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */,
 			);
 			path = Models;
@@ -350,11 +353,12 @@
 				3DD36F032771E1DE002C333C /* LentItemListVM.swift in Sources */,
 				3D590204276FD16100373871 /* LentItemsListView.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
-				3D86AEAA2776042300FF4803 /* LentItemCategoryModel.swift in Sources */,
+				3D86AEAA2776042300FF4803 /* ItemCategoryModel.swift in Sources */,
 				3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */,
 				3DDE13E327945D5C00EBB6E7 /* BorrowersListView.swift in Sources */,
 				3D5901D7276FC92500373871 /* LentitApp.swift in Sources */,
 				3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */,
+				3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */,
 				3D4FD9712793092600B52F3C /* BorrowerVM.swift in Sources */,
 				3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */,
 				3D590206276FD36000373871 /* LentItemVM.swift in Sources */,
