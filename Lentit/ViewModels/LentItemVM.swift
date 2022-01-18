@@ -84,7 +84,7 @@ class LentItemVM: ObservableObject, Identifiable {
         self.descriptionText = "Unknown item"
         self.value = 100
         self.valueText = "100€"
-        self.category = LentItemCategories.categories[4]
+        self.category = ItemCategories.categories[4]
         self.borrowerId = UUID()
         self.borrowerNameText = "Unknown borrower"
         self.lendDate = Date()

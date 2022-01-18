@@ -40,17 +40,17 @@ struct CategoriesListMenuItems: View {
     var body: some View {
         Group {
             Button {
-                lentItemsListVM.activeCategory = LentItemCategories.all
+                lentItemsListVM.activeCategory = ItemCategories.all
             } label: {
                 HStack {
                     Text("🗂 All")
-                    if(lentItemsListVM.activeCategory == LentItemCategories.all) {
+                    if(lentItemsListVM.activeCategory == ItemCategories.all) {
                         Spacer()
                         Image(systemName: "checkmark")
                     }
                 }
             }
-            ForEach(LentItemCategories.categories) { LentItemCategoryModel in
+            ForEach(ItemCategories.categories) { LentItemCategoryModel in
                 Button {
                     lentItemsListVM.activeCategory = LentItemCategoryModel
                 } label: {

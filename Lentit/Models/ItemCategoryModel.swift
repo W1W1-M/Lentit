@@ -20,7 +20,7 @@ struct ItemCategoryModel: Identifiable, Hashable {
 }
 
 /// Predefined lent item categories
-struct LentItemCategories {
+struct ItemCategories {
     static let all: ItemCategoryModel = ItemCategoryModel(name: "🗂 All")
     static let categories: [ItemCategoryModel] = [
         ItemCategoryModel(name: "📚 Books"),

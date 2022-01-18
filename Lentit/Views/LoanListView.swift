@@ -1,5 +1,5 @@
 //
-//  LoansListView.swift
+//  LoanListView.swift
 //  Lentit
 //
 //  Created by William Mead on 19/12/2021.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 // MARK: - Views
-struct LoansListView: View {
+struct LoanListView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
         Form {
-            Section(header: LoansListHeaderView()) {
+            Section(header: LoanListHeaderView()) {
                 List {
                     ForEach(lentItemsListVM.lentItemVMs) { LentItemVM in
-                        LoansListItemView(
+                        LoanListItemView(
                             lentItemVM: LentItemVM
                         )
                     }
@@ -34,13 +34,13 @@ struct LoansListView: View {
                 }
             }
             ToolbarItemGroup(placement: .bottomBar) {
-                LoansListBottomToolbarView()
+                LoanListBottomToolbarView()
             }
         }
     }
 }
 // MARK: -
-struct LoansListHeaderView: View {
+struct LoanListHeaderView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
         HStack {
@@ -57,7 +57,7 @@ struct LoansListHeaderView: View {
     }
 }
 // MARK: -
-struct LoansListItemView: View {
+struct LoanListItemView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
@@ -83,7 +83,7 @@ struct LoansListItemView: View {
     }
 }
 // MARK: -
-struct LoansListBottomToolbarView: View {
+struct LoanListBottomToolbarView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
         Group {
@@ -126,14 +126,14 @@ struct LoansListBottomToolbarView: View {
     }
 }
 // MARK: - Previews
-struct LoansListView_Previews: PreviewProvider {
+struct LoanListView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            LoansListView()
+            LoanListView()
         }.environmentObject(LentItemListVM())
         //
-        LoansListItemView(
+        LoanListItemView(
             lentItemVM: LentItemVM()
         ).previewLayout(.sizeThatFits)
     }

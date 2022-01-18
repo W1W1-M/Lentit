@@ -33,7 +33,7 @@ class LentItemListVM: ObservableObject {
         self.lentItemVMs = []
         self.borrowerVMs = []
         self.lentItemsCountText = ""
-        self.activeCategory = LentItemCategories.all
+        self.activeCategory = ItemCategories.all
         self.activeSort = SortingOrders.byItemName
         // Initialize lent items & borrowers view models with data from store
         self.lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
@@ -83,7 +83,7 @@ class LentItemListVM: ObservableObject {
     /// - Returns: Array of filtered lent items view models
     func filteredLentItemVMs(for lentItemVMs: [LentItemVM], by activeCategory: ItemCategoryModel) -> [LentItemVM] {
         var filteredLentItemVMs = lentItemVMs
-        if(activeCategory == LentItemCategories.all) {
+        if(activeCategory == ItemCategories.all) {
             return filteredLentItemVMs
         } else {
             filteredLentItemVMs = filteredLentItemVMs.filter {
@@ -129,7 +129,7 @@ class LentItemListVM: ObservableObject {
             name: "🆕 New loan",
             description: "",
             value: 0,
-            category: LentItemCategories.categories[4],
+            category: ItemCategories.categories[4],
             lendDate: Date(),
             lendTime: 0.0,
             lendExpiry: Date(),
@@ -139,7 +139,7 @@ class LentItemListVM: ObservableObject {
         )
         dataStore.createLentItem(newItem: newLentItem)
         // Make sure all categories are shown to see new item
-        activeCategory = LentItemCategories.all
+        activeCategory = ItemCategories.all
         // Reload lent items count & VMs
         lentItemVMs = setLentItemsVMs(for: dataStore.readStoredLentItems())
         lentItemsCountText = setLentItemsCount(for: lentItemVMs)
@@ -165,21 +165,5 @@ class LentItemListVM: ObservableObject {
         }
         let lentItemBorrower: BorrowerModel = borrowers[lentItemBorrowerIndex]
         return lentItemBorrower
-    }
-}
-// MARK: - Structs
-struct SortingOrders {
-    static var byItemName: SortingOrder = SortingOrder(name: "byItemName")
-    static var byLendExpiry: SortingOrder = SortingOrder(name: "byLendExpiry")
-}
-
-struct SortingOrder: Equatable {
-    let id: UUID
-    let name: String
-    /// Custom initialization
-    /// - Parameter name: String to describe sorting order
-    init(name: String) {
-        self.id = UUID()
-        self.name = name
     }
 }
