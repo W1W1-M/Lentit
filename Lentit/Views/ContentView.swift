@@ -14,20 +14,20 @@ struct ContentView: View {
         case .regular:
             NavigationView {
                 SidebarMenuView()
-                LentItemsListView()
+                LoansListView()
                 EmptyView()
             }
         case .compact:
             NavigationView {
-                LentItemsListView()
+                LoansListView()
             }
         case .none:
             NavigationView {
-                LentItemsListView()
+                LoansListView()
             }
         case .some(_):
             NavigationView {
-                LentItemsListView()
+                LoansListView()
             }
         }
     }

@@ -1,5 +1,5 @@
 //
-//  LentItemsListView.swift
+//  LoansListView.swift
 //  Lentit
 //
 //  Created by William Mead on 19/12/2021.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 // MARK: - Views
-struct LentItemsListView: View {
+struct LoansListView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
         Form {
-            Section(header: LentItemsListHeaderView()) {
+            Section(header: LoansListHeaderView()) {
                 List {
                     ForEach(lentItemsListVM.lentItemVMs) { LentItemVM in
-                        LentListItemView(
+                        LoansListItemView(
                             lentItemVM: LentItemVM
                         )
                     }
@@ -34,13 +34,13 @@ struct LentItemsListView: View {
                 }
             }
             ToolbarItemGroup(placement: .bottomBar) {
-                LentItemsListBottomToolbarView()
+                LoansListBottomToolbarView()
             }
         }
     }
 }
 // MARK: -
-struct LentItemsListHeaderView: View {
+struct LoansListHeaderView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
         HStack {
@@ -57,12 +57,12 @@ struct LentItemsListHeaderView: View {
     }
 }
 // MARK: -
-struct LentListItemView: View {
+struct LoansListItemView: View {
     @ObservedObject var lentItemVM: LentItemVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
-            destination: LentItemDetailView(
+            destination: LoanDetailView(
                 lentItemVM: lentItemVM,
                 navigationLinkIsActive: $navigationLinkIsActive
             ),
@@ -83,7 +83,7 @@ struct LentListItemView: View {
     }
 }
 // MARK: -
-struct LentItemsListBottomToolbarView: View {
+struct LoansListBottomToolbarView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     var body: some View {
         Group {
@@ -126,14 +126,14 @@ struct LentItemsListBottomToolbarView: View {
     }
 }
 // MARK: - Previews
-struct LentItemsListView_Previews: PreviewProvider {
+struct LoansListView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            LentItemsListView()
+            LoansListView()
         }.environmentObject(LentItemListVM())
         //
-        LentListItemView(
+        LoansListItemView(
             lentItemVM: LentItemVM()
         ).previewLayout(.sizeThatFits)
     }

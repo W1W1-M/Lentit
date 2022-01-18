@@ -1,5 +1,5 @@
 //
-//  LentItemDetailView.swift
+//  LoanDetailView.swift
 //  Lentit
 //
 //  Created by William Mead on 19/12/2021.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 // MARK: - Views
-struct LentItemDetailView: View {
+struct LoanDetailView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     @ObservedObject var lentItemVM: LentItemVM
     @State var editDisabled: Bool = true
@@ -21,7 +21,7 @@ struct LentItemDetailView: View {
         VStack {
             if(detailViewPresented) { // Show lent item detail view by default
                 Form {
-                    LentItemLoanSectionView(
+                    LoanDetailSectionView(
                         lentItemVM: lentItemVM,
                         editDisabled: $editDisabled,
                         sheetPresented: $sheetPresented,
@@ -30,7 +30,7 @@ struct LentItemDetailView: View {
                 }.navigationTitle("\(lentItemVM.nameText)")
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
-                        LentItemDetailBottomToolbarView(
+                        LoanDetailBottomToolbarView(
                             editDisabled: $editDisabled,
                             alertPresented: $alertPresented
                         )
@@ -89,7 +89,7 @@ struct LentItemDetailView: View {
     }
 }
 // MARK: -
-struct LentItemLoanSectionView: View {
+struct LoanDetailSectionView: View {
     @EnvironmentObject var lentItemsListVM: LentItemListVM
     @ObservedObject var lentItemVM: LentItemVM
     @Binding var editDisabled: Bool
@@ -149,7 +149,7 @@ struct LentItemLoanSectionView: View {
     }
 }
 // MARK: -
-struct LentItemDetailBottomToolbarView: View {
+struct LoanDetailBottomToolbarView: View {
     @Binding var editDisabled: Bool
     @Binding var alertPresented: Bool
     var body: some View {
@@ -176,9 +176,9 @@ struct LentItemDetailBottomToolbarView: View {
     }
 }
 // MARK: - Previews
-struct LentItemDetailView_Previews: PreviewProvider {
+struct LoanDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        LentItemDetailView(
+        LoanDetailView(
             lentItemVM: LentItemVM(),
             navigationLinkIsActive: .constant(true)
         ).previewLayout(.sizeThatFits)
