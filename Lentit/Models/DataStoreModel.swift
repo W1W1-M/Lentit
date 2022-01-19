@@ -10,44 +10,60 @@ import Foundation
 class DataStoreModel: ObservableObject {
 // MARK: - Variables
     @Published var storedLoans: [LoanModel]
-    @Published var storedItems: [LentItemModel]
+    @Published var storedItems: [ItemModel]
     @Published var storedBorrowers: [BorrowerModel]
     init() {
         self.storedLoans = DataStoreModel.sampleLoanData
-        self.storedItems = DataStoreModel.sampleLentItemData
+        self.storedItems = DataStoreModel.sampleItemData
         self.storedBorrowers = DataStoreModel.sampleBorrowerData
     }
 // MARK: - Functions
-    // MARK: - LentItem
+    // MARK: - Loan
+    func createLoan(newLoan loan: LoanModel) {
+        storedLoans.append(loan)
+    }
+    /// <#Description#>
+    /// - Returns: <#description#>
+    func readStoredLoans() -> [LoanModel] {
+        return storedLoans
+    }
+    /// <#Description#>
+    /// - Parameter loan: <#loan description#>
+    func deleteLoan(oldLoan loan: LoanModel) {
+        if let oldIndex = storedLoans.firstIndex(of: loan) {
+            storedLoans.remove(at: oldIndex)
+        }
+    }
+// MARK: - Item
     /// Function to  add a new lent item to the store
-    /// - Parameter lentItem: Added lent item object
-    func createLentItem(newItem lentItem: LentItemModel) {
-        storedItems.append(lentItem)
+    /// - Parameter item: Added lent item object
+    func createItem(newItem item: ItemModel) {
+        storedItems.append(item)
     }
     /// Function to delete a new lent item to the store
-    /// - Parameter lentItem: Deleted lent item object
-    func deleteLentItem(oldItem lentItem: LentItemModel) {
-        if let oldIndex = storedItems.firstIndex(of: lentItem) {
+    /// - Parameter item: Deleted lent item object
+    func deleteItem(oldItem item: ItemModel) {
+        if let oldIndex = storedItems.firstIndex(of: item) {
             storedItems.remove(at: oldIndex)
         }
     }
     /// Function to get lent items in store
     /// - Returns: Array of lent item objects
-    func readStoredLentItems() -> [LentItemModel] {
+    func readStoredItems() -> [ItemModel] {
         return storedItems
     }
     /// Function to update a lent item in store
-    /// - Parameter lentItemVM: Lent item view model containing changes for corresponding lent item model 
-    func updateStoredLentItem(for lentItemVM: LentItemVM) {
+    /// - Parameter itemVM: Lent item view model containing changes for corresponding lent item model 
+    func updateStoredItem(for itemVM: ItemVM) {
         // WIP
     }
     /// Function to get number of stored lent items
     /// - Returns: Int of number of lent item objects in store
-    func getLentItemStoreCount() -> Int {
+    func getItemStoreCount() -> Int {
         let storeCount = storedItems.count
         return storeCount
     }
-    // MARK: - Borrower
+// MARK: - Borrower
     /// <#Description#>
     /// - Parameter borrower: <#borrower description#>
     func createBorrower(newBorrower borrower: BorrowerModel) {
@@ -75,56 +91,83 @@ class DataStoreModel: ObservableObject {
 extension DataStoreModel {
     static var sampleLoanData: [LoanModel] = [
         LoanModel(
-            lendDate: Date(),
-            lendTime: 600000.0,
-            lendExpiry: Date(timeInterval: 600000.0, since: Date()),
+            id: UUID(),
+            loanDate: Date(),
+            loanTime: 600000.0,
+            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
+            returnedSold: false,
             justAdded: false,
-            itemId: sampleLentItemData[0].id,
+            itemId: sampleItemData[0].id,
             borrowerId: sampleBorrowerData[0].id
+        ),
+        LoanModel(
+            id: UUID(),
+            loanDate: Date(),
+            loanTime: 600000.0,
+            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
+            reminder: Date(timeInterval: 600000.0, since: Date()),
+            returnedSold: false,
+            justAdded: false,
+            itemId: sampleItemData[1].id,
+            borrowerId: sampleBorrowerData[1].id
+        ),
+        LoanModel(
+            id: UUID(),
+            loanDate: Date(),
+            loanTime: 600000.0,
+            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
+            reminder: Date(timeInterval: 600000.0, since: Date()),
+            returnedSold: false,
+            justAdded: false,
+            itemId: sampleItemData[2].id,
+            borrowerId: sampleBorrowerData[2].id
         )
     ]
-    static var sampleLentItemData: [LentItemModel] = [
-        LentItemModel(
+    static var sampleItemData: [ItemModel] = [
+        ItemModel(
+            id: UUID(),
             name: "💿 IronMan bluray",
             description: "Film about some guy in an armored suit",
             value: 10,
             category: ItemCategories.categories[3],
-            lendDate: Date(),
-            lendTime: 600000.0,
-            lendExpiry: Date(timeInterval: 600000.0, since: Date()),
-            returnedSold: false,
             justAdded: false,
-            borrowerId: sampleBorrowerData[0].id
+            loanIds: []
         ),
-        LentItemModel(
+        ItemModel(
+            id: UUID(),
             name: "🛡 Vibranium shield",
             description: "An old rusty medievil shield",
             value: 250,
             category: ItemCategories.categories[2],
-            lendDate: Date(timeIntervalSince1970: 600000.0),
-            lendTime: 600000.0,
-            lendExpiry: Date(timeInterval: 600000.0, since: Date(timeIntervalSince1970: 600000.0)),
-            returnedSold: false,
             justAdded: false,
-            borrowerId: sampleBorrowerData[1].id
+            loanIds: []
         ),
-        LentItemModel(
+        ItemModel(
+            id: UUID(),
             name: "🕷 Spiderman lego",
             description: "Red lego bricks",
             value: 30,
             category: ItemCategories.categories[6],
-            lendDate: Date(),
-            lendTime: 1800000.0,
-            lendExpiry: Date(timeInterval: 1200000.0, since: Date()),
-            returnedSold: false,
             justAdded: false,
-            borrowerId: sampleBorrowerData[2].id
+            loanIds: []
         )
     ]
     static var sampleBorrowerData: [BorrowerModel] = [
-        BorrowerModel(name: "Sarah"),
-        BorrowerModel(name: "Anthony"),
-        BorrowerModel(name: "Charly")
+        BorrowerModel(
+            id: UUID(),
+            name: "Sarah",
+            loanIds: []
+        ),
+        BorrowerModel(
+            id: UUID(),
+            name: "Anthony",
+            loanIds: []
+        ),
+        BorrowerModel(
+            id: UUID(),
+            name: "Charly",
+            loanIds: []
+        )
     ]
 }

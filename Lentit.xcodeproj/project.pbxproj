@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D13A65327960DD6008FDC42 /* LoanModel.swift */; };
-		3D352D8F27709993000F8148 /* LentItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D352D8E27709993000F8148 /* LentItemModel.swift */; };
 		3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD96E2793033000B52F3C /* BorrowerModel.swift */; };
 		3D4FD9712793092600B52F3C /* BorrowerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD9702793092600B52F3C /* BorrowerVM.swift */; };
 		3D4FD975279365B800B52F3C /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD974279365B800B52F3C /* AlertModel.swift */; };
@@ -17,22 +16,23 @@
 		3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54BDE32794A920001DF0AD /* ItemDetailView.swift */; };
 		3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5551F12770E9300007BE3E /* DataStoreModel.swift */; };
 		3D5901D7276FC92500373871 /* LentitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D6276FC92500373871 /* LentitApp.swift */; };
-		3D5901D9276FC92500373871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D8276FC92500373871 /* ContentView.swift */; };
+		3D5901D9276FC92500373871 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901D8276FC92500373871 /* AppView.swift */; };
 		3D5901DB276FC92700373871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5901DA276FC92700373871 /* Assets.xcassets */; };
 		3D5901DE276FC92700373871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D5901DD276FC92700373871 /* Preview Assets.xcassets */; };
 		3D5901E8276FC92700373871 /* LentitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901E7276FC92700373871 /* LentitTests.swift */; };
 		3D5901F2276FC92700373871 /* LentitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F1276FC92700373871 /* LentitUITests.swift */; };
 		3D5901F4276FC92700373871 /* LentitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5901F3276FC92700373871 /* LentitUITestsLaunchTests.swift */; };
 		3D590204276FD16100373871 /* LoanListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590203276FD16100373871 /* LoanListView.swift */; };
-		3D590206276FD36000373871 /* LentItemVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590205276FD36000373871 /* LentItemVM.swift */; };
 		3D590208276FD91F00373871 /* LoanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590207276FD91F00373871 /* LoanDetailView.swift */; };
 		3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590209276FDDF200373871 /* SidebarMenuView.swift */; };
 		3D86AEAA2776042300FF4803 /* ItemCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D86AEA92776042300FF4803 /* ItemCategoryModel.swift */; };
-		3DD36F032771E1DE002C333C /* LentItemListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD36F022771E1DE002C333C /* LentItemListVM.swift */; };
 		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
 		3DDE13E327945D5C00EBB6E7 /* BorrowersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E227945D5C00EBB6E7 /* BorrowersListView.swift */; };
 		3DF022552796FCEB00211124 /* LoanListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF022542796FCEB00211124 /* LoanListVM.swift */; };
 		3DF022572796FE2B00211124 /* LoanVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF022562796FE2B00211124 /* LoanVM.swift */; };
+		3DF02259279701A500211124 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF02258279701A500211124 /* AppVM.swift */; };
+		3DF0225B2797591600211124 /* ItemVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF0225A2797591600211124 /* ItemVM.swift */; };
+		3DF0225D2797592B00211124 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF0225C2797592B00211124 /* ItemModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		3D13A65327960DD6008FDC42 /* LoanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanModel.swift; sourceTree = "<group>"; };
-		3D352D8E27709993000F8148 /* LentItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemModel.swift; sourceTree = "<group>"; };
 		3D4FD96E2793033000B52F3C /* BorrowerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerModel.swift; sourceTree = "<group>"; };
 		3D4FD9702793092600B52F3C /* BorrowerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerVM.swift; sourceTree = "<group>"; };
 		3D4FD974279365B800B52F3C /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
@@ -64,7 +63,7 @@
 		3D5551F12770E9300007BE3E /* DataStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreModel.swift; sourceTree = "<group>"; };
 		3D5901D3276FC92500373871 /* Lentit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lentit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5901D6276FC92500373871 /* LentitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitApp.swift; sourceTree = "<group>"; };
-		3D5901D8276FC92500373871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3D5901D8276FC92500373871 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		3D5901DA276FC92700373871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D5901DD276FC92700373871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3D5901E3276FC92700373871 /* LentitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LentitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,17 +72,18 @@
 		3D5901F1276FC92700373871 /* LentitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitUITests.swift; sourceTree = "<group>"; };
 		3D5901F3276FC92700373871 /* LentitUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3D590203276FD16100373871 /* LoanListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListView.swift; sourceTree = "<group>"; };
-		3D590205276FD36000373871 /* LentItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemVM.swift; sourceTree = "<group>"; };
 		3D590207276FD91F00373871 /* LoanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanDetailView.swift; sourceTree = "<group>"; };
 		3D590209276FDDF200373871 /* SidebarMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuView.swift; sourceTree = "<group>"; };
 		3D86AEA92776042300FF4803 /* ItemCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategoryModel.swift; sourceTree = "<group>"; };
 		3DCC2A5027831F20005C252B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3DCC2A5127832238005C252B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		3DD36F022771E1DE002C333C /* LentItemListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentItemListVM.swift; sourceTree = "<group>"; };
 		3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
 		3DDE13E227945D5C00EBB6E7 /* BorrowersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowersListView.swift; sourceTree = "<group>"; };
 		3DF022542796FCEB00211124 /* LoanListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListVM.swift; sourceTree = "<group>"; };
 		3DF022562796FE2B00211124 /* LoanVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanVM.swift; sourceTree = "<group>"; };
+		3DF02258279701A500211124 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
+		3DF0225A2797591600211124 /* ItemVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemVM.swift; sourceTree = "<group>"; };
+		3DF0225C2797592B00211124 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				3DDE13E227945D5C00EBB6E7 /* BorrowersListView.swift */,
-				3D5901D8276FC92500373871 /* ContentView.swift */,
+				3D5901D8276FC92500373871 /* AppView.swift */,
 				3D54BDE32794A920001DF0AD /* ItemDetailView.swift */,
 				3D590207276FD91F00373871 /* LoanDetailView.swift */,
 				3D590203276FD16100373871 /* LoanListView.swift */,
@@ -201,7 +201,7 @@
 				3D4FD96E2793033000B52F3C /* BorrowerModel.swift */,
 				3D5551F12770E9300007BE3E /* DataStoreModel.swift */,
 				3D86AEA92776042300FF4803 /* ItemCategoryModel.swift */,
-				3D352D8E27709993000F8148 /* LentItemModel.swift */,
+				3DF0225C2797592B00211124 /* ItemModel.swift */,
 				3D13A65327960DD6008FDC42 /* LoanModel.swift */,
 				3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */,
 			);
@@ -211,9 +211,9 @@
 		3D590202276FD05100373871 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				3DF02258279701A500211124 /* AppVM.swift */,
 				3D4FD9702793092600B52F3C /* BorrowerVM.swift */,
-				3DD36F022771E1DE002C333C /* LentItemListVM.swift */,
-				3D590205276FD36000373871 /* LentItemVM.swift */,
+				3DF0225A2797591600211124 /* ItemVM.swift */,
 				3DF022542796FCEB00211124 /* LoanListVM.swift */,
 				3DF022562796FE2B00211124 /* LoanVM.swift */,
 			);
@@ -353,11 +353,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D5901D9276FC92500373871 /* ContentView.swift in Sources */,
+				3D5901D9276FC92500373871 /* AppView.swift in Sources */,
 				3D4FD975279365B800B52F3C /* AlertModel.swift in Sources */,
 				3DF022572796FE2B00211124 /* LoanVM.swift in Sources */,
 				3D590208276FD91F00373871 /* LoanDetailView.swift in Sources */,
-				3DD36F032771E1DE002C333C /* LentItemListVM.swift in Sources */,
+				3DF0225D2797592B00211124 /* ItemModel.swift in Sources */,
 				3D590204276FD16100373871 /* LoanListView.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
 				3D86AEAA2776042300FF4803 /* ItemCategoryModel.swift in Sources */,
@@ -366,11 +366,11 @@
 				3D5901D7276FC92500373871 /* LentitApp.swift in Sources */,
 				3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */,
 				3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */,
+				3DF0225B2797591600211124 /* ItemVM.swift in Sources */,
 				3D4FD9712793092600B52F3C /* BorrowerVM.swift in Sources */,
+				3DF02259279701A500211124 /* AppVM.swift in Sources */,
 				3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */,
 				3DF022552796FCEB00211124 /* LoanListVM.swift in Sources */,
-				3D590206276FD36000373871 /* LentItemVM.swift in Sources */,
-				3D352D8F27709993000F8148 /* LentItemModel.swift in Sources */,
 				3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

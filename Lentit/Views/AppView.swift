@@ -7,28 +7,29 @@
 
 import SwiftUI
 // MARK: - Views
-struct ContentView: View {
+struct AppView: View {
     @Environment(\.horizontalSizeClass) var sizeClass
+    @StateObject var appVM: AppVM = AppVM()
     var body: some View {
         switch sizeClass {
         case .regular:
             NavigationView {
                 SidebarMenuView()
-                LoanListView()
+                LoanListView(loanListVM: appVM.loanListVM)
                 EmptyView()
-            }
+            }.environmentObject(appVM)
         case .compact:
             NavigationView {
-                LoanListView()
-            }
+                LoanListView(loanListVM: appVM.loanListVM)
+            }.environmentObject(appVM)
         case .none:
             NavigationView {
-                LoanListView()
-            }
+                LoanListView(loanListVM: appVM.loanListVM)
+            }.environmentObject(appVM)
         case .some(_):
             NavigationView {
-                LoanListView()
-            }
+                LoanListView(loanListVM: appVM.loanListVM)
+            }.environmentObject(appVM)
         }
     }
 }
@@ -36,11 +37,11 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         if #available(iOS 15.0, *) {
-            ContentView().previewInterfaceOrientation(.portrait)
-                .environmentObject(LentItemListVM())
+            AppView().previewInterfaceOrientation(.portrait)
+                .environmentObject(AppVM())
         } else {
-            ContentView()
-                .environmentObject(LentItemListVM())
+            AppView()
+                .environmentObject(AppVM())
         }
     }
 }

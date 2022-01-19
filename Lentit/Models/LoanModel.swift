@@ -7,34 +7,41 @@
 
 import Foundation
 /// Data model for a item loan
-class LoanModel: ObservableObject, Identifiable {
+class LoanModel: ObservableObject, Identifiable, Equatable {
     // MARK: - Variables
-    @Published var id: UUID
-    @Published var lendDate: Date
-    @Published var lendTime: TimeInterval
-    @Published var lendExpiry: Date
-    @Published var reminder: Date
-    @Published var justAdded: Bool
-    @Published var itemId: UUID
-    @Published var borrowerId: UUID
+    var id: UUID
+    var loanDate: Date
+    var loanTime: TimeInterval
+    var loanExpiry: Date
+    var reminder: Date
+    var returnedSold: Bool
+    var justAdded: Bool
+    var itemId: UUID
+    var borrowerId: UUID
     // MARK: - Init
     init(
-        lendDate: Date,
-        lendTime: TimeInterval,
-        lendExpiry: Date,
+        id: UUID,
+        loanDate: Date,
+        loanTime: TimeInterval,
+        loanExpiry: Date,
         reminder: Date,
+        returnedSold: Bool,
         justAdded: Bool,
         itemId: UUID,
         borrowerId: UUID
     ) {
-        self.id = UUID()
-        self.lendDate = lendDate
-        self.lendTime = lendTime
-        self.lendExpiry = lendExpiry
-        self.reminder = reminder    
+        self.id = id
+        self.loanDate = loanDate
+        self.loanTime = loanTime
+        self.loanExpiry = loanExpiry
+        self.reminder = reminder
+        self.returnedSold = returnedSold
         self.justAdded = justAdded
         self.itemId = itemId
         self.borrowerId = borrowerId
     }
     // MARK: - Functions
+    static func == (lhs: LoanModel, rhs: LoanModel) -> Bool {
+        lhs.id == rhs.id
+    }
 }

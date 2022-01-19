@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct BorrowersListView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
-    @ObservedObject var lentItemVM: LentItemVM
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var loanVM: LoanVM
     @Binding var sheetPresented: Bool
     @State var newBorrowerPresented: Bool = false
     @State var newBorrowerName: String = ""
@@ -21,22 +21,22 @@ struct BorrowersListView: View {
                         TextField("name", text: $newBorrowerName)
                         Spacer()
                         Button {
-                            lentItemsListVM.addBorrower(named: newBorrowerName)
+                            //appVM.addBorrower(named: newBorrowerName)
                             newBorrowerPresented = false
                         } label: {
                             Text("OK")
                         }
                     }
                 }
-                ForEach(lentItemsListVM.borrowerVMs) { BorrowerVM in
+                ForEach(appVM.borrowerVMs) { BorrowerVM in
                     Button {
-                        lentItemVM.setLentItemBorrower(to: BorrowerVM)
+                        //loanVM.setLentItemBorrower(to: BorrowerVM)
                         sheetPresented = false
                     } label: {
                         HStack {
                             Text("\(BorrowerVM.nameText)")
                             Spacer()
-                            if(lentItemVM.borrowerId == BorrowerVM.id) {
+                            if(loanVM.borrowerVM.id == BorrowerVM.id) {
                                 Image(systemName: "checkmark")
                             }
                         }
@@ -69,8 +69,8 @@ struct BorrowersListView: View {
 struct BorrowersListView_Previews: PreviewProvider {
     static var previews: some View {
         BorrowersListView(
-            lentItemVM: LentItemVM(),
+            loanVM: LoanVM(),
             sheetPresented: .constant(true)
-        ).environmentObject(LentItemListVM())
+        ).environmentObject(AppVM())
     }
 }

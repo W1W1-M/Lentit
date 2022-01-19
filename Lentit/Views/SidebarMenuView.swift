@@ -8,7 +8,7 @@
 import SwiftUI
 // MARK: - Views
 struct SidebarMenuView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    @EnvironmentObject var appVM: AppVM
     var body: some View {
         List {
             Section(header:
@@ -25,10 +25,7 @@ struct SidebarMenuView: View {
                     Text("Borrowers")
                 }
             ) {
-                HStack {
-                    Text("?")
-                    Spacer()
-                }
+                BorrowersListMenuItems()
             }
         }.listStyle(SidebarListStyle())
         .navigationTitle("📒 Lentit")
@@ -36,15 +33,15 @@ struct SidebarMenuView: View {
 }
 // MARK: -
 struct CategoriesListMenuItems: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    @EnvironmentObject var appVM: AppVM
     var body: some View {
         Group {
             Button {
-                lentItemsListVM.activeCategory = ItemCategories.all
+                appVM.activeCategory = ItemCategories.all
             } label: {
                 HStack {
                     Text("🗂 All")
-                    if(lentItemsListVM.activeCategory == ItemCategories.all) {
+                    if(appVM.activeCategory == ItemCategories.all) {
                         Spacer()
                         Image(systemName: "checkmark")
                     }
@@ -52,9 +49,9 @@ struct CategoriesListMenuItems: View {
             }
             ForEach(ItemCategories.categories) { LentItemCategoryModel in
                 Button {
-                    lentItemsListVM.activeCategory = LentItemCategoryModel
+                    appVM.activeCategory = LentItemCategoryModel
                 } label: {
-                    if(lentItemsListVM.activeCategory == LentItemCategoryModel) {
+                    if(appVM.activeCategory == LentItemCategoryModel) {
                         HStack {
                             Text("\(LentItemCategoryModel.name)")
                             Spacer()
@@ -68,11 +65,26 @@ struct CategoriesListMenuItems: View {
         }
     }
 }
+// MARK: -
+struct BorrowersListMenuItems: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        ForEach(appVM.borrowerVMs) { BorrowerVM in
+            Button {
+                
+            } label: {
+                HStack {
+                    Text("\(BorrowerVM.nameText)")
+                }
+            }
+        }
+    }
+}
 // MARK: - Previews
 struct SidebarMenuView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             SidebarMenuView()
-        }.environmentObject(LentItemListVM())
+        }.environmentObject(AppVM())
     }
 }

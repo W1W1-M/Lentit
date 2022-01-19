@@ -9,10 +9,9 @@ import SwiftUI
 
 @main
 struct LentitApp: App {
-    @StateObject var lentItemsListVM: LentItemListVM = LentItemListVM()
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(lentItemsListVM)
+            AppView()
         }
     }
 }

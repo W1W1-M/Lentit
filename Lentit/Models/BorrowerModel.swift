@@ -7,15 +7,19 @@
 
 import Foundation
 // MARK: - Classes
-/// Data model for a person who borrows something
+/// Data model for a person who borrows an item
 class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Variables
-    @Published var id: UUID
-    @Published var name: String
-    @Published var loanIds: [UUID]
+    var id: UUID
+    var name: String
+    var loanIds: [UUID]
 // MARK: - Init
-    init(name: String) {
-        self.id = UUID()
+    init(
+        id: UUID,
+        name: String,
+        loanIds: [UUID]
+    ) {
+        self.id = id
         self.name = name
         self.loanIds = []
     }

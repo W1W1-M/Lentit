@@ -8,8 +8,8 @@
 import SwiftUI
 // MARK: - Views
 struct LoanDetailView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
-    @ObservedObject var lentItemVM: LentItemVM
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var loanVM: LoanVM
     @State var editDisabled: Bool = true
     @State var alertPresented: Bool = false
     @State var activeAlert: AlertModel = Alerts.deleteLentItem
@@ -22,12 +22,12 @@ struct LoanDetailView: View {
             if(detailViewPresented) { // Show lent item detail view by default
                 Form {
                     LoanDetailSectionView(
-                        lentItemVM: lentItemVM,
+                        loanVM: loanVM,
                         editDisabled: $editDisabled,
                         sheetPresented: $sheetPresented,
-                        borrowersVMs: lentItemsListVM.borrowerVMs
+                        activeSheet: $activeSheet
                     )
-                }.navigationTitle("\(lentItemVM.nameText)")
+                }.navigationTitle("\(loanVM.itemVM.nameText)")
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
                         LoanDetailBottomToolbarView(
@@ -40,7 +40,7 @@ struct LoanDetailView: View {
                     switch activeAlert {
                     case Alerts.deleteLentItem:
                         return Alert(
-                            title: Text("Delete \(lentItemVM.nameText)"),
+                            title: Text("Delete \(loanVM.itemVM.nameText)"),
                             message: Text("Are you sure you want to delete this item ?"),
                             primaryButton: .default(
                                 Text("Cancel")
@@ -49,7 +49,7 @@ struct LoanDetailView: View {
                                 Text("Delete"),
                                 action: {
                                     navigationLinkIsActive = false // Navigate back to lent item list
-                                    lentItemsListVM.removeLentItem(for: lentItemVM)
+                                    appVM.deleteLoan(for: loanVM)
                                     detailViewPresented = false // Show empty detail view after lent item deleted
                                 }
                             )
@@ -62,26 +62,27 @@ struct LoanDetailView: View {
                     switch activeSheet {
                     case Sheets.borrowersList:
                         BorrowersListView(
-                            lentItemVM: lentItemVM,
+                            loanVM: loanVM,
                             sheetPresented: $sheetPresented
                         )
+                    case Sheets.itemsList:
+                        EmptyView()
                     default:
                         EmptyView()
                     }
                 }
                 .onAppear(perform: {
                     // Unlock edit mode if lent item just added
-                    if(lentItemVM.justAdded) {
-                        lentItemVM.justAdded = false
+                    if(loanVM.justAdded) {
+                        loanVM.justAdded = false
                         editDisabled = false
                     }
-                    print(lentItemVM.borrowerId)
                 })
-                .onChange(of: lentItemVM.valueText, perform: { _ in
-                    // Filter unwanted characters & set value text
-                    lentItemVM.valueText = lentItemVM.filterLentItemValueText(for: lentItemVM.valueText)
-                    lentItemVM.valueText = lentItemVM.setLentItemValueText(for: lentItemVM.lentItem.value)
-                })
+//                .onChange(of: lentItemVM.valueText, perform: { _ in
+//                    // Filter unwanted characters & set value text
+//                    lentItemVM.valueText = lentItemVM.filterLentItemValueText(for: lentItemVM.valueText)
+//                    lentItemVM.valueText = lentItemVM.setLentItemValueText(for: lentItemVM.lentItem.value)
+//                })
             } else {
                 EmptyView()
             }
@@ -90,32 +91,38 @@ struct LoanDetailView: View {
 }
 // MARK: -
 struct LoanDetailSectionView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
-    @ObservedObject var lentItemVM: LentItemVM
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var loanVM: LoanVM
     @Binding var editDisabled: Bool
     @Binding var sheetPresented: Bool
-    let borrowersVMs: [BorrowerVM]
+    @Binding var activeSheet: SheetModel
     var body: some View {
         Section(header: Text("Loan")) {
             HStack {
-                TextField("Name", text: $lentItemVM.nameText)
-                    .disabled(editDisabled)
-                    .font(.headline)
+                Text("Of").foregroundColor(.secondary)
+                Spacer()
+                Button {
+                    activeSheet = Sheets.itemsList
+                    sheetPresented = true
+                } label: {
+                    Text("\(loanVM.itemVM.nameText)").font(.headline)
+                }.disabled(editDisabled)
             }
             HStack {
                 Text("To").foregroundColor(.secondary)
                 Spacer()
                 Button {
+                    activeSheet = Sheets.borrowersList
                     sheetPresented = true
                 } label: {
-                    Text("\(lentItemVM.borrowerNameText)")
+                    Text("\(loanVM.borrowerVM.nameText)")
                 }.disabled(editDisabled)
             }
             HStack {
                 Text("On").foregroundColor(.secondary)
                 DatePicker(
                     "",
-                    selection: $lentItemVM.lendDate,
+                    selection: $loanVM.loanDate,
                     displayedComponents: .date
                 ).disabled(editDisabled)
             }
@@ -123,25 +130,25 @@ struct LoanDetailSectionView: View {
                 Text("Reminder").foregroundColor(.secondary)
                 DatePicker(
                     "",
-                    selection: $lentItemVM.lendExpiry,
-                    in: lentItemVM.lendDate...,
+                    selection: $loanVM.reminder,
+                    in: loanVM.loanDate...,
                     displayedComponents: .date
                 ).disabled(editDisabled)
             }
             if(editDisabled) {
-                if(lentItemVM.returnedSold) {
+                if(loanVM.returnedSold) {
                     HStack {
                         Text("Returned").foregroundColor(.secondary)
                         Spacer()
                         Image(systemName: "checkmark")
                     }
                 } else {
-                    Toggle(isOn: $lentItemVM.returnedSold) {
+                    Toggle(isOn: $loanVM.returnedSold) {
                         Text("Returned / Sold").foregroundColor(.secondary)
                     }.disabled(editDisabled)
                 }
             } else {
-                Toggle(isOn: $lentItemVM.returnedSold) {
+                Toggle(isOn: $loanVM.returnedSold) {
                     Text("Returned / Sold").foregroundColor(.secondary)
                 }.disabled(editDisabled)
             }
@@ -179,9 +186,9 @@ struct LoanDetailBottomToolbarView: View {
 struct LoanDetailView_Previews: PreviewProvider {
     static var previews: some View {
         LoanDetailView(
-            lentItemVM: LentItemVM(),
+            loanVM: LoanVM(),
             navigationLinkIsActive: .constant(true)
         ).previewLayout(.sizeThatFits)
-        .environmentObject(LentItemListVM())
+        .environmentObject(AppVM())
     }
 }

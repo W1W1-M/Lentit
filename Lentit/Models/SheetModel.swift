@@ -23,4 +23,5 @@ struct SheetModel: Identifiable, Hashable {
 
 struct Sheets {
     static let borrowersList: SheetModel = SheetModel(name: "borrowersList")
+    static let itemsList: SheetModel = SheetModel(name: "itemsList")
 }

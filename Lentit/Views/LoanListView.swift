@@ -8,14 +8,15 @@
 import SwiftUI
 // MARK: - Views
 struct LoanListView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var loanListVM: LoanListVM
     var body: some View {
         Form {
-            Section(header: LoanListHeaderView()) {
+            Section(header: LoanListHeaderView(loanListVM: loanListVM)) {
                 List {
-                    ForEach(lentItemsListVM.lentItemVMs) { LentItemVM in
+                    ForEach(appVM.loanVMs) { LoanVM in
                         LoanListItemView(
-                            lentItemVM: LentItemVM
+                            loanVM: LoanVM
                         )
                     }
                 }
@@ -25,7 +26,7 @@ struct LoanListView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    lentItemsListVM.addLentItem()
+                    appVM.createLoan()
                 } label: {
                     HStack {
                         Text("Add")
@@ -41,16 +42,17 @@ struct LoanListView: View {
 }
 // MARK: -
 struct LoanListHeaderView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var loanListVM: LoanListVM
     var body: some View {
         HStack {
-            if(lentItemsListVM.lentItemVMs.isEmpty) {
+            if(appVM.loanVMs.isEmpty) {
                 EmptyView()
             } else {
                 HStack {
-                    Text("\(lentItemsListVM.lentItemsCountText) loans")
+                    Text("\(loanListVM.loansCountText) loans")
                     Spacer()
-                    Text("\(lentItemsListVM.activeCategory.name)")
+                    Text("\(appVM.activeCategory.name)")
                 }
             }
         }
@@ -58,25 +60,25 @@ struct LoanListHeaderView: View {
 }
 // MARK: -
 struct LoanListItemView: View {
-    @ObservedObject var lentItemVM: LentItemVM
+    @ObservedObject var loanVM: LoanVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
             destination: LoanDetailView(
-                lentItemVM: lentItemVM,
+                loanVM: loanVM,
                 navigationLinkIsActive: $navigationLinkIsActive
             ),
             isActive: $navigationLinkIsActive
         ) {
             HStack {
-                Text(" \(lentItemVM.nameText)").foregroundColor(.primary)
+                Text(" \(loanVM.itemVM.nameText)").foregroundColor(.primary)
                 Spacer()
-                Text("\(lentItemVM.borrowerNameText)").foregroundColor(.accentColor)
+                Text("\(loanVM.borrowerVM.nameText)").foregroundColor(.accentColor)
             }
         }
         .onAppear(perform: {
             // Navigation to newly added item
-            if(lentItemVM.justAdded) {
+            if(loanVM.justAdded) {
                 navigationLinkIsActive = true
             }
         })
@@ -84,7 +86,7 @@ struct LoanListItemView: View {
 }
 // MARK: -
 struct LoanListBottomToolbarView: View {
-    @EnvironmentObject var lentItemsListVM: LentItemListVM
+    @EnvironmentObject var appVM: AppVM
     var body: some View {
         Group {
             Menu {
@@ -97,21 +99,21 @@ struct LoanListBottomToolbarView: View {
             }
             Menu {
                 Button {
-                    lentItemsListVM.activeSort = SortingOrders.byLendExpiry
+                    appVM.activeSort = SortingOrders.byItemName
                 } label: {
                     HStack {
-                        Text("by expiry date")
-                        if(lentItemsListVM.activeSort == SortingOrders.byLendExpiry) {
+                        Text("by item")
+                        if(appVM.activeSort == SortingOrders.byItemName) {
                             Image(systemName: "checkmark")
                         }
                     }
                 }
                 Button {
-                    lentItemsListVM.activeSort = SortingOrders.byItemName
+                    appVM.activeSort = SortingOrders.byBorrowerName
                 } label: {
                     HStack {
-                        Text("by item name")
-                        if(lentItemsListVM.activeSort == SortingOrders.byItemName) {
+                        Text("by borrower")
+                        if(appVM.activeSort == SortingOrders.byBorrowerName) {
                             Image(systemName: "checkmark")
                         }
                     }
@@ -130,11 +132,11 @@ struct LoanListView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            LoanListView()
-        }.environmentObject(LentItemListVM())
+            LoanListView(loanListVM: LoanListVM())
+        }.environmentObject(AppVM())
         //
         LoanListItemView(
-            lentItemVM: LentItemVM()
+            loanVM: LoanVM()
         ).previewLayout(.sizeThatFits)
     }
 }
