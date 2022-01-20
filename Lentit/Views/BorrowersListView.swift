@@ -30,7 +30,7 @@ struct BorrowersListView: View {
                 }
                 ForEach(appVM.borrowerVMs) { BorrowerVM in
                     Button {
-                        //loanVM.setLentItemBorrower(to: BorrowerVM)
+                        loanVM.setLoanBorrower(to: BorrowerVM)
                         sheetPresented = false
                     } label: {
                         HStack {

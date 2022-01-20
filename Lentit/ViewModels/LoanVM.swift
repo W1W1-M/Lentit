@@ -32,7 +32,11 @@ class LoanVM: ObservableObject, Identifiable {
         }
     }
     @Published var itemVM: ItemVM
-    @Published var borrowerVM: BorrowerVM
+    @Published var borrowerVM: BorrowerVM {
+        didSet{
+            loan.borrowerId = borrowerVM.id
+        }
+    }
     // MARK: - Init
     init() {
         self.loan = DataStoreModel.sampleLoanData[0]
@@ -46,6 +50,7 @@ class LoanVM: ObservableObject, Identifiable {
     }
     // MARK: - Functions
     func setLoanVM(from loanModel: LoanModel, _ itemVM: ItemVM, _ borrowerVM: BorrowerVM) {
+        self.loan = loanModel
         self.id = loanModel.id
         self.loanDate = loanModel.loanDate
         self.reminder = loanModel.reminder
@@ -83,5 +88,8 @@ class LoanVM: ObservableObject, Identifiable {
     func setLoanTime(from loanDate: Date, to loanExpiry: Date) -> TimeInterval {
         let loanTime = loanExpiry.timeIntervalSince(loanDate)
         return loanTime
+    }
+    func setLoanBorrower(to newBorrowerVM: BorrowerVM) {
+        self.borrowerVM = newBorrowerVM
     }
 }

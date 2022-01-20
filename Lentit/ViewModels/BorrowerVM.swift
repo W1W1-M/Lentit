@@ -9,7 +9,7 @@ import Foundation
 /// Borrower view model
 class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
     // MARK: - Variables
-    @Published var borrower: BorrowerModel
+    var borrower: BorrowerModel
     @Published var id: UUID
     @Published var nameText: String {
         didSet{
@@ -23,10 +23,10 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
         self.nameText = "🤷 Unknown"
     }
     // MARK: - Functions
-    func setBorrowerVM(for borrower: BorrowerModel) {
-        self.borrower = borrower
-        self.id = borrower.id // Shared with borrower data object
-        self.nameText = borrower.name
+    func setBorrowerVM(for borrowerModel: BorrowerModel) {
+        self.borrower = borrowerModel
+        self.id = borrowerModel.id // Shared with borrower data object
+        self.nameText = borrowerModel.name
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

@@ -9,17 +9,20 @@ import Foundation
 /// Item view model
 class ItemVM: ObservableObject, Identifiable {
     // MARK: - Variables
+    var item: ItemModel
     @Published var id: UUID
     @Published var nameText: String
     @Published var category: ItemCategoryModel
     // MARK: - Init
     init() {
+        self.item = DataStoreModel.sampleItemData[0]
         self.id = UUID()
         self.nameText = "Unknown item"
         self.category = ItemCategories.categories[4]
     }
     // MARK: - Functions
     func setItemVM(from itemModel: ItemModel) {
+        self.item = itemModel
         self.id = itemModel.id
         self.nameText = itemModel.name
         self.category = itemModel.category

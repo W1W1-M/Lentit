@@ -91,7 +91,6 @@ struct LoanDetailView: View {
 }
 // MARK: -
 struct LoanDetailSectionView: View {
-    @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @Binding var editDisabled: Bool
     @Binding var sheetPresented: Bool
