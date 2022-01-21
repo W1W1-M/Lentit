@@ -92,4 +92,7 @@ class LoanVM: ObservableObject, Identifiable {
     func setLoanBorrower(to newBorrowerVM: BorrowerVM) {
         self.borrowerVM = newBorrowerVM
     }
+    func setLoanItem(to newItemVM: ItemVM) {
+        self.itemVM = newItemVM
+    }
 }

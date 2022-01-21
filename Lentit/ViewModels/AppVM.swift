@@ -14,6 +14,8 @@ class AppVM: ObservableObject {
     @Published var itemVMs: Array<ItemVM>
     @Published var borrowerVMs: Array<BorrowerVM>
     @Published var loanListVM: LoanListVM
+    @Published var borrowerListVM: BorrowerListVM
+    @Published var itemListVM: ItemListVM
     @Published var activeCategory: ItemCategoryModel {
         didSet{
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
@@ -35,6 +37,8 @@ class AppVM: ObservableObject {
         self.itemVMs = []
         self.borrowerVMs = []
         self.loanListVM = LoanListVM()
+        self.borrowerListVM = BorrowerListVM()
+        self.itemListVM = ItemListVM()
         self.activeCategory = ItemCategories.all
         self.activeSort = SortingOrders.byItemName
         // Set view models
@@ -42,6 +46,8 @@ class AppVM: ObservableObject {
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
         self.loanListVM.setLoansCount(for: loanVMs)
+        self.borrowerListVM.setBorrowersCount(for: borrowerVMs)
+        self.itemListVM.setItemsCount(for: itemVMs)
     }
 // MARK: - Functions
 // MARK: - Loan

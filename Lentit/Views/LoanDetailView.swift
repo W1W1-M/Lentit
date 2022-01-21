@@ -61,12 +61,17 @@ struct LoanDetailView: View {
                 .sheet(isPresented: $sheetPresented) {
                     switch activeSheet {
                     case Sheets.borrowersList:
-                        BorrowersListView(
+                        BorrowerListView(
+                            borrowerListVM: appVM.borrowerListVM,
                             loanVM: loanVM,
                             sheetPresented: $sheetPresented
                         )
                     case Sheets.itemsList:
-                        EmptyView()
+                        ItemListView(
+                            itemListVM: appVM.itemListVM,
+                            loanVM: loanVM,
+                            sheetPresented: $sheetPresented
+                        )
                     default:
                         EmptyView()
                     }
@@ -78,11 +83,6 @@ struct LoanDetailView: View {
                         editDisabled = false
                     }
                 })
-//                .onChange(of: lentItemVM.valueText, perform: { _ in
-//                    // Filter unwanted characters & set value text
-//                    lentItemVM.valueText = lentItemVM.filterLentItemValueText(for: lentItemVM.valueText)
-//                    lentItemVM.valueText = lentItemVM.setLentItemValueText(for: lentItemVM.lentItem.value)
-//                })
             } else {
                 EmptyView()
             }

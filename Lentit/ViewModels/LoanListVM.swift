@@ -13,7 +13,7 @@ class LoanListVM: ObservableObject {
     @Published var loansCountText: String
     // MARK: - Init
     init() {
-        self.loansCountText = ""
+        self.loansCountText = "0"
     }
     // MARK: - Functions
     /// <#Description#>

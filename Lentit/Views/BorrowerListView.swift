@@ -1,5 +1,5 @@
 //
-//  BorrowersListView.swift
+//  BorrowerListView.swift
 //  Lentit
 //
 //  Created by William Mead on 16/01/2022.
@@ -7,37 +7,26 @@
 
 import SwiftUI
 
-struct BorrowersListView: View {
+struct BorrowerListView: View {
     @EnvironmentObject var appVM: AppVM
+    @ObservedObject var borrowerListVM: BorrowerListVM
     @ObservedObject var loanVM: LoanVM
     @Binding var sheetPresented: Bool
-    @State var newBorrowerPresented: Bool = false
-    @State var newBorrowerName: String = ""
     var body: some View {
         NavigationView {
             List {
-                if(newBorrowerPresented) {
-                    HStack {
-                        TextField("name", text: $newBorrowerName)
-                        Spacer()
+                Section(header: Text("\(borrowerListVM.borrowersCountText) borrowers")) {
+                    ForEach(appVM.borrowerVMs) { BorrowerVM in
                         Button {
-                            //appVM.addBorrower(named: newBorrowerName)
-                            newBorrowerPresented = false
+                            loanVM.setLoanBorrower(to: BorrowerVM)
+                            sheetPresented = false
                         } label: {
-                            Text("OK")
-                        }
-                    }
-                }
-                ForEach(appVM.borrowerVMs) { BorrowerVM in
-                    Button {
-                        loanVM.setLoanBorrower(to: BorrowerVM)
-                        sheetPresented = false
-                    } label: {
-                        HStack {
-                            Text("\(BorrowerVM.nameText)")
-                            Spacer()
-                            if(loanVM.borrowerVM.id == BorrowerVM.id) {
-                                Image(systemName: "checkmark")
+                            HStack {
+                                Text("\(BorrowerVM.nameText)")
+                                Spacer()
+                                if(loanVM.borrowerVM.id == BorrowerVM.id) {
+                                    Image(systemName: "checkmark")
+                                }
                             }
                         }
                     }
@@ -53,7 +42,7 @@ struct BorrowersListView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        newBorrowerPresented = true
+                        // WIP
                     } label: {
                         HStack {
                             Text("Add")
@@ -68,7 +57,8 @@ struct BorrowersListView: View {
 
 struct BorrowersListView_Previews: PreviewProvider {
     static var previews: some View {
-        BorrowersListView(
+        BorrowerListView(
+            borrowerListVM: BorrowerListVM(),
             loanVM: LoanVM(),
             sheetPresented: .constant(true)
         ).environmentObject(AppVM())
