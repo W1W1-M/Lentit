@@ -39,12 +39,12 @@ class LoanVM: ObservableObject, Identifiable {
     }
     // MARK: - Init
     init() {
-        self.loan = DataStoreModel.sampleLoanData[0]
-        self.id = UUID()
-        self.loanDate = Date()
-        self.reminder = Date()
-        self.returnedSold = false
-        self.justAdded = false
+        self.loan = DataStoreModel.defaultLoanData
+        self.id = DataStoreModel.defaultLoanData.id
+        self.loanDate = DataStoreModel.defaultLoanData.loanDate
+        self.reminder = DataStoreModel.defaultLoanData.reminder
+        self.returnedSold = DataStoreModel.defaultLoanData.returnedSold
+        self.justAdded = DataStoreModel.defaultLoanData.justAdded
         self.itemVM = ItemVM()
         self.borrowerVM = BorrowerVM()
     }

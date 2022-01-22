@@ -89,6 +89,31 @@ class DataStoreModel: ObservableObject {
 }
 // MARK: - Extensions
 extension DataStoreModel {
+    static var defaultLoanData: LoanModel = LoanModel(
+        id: UUID(),
+        loanDate: Date(),
+        loanTime: 100000.0,
+        loanExpiry: Date(),
+        reminder: Date(),
+        returnedSold: false,
+        justAdded: false,
+        itemId: defaultItemData.id,
+        borrowerId: defaultBorrowerData.id
+    )
+    static var defaultItemData: ItemModel = ItemModel(
+        id: UUID(),
+        name: "Unknown item",
+        description: "Unknown description",
+        value: 100,
+        category: ItemCategories.categories[4],
+        justAdded: false,
+        loanIds: [defaultLoanData.id]
+    )
+    static var defaultBorrowerData: BorrowerModel = BorrowerModel(
+        id: UUID(),
+        name: "Unknown borrower",
+        loanIds: [defaultLoanData.id]
+    )
     static var sampleLoanData: [LoanModel] = [
         LoanModel(
             id: UUID(),

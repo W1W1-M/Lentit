@@ -18,9 +18,9 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
     }
     // MARK: - Init
     init() {
-        self.borrower = DataStoreModel.sampleBorrowerData[0]
-        self.id = UUID()
-        self.nameText = "🤷 Unknown"
+        self.borrower = DataStoreModel.defaultBorrowerData
+        self.id = DataStoreModel.defaultBorrowerData.id
+        self.nameText = DataStoreModel.defaultBorrowerData.name
     }
     // MARK: - Functions
     func setBorrowerVM(for borrowerModel: BorrowerModel) {

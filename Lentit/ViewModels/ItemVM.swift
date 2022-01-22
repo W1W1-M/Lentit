@@ -15,9 +15,9 @@ class ItemVM: ObservableObject, Identifiable {
     @Published var category: ItemCategoryModel
     // MARK: - Init
     init() {
-        self.item = DataStoreModel.sampleItemData[0]
-        self.id = UUID()
-        self.nameText = "Unknown item"
+        self.item = DataStoreModel.defaultItemData
+        self.id = DataStoreModel.defaultItemData.id
+        self.nameText = DataStoreModel.defaultItemData.name
         self.category = ItemCategories.categories[4]
     }
     // MARK: - Functions
