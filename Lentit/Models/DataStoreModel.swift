@@ -97,8 +97,8 @@ extension DataStoreModel {
         reminder: Date(),
         returnedSold: false,
         justAdded: false,
-        itemId: defaultItemData.id,
-        borrowerId: defaultBorrowerData.id
+        itemId: UUID(),
+        borrowerId: UUID()
     )
     static var defaultItemData: ItemModel = ItemModel(
         id: UUID(),
@@ -107,12 +107,12 @@ extension DataStoreModel {
         value: 100,
         category: ItemCategories.categories[4],
         justAdded: false,
-        loanIds: [defaultLoanData.id]
+        loanIds: [UUID()]
     )
     static var defaultBorrowerData: BorrowerModel = BorrowerModel(
         id: UUID(),
         name: "Unknown borrower",
-        loanIds: [defaultLoanData.id]
+        loanIds: [UUID()]
     )
     static var sampleLoanData: [LoanModel] = [
         LoanModel(

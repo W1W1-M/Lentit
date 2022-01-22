@@ -15,6 +15,20 @@ struct BorrowerListView: View {
     var body: some View {
         NavigationView {
             List {
+                if(borrowerListVM.newBorrowerPresented) {
+                    Section(header: Text("Ne borrower")) {
+                        TextField("Name", text: $borrowerListVM.newBorrowerName)
+                        Spacer()
+                        Button {
+                            appVM.createBorrower(named: borrowerListVM.newBorrowerName)
+                            borrowerListVM.hideNewBorrower()
+                        } label: {
+                            HStack {
+                                Text("Save")
+                            }
+                        }
+                    }
+                }
                 Section(header: Text("\(borrowerListVM.borrowersCountText) borrowers")) {
                     ForEach(appVM.borrowerVMs) { BorrowerVM in
                         Button {
@@ -42,7 +56,7 @@ struct BorrowerListView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        // WIP
+                        borrowerListVM.showNewBorrower()
                     } label: {
                         HStack {
                             Text("Add")
