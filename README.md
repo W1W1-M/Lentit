@@ -1,4 +1,4 @@
-![release](https://img.shields.io/github/v/release/W1W1-M/Lentit?display_name=tag)
+![release](https://img.shields.io/github/v/release/W1W1-M/Lentit?display_name=tag&include_prereleases)
 ![code-size](https://img.shields.io/github/languages/code-size/W1W1-M/Lentit)
 ![license](https://img.shields.io/github/license/W1W1-M/Lentit)
 
@@ -17,6 +17,8 @@
 
 ## Project assets in releases
 * Mind map in MindNode format
+* MVVM presentation in Keynote format
+* DataModels presentation in Keynote format
 
 ## Contributing
 If you would like to contribute I'm open, let's chat !
