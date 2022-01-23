@@ -157,6 +157,16 @@ class AppVM: ObservableObject {
         self.dataStore.createItem(newItem: newItem)
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
     }
+    func getItemJustAdded() -> ItemVM {
+        var justAddedItemVM = ItemVM()
+        for itemVM in self.itemVMs {
+            if(itemVM.itemJustAdded) {
+                justAddedItemVM = itemVM
+                itemVM.itemJustAdded = false
+            }
+        }
+        return justAddedItemVM
+    }
 // MARK: - Borrower
     func setBorrowerVMs(for borrowers: [BorrowerModel]) -> [BorrowerVM] {
         var borrowerVMs: [BorrowerVM] = []
@@ -185,6 +195,7 @@ class AppVM: ObservableObject {
         for borrowerVM in self.borrowerVMs {
             if(borrowerVM.borrowerJustAdded) {
                 justAddedBorrowerVM = borrowerVM
+                borrowerVM.borrowerJustAdded = false
             }
         }
         return justAddedBorrowerVM

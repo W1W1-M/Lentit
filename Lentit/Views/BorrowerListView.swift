@@ -54,6 +54,7 @@ struct BorrowerListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button {
+                        borrowerListVM.hideNewBorrower()
                         sheetPresented = false
                     } label: {
                         Text("Close")

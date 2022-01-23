@@ -15,6 +15,35 @@ struct ItemListView: View {
     var body: some View {
         NavigationView {
             List {
+                if(itemListVM.newItemPresented) {
+                    Section(header: Text("🆕 New item")) {
+                        TextField("Name", text: $itemListVM.newItemName)
+                        TextField("Value", text: $itemListVM.newItemValueText)
+                        Picker("Category", selection: $itemListVM.newItemCategory) {
+                            ForEach(ItemCategories.categories) { ItemCategoryModel in
+                                Text("\(ItemCategoryModel.name)").tag(ItemCategoryModel)
+                            }
+                        }.pickerStyle(.menu)
+                    }
+                    Section {
+                        Button {
+                            appVM.createItem(
+                                named: itemListVM.newItemName,
+                                worth: itemListVM.newItemValue,
+                                typed: itemListVM.newItemCategory
+                            )
+                            itemListVM.hideNewItem()
+                            loanVM.setLoanItem(to: appVM.getItemJustAdded())
+                            sheetPresented = false
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Save new item")
+                                Spacer()
+                            }
+                        }
+                    }
+                }
                 Section(header: Text("\(itemListVM.itemsCountText) items")) {
                     ForEach(appVM.itemVMs) { ItemVM in
                         Button {
@@ -35,6 +64,7 @@ struct ItemListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button {
+                        itemListVM.hideNewItem()
                         sheetPresented = false
                     } label: {
                         Text("Close")
@@ -42,7 +72,7 @@ struct ItemListView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        // WIP
+                        itemListVM.showNewItem()
                     } label: {
                         HStack {
                             Text("Add")
@@ -50,7 +80,12 @@ struct ItemListView: View {
                         }
                     }
                 }
-        }
+            }
+            .onChange(of: itemListVM.newItemValueText, perform: { _ in
+                // Filter unwanted characters & set value text
+                itemListVM.newItemValueText = itemListVM.filterItemValueText(for: itemListVM.newItemValueText)
+                itemListVM.newItemValueText = itemListVM.setItemValueText(for: itemListVM.newItemValue)
+            })
         }
     }
 }

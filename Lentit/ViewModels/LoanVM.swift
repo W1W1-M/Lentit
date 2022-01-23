@@ -31,7 +31,11 @@ class LoanVM: ObservableObject, Identifiable {
             loan.justAdded = justAdded
         }
     }
-    @Published var itemVM: ItemVM
+    @Published var itemVM: ItemVM {
+        didSet{
+            loan.itemId = itemVM.id
+        }
+    }
     @Published var borrowerVM: BorrowerVM {
         didSet{
             loan.borrowerId = borrowerVM.id
