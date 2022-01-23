@@ -16,17 +16,20 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
             borrower.name = nameText
         }
     }
+    @Published var borrowerJustAdded: Bool
     // MARK: - Init
     init() {
         self.borrower = DataStoreModel.defaultBorrowerData
         self.id = DataStoreModel.defaultBorrowerData.id
         self.nameText = DataStoreModel.defaultBorrowerData.name
+        self.borrowerJustAdded = DataStoreModel.defaultBorrowerData.justAdded
     }
     // MARK: - Functions
     func setBorrowerVM(for borrowerModel: BorrowerModel) {
         self.borrower = borrowerModel
         self.id = borrowerModel.id // Shared with borrower data object
         self.nameText = borrowerModel.name
+        self.borrowerJustAdded = borrower.justAdded
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

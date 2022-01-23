@@ -16,15 +16,20 @@ struct BorrowerListView: View {
         NavigationView {
             List {
                 if(borrowerListVM.newBorrowerPresented) {
-                    Section(header: Text("Ne borrower")) {
+                    Section(header: Text("🆕 New borrower")) {
                         TextField("Name", text: $borrowerListVM.newBorrowerName)
-                        Spacer()
+                    }
+                    Section {
                         Button {
                             appVM.createBorrower(named: borrowerListVM.newBorrowerName)
                             borrowerListVM.hideNewBorrower()
+                            loanVM.setLoanBorrower(to: appVM.getBorrowerJustAdded())
+                            sheetPresented = false
                         } label: {
                             HStack {
-                                Text("Save")
+                                Spacer()
+                                Text("Save new borrower")
+                                Spacer()
                             }
                         }
                     }

@@ -12,15 +12,18 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Variables
     var id: UUID
     var name: String
+    var justAdded: Bool
     var loanIds: [UUID]
 // MARK: - Init
     init(
         id: UUID,
         name: String,
+        justAdded: Bool,
         loanIds: [UUID]
     ) {
         self.id = id
         self.name = name
+        self.justAdded = justAdded
         self.loanIds = []
     }
 // MARK: - Functions

@@ -144,6 +144,19 @@ class AppVM: ObservableObject {
         }
         return itemVMs
     }
+    func createItem(named name: String, worth value: Int, typed category: ItemCategoryModel) {
+        let newItem = ItemModel(
+            id: UUID(),
+            name: name,
+            description: "",
+            value: value,
+            category: category,
+            justAdded: true,
+            loanIds: []
+        )
+        self.dataStore.createItem(newItem: newItem)
+        self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
+    }
 // MARK: - Borrower
     func setBorrowerVMs(for borrowers: [BorrowerModel]) -> [BorrowerVM] {
         var borrowerVMs: [BorrowerVM] = []
@@ -161,10 +174,20 @@ class AppVM: ObservableObject {
         let newBorrower = BorrowerModel(
             id: UUID(),
             name: name,
+            justAdded: true,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
+    }
+    func getBorrowerJustAdded() -> BorrowerVM {
+        var justAddedBorrowerVM = BorrowerVM()
+        for borrowerVM in self.borrowerVMs {
+            if(borrowerVM.borrowerJustAdded) {
+                justAddedBorrowerVM = borrowerVM
+            }
+        }
+        return justAddedBorrowerVM
     }
 }
 // MARK: - Structs

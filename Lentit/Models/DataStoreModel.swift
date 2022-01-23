@@ -112,6 +112,7 @@ extension DataStoreModel {
     static var defaultBorrowerData: BorrowerModel = BorrowerModel(
         id: UUID(),
         name: "Unknown borrower",
+        justAdded: false,
         loanIds: [UUID()]
     )
     static var sampleLoanData: [LoanModel] = [
@@ -182,16 +183,19 @@ extension DataStoreModel {
         BorrowerModel(
             id: UUID(),
             name: "Sarah",
+            justAdded: false,
             loanIds: []
         ),
         BorrowerModel(
             id: UUID(),
             name: "Anthony",
+            justAdded: false,
             loanIds: []
         ),
         BorrowerModel(
             id: UUID(),
             name: "Charly",
+            justAdded: false,
             loanIds: []
         )
     ]
