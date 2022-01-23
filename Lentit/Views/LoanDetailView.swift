@@ -58,7 +58,7 @@ struct LoanDetailView: View {
                         return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
                     }
                 }
-                .sheet(isPresented: $sheetPresented) {
+                .sheet(isPresented: $sheetPresented) { [activeSheet] in // Explicit state capture. Fix for known SwiftUI bug.
                     switch activeSheet {
                     case Sheets.borrowersList:
                         BorrowerListView(
