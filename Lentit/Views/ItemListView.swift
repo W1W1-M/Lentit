@@ -21,7 +21,7 @@ struct ItemListView: View {
                         TextField("Value", text: $itemListVM.newItemValueText)
                         Picker("Category", selection: $itemListVM.newItemCategory) {
                             ForEach(ItemCategories.categories) { ItemCategoryModel in
-                                Text("\(ItemCategoryModel.name)").tag(ItemCategoryModel)
+                                Text("\(ItemCategoryModel.fullName)").tag(ItemCategoryModel)
                             }
                         }.pickerStyle(.menu)
                     }

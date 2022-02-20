@@ -24,11 +24,12 @@ class AppVM: ObservableObject {
             self.loanListVM.setLoansCount(for: loanVMs)
         }
     }
-    @Published var activeSort: SortingOrder{
+    @Published var activeSort: LoanSortingOrderModel{
         didSet{
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
         }
     }
+    @Published var activeFilter: LoanFilterModel
     // MARK: - Init
     init() {
         // Initialize with empty data
@@ -40,7 +41,8 @@ class AppVM: ObservableObject {
         self.borrowerListVM = BorrowerListVM()
         self.itemListVM = ItemListVM()
         self.activeCategory = ItemCategories.all
-        self.activeSort = SortingOrders.byItemName
+        self.activeSort = LoanSortingOrders.byItemName
+        self.activeFilter = LoanFilters.inProgress
         // Set view models
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
@@ -115,15 +117,15 @@ class AppVM: ObservableObject {
             return filteredLoanVMs
         }
     }
-    func sortLoanVMs(for loanVMs: [LoanVM], by activeSort: SortingOrder) -> [LoanVM] {
+    func sortLoanVMs(for loanVMs: [LoanVM], by activeSort: LoanSortingOrderModel) -> [LoanVM] {
         var sortedLoanVMs = loanVMs
         // Use switch case to sort array
         switch activeSort {
-        case SortingOrders.byItemName:
+        case LoanSortingOrders.byItemName:
             sortedLoanVMs.sort {
                 $0.itemVM.nameText < $1.itemVM.nameText
             }
-        case SortingOrders.byBorrowerName:
+        case LoanSortingOrders.byBorrowerName:
             sortedLoanVMs.sort {
                 $0.borrowerVM.nameText < $1.borrowerVM.nameText
             }
@@ -199,21 +201,5 @@ class AppVM: ObservableObject {
             }
         }
         return justAddedBorrowerVM
-    }
-}
-// MARK: - Structs
-struct SortingOrders {
-    static var byItemName: SortingOrder = SortingOrder(name: "byItemName")
-    static var byBorrowerName: SortingOrder = SortingOrder(name: "byBorrowerName")
-}
-
-struct SortingOrder: Equatable {
-    let id: UUID
-    let name: String
-    /// Custom initialization
-    /// - Parameter name: String to describe sorting order
-    init(name: String) {
-        self.id = UUID()
-        self.name = name
     }
 }

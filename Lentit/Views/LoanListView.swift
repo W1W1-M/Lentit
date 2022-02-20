@@ -21,7 +21,7 @@ struct LoanListView: View {
                     }
                 }
             }
-        }.navigationTitle("📒 Lentit")
+        }.navigationTitle("📒 Loans")
         .navigationViewStyle(DefaultNavigationViewStyle())
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -46,16 +46,28 @@ struct LoanListHeaderView: View {
     @ObservedObject var loanListVM: LoanListVM
     var body: some View {
         HStack {
-            if(appVM.loanVMs.isEmpty) {
-                EmptyView()
-            } else {
+            Menu {
+                ForEach(LoanFilters.filters) { LoanFilterModel in
+                    Button {
+                        appVM.activeFilter = LoanFilterModel
+                    } label: {
+                        HStack {
+                            Text(LoanFilterModel.name)
+                            Image(systemName: LoanFilterModel.symbolName)
+                        }
+                    }
+                }
+            } label: {
                 HStack {
-                    Text("\(loanListVM.loansCountText) loans")
-                    Spacer()
-                    Text("\(appVM.activeCategory.name)")
+                    Image(systemName: appVM.activeFilter.symbolName).foregroundColor(.accentColor)
+                    Text(appVM.activeFilter.name).fontWeight(.bold)
                 }
             }
-        }
+            Spacer()
+            Text("\(loanListVM.loansCountText) loans").fontWeight(.bold)
+        }.font(.title3)
+        .textCase(.lowercase)
+        .padding(.bottom, 10.0)
     }
 }
 // MARK: -
@@ -99,21 +111,21 @@ struct LoanListBottomToolbarView: View {
             }
             Menu {
                 Button {
-                    appVM.activeSort = SortingOrders.byItemName
+                    appVM.activeSort = LoanSortingOrders.byItemName
                 } label: {
                     HStack {
                         Text("by item")
-                        if(appVM.activeSort == SortingOrders.byItemName) {
+                        if(appVM.activeSort == LoanSortingOrders.byItemName) {
                             Image(systemName: "checkmark")
                         }
                     }
                 }
                 Button {
-                    appVM.activeSort = SortingOrders.byBorrowerName
+                    appVM.activeSort = LoanSortingOrders.byBorrowerName
                 } label: {
                     HStack {
                         Text("by borrower")
-                        if(appVM.activeSort == SortingOrders.byBorrowerName) {
+                        if(appVM.activeSort == LoanSortingOrders.byBorrowerName) {
                             Image(systemName: "checkmark")
                         }
                     }

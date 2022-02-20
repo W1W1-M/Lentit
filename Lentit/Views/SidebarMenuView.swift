@@ -40,7 +40,7 @@ struct CategoriesListMenuItems: View {
                 appVM.activeCategory = ItemCategories.all
             } label: {
                 HStack {
-                    Text("🗂 All")
+                    Text(ItemCategories.all.fullName)
                     if(appVM.activeCategory == ItemCategories.all) {
                         Spacer()
                         Image(systemName: "checkmark")
@@ -53,12 +53,12 @@ struct CategoriesListMenuItems: View {
                 } label: {
                     if(appVM.activeCategory == LentItemCategoryModel) {
                         HStack {
-                            Text("\(LentItemCategoryModel.name)")
+                            Text("\(LentItemCategoryModel.fullName)")
                             Spacer()
                             Image(systemName: "checkmark").foregroundColor(.accentColor)
                         }
                     } else {
-                        Text("\(LentItemCategoryModel.name)")
+                        Text("\(LentItemCategoryModel.fullName)")
                     }
                 }
             }
