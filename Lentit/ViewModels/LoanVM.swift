@@ -24,6 +24,7 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var returnedSold: Bool {
         didSet{
             loan.returnedSold = returnedSold
+            setLoanStatus()
         }
     }
     @Published var status: LoanStatusModel {
@@ -98,5 +99,12 @@ class LoanVM: ObservableObject, Identifiable {
     }
     func setLoanItem(to newItemVM: ItemVM) {
         self.itemVM = newItemVM
+    }
+    func setLoanStatus() {
+        if(returnedSold) {
+            self.status = LoanStatus.finished
+        } else {
+            self.status = LoanStatus.current
+        }
     }
 }
