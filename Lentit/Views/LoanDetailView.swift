@@ -19,7 +19,7 @@ struct LoanDetailView: View {
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         VStack {
-            if(detailViewPresented) { // Show lent item detail view by default
+            if(detailViewPresented) { // Show loan detail view by default
                 Form {
                     LoanDetailSectionView(
                         loanVM: loanVM,
@@ -77,11 +77,14 @@ struct LoanDetailView: View {
                     }
                 }
                 .onAppear(perform: {
-                    // Unlock edit mode if lent item just added
-                    if(loanVM.justAdded) {
-                        loanVM.justAdded = false
+                    // Unlock edit mode if loan just added
+                    if(loanVM.status == LoanStatus.new) {
+                        loanVM.status = LoanStatus.current
                         editDisabled = false
                     }
+                })
+                .onDisappear(perform: {
+                    appVM.activeStatus = loanVM.status
                 })
             } else {
                 EmptyView()

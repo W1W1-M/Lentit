@@ -49,11 +49,12 @@ class AppVM: ObservableObject {
         self.itemListVM = ItemListVM()
         self.activeCategory = ItemCategories.all
         self.activeSort = LoanSortingOrders.byItemName
-        self.activeStatus = LoanStatus.inProgress
+        self.activeStatus = LoanStatus.current
         // Set view models
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
+        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory, and: activeStatus)
         self.loanListVM.setLoansCount(for: loanVMs)
         self.borrowerListVM.setBorrowersCount(for: borrowerVMs)
         self.itemListVM.setItemsCount(for: itemVMs)
@@ -79,16 +80,17 @@ class AppVM: ObservableObject {
             loanExpiry: Date(), // WIP
             reminder: Date(), // WIP
             returnedSold: false,
-            status: LoanStatus.justAdded,
-            justAdded: true,
+            status: LoanStatus.new,
             itemId: UUID(), // WIP
             borrowerId: UUID() // WIP
         )
         self.dataStore.createLoan(newLoan: newLoan)
         // Make sure all categories are shown to see new item
         self.activeCategory = ItemCategories.all
+        self.activeStatus = LoanStatus.new
         // Reset loan view models & count
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
+        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory, and: activeStatus)
         self.loanListVM.setLoansCount(for: loanVMs)
     }
     func deleteLoan(for loanVM: LoanVM) {

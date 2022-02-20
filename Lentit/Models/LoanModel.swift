@@ -16,7 +16,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var reminder: Date
     var returnedSold: Bool
     var status: LoanStatusModel
-    var justAdded: Bool
     var itemId: UUID
     var borrowerId: UUID
     // MARK: - Init
@@ -28,7 +27,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         reminder: Date,
         returnedSold: Bool,
         status: LoanStatusModel,
-        justAdded: Bool,
         itemId: UUID,
         borrowerId: UUID
     ) {
@@ -39,7 +37,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         self.reminder = reminder
         self.returnedSold = returnedSold
         self.status = status
-        self.justAdded = justAdded
         self.itemId = itemId
         self.borrowerId = borrowerId
     }

@@ -51,15 +51,13 @@ struct LoanListHeaderView: View {
                     Button {
                         appVM.activeStatus = LoanStatusModel
                     } label: {
-                        HStack {
-                            Text(LoanStatusModel.name)
-                            Image(systemName: LoanStatusModel.symbolName)
-                        }
+                        Text(LoanStatusModel.name)
+                        Image(systemName: LoanStatusModel.symbolName)
                     }
                 }
             } label: {
                 HStack {
-                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(.accentColor)
+                    Image(systemName: appVM.activeStatus.symbolName).imageScale(.large)
                     Text(appVM.activeStatus.name).fontWeight(.bold)
                 }
             }
@@ -89,8 +87,8 @@ struct LoanListItemView: View {
             }
         }
         .onAppear(perform: {
-            // Navigation to newly added item
-            if(loanVM.justAdded) {
+            // Navigation to newly added loan
+            if(loanVM.status == LoanStatus.new) {
                 navigationLinkIsActive = true
             }
         })

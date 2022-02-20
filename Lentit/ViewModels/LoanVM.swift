@@ -31,11 +31,6 @@ class LoanVM: ObservableObject, Identifiable {
             loan.status = status
         }
     }
-    @Published var justAdded: Bool {
-        didSet{
-            loan.justAdded = justAdded
-        }
-    }
     @Published var itemVM: ItemVM {
         didSet{
             loan.itemId = itemVM.id
@@ -54,7 +49,6 @@ class LoanVM: ObservableObject, Identifiable {
         self.reminder = DataStoreModel.defaultLoanData.reminder
         self.returnedSold = DataStoreModel.defaultLoanData.returnedSold
         self.status = DataStoreModel.defaultLoanData.status
-        self.justAdded = DataStoreModel.defaultLoanData.justAdded
         self.itemVM = ItemVM()
         self.borrowerVM = BorrowerVM()
     }
@@ -66,7 +60,6 @@ class LoanVM: ObservableObject, Identifiable {
         self.reminder = loanModel.reminder
         self.returnedSold = loanModel.returnedSold
         self.status = loanModel.status
-        self.justAdded = loanModel.justAdded
         self.itemVM = itemVM
         self.borrowerVM = borrowerVM
     }
