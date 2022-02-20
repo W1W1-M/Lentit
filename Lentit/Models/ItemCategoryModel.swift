@@ -26,13 +26,12 @@ struct ItemCategoryModel: Identifiable, Hashable {
 /// Predefined lent item categories
 struct ItemCategories {
     static let all: ItemCategoryModel = ItemCategoryModel(emoji: "🗂", name: "All")
-    static let categories: [ItemCategoryModel] = [
-        ItemCategoryModel(emoji: "📚", name: "Books"),
-        ItemCategoryModel(emoji: "🚗", name: "Cars"),
-        ItemCategoryModel(emoji: "👔", name: "Clothes"),
-        ItemCategoryModel(emoji: "🎞", name: "Films"),
-        ItemCategoryModel(emoji: "📦", name: "Other"),
-        ItemCategoryModel(emoji: "🖊", name: "Pens"),
-        ItemCategoryModel(emoji: "🧸", name: "Toys")
-    ]
+    static let books: ItemCategoryModel = ItemCategoryModel(emoji: "📚", name: "Books")
+    static let cars: ItemCategoryModel = ItemCategoryModel(emoji: "🚗", name: "Cars")
+    static let clothes: ItemCategoryModel = ItemCategoryModel(emoji: "👔", name: "Clothes")
+    static let films: ItemCategoryModel = ItemCategoryModel(emoji: "🎞", name: "Films")
+    static let other: ItemCategoryModel = ItemCategoryModel(emoji: "📦", name: "Other")
+    static let pens: ItemCategoryModel = ItemCategoryModel(emoji: "🖊", name: "Pens")
+    static let toys: ItemCategoryModel = ItemCategoryModel(emoji: "🧸", name: "Toys")
+    static let categories: Array<ItemCategoryModel> = [books, cars, clothes, films, other, pens, toys]
 }

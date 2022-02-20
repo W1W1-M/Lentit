@@ -19,7 +19,7 @@ struct LoanSortingOrderModel: Identifiable, Hashable, Equatable {
 }
 /// Predefined lent item sort orders
 struct LoanSortingOrders {
-    static var byItemName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Item")
-    static var byBorrowerName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Borrower")
-    static var sortingOrders: Array<LoanSortingOrderModel> = [byItemName, byBorrowerName]
+    static let byItemName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Item")
+    static let byBorrowerName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Borrower")
+    static let sortingOrders: Array<LoanSortingOrderModel> = [byItemName, byBorrowerName]
 }
