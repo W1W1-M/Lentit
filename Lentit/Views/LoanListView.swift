@@ -47,20 +47,20 @@ struct LoanListHeaderView: View {
     var body: some View {
         HStack {
             Menu {
-                ForEach(LoanFilters.filters) { LoanFilterModel in
+                ForEach(LoanStatus.status) { LoanStatusModel in
                     Button {
-                        appVM.activeFilter = LoanFilterModel
+                        appVM.activeStatus = LoanStatusModel
                     } label: {
                         HStack {
-                            Text(LoanFilterModel.name)
-                            Image(systemName: LoanFilterModel.symbolName)
+                            Text(LoanStatusModel.name)
+                            Image(systemName: LoanStatusModel.symbolName)
                         }
                     }
                 }
             } label: {
                 HStack {
-                    Image(systemName: appVM.activeFilter.symbolName).foregroundColor(.accentColor)
-                    Text(appVM.activeFilter.name).fontWeight(.bold)
+                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(.accentColor)
+                    Text(appVM.activeStatus.name).fontWeight(.bold)
                 }
             }
             Spacer()

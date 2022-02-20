@@ -19,7 +19,7 @@ class AppVM: ObservableObject {
     @Published var activeCategory: ItemCategoryModel {
         didSet{
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
-            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory)
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory, and: activeStatus)
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
             self.loanListVM.setLoansCount(for: loanVMs)
         }
@@ -29,7 +29,14 @@ class AppVM: ObservableObject {
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
         }
     }
-    @Published var activeFilter: LoanFilterModel
+    @Published var activeStatus: LoanStatusModel {
+        didSet{
+            self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory, and: activeStatus)
+            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
+            self.loanListVM.setLoansCount(for: loanVMs)
+        }
+    }
     // MARK: - Init
     init() {
         // Initialize with empty data
@@ -42,7 +49,7 @@ class AppVM: ObservableObject {
         self.itemListVM = ItemListVM()
         self.activeCategory = ItemCategories.all
         self.activeSort = LoanSortingOrders.byItemName
-        self.activeFilter = LoanFilters.inProgress
+        self.activeStatus = LoanStatus.inProgress
         // Set view models
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
@@ -72,6 +79,7 @@ class AppVM: ObservableObject {
             loanExpiry: Date(), // WIP
             reminder: Date(), // WIP
             returnedSold: false,
+            status: LoanStatus.justAdded,
             justAdded: true,
             itemId: UUID(), // WIP
             borrowerId: UUID() // WIP
@@ -106,13 +114,16 @@ class AppVM: ObservableObject {
         }
         return loanBorrowerVM
     }
-    func filterLoanVMs(for loanVMs: [LoanVM], by activeCategory: ItemCategoryModel) -> [LoanVM] {
+    func filterLoanVMs(for loanVMs: [LoanVM], by activeCategory: ItemCategoryModel, and activeStatus: LoanStatusModel) -> [LoanVM] {
         var filteredLoanVMs = loanVMs
         if(activeCategory == ItemCategories.all) {
+            filteredLoanVMs = filteredLoanVMs.filter {
+                $0.status == activeStatus
+            }
             return filteredLoanVMs
         } else {
             filteredLoanVMs = filteredLoanVMs.filter {
-                $0.itemVM.category == activeCategory
+                $0.itemVM.category == activeCategory && $0.status == activeStatus
             }
             return filteredLoanVMs
         }
