@@ -110,23 +110,15 @@ struct LoanListBottomToolbarView: View {
                 }
             }
             Menu {
-                Button {
-                    appVM.activeSort = LoanSortingOrders.byItemName
-                } label: {
-                    HStack {
-                        Text("by item")
-                        if(appVM.activeSort == LoanSortingOrders.byItemName) {
-                            Image(systemName: "checkmark")
-                        }
-                    }
-                }
-                Button {
-                    appVM.activeSort = LoanSortingOrders.byBorrowerName
-                } label: {
-                    HStack {
-                        Text("by borrower")
-                        if(appVM.activeSort == LoanSortingOrders.byBorrowerName) {
-                            Image(systemName: "checkmark")
+                ForEach(LoanSortingOrders.sortingOrders) { LoanSortingOrderModel in
+                    Button {
+                        appVM.activeSort = LoanSortingOrderModel
+                    } label: {
+                        HStack {
+                            Text(LoanSortingOrderModel.name)
+                            if(appVM.activeSort == LoanSortingOrderModel) {
+                                Image(systemName: "checkmark")
+                            }
                         }
                     }
                 }
