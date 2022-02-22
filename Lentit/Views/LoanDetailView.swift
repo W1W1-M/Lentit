@@ -99,7 +99,7 @@ struct LoanDetailSectionView: View {
     @Binding var sheetPresented: Bool
     @Binding var activeSheet: SheetModel
     var body: some View {
-        Section(header: Text("Loan")) {
+        Section(header: LoanDetailSectionHeaderView(loanVM: loanVM)) {
             HStack {
                 Text("Of").foregroundColor(.secondary)
                 Spacer()
@@ -154,6 +154,17 @@ struct LoanDetailSectionView: View {
                     Text("Returned / Sold").foregroundColor(.secondary)
                 }.disabled(editDisabled)
             }
+        }
+    }
+}
+// MARK: -
+struct LoanDetailSectionHeaderView: View {
+    @ObservedObject var loanVM: LoanVM
+    var body: some View {
+        HStack {
+            Text("Loan")
+            Spacer()
+            Text(loanVM.status.name)
         }
     }
 }

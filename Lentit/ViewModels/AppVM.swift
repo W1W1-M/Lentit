@@ -85,13 +85,7 @@ class AppVM: ObservableObject {
             borrowerId: UUID() // WIP
         )
         self.dataStore.createLoan(newLoan: newLoan)
-        // Make sure all categories are shown to see new item
-        self.activeCategory = ItemCategories.all
         self.activeStatus = LoanStatus.new
-        // Reset loan view models & count
-        self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
-        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory, and: activeStatus)
-        self.loanListVM.setLoansCount(for: loanVMs)
     }
     func deleteLoan(for loanVM: LoanVM) {
         self.dataStore.deleteLoan(oldLoan: loanVM.loan)

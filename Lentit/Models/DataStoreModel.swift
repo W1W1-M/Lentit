@@ -144,9 +144,20 @@ extension DataStoreModel {
             loanTime: 600000.0,
             loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
-            returnedSold: false,
+            returnedSold: true,
             status: LoanStatus.finished,
             itemId: sampleItemData[2].id,
+            borrowerId: sampleBorrowerData[2].id
+        ),
+        LoanModel(
+            id: UUID(),
+            loanDate: Date(),
+            loanTime: 600000.0,
+            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
+            reminder: Date(timeInterval: 600000.0, since: Date()),
+            returnedSold: false,
+            status: LoanStatus.current,
+            itemId: sampleItemData[1].id,
             borrowerId: sampleBorrowerData[2].id
         )
     ]

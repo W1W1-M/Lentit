@@ -103,8 +103,6 @@ class LoanVM: ObservableObject, Identifiable {
     func setLoanStatus() {
         if(returnedSold) {
             self.status = LoanStatus.finished
-        } else {
-            self.status = LoanStatus.current
         }
     }
 }
