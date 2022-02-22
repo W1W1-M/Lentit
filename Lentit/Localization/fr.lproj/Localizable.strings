@@ -2,9 +2,6 @@
 "%@ loans" = "%@ prêts";
 
 /* No comment provided by engineer. */
-"📒 Lentit" = "📒 Cprêté";
-
-/* No comment provided by engineer. */
 "Add" = "Ajouter";
 
 /* No comment provided by engineer. */
@@ -12,9 +9,6 @@
 
 /* No comment provided by engineer. */
 "Borrowers" = "Emprunteurs";
-
-/* No comment provided by engineer. */
-"by expiry date" = "par date d'expiration";
 
 /* No comment provided by engineer. */
 "by item name" = "par nom d'objet";
@@ -65,6 +59,9 @@
 "To" = "A";
 
 /* No comment provided by engineer. */
+"Of" = "De";
+
+/* No comment provided by engineer. */
 "Value" = "Valeur";
 
 /* No comment provided by engineer. */
@@ -74,7 +71,13 @@
 "Returned / Sold" = "Rendu / Vendu";
 
 /* No comment provided by engineer. */
-"In progress" = "En cours";
+"Upcoming" = "A venir";
+
+/* No comment provided by engineer. */
+"Ongoing" = "En cours";
 
 /* No comment provided by engineer. */
 "Finished" = "Terminé";
+
+/* No comment provided by engineer. */
+"📒 Loans" = "📒 Prêts";

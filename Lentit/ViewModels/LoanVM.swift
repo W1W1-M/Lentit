@@ -103,6 +103,8 @@ class LoanVM: ObservableObject, Identifiable {
     func setLoanStatus() {
         if(returnedSold) {
             self.status = LoanStatus.finished
+        } else if(!returnedSold && status == LoanStatus.finished) {
+            self.status = LoanStatus.current
         }
     }
 }

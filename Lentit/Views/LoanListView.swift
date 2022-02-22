@@ -81,7 +81,7 @@ struct LoanListItemView: View {
             isActive: $navigationLinkIsActive
         ) {
             HStack {
-                Text(" \(loanVM.itemVM.nameText)").foregroundColor(.primary)
+                Text("\(loanVM.itemVM.nameText)").foregroundColor(.primary)
                 Spacer()
                 Text("\(loanVM.borrowerVM.nameText)").foregroundColor(.accentColor)
             }

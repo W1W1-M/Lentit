@@ -140,7 +140,7 @@ struct LoanDetailSectionView: View {
             if(editDisabled) {
                 if(loanVM.returnedSold) {
                     HStack {
-                        Text("Returned").foregroundColor(.secondary)
+                        Text("Returned / Sold").foregroundColor(.secondary)
                         Spacer()
                         Image(systemName: "checkmark")
                     }
