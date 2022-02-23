@@ -13,9 +13,9 @@ class ItemVM: ObservableObject, Identifiable {
     @Published var id: UUID
     @Published var nameText: String
     @Published var category: ItemCategoryModel
-    @Published var itemJustAdded: Bool{
+    @Published var status: ItemStatusModel{
         didSet{
-            item.justAdded = self.itemJustAdded
+            item.status = self.status
         }
     }
     // MARK: - Init
@@ -24,7 +24,7 @@ class ItemVM: ObservableObject, Identifiable {
         self.id = DataStoreModel.defaultItemData.id
         self.nameText = DataStoreModel.defaultItemData.name
         self.category = ItemCategories.categories[4]
-        self.itemJustAdded = DataStoreModel.defaultItemData.justAdded
+        self.status = DataStoreModel.defaultItemData.status
     }
     // MARK: - Functions
     func setItemVM(from itemModel: ItemModel) {
@@ -32,6 +32,6 @@ class ItemVM: ObservableObject, Identifiable {
         self.id = itemModel.id
         self.nameText = itemModel.name
         self.category = itemModel.category
-        self.itemJustAdded = itemModel.justAdded
+        self.status = itemModel.status
     }
 }

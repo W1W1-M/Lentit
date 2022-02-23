@@ -13,33 +13,33 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var id: UUID
     @Published var loanDate: Date {
         didSet{
-            loan.loanDate = loanDate
+            loan.loanDate = self.loanDate
         }
     }
     @Published var reminder: Date {
         didSet{
-            loan.reminder = reminder
+            loan.reminder = self.reminder
         }
     }
     @Published var returnedSold: Bool {
         didSet{
-            loan.returnedSold = returnedSold
-            setLoanStatus()
+            loan.returnedSold = self.returnedSold
+            setReturnedSoldLoanStatus()
         }
     }
     @Published var status: LoanStatusModel {
         didSet{
-            loan.status = status
+            loan.status = self.status
         }
     }
     @Published var itemVM: ItemVM {
         didSet{
-            loan.itemId = itemVM.id
+            loan.itemId = self.itemVM.id
         }
     }
     @Published var borrowerVM: BorrowerVM {
         didSet{
-            loan.borrowerId = borrowerVM.id
+            loan.borrowerId = self.borrowerVM.id
         }
     }
     // MARK: - Init
@@ -100,7 +100,7 @@ class LoanVM: ObservableObject, Identifiable {
     func setLoanItem(to newItemVM: ItemVM) {
         self.itemVM = newItemVM
     }
-    func setLoanStatus() {
+    func setReturnedSoldLoanStatus() {
         if(returnedSold) {
             self.status = LoanStatus.finished
         } else if(!returnedSold && status == LoanStatus.finished) {

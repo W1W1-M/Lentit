@@ -12,6 +12,7 @@ class ItemListVM: ObservableObject {
     // MARK: - Variables
     @Published var itemsCountText: String
     @Published var newItemPresented: Bool
+    @Published var newItemId: UUID
     @Published var newItemName: String
     @Published var newItemValue: Int
     @Published var newItemValueText: String{
@@ -24,6 +25,7 @@ class ItemListVM: ObservableObject {
     init() {
         self.itemsCountText = "0"
         self.newItemPresented = false
+        self.newItemId = UUID()
         self.newItemName = ""
         self.newItemValue = 0
         self.newItemValueText = "0€"
@@ -42,6 +44,7 @@ class ItemListVM: ObservableObject {
         self.newItemPresented = false
     }
     func resetNewItem() {
+        self.newItemId = UUID()
         self.newItemName = ""
         self.newItemValue = 0
         self.newItemValueText = "0€"

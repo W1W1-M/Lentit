@@ -106,7 +106,7 @@ extension DataStoreModel {
         description: "Unknown description",
         value: 100,
         category: ItemCategories.categories[4],
-        justAdded: false,
+        status: ItemStatus.new,
         loanIds: [UUID()]
     )
     static var defaultBorrowerData: BorrowerModel = BorrowerModel(
@@ -168,7 +168,7 @@ extension DataStoreModel {
             description: "Film about some guy in an armored suit",
             value: 10,
             category: ItemCategories.categories[3],
-            justAdded: false,
+            status: ItemStatus.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -177,7 +177,7 @@ extension DataStoreModel {
             description: "An old rusty medievil shield",
             value: 250,
             category: ItemCategories.categories[2],
-            justAdded: false,
+            status: ItemStatus.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -186,7 +186,7 @@ extension DataStoreModel {
             description: "Red lego bricks",
             value: 30,
             category: ItemCategories.categories[6],
-            justAdded: false,
+            status: ItemStatus.unavailable,
             loanIds: []
         )
     ]

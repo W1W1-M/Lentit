@@ -14,7 +14,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
     var description: String
     var value: Int
     var category: ItemCategoryModel
-    var justAdded: Bool
+    var status: ItemStatusModel
     var loanIds: [UUID]
 // MARK: - Init
     init(
@@ -23,7 +23,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         description: String,
         value: Int,
         category: ItemCategoryModel,
-        justAdded: Bool,
+        status: ItemStatusModel,
         loanIds: [UUID]
     ) {
         self.id = id
@@ -31,7 +31,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         self.description = description
         self.value = value
         self.category = category
-        self.justAdded = justAdded
+        self.status = status
         self.loanIds = loanIds
     }
 // MARK: - Functions

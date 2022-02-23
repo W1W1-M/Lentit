@@ -28,17 +28,18 @@ struct ItemListView: View {
                     Section {
                         Button {
                             appVM.createItem(
+                                id: itemListVM.newItemId,
                                 named: itemListVM.newItemName,
                                 worth: itemListVM.newItemValue,
                                 typed: itemListVM.newItemCategory
                             )
+                            loanVM.setLoanItem(to: appVM.getItem(id: itemListVM.newItemId))
                             itemListVM.hideNewItem()
-                            loanVM.setLoanItem(to: appVM.getItemJustAdded())
                             sheetPresented = false
                         } label: {
                             HStack {
                                 Spacer()
-                                Text("Save new item")
+                                Text("Create new item")
                                 Spacer()
                             }
                         }
@@ -55,12 +56,14 @@ struct ItemListView: View {
                                 Spacer()
                                 if(loanVM.itemVM.id == ItemVM.id) {
                                     Image(systemName: "checkmark")
+                                } else {
+                                    Image(systemName: "\(ItemVM.status.symbolName)")
                                 }
                             }
                         }
                     }
                 }
-            }.navigationTitle("Items")
+            }.navigationTitle("📦 Items")
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button {

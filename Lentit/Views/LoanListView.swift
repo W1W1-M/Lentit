@@ -51,15 +51,13 @@ struct LoanListHeaderView: View {
                     Button {
                         appVM.activeStatus = LoanStatusModel
                     } label: {
-                        Text(LoanStatusModel.name)
+                        Text(LocalizedStringKey(LoanStatusModel.name))
                         Image(systemName: LoanStatusModel.symbolName)
                     }
                 }
             } label: {
-                HStack {
-                    Image(systemName: appVM.activeStatus.symbolName).imageScale(.large)
-                    Text(appVM.activeStatus.name).fontWeight(.bold)
-                }
+                Image(systemName: appVM.activeStatus.symbolName).imageScale(.large)
+                Text(LocalizedStringKey(appVM.activeStatus.name)).fontWeight(.bold)
             }
             Spacer()
             Text("\(loanListVM.loansCountText) loans").fontWeight(.bold)

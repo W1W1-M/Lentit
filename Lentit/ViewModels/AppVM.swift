@@ -153,28 +153,25 @@ class AppVM: ObservableObject {
         }
         return itemVMs
     }
-    func createItem(named name: String, worth value: Int, typed category: ItemCategoryModel) {
+    func createItem(id: UUID, named name: String, worth value: Int, typed category: ItemCategoryModel) {
         let newItem = ItemModel(
-            id: UUID(),
+            id: id,
             name: name,
             description: "",
             value: value,
             category: category,
-            justAdded: true,
+            status: ItemStatus.new,
             loanIds: []
         )
         self.dataStore.createItem(newItem: newItem)
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
     }
-    func getItemJustAdded() -> ItemVM {
-        var justAddedItemVM = ItemVM()
-        for itemVM in self.itemVMs {
-            if(itemVM.itemJustAdded) {
-                justAddedItemVM = itemVM
-                itemVM.itemJustAdded = false
-            }
+    func getItem(id: UUID) -> ItemVM {
+        if let itemVM = itemVMs.first(where: { $0.id == id }) {
+            return itemVM
+        } else {
+            return ItemVM()
         }
-        return justAddedItemVM
     }
 // MARK: - Borrower
     func setBorrowerVMs(for borrowers: [BorrowerModel]) -> [BorrowerVM] {

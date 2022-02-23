@@ -164,7 +164,7 @@ struct LoanDetailSectionHeaderView: View {
         HStack {
             Text("Loan")
             Spacer()
-            Text(loanVM.status.name)
+            Text(LocalizedStringKey(loanVM.status.name))
         }
     }
 }

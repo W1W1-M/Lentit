@@ -81,3 +81,15 @@
 
 /* No comment provided by engineer. */
 "📒 Loans" = "📒 Prêts";
+
+/* No comment provided by engineer. */
+"Close" = "Fermer";
+
+/* No comment provided by engineer. */
+"📦 Items" = "📦 Objets";
+
+/* No comment provided by engineer. */
+"%@ items" = "%@ objets";
+
+/* No comment provided by engineer. */
+"Create new item" = "Créer nouvel objet";

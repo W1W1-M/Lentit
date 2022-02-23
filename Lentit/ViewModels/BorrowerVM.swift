@@ -13,7 +13,7 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
     @Published var id: UUID
     @Published var nameText: String {
         didSet{
-            borrower.name = nameText
+            borrower.name = self.nameText
         }
     }
     @Published var borrowerJustAdded: Bool{

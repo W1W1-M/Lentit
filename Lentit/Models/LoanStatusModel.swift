@@ -6,7 +6,7 @@
 //
 
 import Foundation
-/// Custom type for loan filters
+/// Custom type for loan status
 struct LoanStatusModel: Identifiable, Hashable {
     // MARK: - Variables
     let id: UUID
