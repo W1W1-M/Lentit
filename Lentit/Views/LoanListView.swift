@@ -11,26 +11,28 @@ struct LoanListView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanListVM: LoanListVM
     var body: some View {
-        Form {
-            Section(header: LoanListHeaderView(loanListVM: loanListVM)) {
-                List {
+        VStack {
+            List {
+                Section(header: LoanListHeaderView(loanListVM: loanListVM)) {
                     ForEach(appVM.loanVMs) { LoanVM in
                         LoanListItemView(
                             loanVM: LoanVM
                         )
                     }
                 }
-            }
+            }.listStyle(InsetGroupedListStyle())
+            NewLoanButtonView()
         }.navigationTitle("📒 Loans")
         .navigationViewStyle(DefaultNavigationViewStyle())
+        .background(Color("BackgroundColor"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    appVM.createLoan()
+                    
                 } label: {
                     HStack {
-                        Text("Add")
-                        Image(systemName: "plus.circle")
+                        Text("Settings")
+                        Image(systemName: "gear")
                     }
                 }
             }
@@ -38,6 +40,12 @@ struct LoanListView: View {
                 LoanListBottomToolbarView()
             }
         }
+        .onAppear(perform: {
+            // Background color workarounds
+            UINavigationBar.appearance().backgroundColor = UIColor(named: "BackgroundColor")
+            UITableView.appearance().backgroundColor = UIColor(named: "BackgroundColor")
+            UIToolbar.appearance().backgroundColor = UIColor(named: "BackgroundColor")
+        })
     }
 }
 // MARK: -
@@ -79,9 +87,11 @@ struct LoanListItemView: View {
             isActive: $navigationLinkIsActive
         ) {
             HStack {
-                Text("\(loanVM.itemVM.nameText)").foregroundColor(.primary)
+                Text("\(loanVM.itemVM.nameText)")
                 Spacer()
-                Text("\(loanVM.borrowerVM.nameText)").foregroundColor(.accentColor)
+                Text("\(loanVM.borrowerVM.nameText)")
+                    .italic()
+                    .foregroundColor(Color("AccentColor"))
             }
         }
         .onAppear(perform: {
@@ -90,6 +100,26 @@ struct LoanListItemView: View {
                 navigationLinkIsActive = true
             }
         })
+    }
+}
+// MARK: -
+struct NewLoanButtonView: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        Button {
+            appVM.createLoan()
+        } label: {
+            HStack {
+                Spacer()
+                Text("New Loan").font(.headline)
+                Image(systemName: "plus.circle").imageScale(.large)
+                Spacer()
+            }.font(.headline)
+            .foregroundColor(.white)
+            .padding()
+        }.background(Color("InvertedAccentColor"))
+        .clipShape(Capsule())
+        .padding()
     }
 }
 // MARK: -
