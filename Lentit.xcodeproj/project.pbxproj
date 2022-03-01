@@ -11,7 +11,7 @@
 		3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD96E2793033000B52F3C /* BorrowerModel.swift */; };
 		3D4FD9712793092600B52F3C /* BorrowerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD9702793092600B52F3C /* BorrowerVM.swift */; };
 		3D4FD975279365B800B52F3C /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD974279365B800B52F3C /* AlertModel.swift */; };
-		3D4FD97A279379E200B52F3C /* Lentit-InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FD978279379E200B52F3C /* Lentit-InfoPlist.strings */; };
+		3D4FD97A279379E200B52F3C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FD978279379E200B52F3C /* InfoPlist.strings */; };
 		3D4FD97D279379E200B52F3C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FD97B279379E200B52F3C /* Localizable.strings */; };
 		3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54BDE32794A920001DF0AD /* ItemDetailView.swift */; };
 		3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5551F12770E9300007BE3E /* DataStoreModel.swift */; };
@@ -63,7 +63,7 @@
 		3D4FD96E2793033000B52F3C /* BorrowerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerModel.swift; sourceTree = "<group>"; };
 		3D4FD9702793092600B52F3C /* BorrowerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerVM.swift; sourceTree = "<group>"; };
 		3D4FD974279365B800B52F3C /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
-		3D4FD979279379E200B52F3C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/Lentit-InfoPlist.strings"; sourceTree = "<group>"; };
+		3D4FD979279379E200B52F3C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3D4FD97C279379E200B52F3C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3D54BDE32794A920001DF0AD /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		3D5551F12770E9300007BE3E /* DataStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreModel.swift; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 		3D4FD97E279379FC00B52F3C /* Localization */ = {
 			isa = PBXGroup;
 			children = (
-				3D4FD978279379E200B52F3C /* Lentit-InfoPlist.strings */,
+				3D4FD978279379E200B52F3C /* InfoPlist.strings */,
 				3D4FD97B279379E200B52F3C /* Localizable.strings */,
 			);
 			path = Localization;
@@ -345,7 +345,7 @@
 			files = (
 				3D5901DE276FC92700373871 /* Preview Assets.xcassets in Resources */,
 				3D4FD97D279379E200B52F3C /* Localizable.strings in Resources */,
-				3D4FD97A279379E200B52F3C /* Lentit-InfoPlist.strings in Resources */,
+				3D4FD97A279379E200B52F3C /* InfoPlist.strings in Resources */,
 				3D5901DB276FC92700373871 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,12 +432,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3D4FD978279379E200B52F3C /* Lentit-InfoPlist.strings */ = {
+		3D4FD978279379E200B52F3C /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3D4FD979279379E200B52F3C /* fr */,
 			);
-			name = "Lentit-InfoPlist.strings";
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		3D4FD97B279379E200B52F3C /* Localizable.strings */ = {
