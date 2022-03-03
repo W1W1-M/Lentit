@@ -1,5 +1,5 @@
 //
-//  LoanListView.swift
+//  HomeLoanView.swift
 //  Lentit
 //
 //  Created by William Mead on 19/12/2021.
@@ -7,21 +7,21 @@
 
 import SwiftUI
 // MARK: - Views
-struct LoanListView: View {
+struct HomeLoanView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var loanListVM: LoanListVM
     var body: some View {
-        VStack {
-            List {
-                Section(header: LoanListHeaderView(loanListVM: loanListVM)) {
-                    ForEach(appVM.loanVMs) { LoanVM in
-                        LoanListItemView(
-                            loanVM: LoanVM
-                        )
-                    }
+        ZStack {
+            Color("BackgroundColor").edgesIgnoringSafeArea(.all)
+            VStack {
+                LoanListStatusView(loanListVM: appVM.loanListVM)
+                if(appVM.loanListVM.loansCount == 0) {
+                    EmptyLoanListView()
+                    Spacer()
+                } else {
+                    LoanListView(loanListVM: appVM.loanListVM)
                 }
-            }.listStyle(InsetGroupedListStyle())
-            NewLoanButtonView()
+                NewLoanButtonView()
+            }
         }.navigationTitle("📒 Loans")
         .navigationViewStyle(DefaultNavigationViewStyle())
         .background(Color("BackgroundColor"))
@@ -40,16 +40,10 @@ struct LoanListView: View {
                 LoanListBottomToolbarView()
             }
         }
-        .onAppear(perform: {
-            // Background color workarounds
-            UINavigationBar.appearance().backgroundColor = UIColor(named: "BackgroundColor")
-            UITableView.appearance().backgroundColor = UIColor(named: "BackgroundColor")
-            UIToolbar.appearance().backgroundColor = UIColor(named: "BackgroundColor")
-        })
     }
 }
 // MARK: -
-struct LoanListHeaderView: View {
+struct LoanListStatusView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanListVM: LoanListVM
     var body: some View {
@@ -71,7 +65,40 @@ struct LoanListHeaderView: View {
             Text("\(loanListVM.loansCountText) loans").fontWeight(.bold)
         }.font(.title3)
         .textCase(.lowercase)
-        .padding(.bottom, 10.0)
+        .padding(.horizontal, 40)
+        .padding(.vertical)
+    }
+}
+// MARK: -
+struct EmptyLoanListView: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        VStack {
+            Text("No \(appVM.activeStatus.name) Loans")
+                .font(.title2)
+                .foregroundColor(.secondary)
+                .padding()
+            Image(systemName: "eyes")
+                .font(.system(size: 60))
+                .foregroundColor(.secondary)
+                .padding()
+        }
+    }
+}
+// MARK: -
+struct LoanListView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var loanListVM: LoanListVM
+    var body: some View {
+        List {
+            Section() {
+                ForEach(appVM.loanVMs) { LoanVM in
+                    LoanListItemView(
+                        loanVM: LoanVM
+                    )
+                }
+            }
+        }.listStyle(.plain)
     }
 }
 // MARK: -
@@ -93,8 +120,7 @@ struct LoanListItemView: View {
                     .italic()
                     .foregroundColor(Color("AccentColor"))
             }
-        }
-        .onAppear(perform: {
+        }.onAppear(perform: {
             // Navigation to newly added loan
             if(loanVM.status == LoanStatus.new) {
                 navigationLinkIsActive = true
@@ -162,11 +188,20 @@ struct LoanListView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            LoanListView(loanListVM: LoanListVM())
+            HomeLoanView()
         }.environmentObject(AppVM())
         //
-        LoanListItemView(
-            loanVM: LoanVM()
-        ).previewLayout(.sizeThatFits)
+        LoanListStatusView(loanListVM: LoanListVM())
+            .environmentObject(AppVM())
+            .previewLayout(.sizeThatFits)
+        //
+        EmptyLoanListView()
+            .environmentObject(AppVM())
+            .previewLayout(.sizeThatFits)
+        //
+        LoanListItemView(loanVM: LoanVM()).previewLayout(.sizeThatFits)
+        //
+        NewLoanButtonView().previewLayout(.sizeThatFits)
+        //
     }
 }
