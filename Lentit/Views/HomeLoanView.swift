@@ -24,7 +24,6 @@ struct HomeLoanView: View {
             }
         }.navigationTitle("📒 Loans")
         .navigationViewStyle(DefaultNavigationViewStyle())
-        .background(Color("BackgroundColor"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -62,7 +61,9 @@ struct LoanListStatusView: View {
                 Text(LocalizedStringKey(appVM.activeStatus.name)).fontWeight(.bold)
             }
             Spacer()
-            Text("\(loanListVM.loansCountText) loans").fontWeight(.bold)
+            if(loanListVM.loansCount > 0) {
+                Text("\(loanListVM.loansCountText) loans").fontWeight(.bold)
+            }
         }.font(.title3)
         .textCase(.lowercase)
         .padding(.horizontal, 40)
@@ -74,7 +75,7 @@ struct EmptyLoanListView: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
         VStack {
-            Text("No \(appVM.activeStatus.name) Loans")
+            Text("No \(appVM.activeStatus.name) \(appVM.activeCategory.name) Loans")
                 .font(.title2)
                 .foregroundColor(.secondary)
                 .padding()

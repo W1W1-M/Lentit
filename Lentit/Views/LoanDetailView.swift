@@ -18,16 +18,18 @@ struct LoanDetailView: View {
     @State var detailViewPresented: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
-        VStack {
+        ZStack {
+            Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             if(detailViewPresented) { // Show loan detail view by default
-                Form {
+                List {
                     LoanDetailSectionView(
                         loanVM: loanVM,
                         editDisabled: $editDisabled,
                         sheetPresented: $sheetPresented,
                         activeSheet: $activeSheet
                     )
-                }.navigationTitle("\(loanVM.itemVM.nameText)")
+                }.listStyle(.plain)
+                .navigationTitle("\(loanVM.itemVM.nameText)")
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
                         LoanDetailBottomToolbarView(
@@ -198,6 +200,13 @@ struct LoanDetailBottomToolbarView: View {
 // MARK: - Previews
 struct LoanDetailView_Previews: PreviewProvider {
     static var previews: some View {
+        NavigationView {
+            LoanDetailView(
+                loanVM: LoanVM(),
+                navigationLinkIsActive: .constant(true)
+            ).environmentObject(AppVM())
+        }
+        //
         LoanDetailView(
             loanVM: LoanVM(),
             navigationLinkIsActive: .constant(true)
