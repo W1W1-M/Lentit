@@ -178,6 +178,17 @@ class AppVM: ObservableObject {
             return ItemVM()
         }
     }
+    func filterItemVMs(for itemVMs: [ItemVM], by activeCategory: ItemCategoryModel) -> [ItemVM] {
+        var filteredItemVMs = itemVMs
+        if(activeCategory == ItemCategories.all) {
+            return filteredItemVMs
+        } else {
+            filteredItemVMs = filteredItemVMs.filter {
+                $0.category == activeCategory
+            }
+            return filteredItemVMs
+        }
+    }
 // MARK: - Borrower
     func setBorrowerVMs(for borrowers: [BorrowerModel]) -> [BorrowerVM] {
         var borrowerVMs: [BorrowerVM] = []

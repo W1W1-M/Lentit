@@ -83,6 +83,11 @@ struct EmptyLoanListView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.secondary)
                 .padding()
+            Text("Tip: Create a new loan")
+                .font(.headline)
+                .italic()
+                .foregroundColor(.secondary)
+                .padding()
         }
     }
 }
@@ -136,9 +141,6 @@ struct LoanListItemView: View {
                         .italic()
                         .foregroundColor(Color("AccentColor"))
                 }
-//                Text("\(loanVM.borrowerVM.nameText)")
-//                    .italic()
-//                    .foregroundColor(Color("AccentColor"))
             }
         }.onAppear(perform: {
             // Navigation to newly added loan

@@ -33,16 +33,8 @@ class LoanVM: ObservableObject, Identifiable {
             loan.status = self.status
         }
     }
-    @Published var itemVM: ItemVM {
-        didSet{
-            loan.itemId = self.itemVM.id
-        }
-    }
-    @Published var borrowerVM: BorrowerVM {
-        didSet{
-            loan.borrowerId = self.borrowerVM.id
-        }
-    }
+    @Published var itemVM: ItemVM
+    @Published var borrowerVM: BorrowerVM
     // MARK: - Init
     init() {
         self.loan = DataStoreModel.defaultLoanData
@@ -99,9 +91,11 @@ class LoanVM: ObservableObject, Identifiable {
     }
     func setLoanBorrower(to newBorrowerVM: BorrowerVM) {
         self.borrowerVM = newBorrowerVM
+        self.loan.borrowerId = self.borrowerVM.id
     }
     func setLoanItem(to newItemVM: ItemVM) {
         self.itemVM = newItemVM
+        self.loan.itemId = self.itemVM.id
     }
     func setReturnedSoldLoanStatus() {
         if(returnedSold) {
