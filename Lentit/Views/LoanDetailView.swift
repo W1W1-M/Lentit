@@ -140,20 +140,20 @@ struct LoanDetailSectionView: View {
                 ).disabled(editDisabled)
             }
             if(editDisabled) {
-                if(loanVM.returnedSold) {
+                if(loanVM.returned) {
                     HStack {
-                        Text("Returned / Sold").foregroundColor(.secondary)
+                        Text("Returned").foregroundColor(.secondary)
                         Spacer()
                         Image(systemName: "checkmark")
                     }
                 } else {
-                    Toggle(isOn: $loanVM.returnedSold) {
-                        Text("Returned / Sold").foregroundColor(.secondary)
+                    Toggle(isOn: $loanVM.returned) {
+                        Text("Returned").foregroundColor(.secondary)
                     }.disabled(editDisabled)
                 }
             } else {
-                Toggle(isOn: $loanVM.returnedSold) {
-                    Text("Returned / Sold").foregroundColor(.secondary)
+                Toggle(isOn: $loanVM.returned) {
+                    Text("Returned").foregroundColor(.secondary)
                 }.disabled(editDisabled)
             }
         }

@@ -22,10 +22,10 @@ class LoanVM: ObservableObject, Identifiable {
             loan.reminder = self.reminder
         }
     }
-    @Published var returnedSold: Bool {
+    @Published var returned: Bool {
         didSet{
-            loan.returnedSold = self.returnedSold
-            setReturnedSoldLoanStatus()
+            loan.returned = self.returned
+            setReturnedLoanStatus()
         }
     }
     @Published var status: LoanStatusModel {
@@ -42,7 +42,7 @@ class LoanVM: ObservableObject, Identifiable {
         self.loanDate = DataStoreModel.defaultLoanData.loanDate
         self.loanDateText = "\(DataStoreModel.defaultLoanData.loanDate)"
         self.reminder = DataStoreModel.defaultLoanData.reminder
-        self.returnedSold = DataStoreModel.defaultLoanData.returnedSold
+        self.returned = DataStoreModel.defaultLoanData.returned
         self.status = DataStoreModel.defaultLoanData.status
         self.itemVM = ItemVM()
         self.borrowerVM = BorrowerVM()
@@ -54,7 +54,7 @@ class LoanVM: ObservableObject, Identifiable {
         self.loanDate = loanModel.loanDate
         self.loanDateText = setLoanDateText(for: loanDate)
         self.reminder = loanModel.reminder
-        self.returnedSold = loanModel.returnedSold
+        self.returned = loanModel.returned
         self.status = loanModel.status
         self.itemVM = itemVM
         self.borrowerVM = borrowerVM
@@ -97,10 +97,10 @@ class LoanVM: ObservableObject, Identifiable {
         self.itemVM = newItemVM
         self.loan.itemId = self.itemVM.id
     }
-    func setReturnedSoldLoanStatus() {
-        if(returnedSold) {
+    func setReturnedLoanStatus() {
+        if(returned) {
             self.status = LoanStatus.finished
-        } else if(!returnedSold && status == LoanStatus.finished) {
+        } else if(!returned && status == LoanStatus.finished) {
             self.status = LoanStatus.current
         }
     }

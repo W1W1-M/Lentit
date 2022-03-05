@@ -14,7 +14,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var loanTime: TimeInterval
     var loanExpiry: Date
     var reminder: Date
-    var returnedSold: Bool
+    var returned: Bool
     var status: LoanStatusModel
     var itemId: UUID
     var borrowerId: UUID
@@ -25,7 +25,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         loanTime: TimeInterval,
         loanExpiry: Date,
         reminder: Date,
-        returnedSold: Bool,
+        returned: Bool,
         status: LoanStatusModel,
         itemId: UUID,
         borrowerId: UUID
@@ -35,7 +35,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         self.loanTime = loanTime
         self.loanExpiry = loanExpiry
         self.reminder = reminder
-        self.returnedSold = returnedSold
+        self.returned = returned
         self.status = status
         self.itemId = itemId
         self.borrowerId = borrowerId

@@ -95,7 +95,7 @@ extension DataStoreModel {
         loanTime: 100000.0,
         loanExpiry: Date(),
         reminder: Date(),
-        returnedSold: false,
+        returned: false,
         status: LoanStatus.new,
         itemId: UUID(),
         borrowerId: UUID()
@@ -122,7 +122,7 @@ extension DataStoreModel {
             loanTime: 600000.0,
             loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
-            returnedSold: false,
+            returned: false,
             status: LoanStatus.current,
             itemId: sampleItemData[0].id,
             borrowerId: sampleBorrowerData[0].id
@@ -133,7 +133,7 @@ extension DataStoreModel {
             loanTime: 600000.0,
             loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
-            returnedSold: false,
+            returned: false,
             status: LoanStatus.current,
             itemId: sampleItemData[1].id,
             borrowerId: sampleBorrowerData[1].id
@@ -144,7 +144,7 @@ extension DataStoreModel {
             loanTime: 600000.0,
             loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
-            returnedSold: true,
+            returned: true,
             status: LoanStatus.finished,
             itemId: sampleItemData[2].id,
             borrowerId: sampleBorrowerData[2].id
@@ -155,7 +155,7 @@ extension DataStoreModel {
             loanTime: 600000.0,
             loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
-            returnedSold: false,
+            returned: false,
             status: LoanStatus.current,
             itemId: sampleItemData[1].id,
             borrowerId: sampleBorrowerData[2].id

@@ -10,9 +10,21 @@ import Foundation
 class AppVM: ObservableObject {
     // MARK: - Variables
     @Published var dataStore: DataStoreModel
-    @Published var loanVMs: Array<LoanVM>
-    @Published var itemVMs: Array<ItemVM>
-    @Published var borrowerVMs: Array<BorrowerVM>
+    @Published var loanVMs: Array<LoanVM> {
+        didSet{
+            loanListVM.setLoansCount(for: loanVMs)
+        }
+    }
+    @Published var itemVMs: Array<ItemVM> {
+        didSet{
+            itemListVM.setItemsCount(for: itemVMs)
+        }
+    }
+    @Published var borrowerVMs: Array<BorrowerVM> {
+        didSet{
+            borrowerListVM.setBorrowersCount(for: borrowerVMs)
+        }
+    }
     @Published var loanListVM: LoanListVM
     @Published var borrowerListVM: BorrowerListVM
     @Published var itemListVM: ItemListVM
@@ -78,8 +90,8 @@ class AppVM: ObservableObject {
             loanDate: Date(),
             loanTime: 100000.0, // WIP
             loanExpiry: Date(), // WIP
-            reminder: Date(), // WIP
-            returnedSold: false,
+            reminder: Date(timeIntervalSinceNow: 30*24*60*60), // WIP
+            returned: false,
             status: LoanStatus.new,
             itemId: UUID(), // WIP
             borrowerId: UUID() // WIP
