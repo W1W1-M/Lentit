@@ -62,7 +62,7 @@ struct LoanListStatusView: View {
             }
             Spacer()
             if(loanListVM.loansCount > 0) {
-                Text("\(loanListVM.loansCountText) loans").fontWeight(.bold)
+                Text("\(loanListVM.loansCountText)").fontWeight(.bold)
             }
         }.font(.title3)
         .textCase(.lowercase)
@@ -75,7 +75,7 @@ struct EmptyLoanListView: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
         VStack {
-            Text("No \(appVM.activeStatus.name) \(appVM.activeCategory.name) Loans")
+            Text("No \(appVM.activeStatus.name) Loans (\(appVM.activeCategory.name))")
                 .font(.title2)
                 .foregroundColor(.secondary)
                 .padding()
@@ -104,6 +104,7 @@ struct LoanListView: View {
 }
 // MARK: -
 struct LoanListItemView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
@@ -117,9 +118,27 @@ struct LoanListItemView: View {
             HStack {
                 Text("\(loanVM.itemVM.nameText)")
                 Spacer()
-                Text("\(loanVM.borrowerVM.nameText)")
-                    .italic()
-                    .foregroundColor(Color("AccentColor"))
+                switch appVM.activeSort {
+                case LoanSortingOrders.byItemName:
+                    Text("\(loanVM.borrowerVM.nameText)")
+                        .italic()
+                        .foregroundColor(Color("AccentColor"))
+                case LoanSortingOrders.byBorrowerName:
+                    Text("\(loanVM.borrowerVM.nameText)")
+                        .italic()
+                        .foregroundColor(Color("AccentColor"))
+                case LoanSortingOrders.byLoanDate:
+                    Text("\(loanVM.loanDateText)")
+                        .italic()
+                        .foregroundColor(Color("AccentColor"))
+                default:
+                    Text("\(loanVM.borrowerVM.nameText)")
+                        .italic()
+                        .foregroundColor(Color("AccentColor"))
+                }
+//                Text("\(loanVM.borrowerVM.nameText)")
+//                    .italic()
+//                    .foregroundColor(Color("AccentColor"))
             }
         }.onAppear(perform: {
             // Navigation to newly added loan
@@ -200,7 +219,9 @@ struct LoanListView_Previews: PreviewProvider {
             .environmentObject(AppVM())
             .previewLayout(.sizeThatFits)
         //
-        LoanListItemView(loanVM: LoanVM()).previewLayout(.sizeThatFits)
+        LoanListItemView(loanVM: LoanVM())
+            .environmentObject(AppVM())
+            .previewLayout(.sizeThatFits)
         //
         NewLoanButtonView().previewLayout(.sizeThatFits)
         //

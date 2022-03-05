@@ -21,6 +21,19 @@ struct ItemCategoryModel: Identifiable, Hashable {
         self.name = name
         self.fullName = "\(emoji) \(name)"
     }
+    func getSingularCategoryName(name: String) -> String {
+        var singularName: String = ""
+        if(name.hasSuffix("s")) {
+            singularName = String(name.prefix(upTo: name.index(before: name.endIndex)))
+        } else if(name == "Other") {
+            singularName = name
+        } else if(name == "All") {
+            singularName = name
+        } else {
+            singularName = ""
+        }
+        return singularName
+    }
 }
 
 /// Predefined lent item categories

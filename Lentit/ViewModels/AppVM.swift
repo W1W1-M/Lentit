@@ -85,6 +85,7 @@ class AppVM: ObservableObject {
             borrowerId: UUID() // WIP
         )
         self.dataStore.createLoan(newLoan: newLoan)
+        self.activeCategory = ItemCategories.all
         self.activeStatus = LoanStatus.new
     }
     func deleteLoan(for loanVM: LoanVM) {
@@ -135,6 +136,10 @@ class AppVM: ObservableObject {
         case LoanSortingOrders.byBorrowerName:
             sortedLoanVMs.sort {
                 $0.borrowerVM.nameText < $1.borrowerVM.nameText
+            }
+        case LoanSortingOrders.byLoanDate:
+            sortedLoanVMs.sort {
+                $0.loanDate < $1.loanDate
             }
         default:
             sortedLoanVMs.sort {

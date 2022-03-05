@@ -22,7 +22,11 @@ class LoanListVM: ObservableObject {
     /// - Parameter loansVMs: <#loansVMs description#>
     func setLoansCount(for loanVMs: [LoanVM]) {
         self.loansCount = loanVMs.count
-        self.loansCountText = "\(loansCount)"
+        if(loansCount == 1) {
+            self.loansCountText = "\(loansCount) loan"
+        } else {
+            self.loansCountText = "\(loansCount) loans"
+        }
     }
     
 }

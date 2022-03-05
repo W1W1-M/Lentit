@@ -21,5 +21,6 @@ struct LoanSortingOrderModel: Identifiable, Hashable, Equatable {
 struct LoanSortingOrders {
     static let byItemName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Item")
     static let byBorrowerName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Borrower")
-    static let sortingOrders: Array<LoanSortingOrderModel> = [byItemName, byBorrowerName]
+    static let byLoanDate: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Date")
+    static let sortingOrders: Array<LoanSortingOrderModel> = [byItemName, byBorrowerName, byLoanDate]
 }

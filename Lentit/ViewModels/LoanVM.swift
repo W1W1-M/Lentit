@@ -16,6 +16,7 @@ class LoanVM: ObservableObject, Identifiable {
             loan.loanDate = self.loanDate
         }
     }
+    @Published var loanDateText: String
     @Published var reminder: Date {
         didSet{
             loan.reminder = self.reminder
@@ -47,6 +48,7 @@ class LoanVM: ObservableObject, Identifiable {
         self.loan = DataStoreModel.defaultLoanData
         self.id = DataStoreModel.defaultLoanData.id
         self.loanDate = DataStoreModel.defaultLoanData.loanDate
+        self.loanDateText = "\(DataStoreModel.defaultLoanData.loanDate)"
         self.reminder = DataStoreModel.defaultLoanData.reminder
         self.returnedSold = DataStoreModel.defaultLoanData.returnedSold
         self.status = DataStoreModel.defaultLoanData.status
@@ -58,6 +60,7 @@ class LoanVM: ObservableObject, Identifiable {
         self.loan = loanModel
         self.id = loanModel.id
         self.loanDate = loanModel.loanDate
+        self.loanDateText = setLoanDateText(for: loanDate)
         self.reminder = loanModel.reminder
         self.returnedSold = loanModel.returnedSold
         self.status = loanModel.status
