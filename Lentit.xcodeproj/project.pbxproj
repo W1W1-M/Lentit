@@ -34,6 +34,7 @@
 		3DA8283227C6CB3B007A367A /* ItemStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA8283127C6CB3B007A367A /* ItemStatusModel.swift */; };
 		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
 		3DDE13E327945D5C00EBB6E7 /* BorrowerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */; };
+		3DE2CE6B27DB7D4C0038B5F5 /* BorrowerStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE2CE6A27DB7D4C0038B5F5 /* BorrowerStatusModel.swift */; };
 		3DF022552796FCEB00211124 /* LoanListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF022542796FCEB00211124 /* LoanListVM.swift */; };
 		3DF022572796FE2B00211124 /* LoanVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF022562796FE2B00211124 /* LoanVM.swift */; };
 		3DF02259279701A500211124 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF02258279701A500211124 /* AppVM.swift */; };
@@ -93,6 +94,7 @@
 		3DCC2A5127832238005C252B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
 		3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerListView.swift; sourceTree = "<group>"; };
+		3DE2CE6A27DB7D4C0038B5F5 /* BorrowerStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerStatusModel.swift; sourceTree = "<group>"; };
 		3DF022542796FCEB00211124 /* LoanListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListVM.swift; sourceTree = "<group>"; };
 		3DF022562796FE2B00211124 /* LoanVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanVM.swift; sourceTree = "<group>"; };
 		3DF02258279701A500211124 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			children = (
 				3D4FD974279365B800B52F3C /* AlertModel.swift */,
 				3D4FD96E2793033000B52F3C /* BorrowerModel.swift */,
+				3DE2CE6A27DB7D4C0038B5F5 /* BorrowerStatusModel.swift */,
 				3D5551F12770E9300007BE3E /* DataStoreModel.swift */,
 				3D86AEA92776042300FF4803 /* ItemCategoryModel.swift */,
 				3DF0225C2797592B00211124 /* ItemModel.swift */,
@@ -384,6 +387,7 @@
 				3D86AEAA2776042300FF4803 /* ItemCategoryModel.swift in Sources */,
 				3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */,
 				3D572C80279B40EB002618D7 /* BorrowerListVM.swift in Sources */,
+				3DE2CE6B27DB7D4C0038B5F5 /* BorrowerStatusModel.swift in Sources */,
 				3DDE13E327945D5C00EBB6E7 /* BorrowerListView.swift in Sources */,
 				3D5901D7276FC92500373871 /* LentitApp.swift in Sources */,
 				3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */,

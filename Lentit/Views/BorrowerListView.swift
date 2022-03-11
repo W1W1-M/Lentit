@@ -21,18 +21,23 @@ struct BorrowerListView: View {
                     }
                     Section {
                         Button {
-                            appVM.createBorrower(named: borrowerListVM.newBorrowerName)
+                            appVM.createBorrower(
+                                id: borrowerListVM.newBorrowerId,
+                                named: borrowerListVM.newBorrowerName
+                            )
+                            loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
                             borrowerListVM.hideNewBorrower()
-                            loanVM.setLoanBorrower(to: appVM.getBorrowerJustAdded())
                             sheetPresented = false
                         } label: {
                             HStack {
                                 Spacer()
+                                Image(systemName: "person.badge.plus").imageScale(.large)
                                 Text("Save new borrower")
                                 Spacer()
                             }
-                        }
-                    }
+                        }.font(.headline)
+                        .foregroundColor(.white)
+                    }.listRowBackground(Color("InvertedAccentColor"))
                 }
                 Section(header: Text("\(borrowerListVM.borrowersCountText) borrowers")) {
                     ForEach(appVM.borrowerVMs) { BorrowerVM in

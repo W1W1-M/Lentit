@@ -13,12 +13,14 @@ class BorrowerListVM: ObservableObject {
     @Published var borrowersCount: Int
     @Published var borrowersCountText: String
     @Published var newBorrowerPresented: Bool
+    @Published var newBorrowerId: UUID
     @Published var newBorrowerName: String
     // MARK: - Init
     init() {
         self.borrowersCount = 0
         self.borrowersCountText = "0"
         self.newBorrowerPresented = false
+        self.newBorrowerId = UUID()
         self.newBorrowerName = ""
     }
     // MARK: - Functions
@@ -27,11 +29,15 @@ class BorrowerListVM: ObservableObject {
         self.borrowersCountText = "\(borrowersCount)"
     }
     func showNewBorrower() {
-        self.newBorrowerName = ""
+        resetNewBorrower()
         self.newBorrowerPresented = true
     }
     func hideNewBorrower() {
-        self.newBorrowerName = ""
+        resetNewBorrower()
         self.newBorrowerPresented = false
+    }
+    func resetNewBorrower() {
+        self.newBorrowerId = UUID()
+        self.newBorrowerName = ""
     }
 }

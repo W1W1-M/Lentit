@@ -62,7 +62,9 @@ struct LoanListStatusView: View {
             }
             Spacer()
             if(loanListVM.loansCount > 0) {
-                Text("\(loanListVM.loansCountText)").fontWeight(.bold)
+                Text("\(loanListVM.loansCountText)")
+                    .fontWeight(.bold)
+                    .foregroundColor(.secondary)
             }
         }.font(.title3)
         .textCase(.lowercase)
@@ -121,7 +123,7 @@ struct LoanListItemView: View {
             isActive: $navigationLinkIsActive
         ) {
             HStack {
-                Text("\(loanVM.itemVM.nameText)")
+                Text("\(loanVM.itemVM.nameText)").font(.headline)
                 Spacer()
                 switch appVM.activeSort {
                 case LoanSortingOrders.byItemName:
@@ -143,7 +145,7 @@ struct LoanListItemView: View {
                 }
             }
         }.onAppear(perform: {
-            // Navigation to newly added loan
+            // Programmatic navigation to newly added loan
             if(loanVM.status == LoanStatus.new) {
                 navigationLinkIsActive = true
             }

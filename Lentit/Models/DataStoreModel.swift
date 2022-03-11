@@ -96,7 +96,7 @@ extension DataStoreModel {
         loanExpiry: Date(),
         reminder: Date(),
         returned: false,
-        status: LoanStatus.new,
+        status: LoanStatus.unknown,
         itemId: UUID(),
         borrowerId: UUID()
     )
@@ -106,13 +106,13 @@ extension DataStoreModel {
         description: "Unknown description",
         value: 100,
         category: ItemCategories.categories[4],
-        status: ItemStatus.new,
+        status: ItemStatus.unknown,
         loanIds: [UUID()]
     )
     static var defaultBorrowerData: BorrowerModel = BorrowerModel(
         id: UUID(),
         name: "Unknown borrower",
-        justAdded: false,
+        status: BorrowerStatus.unknown,
         loanIds: [UUID()]
     )
     static var sampleLoanData: [LoanModel] = [
@@ -194,19 +194,19 @@ extension DataStoreModel {
         BorrowerModel(
             id: UUID(),
             name: "Sarah",
-            justAdded: false,
+            status: BorrowerStatus.regular,
             loanIds: []
         ),
         BorrowerModel(
             id: UUID(),
             name: "Anthony",
-            justAdded: false,
+            status: BorrowerStatus.regular,
             loanIds: []
         ),
         BorrowerModel(
             id: UUID(),
             name: "Charly",
-            justAdded: false,
+            status: BorrowerStatus.regular,
             loanIds: []
         )
     ]

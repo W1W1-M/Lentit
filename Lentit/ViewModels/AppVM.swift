@@ -183,7 +183,7 @@ class AppVM: ObservableObject {
         self.dataStore.createItem(newItem: newItem)
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
     }
-    func getItem(id: UUID) -> ItemVM {
+    func getItem(with id: UUID) -> ItemVM {
         if let itemVM = itemVMs.first(where: { $0.id == id }) {
             return itemVM
         } else {
@@ -214,24 +214,21 @@ class AppVM: ObservableObject {
         }
         return borrowerVMs
     }
-    func createBorrower(named name: String) {
+    func createBorrower(id: UUID, named name: String) {
         let newBorrower = BorrowerModel(
-            id: UUID(),
+            id: id,
             name: name,
-            justAdded: true,
+            status: BorrowerStatus.new,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
     }
-    func getBorrowerJustAdded() -> BorrowerVM {
-        var justAddedBorrowerVM = BorrowerVM()
-        for borrowerVM in self.borrowerVMs {
-            if(borrowerVM.borrowerJustAdded) {
-                justAddedBorrowerVM = borrowerVM
-                borrowerVM.borrowerJustAdded = false
-            }
+    func getBorrower(with id: UUID) -> BorrowerVM {
+        if let borrowerVM = borrowerVMs.first(where: { $0.id == id }) {
+            return borrowerVM
+        } else {
+            return BorrowerVM()
         }
-        return justAddedBorrowerVM
     }
 }

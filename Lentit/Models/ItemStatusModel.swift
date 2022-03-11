@@ -26,5 +26,6 @@ struct ItemStatus {
     static let new: ItemStatusModel = ItemStatusModel(name: "New", symbolName: "play.circle")
     static let available: ItemStatusModel = ItemStatusModel(name: "available", symbolName: "checkmark.circle")
     static let unavailable: ItemStatusModel = ItemStatusModel(name: "unavailable", symbolName: "xmark.circle")
+    static let unknown: ItemStatusModel = ItemStatusModel(name: "unknown", symbolName: "questionmark.circle")
     static let status: Array<ItemStatusModel> = [new, available, unavailable]
 }

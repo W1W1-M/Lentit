@@ -33,17 +33,19 @@ struct ItemListView: View {
                                 worth: itemListVM.newItemValue,
                                 typed: itemListVM.newItemCategory
                             )
-                            loanVM.setLoanItem(to: appVM.getItem(id: itemListVM.newItemId))
+                            loanVM.setLoanItem(to: appVM.getItem(with: itemListVM.newItemId))
                             itemListVM.hideNewItem()
                             sheetPresented = false
                         } label: {
                             HStack {
                                 Spacer()
-                                Text("Create new item")
+                                Image(systemName: "bag.badge.plus").imageScale(.large)
+                                Text("Save new item")
                                 Spacer()
-                            }
-                        }
-                    }
+                           }
+                        }.font(.headline)
+                        .foregroundColor(.white)
+                    }.listRowBackground(Color("InvertedAccentColor"))
                 }
                 Section(header: Text("\(itemListVM.itemsCountText) items")) {
                     ForEach(appVM.itemVMs) { ItemVM in

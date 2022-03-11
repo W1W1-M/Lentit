@@ -16,9 +16,9 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
             borrower.name = self.nameText
         }
     }
-    @Published var borrowerJustAdded: Bool{
+    @Published var status: BorrowerStatusModel {
         didSet{
-            borrower.justAdded = self.borrowerJustAdded
+            borrower.status = self.status
         }
     }
     // MARK: - Init
@@ -26,14 +26,14 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
         self.borrower = DataStoreModel.defaultBorrowerData
         self.id = DataStoreModel.defaultBorrowerData.id
         self.nameText = DataStoreModel.defaultBorrowerData.name
-        self.borrowerJustAdded = DataStoreModel.defaultBorrowerData.justAdded
+        self.status = DataStoreModel.defaultBorrowerData.status
     }
     // MARK: - Functions
     func setBorrowerVM(for borrowerModel: BorrowerModel) {
         self.borrower = borrowerModel
         self.id = borrowerModel.id // Shared with borrower data object
         self.nameText = borrowerModel.name
-        self.borrowerJustAdded = borrowerModel.justAdded
+        self.status = borrowerModel.status
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

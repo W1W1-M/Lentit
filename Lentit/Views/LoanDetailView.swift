@@ -15,12 +15,11 @@ struct LoanDetailView: View {
     @State var activeAlert: AlertModel = Alerts.deleteLentItem
     @State var sheetPresented: Bool = false
     @State var activeSheet: SheetModel = Sheets.borrowersList
-    @State var detailViewPresented: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
-            if(detailViewPresented) { // Show loan detail view by default
+            VStack {
                 List {
                     LoanDetailSectionView(
                         loanVM: loanVM,
@@ -29,69 +28,81 @@ struct LoanDetailView: View {
                         activeSheet: $activeSheet
                     )
                 }.listStyle(.plain)
-                .navigationTitle("\(loanVM.itemVM.nameText)")
-                .toolbar {
-                    ToolbarItemGroup(placement: .bottomBar) {
-                        LoanDetailBottomToolbarView(
-                            editDisabled: $editDisabled,
-                            alertPresented: $alertPresented
-                        )
-                    }
+                if(loanVM.status == LoanStatus.new) {
+                    Spacer()
+                    SaveNewLoanButtonView(
+                        loanVM: loanVM,
+                        navigationLinkIsActive: $navigationLinkIsActive
+                    )
                 }
-                .alert(isPresented: $alertPresented) {
-                    switch activeAlert {
-                    case Alerts.deleteLentItem:
-                        return Alert(
-                            title: Text("Delete \(loanVM.itemVM.nameText)"),
-                            message: Text("Are you sure you want to delete this item ?"),
-                            primaryButton: .default(
-                                Text("Cancel")
-                            ),
-                            secondaryButton: .destructive(
-                                Text("Delete"),
-                                action: {
-                                    navigationLinkIsActive = false // Navigate back to lent item list
-                                    appVM.deleteLoan(for: loanVM)
-                                    detailViewPresented = false // Show empty detail view after lent item deleted
-                                }
-                            )
-                        )
-                    default:
-                        return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
-                    }
+            }
+        }.navigationTitle(loanVM.itemVM.status == ItemStatus.unknown ? "New loan" : "\(loanVM.itemVM.nameText)")
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                if(loanVM.status != LoanStatus.new) {
+                    LoanDetailEditButtonView(editDisabled: $editDisabled)
                 }
-                .sheet(isPresented: $sheetPresented) { [activeSheet] in // Explicit state capture. Fix for known SwiftUI bug.
-                    switch activeSheet {
-                    case Sheets.borrowersList:
-                        BorrowerListView(
-                            borrowerListVM: appVM.borrowerListVM,
-                            loanVM: loanVM,
-                            sheetPresented: $sheetPresented
-                        )
-                    case Sheets.itemsList:
-                        ItemListView(
-                            itemListVM: appVM.itemListVM,
-                            loanVM: loanVM,
-                            sheetPresented: $sheetPresented
-                        )
-                    default:
-                        EmptyView()
-                    }
+            }
+            ToolbarItem(placement: .bottomBar) {
+                if(loanVM.status != LoanStatus.new) {
+                    LoanDetailDeleteButtonView(
+                        alertPresented: $alertPresented,
+                        editDisabled: editDisabled
+                    )
                 }
-                .onAppear(perform: {
-                    // Unlock edit mode if loan just added
-                    if(loanVM.status == LoanStatus.new) {
-                        loanVM.status = LoanStatus.current
-                        editDisabled = false
-                    }
-                })
-                .onDisappear(perform: {
-                    appVM.activeStatus = loanVM.status
-                })
-            } else {
+            }
+        }
+        .alert(isPresented: $alertPresented) {
+            switch activeAlert {
+            case Alerts.deleteLentItem:
+                return Alert(
+                    title: Text("Delete \(loanVM.itemVM.nameText)"),
+                    message: Text("Are you sure you want to delete this item ?"),
+                    primaryButton: .default(
+                        Text("Cancel")
+                    ),
+                    secondaryButton: .destructive(
+                        Text("Delete"),
+                        action: {
+                            navigationLinkIsActive = false // Navigate back to lent item list
+                            appVM.deleteLoan(for: loanVM)
+                        }
+                    )
+                )
+            default:
+                return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
+            }
+        }
+        .sheet(isPresented: $sheetPresented) { [activeSheet] in // Explicit state capture. Fix for known SwiftUI bug.
+            switch activeSheet {
+            case Sheets.borrowersList:
+                BorrowerListView(
+                    borrowerListVM: appVM.borrowerListVM,
+                    loanVM: loanVM,
+                    sheetPresented: $sheetPresented
+                )
+            case Sheets.itemsList:
+                ItemListView(
+                    itemListVM: appVM.itemListVM,
+                    loanVM: loanVM,
+                    sheetPresented: $sheetPresented
+                )
+            default:
                 EmptyView()
             }
         }
+        .onAppear(perform: {
+            // Unlock edit mode if loan just added
+            if(loanVM.status == LoanStatus.new) {
+                editDisabled = false
+            }
+        })
+        .onDisappear(perform: {
+            if(loanVM.status == LoanStatus.new) {
+                loanVM.status = LoanStatus.current
+            }
+            appVM.activeStatus = loanVM.status
+        })
     }
 }
 // MARK: -
@@ -109,7 +120,9 @@ struct LoanDetailSectionView: View {
                     activeSheet = Sheets.itemsList
                     sheetPresented = true
                 } label: {
-                    Text("\(loanVM.itemVM.nameText)").font(.headline)
+                    Text(loanVM.itemVM.status == ItemStatus.unknown ? "Select item" : "\(loanVM.itemVM.nameText)")
+                        .font(.headline)
+                        .foregroundColor(editDisabled ? .primary : .accentColor)
                 }.disabled(editDisabled)
             }
             HStack {
@@ -119,7 +132,9 @@ struct LoanDetailSectionView: View {
                     activeSheet = Sheets.borrowersList
                     sheetPresented = true
                 } label: {
-                    Text("\(loanVM.borrowerVM.nameText)")
+                    Text(loanVM.borrowerVM.status == BorrowerStatus.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
+                        .font(.headline)
+                        .foregroundColor(editDisabled ? .primary : .accentColor)
                 }.disabled(editDisabled)
             }
             HStack {
@@ -167,32 +182,56 @@ struct LoanDetailSectionHeaderView: View {
             Text("Loan")
             Spacer()
             Text(LocalizedStringKey(loanVM.status.name))
+        }.padding(.bottom, 5)
+    }
+}
+// MARK: -
+struct SaveNewLoanButtonView: View {
+    @ObservedObject var loanVM: LoanVM
+    @Binding var navigationLinkIsActive: Bool
+    var body: some View {
+        Button {
+            loanVM.status = LoanStatus.current
+            navigationLinkIsActive = false
+        } label: {
+            HStack {
+                Spacer()
+                Image(systemName: "plus.circle").imageScale(.large)
+                Text("Save new loan")
+                Spacer()
+            }.font(.headline)
+            .foregroundColor(.white)
+            .padding()
+        }.background(Color("InvertedAccentColor"))
+        .clipShape(Capsule())
+        .padding()
+    }
+}
+// MARK: -
+struct LoanDetailEditButtonView: View {
+    @Binding var editDisabled: Bool
+    var body: some View {
+        Button {
+            editDisabled.toggle()
+        } label: {
+            HStack {
+                Text(editDisabled ? "Edit" : "Save")
+                Image(systemName: editDisabled ? "lock" : "lock.open")
+            }
         }
     }
 }
 // MARK: -
-struct LoanDetailBottomToolbarView: View {
-    @Binding var editDisabled: Bool
+struct LoanDetailDeleteButtonView: View {
     @Binding var alertPresented: Bool
+    var editDisabled: Bool
     var body: some View {
-        Group {
-            // Delete lent item button
-            Button {
-                alertPresented = true
-            } label: {
-                HStack {
-                    Text("Delete")
-                    Image(systemName: "trash")
-                }
-            }.disabled(editDisabled)
-            // Edit lent item button
-            Button {
-                editDisabled.toggle()
-            } label: {
-                HStack {
-                    Text("Edit")
-                    Image(systemName: editDisabled ? "lock" : "lock.open")
-                }
+        Button {
+            alertPresented = true
+        } label: {
+            HStack {
+                Text("Delete")
+                Image(systemName: "trash")
             }
         }
     }
@@ -212,5 +251,10 @@ struct LoanDetailView_Previews: PreviewProvider {
             navigationLinkIsActive: .constant(true)
         ).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
+        //
+        SaveNewLoanButtonView(
+            loanVM: LoanVM(),
+            navigationLinkIsActive: .constant(false)
+        ).previewLayout(.sizeThatFits)
     }
 }

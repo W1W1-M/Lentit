@@ -24,6 +24,7 @@ struct LoanStatusModel: Identifiable, Hashable {
 /// Predefined loan status
 struct LoanStatus {
     static let new: LoanStatusModel = LoanStatusModel(name: "New", symbolName: "play.circle")
+    static let unknown: LoanStatusModel = LoanStatusModel(name: "unknown", symbolName: "questionmark.circle")
     static let upcoming: LoanStatusModel = LoanStatusModel(name: "Upcoming", symbolName: "calendar.circle")
     static let current: LoanStatusModel = LoanStatusModel(name: "Ongoing", symbolName: "hourglass.circle")
     static let finished: LoanStatusModel = LoanStatusModel(name: "Finished", symbolName: "stop.circle")
