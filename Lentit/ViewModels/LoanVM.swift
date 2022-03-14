@@ -22,6 +22,11 @@ class LoanVM: ObservableObject, Identifiable {
             loan.reminder = self.reminder
         }
     }
+    @Published var reminderActive: Bool {
+        didSet{
+            loan.reminderActive = self.reminderActive
+        }
+    }
     @Published var returned: Bool {
         didSet{
             loan.returned = self.returned
@@ -42,6 +47,7 @@ class LoanVM: ObservableObject, Identifiable {
         self.loanDate = DataStoreModel.defaultLoanData.loanDate
         self.loanDateText = "\(DataStoreModel.defaultLoanData.loanDate)"
         self.reminder = DataStoreModel.defaultLoanData.reminder
+        self.reminderActive = DataStoreModel.defaultLoanData.reminderActive
         self.returned = DataStoreModel.defaultLoanData.returned
         self.status = DataStoreModel.defaultLoanData.status
         self.itemVM = ItemVM()
@@ -54,6 +60,7 @@ class LoanVM: ObservableObject, Identifiable {
         self.loanDate = loanModel.loanDate
         self.loanDateText = setLoanDateText(for: loanDate)
         self.reminder = loanModel.reminder
+        self.reminderActive = loanModel.reminderActive
         self.returned = loanModel.returned
         self.status = loanModel.status
         self.itemVM = itemVM

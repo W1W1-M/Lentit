@@ -7,7 +7,7 @@
 
 import Foundation
 /// Item view model
-class ItemVM: ObservableObject, Identifiable {
+class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
     // MARK: - Variables
     var item: ItemModel
     @Published var id: UUID
@@ -33,5 +33,11 @@ class ItemVM: ObservableObject, Identifiable {
         self.nameText = itemModel.name
         self.category = itemModel.category
         self.status = itemModel.status
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    static func == (lhs: ItemVM, rhs: ItemVM) -> Bool {
+        lhs.id == rhs.id
     }
 }

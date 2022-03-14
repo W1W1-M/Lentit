@@ -14,72 +14,93 @@ struct BorrowerListView: View {
     @Binding var sheetPresented: Bool
     var body: some View {
         NavigationView {
-            List {
-                if(borrowerListVM.newBorrowerPresented) {
-                    Section(header: Text("🆕 New borrower")) {
-                        TextField("Name", text: $borrowerListVM.newBorrowerName)
+            ZStack {
+                Color("BackgroundColor").edgesIgnoringSafeArea(.all)
+                List {
+                    if(borrowerListVM.newBorrowerPresented) {
+                        Section(header: Text("🆕 New borrower")) {
+                            TextField("Name", text: $borrowerListVM.newBorrowerName)
+                        }
+                        Section {
+                            Button {
+                                appVM.createBorrower(
+                                    id: borrowerListVM.newBorrowerId,
+                                    named: borrowerListVM.newBorrowerName
+                                )
+                                loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
+                                borrowerListVM.hideNewBorrower()
+                                sheetPresented = false
+                            } label: {
+                                HStack {
+                                    Spacer()
+                                    Image(systemName: "person.badge.plus").imageScale(.large)
+                                    Text("Save new borrower")
+                                    Spacer()
+                                }
+                            }.font(.headline)
+                            .foregroundColor(.white)
+                        }.listRowBackground(Color("InvertedAccentColor"))
                     }
-                    Section {
-                        Button {
-                            appVM.createBorrower(
-                                id: borrowerListVM.newBorrowerId,
-                                named: borrowerListVM.newBorrowerName
+                    Section(header: Text("\(borrowerListVM.borrowersCountText) borrowers")) {
+                        ForEach(appVM.borrowerVMs) { BorrowerVM in
+                            BorrowerListItemView(
+                                loanVM: loanVM,
+                                borrowerVM: BorrowerVM,
+                                sheetPresented: $sheetPresented
                             )
-                            loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
+                        }
+                    }
+                }.navigationTitle("Borrowers")
+                .listStyle(.insetGrouped)
+                .toolbar {
+                    ToolbarItem(placement: .navigation) {
+                        Button {
                             borrowerListVM.hideNewBorrower()
                             sheetPresented = false
                         } label: {
-                            HStack {
-                                Spacer()
-                                Image(systemName: "person.badge.plus").imageScale(.large)
-                                Text("Save new borrower")
-                                Spacer()
-                            }
-                        }.font(.headline)
-                        .foregroundColor(.white)
-                    }.listRowBackground(Color("InvertedAccentColor"))
-                }
-                Section(header: Text("\(borrowerListVM.borrowersCountText) borrowers")) {
-                    ForEach(appVM.borrowerVMs) { BorrowerVM in
+                            Text("Close")
+                        }
+                    }
+                    ToolbarItem(placement: .primaryAction) {
                         Button {
-                            loanVM.setLoanBorrower(to: BorrowerVM)
-                            sheetPresented = false
+                            borrowerListVM.showNewBorrower()
                         } label: {
                             HStack {
-                                Text("\(BorrowerVM.nameText)")
-                                Spacer()
-                                if(loanVM.borrowerVM.id == BorrowerVM.id) {
-                                    Image(systemName: "checkmark")
-                                }
+                                Text("Add")
+                                Image(systemName: "plus.circle")
                             }
                         }
                     }
                 }
-            }.navigationTitle("Borrowers")
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Button {
-                        borrowerListVM.hideNewBorrower()
-                        sheetPresented = false
-                    } label: {
-                        Text("Close")
-                    }
-                }
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        borrowerListVM.showNewBorrower()
-                    } label: {
-                        HStack {
-                            Text("Add")
-                            Image(systemName: "plus.circle")
-                        }
-                    }
+                .onAppear(perform: {
+                    // Background color fix
+                    UITableView.appearance().backgroundColor = .clear
+                })
+            }
+        }
+    }
+}
+// MARK: -
+struct BorrowerListItemView: View {
+    @ObservedObject var loanVM: LoanVM
+    @ObservedObject var borrowerVM: BorrowerVM
+    @Binding var sheetPresented: Bool
+    var body: some View {
+        Button {
+            loanVM.setLoanBorrower(to: borrowerVM)
+            sheetPresented = false
+        } label: {
+            HStack {
+                Text("\(borrowerVM.nameText)")
+                Spacer()
+                if(loanVM.borrowerVM.id == borrowerVM.id) {
+                    Image(systemName: "checkmark")
                 }
             }
         }
     }
 }
-
+// MARK: - Previews
 struct BorrowersListView_Previews: PreviewProvider {
     static var previews: some View {
         BorrowerListView(
@@ -89,3 +110,5 @@ struct BorrowersListView_Previews: PreviewProvider {
         ).environmentObject(AppVM())
     }
 }
+
+

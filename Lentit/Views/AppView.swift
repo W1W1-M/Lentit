@@ -16,7 +16,7 @@ struct AppView: View {
             NavigationView {
                 SidebarMenuView()
                 HomeLoanView()
-                EmptyView()
+                TipView()
             }.environmentObject(appVM)
         case .compact:
             NavigationView {

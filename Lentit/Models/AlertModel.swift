@@ -20,5 +20,7 @@ struct AlertModel: Identifiable, Hashable {
 
 /// Predefined  alerts
 struct Alerts {
-    static let deleteLentItem: AlertModel = AlertModel(name: "deleteLentItem")
+    static let deleteLoan: AlertModel = AlertModel(name: "deleteLoan")
+    static let deleteItem: AlertModel = AlertModel(name: "deleteItem")
+    static let deleteBorrower: AlertModel = AlertModel(name: "deleteBorrower")
 }

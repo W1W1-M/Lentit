@@ -12,7 +12,7 @@ struct LoanDetailView: View {
     @ObservedObject var loanVM: LoanVM
     @State var editDisabled: Bool = true
     @State var alertPresented: Bool = false
-    @State var activeAlert: AlertModel = Alerts.deleteLentItem
+    @State var activeAlert: AlertModel = Alerts.deleteLoan
     @State var sheetPresented: Bool = false
     @State var activeSheet: SheetModel = Sheets.borrowersList
     @Binding var navigationLinkIsActive: Bool
@@ -27,7 +27,13 @@ struct LoanDetailView: View {
                         sheetPresented: $sheetPresented,
                         activeSheet: $activeSheet
                     )
-                }.listStyle(.plain)
+                    if(loanVM.status != LoanStatus.finished) {
+                        LoanReminderSectionView(
+                            loanVM: loanVM,
+                            editDisabled: $editDisabled
+                        )
+                    }
+                }.listStyle(.insetGrouped)
                 if(loanVM.status == LoanStatus.new) {
                     Spacer()
                     SaveNewLoanButtonView(
@@ -36,7 +42,7 @@ struct LoanDetailView: View {
                     )
                 }
             }
-        }.navigationTitle(loanVM.itemVM.status == ItemStatus.unknown ? "New loan" : "\(loanVM.itemVM.nameText)")
+        }.navigationTitle(loanVM.borrowerVM.status == BorrowerStatus.unknown ? "New loan" : "Loan to \(loanVM.borrowerVM.nameText)")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != LoanStatus.new) {
@@ -54,10 +60,10 @@ struct LoanDetailView: View {
         }
         .alert(isPresented: $alertPresented) {
             switch activeAlert {
-            case Alerts.deleteLentItem:
+            case Alerts.deleteLoan:
                 return Alert(
-                    title: Text("Delete \(loanVM.itemVM.nameText)"),
-                    message: Text("Are you sure you want to delete this item ?"),
+                    title: Text("Delete \(loanVM.itemVM.nameText) loan"),
+                    message: Text("Are you sure you want to delete this loan ?"),
                     primaryButton: .default(
                         Text("Cancel")
                     ),
@@ -92,6 +98,8 @@ struct LoanDetailView: View {
             }
         }
         .onAppear(perform: {
+            // Background color fix
+            UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if loan just added
             if(loanVM.status == LoanStatus.new) {
                 editDisabled = false
@@ -134,6 +142,7 @@ struct LoanDetailSectionView: View {
                 } label: {
                     Text(loanVM.borrowerVM.status == BorrowerStatus.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
                         .font(.headline)
+                        .italic()
                         .foregroundColor(editDisabled ? .primary : .accentColor)
                 }.disabled(editDisabled)
             }
@@ -146,31 +155,22 @@ struct LoanDetailSectionView: View {
                 ).disabled(editDisabled)
             }
             HStack {
-                Text("Reminder").foregroundColor(.secondary)
-                DatePicker(
-                    "",
-                    selection: $loanVM.reminder,
-                    in: loanVM.loanDate...,
-                    displayedComponents: .date
-                ).disabled(editDisabled)
-            }
-            if(editDisabled) {
-                if(loanVM.returned) {
-                    HStack {
+                if(editDisabled) {
+                    if(loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
                         Spacer()
                         Image(systemName: "checkmark")
+                    } else {
+                        Toggle(isOn: $loanVM.returned) {
+                            Text("Returned").foregroundColor(.secondary)
+                        }.disabled(editDisabled)
                     }
                 } else {
                     Toggle(isOn: $loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
                     }.disabled(editDisabled)
                 }
-            } else {
-                Toggle(isOn: $loanVM.returned) {
-                    Text("Returned").foregroundColor(.secondary)
-                }.disabled(editDisabled)
-            }
+            }.disabled(loanVM.status == LoanStatus.new)
         }
     }
 }
@@ -183,6 +183,48 @@ struct LoanDetailSectionHeaderView: View {
             Spacer()
             Text(LocalizedStringKey(loanVM.status.name))
         }.padding(.bottom, 5)
+    }
+}
+// MARK: -
+struct LoanReminderSectionView: View {
+    @ObservedObject var loanVM: LoanVM
+    @Binding var editDisabled: Bool
+    var body: some View {
+        Section {
+            HStack {
+                Text("Reminder").foregroundColor(.secondary)
+                Spacer()
+                if(editDisabled) {
+                    if(loanVM.reminderActive) {
+                        DatePicker(
+                            "",
+                            selection: $loanVM.reminder,
+                            in: loanVM.loanDate...,
+                            displayedComponents: .date
+                        ).disabled(editDisabled)
+                    } else {
+                        Toggle(isOn: $loanVM.reminderActive) {
+                            Text("Reminder")
+                        }.disabled(editDisabled)
+                            .labelsHidden()
+                    }
+                } else {
+                    if(loanVM.reminderActive) {
+                        DatePicker(
+                            "",
+                            selection: $loanVM.reminder,
+                            in: loanVM.loanDate...,
+                            displayedComponents: .date
+                        ).disabled(editDisabled)
+                    }
+                    Spacer()
+                    Toggle(isOn: $loanVM.reminderActive) {
+                        Text("Reminder")
+                    }.disabled(editDisabled)
+                        .labelsHidden()
+                }
+            }
+        }
     }
 }
 // MARK: -

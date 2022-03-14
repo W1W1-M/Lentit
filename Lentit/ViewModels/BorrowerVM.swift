@@ -41,5 +41,4 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
     static func == (lhs: BorrowerVM, rhs: BorrowerVM) -> Bool {
         lhs.id == rhs.id
     }
-    
 }
