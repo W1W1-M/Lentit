@@ -27,8 +27,16 @@ struct SidebarMenuView: View {
             ) {
                 BorrowersListMenuItems()
             }
+            Section(header:
+                HStack {
+                    Image(systemName: "archivebox")
+                    Text("Items")
+                }
+            ) {
+                ItemsListMenuItems()
+            }
         }.listStyle(SidebarListStyle())
-        .navigationTitle("📒 Lentit")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 // MARK: -
@@ -40,28 +48,52 @@ struct CategoriesListMenuItems: View {
                 appVM.activeCategory = ItemCategories.all
             } label: {
                 HStack {
-                    Text(ItemCategories.all.fullName)
+                    ItemCategoryFullNameView(itemCategoryModel: ItemCategories.all)
+                    Spacer()
                     if(appVM.activeCategory == ItemCategories.all) {
-                        Spacer()
                         Image(systemName: "checkmark")
                     }
                 }
             }
-            ForEach(ItemCategories.categories) { LentItemCategoryModel in
+            ForEach(ItemCategories.categories) { ItemCategoryModel in
                 Button {
-                    appVM.activeCategory = LentItemCategoryModel
+                    appVM.activeCategory = ItemCategoryModel
                 } label: {
-                    if(appVM.activeCategory == LentItemCategoryModel) {
-                        HStack {
-                            Text("\(LentItemCategoryModel.fullName)")
-                            Spacer()
+                    HStack {
+                        ItemCategoryFullNameView(itemCategoryModel: ItemCategoryModel)
+                        Spacer()
+                        if(appVM.activeCategory == ItemCategoryModel) {
                             Image(systemName: "checkmark").foregroundColor(.accentColor)
                         }
-                    } else {
-                        Text("\(LentItemCategoryModel.fullName)")
                     }
                 }
             }
+        }
+    }
+}
+// MARK: -
+struct ItemCategoryFullNameView: View {
+    let itemCategoryModel: ItemCategoryModel
+    var body: some View {
+        switch itemCategoryModel {
+        case ItemCategories.all:
+            Text("\(itemCategoryModel.emoji) All")
+        case ItemCategories.books:
+            Text("\(itemCategoryModel.emoji) Books")
+        case ItemCategories.cars:
+            Text("\(itemCategoryModel.emoji) Cars")
+        case ItemCategories.clothes:
+            Text("\(itemCategoryModel.emoji) Clothes")
+        case ItemCategories.films:
+            Text("\(itemCategoryModel.emoji) Films")
+        case ItemCategories.other:
+            Text("\(itemCategoryModel.emoji) Other")
+        case ItemCategories.pens:
+            Text("\(itemCategoryModel.emoji) Pens")
+        case ItemCategories.toys:
+            Text("\(itemCategoryModel.emoji) Toys")
+        default:
+            Text("Unknown")
         }
     }
 }
@@ -71,10 +103,37 @@ struct BorrowersListMenuItems: View {
     var body: some View {
         ForEach(appVM.borrowerVMs) { BorrowerVM in
             Button {
-                
+                appVM.activeBorrower = BorrowerVM
             } label: {
-                HStack {
+                if(appVM.activeBorrower.id == BorrowerVM.id) {
+                    HStack {
+                        Text("\(BorrowerVM.nameText)")
+                        Spacer()
+                        Image(systemName: "checkmark").foregroundColor(.accentColor)
+                    }
+                } else {
                     Text("\(BorrowerVM.nameText)")
+                }
+            }
+        }
+    }
+}
+// MARK: -
+struct ItemsListMenuItems: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        ForEach(appVM.itemVMs) { ItemVM in
+            Button {
+                appVM.activeItem = ItemVM
+            } label: {
+                if(appVM.activeItem.id == ItemVM.id) {
+                    HStack {
+                        Text("\(ItemVM.nameText)")
+                        Spacer()
+                        Image(systemName: "checkmark").foregroundColor(.accentColor)
+                    }
+                } else {
+                    Text("\(ItemVM.nameText)")
                 }
             }
         }

@@ -16,7 +16,7 @@ struct AppView: View {
             NavigationView {
                 SidebarMenuView()
                 HomeLoanView()
-                TipView()
+                CreateLoanHintView()
             }.environmentObject(appVM)
         case .compact:
             NavigationView {
@@ -39,6 +39,7 @@ struct ContentView_Previews: PreviewProvider {
         if #available(iOS 15.0, *) {
             AppView().previewInterfaceOrientation(.portrait)
                 .environmentObject(AppVM())
+                .environment(\.locale, .init(identifier: "fr_FR"))
         } else {
             AppView()
                 .environmentObject(AppVM())

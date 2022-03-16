@@ -193,6 +193,24 @@ extension DataStoreModel {
             category: ItemCategories.categories[6],
             status: ItemStatus.unavailable,
             loanIds: []
+        ),
+        ItemModel(
+            id: UUID(),
+            name: "Bike",
+            description: "",
+            value: 100,
+            category: ItemCategories.categories[4],
+            status: ItemStatus.available,
+            loanIds: []
+        ),
+        ItemModel(
+            id: UUID(),
+            name: "Book",
+            description: "",
+            value: 200,
+            category: ItemCategories.categories[4],
+            status: ItemStatus.available,
+            loanIds: []
         )
     ]
     static var sampleBorrowerData: [BorrowerModel] = [
@@ -211,6 +229,12 @@ extension DataStoreModel {
         BorrowerModel(
             id: UUID(),
             name: "Charly",
+            status: BorrowerStatus.regular,
+            loanIds: []
+        ),
+        BorrowerModel(
+            id: UUID(),
+            name: "Bruno",
             status: BorrowerStatus.regular,
             loanIds: []
         )

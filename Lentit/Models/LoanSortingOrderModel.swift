@@ -6,21 +6,18 @@
 //
 
 import Foundation
-/// Custom type for lent item sort orders
+/// Custom type for loan sort orders
 struct LoanSortingOrderModel: Identifiable, Hashable, Equatable {
     let id: UUID
-    let name: String
     /// Custom initialization
-    /// - Parameter name: String to describe sorting order
-    init(name: String) {
+    init() {
         self.id = UUID()
-        self.name = name
     }
 }
-/// Predefined lent item sort orders
+/// Predefined loan sort orders
 struct LoanSortingOrders {
-    static let byItemName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Item")
-    static let byBorrowerName: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Borrower")
-    static let byLoanDate: LoanSortingOrderModel = LoanSortingOrderModel(name: "by Date")
+    static let byItemName: LoanSortingOrderModel = LoanSortingOrderModel()
+    static let byBorrowerName: LoanSortingOrderModel = LoanSortingOrderModel()
+    static let byLoanDate: LoanSortingOrderModel = LoanSortingOrderModel()
     static let sortingOrders: Array<LoanSortingOrderModel> = [byItemName, byBorrowerName, byLoanDate]
 }

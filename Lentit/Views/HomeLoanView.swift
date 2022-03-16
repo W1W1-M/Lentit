@@ -15,7 +15,8 @@ struct HomeLoanView: View {
             VStack {
                 LoanListStatusView(loanListVM: appVM.loanListVM)
                 if(appVM.loanListVM.loansCount == 0) {
-                    TipView()
+                    Spacer()
+                    CreateLoanHintView()
                     Spacer()
                 } else {
                     LoanListView(loanListVM: appVM.loanListVM)
@@ -56,26 +57,66 @@ struct LoanListStatusView: View {
                     Button {
                         appVM.activeStatus = LoanStatusModel
                     } label: {
-                        Text(LocalizedStringKey(LoanStatusModel.name))
+                        switch LoanStatusModel {
+                        case LoanStatus.new:
+                            Text("new")
+                        case LoanStatus.upcoming:
+                            Text("upcoming")
+                        case LoanStatus.current:
+                            Text("ongoing")
+                        case LoanStatus.finished:
+                            Text("finished")
+                        default:
+                            Text("unknown")
+                        }
                         Image(systemName: LoanStatusModel.symbolName)
                     }
                 }
             } label: {
-                Image(systemName: appVM.activeStatus.symbolName)
-                    .foregroundColor(appVM.activeStatus == LoanStatus.current ? Color.green : Color.red)
-                    .imageScale(.large)
-                Text(LocalizedStringKey(appVM.activeStatus.name)).fontWeight(.bold)
+                switch appVM.activeStatus {
+                case LoanStatus.new:
+                    Image(systemName: appVM.activeStatus.symbolName)
+                        .foregroundColor(Color.blue)
+                        .imageScale(.large)
+                    Text("new").fontWeight(.bold)
+                case LoanStatus.upcoming:
+                    Image(systemName: appVM.activeStatus.symbolName)
+                        .foregroundColor(Color.orange)
+                        .imageScale(.large)
+                    Text("upcoming").fontWeight(.bold)
+                case LoanStatus.current:
+                    Image(systemName: appVM.activeStatus.symbolName)
+                        .foregroundColor(Color.green)
+                        .imageScale(.large)
+                    Text("ongoing").fontWeight(.bold)
+                case LoanStatus.finished:
+                    Image(systemName: appVM.activeStatus.symbolName)
+                        .foregroundColor(Color.red)
+                        .imageScale(.large)
+                    Text("finished").fontWeight(.bold)
+                default:
+                    Image(systemName: appVM.activeStatus.symbolName)
+                        .foregroundColor(Color.black)
+                        .imageScale(.large)
+                    Text("unknown")
+                }
             }
             Spacer()
-            if(loanListVM.loansCount > 0) {
-                Text("\(loanListVM.loansCountText)")
+            switch loanListVM.loansCount {
+            case 0:
+                Text("")
+            case 1:
+                Text("\(loanListVM.loansCount) loan")
+                    .fontWeight(.bold)
+                    .foregroundColor(.secondary)
+            default:
+                Text("\(loanListVM.loansCount) loans")
                     .fontWeight(.bold)
                     .foregroundColor(.secondary)
             }
         }.font(.title3)
         .textCase(.lowercase)
-        .padding(.horizontal, 40)
-        .padding(.vertical, 10)
+        .padding(.horizontal, 30)
     }
 }
 // MARK: -
@@ -185,7 +226,16 @@ struct LoanListBottomToolbarView: View {
                         appVM.activeSort = LoanSortingOrderModel
                     } label: {
                         HStack {
-                            Text(LoanSortingOrderModel.name)
+                            switch LoanSortingOrderModel {
+                            case LoanSortingOrders.byItemName:
+                                Text("by Item")
+                            case LoanSortingOrders.byBorrowerName:
+                                Text("by Borrower")
+                            case LoanSortingOrders.byLoanDate:
+                                Text("by Date")
+                            default:
+                                Text("")
+                            }
                             if(appVM.activeSort == LoanSortingOrderModel) {
                                 Image(systemName: "checkmark")
                             }

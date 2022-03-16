@@ -1,17 +1,65 @@
 /* No comment provided by engineer. */
-"%@ loans" = "%@ prêts";
+"%@" = "%@";
+
+/* No comment provided by engineer. */
+"%@ All" = "%@ Tout";
+
+/* No comment provided by engineer. */
+"%@ Books" = "%@ Livres";
+
+/* No comment provided by engineer. */
+"%@ borrowers" = "%@ emprunteurs";
+
+/* No comment provided by engineer. */
+"%@ Cars" = "%@ Voitures";
+
+/* No comment provided by engineer. */
+"%@ Clothes" = "%@ Vêtements";
+
+/* No comment provided by engineer. */
+"%@ Films" = "%@ Films";
+
+/* No comment provided by engineer. */
+"%@ items" = "%@ objets";
+
+/* No comment provided by engineer. */
+"%@ Other" = "%@ Autres";
+
+/* No comment provided by engineer. */
+"%@ Pens" = "%@ Stylos";
+
+/* No comment provided by engineer. */
+"%@ Toys" = "%@ Jouets";
+
+/* No comment provided by engineer. */
+"%lld loan" = "%lld prêt";
+
+/* No comment provided by engineer. */
+"%lld loans" = "%lld prêts";
+
+/* No comment provided by engineer. */
+"📒 Loans" = "📒 Prêts";
+
+/* No comment provided by engineer. */
+"📦 Items" = "📦 Objets";
 
 /* No comment provided by engineer. */
 "Add" = "Ajouter";
 
 /* No comment provided by engineer. */
-"Borrower" = "Emprunteur";
+"Are you sure you want to delete this loan ?" = "Etes-vous sûr de vouloir supprimer ce prêt ?";
 
 /* No comment provided by engineer. */
 "Borrowers" = "Emprunteurs";
 
 /* No comment provided by engineer. */
-"by item name" = "par nom d'objet";
+"by Borrower" = "par Emprunteur";
+
+/* No comment provided by engineer. */
+"by Date" = "par Date";
+
+/* No comment provided by engineer. */
+"by Item" = "par Objet";
 
 /* No comment provided by engineer. */
 "Cancel" = "Annuler";
@@ -23,34 +71,91 @@
 "Category" = "Catégorie";
 
 /* No comment provided by engineer. */
+"Close" = "Fermer";
+
+/* No comment provided by engineer. */
 "Delete" = "Supprimer";
 
 /* No comment provided by engineer. */
-"Delete %@" = "Supprimer %@";
-
-/* No comment provided by engineer. */
-"Description" = "Description";
-
-/* No comment provided by engineer. */
-"Due" = "Fin";
+"Delete %@ loan" = "Supprimer prêt de %@";
 
 /* No comment provided by engineer. */
 "Edit" = "Modifier";
 
 /* No comment provided by engineer. */
-"For" = "Pour";
+"finished" = "terminé";
 
 /* No comment provided by engineer. */
-"Item" = "Objet";
+"Hint: Create a loan" = "Astuce: Ajouter un prêt";
+
+/* No comment provided by engineer. */
+"Image" = "Image";
+
+/* No comment provided by engineer. */
+"Items" = "Objets";
 
 /* No comment provided by engineer. */
 "Loan" = "Prêt";
 
 /* No comment provided by engineer. */
+"Loan to %@" = "Prêt à %@";
+
+/* No comment provided by engineer. */
 "Name" = "Nom";
 
 /* No comment provided by engineer. */
+"new" = "nouveau";
+
+/* No comment provided by engineer. */
+"New loan" = "Nouveau prêt";
+
+/* No comment provided by engineer. */
+"New Loan" = "Nouveau Prêt";
+
+/* No comment provided by engineer. */
+"🆕 New borrower" = "🆕 Nouveau emprunteur";
+
+/* No comment provided by engineer. */
+"🆕 New item" = "🆕 Nouvel objet";
+
+/* No comment provided by engineer. */
+"No Loans" = "Aucun prêt";
+
+/* No comment provided by engineer. */
+"Of" = "De";
+
+/* No comment provided by engineer. */
 "On" = "Le";
+
+/* No comment provided by engineer. */
+"ongoing" = "en cours";
+
+/* No comment provided by engineer. */
+"Reminder" = "Rappel";
+
+/* No comment provided by engineer. */
+"Returned" = "Rendu";
+
+/* No comment provided by engineer. */
+"Save" = "Enregistrer";
+
+/* No comment provided by engineer. */
+"Save new borrower" = "Enregistrer nouveau emprunteur";
+
+/* No comment provided by engineer. */
+"Save new item" = "Enregistrer nouvel objet";
+
+/* No comment provided by engineer. */
+"Save new loan" = "Enregistrer nouveau prêt";
+
+/* No comment provided by engineer. */
+"Select borrower" = "Choisir emprunteur";
+
+/* No comment provided by engineer. */
+"Select item" = "Choisir objet";
+
+/* No comment provided by engineer. */
+"Settings" = "Paramètres";
 
 /* No comment provided by engineer. */
 "Sort" = "Trier";
@@ -59,40 +164,14 @@
 "To" = "A";
 
 /* No comment provided by engineer. */
-"Of" = "De";
+"unknown" = "inconnu";
+
+/* No comment provided by engineer. */
+"Unknown" = "Inconnu";
+
+/* No comment provided by engineer. */
+"upcoming" = "à venir";
 
 /* No comment provided by engineer. */
 "Value" = "Valeur";
 
-/* No comment provided by engineer. */
-"Reminder" = "Rappel";
-
-/* No comment provided by engineer. */
-"Returned / Sold" = "Rendu / Vendu";
-
-/* No comment provided by engineer. */
-"Upcoming" = "A venir";
-
-/* No comment provided by engineer. */
-"Ongoing" = "En cours";
-
-/* No comment provided by engineer. */
-"Finished" = "Terminé";
-
-/* No comment provided by engineer. */
-"📒 Loans" = "📒 Prêts";
-
-/* No comment provided by engineer. */
-"Close" = "Fermer";
-
-/* No comment provided by engineer. */
-"📦 Items" = "📦 Objets";
-
-/* No comment provided by engineer. */
-"%@ items" = "%@ objets";
-
-/* No comment provided by engineer. */
-"Create new item" = "Créer nouvel objet";
-
-/* No comment provided by engineer. */
-"New Loan" = "Nouveau Prêt";

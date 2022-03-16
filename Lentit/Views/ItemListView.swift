@@ -23,7 +23,7 @@ struct ItemListView: View {
                             TextField("Value", text: $itemListVM.newItemValueText)
                             Picker("Category", selection: $itemListVM.newItemCategory) {
                                 ForEach(ItemCategories.categories) { ItemCategoryModel in
-                                    Text("\(ItemCategoryModel.fullName)").tag(ItemCategoryModel)
+                                    ItemCategoryFullNameView(itemCategoryModel: ItemCategoryModel).tag(ItemCategoryModel)
                                 }
                             }.pickerStyle(.menu)
                         }
@@ -119,7 +119,7 @@ struct ItemListItemButtonView: View {
                         Spacer()
                     }.padding(2)
                     HStack {
-                        Text("\(itemVM.category.fullName)")
+                        ItemCategoryFullNameView(itemCategoryModel: itemVM.category)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()

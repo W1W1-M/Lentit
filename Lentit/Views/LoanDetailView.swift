@@ -38,6 +38,7 @@ struct LoanDetailView: View {
                     Spacer()
                     SaveNewLoanButtonView(
                         loanVM: loanVM,
+                        editDisabled: $editDisabled,
                         navigationLinkIsActive: $navigationLinkIsActive
                     )
                 }
@@ -181,7 +182,18 @@ struct LoanDetailSectionHeaderView: View {
         HStack {
             Text("Loan")
             Spacer()
-            Text(LocalizedStringKey(loanVM.status.name))
+            switch loanVM.status {
+            case LoanStatus.new:
+                Text("new")
+            case LoanStatus.upcoming:
+                Text("upcoming")
+            case LoanStatus.current:
+                Text("ongoing")
+            case LoanStatus.finished:
+                Text("finished")
+            default:
+                Text("unknown")
+            }
         }.padding(.bottom, 5)
     }
 }
@@ -229,11 +241,15 @@ struct LoanReminderSectionView: View {
 }
 // MARK: -
 struct SaveNewLoanButtonView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
+    @Binding var editDisabled: Bool
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         Button {
+            editDisabled = true
             loanVM.status = LoanStatus.current
+            appVM.activeStatus = LoanStatus.current
             navigationLinkIsActive = false
         } label: {
             HStack {
@@ -246,7 +262,7 @@ struct SaveNewLoanButtonView: View {
             .padding()
         }.background(Color("InvertedAccentColor"))
         .clipShape(Capsule())
-        .padding()
+        .padding(.horizontal)
     }
 }
 // MARK: -
@@ -296,6 +312,7 @@ struct LoanDetailView_Previews: PreviewProvider {
         //
         SaveNewLoanButtonView(
             loanVM: LoanVM(),
+            editDisabled: .constant(true),
             navigationLinkIsActive: .constant(false)
         ).previewLayout(.sizeThatFits)
     }
