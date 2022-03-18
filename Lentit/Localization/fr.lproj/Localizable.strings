@@ -38,9 +38,6 @@
 "%lld loans" = "%lld prêts";
 
 /* No comment provided by engineer. */
-"📒 Loans" = "📒 Prêts";
-
-/* No comment provided by engineer. */
 "📦 Items" = "📦 Objets";
 
 /* No comment provided by engineer. */
@@ -86,7 +83,10 @@
 "finished" = "terminé";
 
 /* No comment provided by engineer. */
-"Hint: Create a loan" = "Astuce: Ajouter un prêt";
+"Hint: Create a loan" = "Astuce : Ajouter un prêt";
+
+/* No comment provided by engineer. */
+"Hint: Select a loan from the list" = "Astuce : Choisir un prêt de la liste";
 
 /* No comment provided by engineer. */
 "Image" = "Image";
@@ -99,6 +99,9 @@
 
 /* No comment provided by engineer. */
 "Loan to %@" = "Prêt à %@";
+
+/* No comment provided by engineer. */
+"Loans" = "Prêts";
 
 /* No comment provided by engineer. */
 "Name" = "Nom";
@@ -117,6 +120,9 @@
 
 /* No comment provided by engineer. */
 "🆕 New item" = "🆕 Nouvel objet";
+
+/* No comment provided by engineer. */
+"No Loan Selected" = "Aucun prêt sélectionné";
 
 /* No comment provided by engineer. */
 "No Loans" = "Aucun prêt";

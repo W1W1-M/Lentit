@@ -24,5 +24,5 @@ struct HintModel: Identifiable {
 
 struct Tips {
     static let createLoan: HintModel = HintModel(hintSymbol1: "eyes", hintSymbol2: "arrow.down.circle")
-    static let selectLoan: HintModel = HintModel(hintSymbol1: "eyes", hintSymbol2: "arrow.left.circle")
+    static let selectLoan: HintModel = HintModel(hintSymbol1: "questionmark.app.dashed", hintSymbol2: "arrow.left.circle")
 }

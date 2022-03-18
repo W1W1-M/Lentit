@@ -7,6 +7,13 @@
 
 import SwiftUI
 // MARK: - Views
+struct HintView: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        CreateLoanHintView()
+    }
+}
+// MARK: - Views
 struct CreateLoanHintView: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
@@ -16,14 +23,38 @@ struct CreateLoanHintView: View {
                 ItemCategoryFullNameView(itemCategoryModel: appVM.activeCategory).padding(2)
             }.padding()
             Image(systemName: "\(Tips.createLoan.hintSymbol1)")
-                .font(.system(size: 60))
+                .font(.largeTitle)
+                .imageScale(.large)
                 .padding()
             Text("Hint: Create a loan")
                 .font(.headline)
                 .italic()
                 .padding()
             Image(systemName: "\(Tips.createLoan.hintSymbol2)")
-                .font(.system(size: 40))
+                .font(.largeTitle)
+                .imageScale(.large)
+                .padding()
+        }.foregroundColor(.secondary)
+    }
+}
+// MARK: - Views
+struct SelectLoanHintView: View {
+    var body: some View {
+        VStack {
+            VStack {
+                Text("No Loan Selected").font(.title)
+            }.padding()
+            Image(systemName: "\(Tips.selectLoan.hintSymbol1)")
+                .font(.largeTitle)
+                .imageScale(.large)
+                .padding()
+            Text("Hint: Select a loan from the list")
+                .font(.headline)
+                .italic()
+                .padding()
+            Image(systemName: "\(Tips.selectLoan.hintSymbol2)")
+                .font(.largeTitle)
+                .imageScale(.large)
                 .padding()
         }.foregroundColor(.secondary)
     }
@@ -34,5 +65,6 @@ struct HintView_Previews: PreviewProvider {
         CreateLoanHintView()
             .environmentObject(AppVM())
             .previewLayout(.sizeThatFits)
+        SelectLoanHintView().previewLayout(.sizeThatFits)
     }
 }

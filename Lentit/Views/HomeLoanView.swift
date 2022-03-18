@@ -23,8 +23,7 @@ struct HomeLoanView: View {
                 }
                 NewLoanButtonView()
             }
-        }.navigationTitle("📒 Loans")
-        .navigationViewStyle(DefaultNavigationViewStyle())
+        }.navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -75,32 +74,22 @@ struct LoanListStatusView: View {
             } label: {
                 switch appVM.activeStatus {
                 case LoanStatus.new:
-                    Image(systemName: appVM.activeStatus.symbolName)
-                        .foregroundColor(Color.blue)
-                        .imageScale(.large)
+                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.blue)
                     Text("new").fontWeight(.bold)
                 case LoanStatus.upcoming:
-                    Image(systemName: appVM.activeStatus.symbolName)
-                        .foregroundColor(Color.orange)
-                        .imageScale(.large)
+                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.orange)
                     Text("upcoming").fontWeight(.bold)
                 case LoanStatus.current:
-                    Image(systemName: appVM.activeStatus.symbolName)
-                        .foregroundColor(Color.green)
-                        .imageScale(.large)
+                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.green)
                     Text("ongoing").fontWeight(.bold)
                 case LoanStatus.finished:
-                    Image(systemName: appVM.activeStatus.symbolName)
-                        .foregroundColor(Color.red)
-                        .imageScale(.large)
+                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.red)
                     Text("finished").fontWeight(.bold)
                 default:
-                    Image(systemName: appVM.activeStatus.symbolName)
-                        .foregroundColor(Color.black)
-                        .imageScale(.large)
-                    Text("unknown")
+                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.black)
+                    Text("unknown").fontWeight(.bold)
                 }
-            }
+            }.imageScale(.large)
             Spacer()
             switch loanListVM.loansCount {
             case 0:
