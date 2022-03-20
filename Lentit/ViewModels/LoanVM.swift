@@ -14,6 +14,7 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var loanDate: Date {
         didSet{
             loan.loanDate = self.loanDate
+            loanDateText = setLoanDateText(for: loanDate)
         }
     }
     @Published var loanDateText: String
@@ -42,23 +43,24 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var borrowerVM: BorrowerVM
     // MARK: - Init
     init() {
-        self.loan = DataStoreModel.defaultLoanData
-        self.id = DataStoreModel.defaultLoanData.id
-        self.loanDate = DataStoreModel.defaultLoanData.loanDate
-        self.loanDateText = "\(DataStoreModel.defaultLoanData.loanDate)"
-        self.reminder = DataStoreModel.defaultLoanData.reminder
-        self.reminderActive = DataStoreModel.defaultLoanData.reminderActive
-        self.returned = DataStoreModel.defaultLoanData.returned
-        self.status = DataStoreModel.defaultLoanData.status
+        self.loan = LoanModel.defaultData
+        self.id = LoanModel.defaultData.id
+        self.loanDate = LoanModel.defaultData.loanDate
+        self.loanDateText = "\(LoanModel.defaultData.loanDate)"
+        self.reminder = LoanModel.defaultData.reminder
+        self.reminderActive = LoanModel.defaultData.reminderActive
+        self.returned = LoanModel.defaultData.returned
+        self.status = LoanModel.defaultData.status
         self.itemVM = ItemVM()
         self.borrowerVM = BorrowerVM()
+        //
+        self.loanDateText = setLoanDateText(for: loanDate)
     }
     // MARK: - Functions
     func setLoanVM(from loanModel: LoanModel, _ itemVM: ItemVM, _ borrowerVM: BorrowerVM) {
         self.loan = loanModel
         self.id = loanModel.id
         self.loanDate = loanModel.loanDate
-        self.loanDateText = setLoanDateText(for: loanDate)
         self.reminder = loanModel.reminder
         self.reminderActive = loanModel.reminderActive
         self.returned = loanModel.returned

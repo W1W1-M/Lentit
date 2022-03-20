@@ -34,3 +34,12 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
         hasher.combine(id)
     }
 }
+
+extension BorrowerModel {
+    static var defaultData: BorrowerModel = BorrowerModel(
+        id: UUID(),
+        name: "Unknown borrower",
+        status: BorrowerStatus.unknown,
+        loanIds: [UUID()]
+    )
+}

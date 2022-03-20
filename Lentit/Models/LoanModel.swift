@@ -12,7 +12,9 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var id: UUID
     var loanDate: Date
     var loanTime: TimeInterval
-    var loanExpiry: Date
+    var loanExpiry: Date {
+        loanDate.addingTimeInterval(loanTime)
+    }
     var reminder: Date
     var reminderActive: Bool
     var returned: Bool
@@ -24,7 +26,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         id: UUID,
         loanDate: Date,
         loanTime: TimeInterval,
-        loanExpiry: Date,
         reminder: Date,
         reminderActive: Bool,
         returned: Bool,
@@ -35,7 +36,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         self.id = id
         self.loanDate = loanDate
         self.loanTime = loanTime
-        self.loanExpiry = loanExpiry
         self.reminder = reminder
         self.reminderActive = reminderActive
         self.returned = returned
@@ -47,4 +47,18 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     static func == (lhs: LoanModel, rhs: LoanModel) -> Bool {
         lhs.id == rhs.id
     }
+}
+
+extension LoanModel {
+    static var defaultData: LoanModel = LoanModel(
+        id: UUID(),
+        loanDate: Date(),
+        loanTime: 100000.0,
+        reminder: Date(),
+        reminderActive: false,
+        returned: false,
+        status: LoanStatus.unknown,
+        itemId: UUID(),
+        borrowerId: UUID()
+    )
 }

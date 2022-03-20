@@ -104,7 +104,6 @@ class AppVM: ObservableObject {
             id: UUID(),
             loanDate: Date(),
             loanTime: 100000.0, // WIP
-            loanExpiry: Date(), // WIP
             reminder: Date(timeIntervalSinceNow: 30*24*60*60), // WIP
             reminderActive: false,
             returned: false,

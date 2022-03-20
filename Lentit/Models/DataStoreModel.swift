@@ -89,39 +89,11 @@ class DataStoreModel: ObservableObject {
 }
 // MARK: - Extensions
 extension DataStoreModel {
-    static var defaultLoanData: LoanModel = LoanModel(
-        id: UUID(),
-        loanDate: Date(),
-        loanTime: 100000.0,
-        loanExpiry: Date(),
-        reminder: Date(),
-        reminderActive: false,
-        returned: false,
-        status: LoanStatus.unknown,
-        itemId: UUID(),
-        borrowerId: UUID()
-    )
-    static var defaultItemData: ItemModel = ItemModel(
-        id: UUID(),
-        name: "Unknown item",
-        description: "Unknown description",
-        value: 100,
-        category: ItemCategories.categories[4],
-        status: ItemStatus.unknown,
-        loanIds: [UUID()]
-    )
-    static var defaultBorrowerData: BorrowerModel = BorrowerModel(
-        id: UUID(),
-        name: "Unknown borrower",
-        status: BorrowerStatus.unknown,
-        loanIds: [UUID()]
-    )
     static var sampleLoanData: [LoanModel] = [
         LoanModel(
             id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
-            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: false,
             returned: false,
@@ -133,7 +105,6 @@ extension DataStoreModel {
             id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
-            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: true,
             returned: false,
@@ -145,7 +116,6 @@ extension DataStoreModel {
             id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
-            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: false,
             returned: true,
@@ -157,7 +127,6 @@ extension DataStoreModel {
             id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
-            loanExpiry: Date(timeInterval: 600000.0, since: Date()),
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: true,
             returned: false,

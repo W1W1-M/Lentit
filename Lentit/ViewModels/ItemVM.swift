@@ -20,11 +20,11 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
     }
     // MARK: - Init
     init() {
-        self.item = DataStoreModel.defaultItemData
-        self.id = DataStoreModel.defaultItemData.id
-        self.nameText = DataStoreModel.defaultItemData.name
-        self.category = ItemCategories.categories[4]
-        self.status = DataStoreModel.defaultItemData.status
+        self.item = ItemModel.defaultData
+        self.id = ItemModel.defaultData.id
+        self.nameText = ItemModel.defaultData.name
+        self.category = ItemModel.defaultData.category
+        self.status = ItemModel.defaultData.status
     }
     // MARK: - Functions
     func setItemVM(from itemModel: ItemModel) {

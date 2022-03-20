@@ -42,3 +42,15 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         hasher.combine(id)
     }
 }
+
+extension ItemModel {
+    static var defaultData: ItemModel = ItemModel(
+        id: UUID(),
+        name: "Unknown item",
+        description: "Unknown description",
+        value: 100,
+        category: ItemCategories.categories[4],
+        status: ItemStatus.unknown,
+        loanIds: [UUID()]
+    )
+}
