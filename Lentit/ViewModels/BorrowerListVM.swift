@@ -11,14 +11,12 @@ import Foundation
 class BorrowerListVM: ObservableObject {
     // MARK: - Variables
     @Published var borrowersCount: Int
-    @Published var borrowersCountText: String
     @Published var newBorrowerPresented: Bool
     @Published var newBorrowerId: UUID
     @Published var newBorrowerName: String
     // MARK: - Init
     init() {
         self.borrowersCount = 0
-        self.borrowersCountText = "0"
         self.newBorrowerPresented = false
         self.newBorrowerId = UUID()
         self.newBorrowerName = ""
@@ -26,7 +24,6 @@ class BorrowerListVM: ObservableObject {
     // MARK: - Functions
     func setBorrowersCount(for borrowerVMs: [BorrowerVM]) {
         self.borrowersCount = borrowerVMs.count
-        self.borrowersCountText = "\(borrowersCount)"
     }
     func showNewBorrower() {
         resetNewBorrower()

@@ -101,7 +101,6 @@ class AppVM: ObservableObject {
     }
     func createLoan() {
         let newLoan = LoanModel(
-            id: UUID(),
             loanDate: Date(),
             loanTime: 100000.0, // WIP
             reminder: Date(timeIntervalSinceNow: 30*24*60*60), // WIP
@@ -187,9 +186,8 @@ class AppVM: ObservableObject {
         }
         return itemVMs
     }
-    func createItem(id: UUID, named name: String, worth value: Int, typed category: ItemCategoryModel) {
+    func createItem(named name: String, worth value: Int, typed category: ItemCategoryModel) -> UUID {
         let newItem = ItemModel(
-            id: id,
             name: name,
             description: "",
             value: value,
@@ -199,6 +197,7 @@ class AppVM: ObservableObject {
         )
         self.dataStore.createItem(newItem: newItem)
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
+        return newItem.id
     }
     func getItem(with id: UUID) -> ItemVM {
         if let itemVM = itemVMs.first(where: { $0.id == id }) {
@@ -231,15 +230,15 @@ class AppVM: ObservableObject {
         }
         return borrowerVMs
     }
-    func createBorrower(id: UUID, named name: String) {
+    func createBorrower(named name: String) -> UUID {
         let newBorrower = BorrowerModel(
-            id: id,
             name: name,
             status: BorrowerStatus.new,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
+        return newBorrower.id
     }
     func getBorrower(with id: UUID) -> BorrowerVM {
         if let borrowerVM = borrowerVMs.first(where: { $0.id == id }) {

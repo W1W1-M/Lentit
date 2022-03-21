@@ -11,7 +11,6 @@ import Foundation
 class ItemListVM: ObservableObject {
     // MARK: - Variables
     @Published var itemsCount: Int
-    @Published var itemsCountText: String
     @Published var newItemPresented: Bool
     @Published var newItemId: UUID
     @Published var newItemName: String
@@ -25,7 +24,6 @@ class ItemListVM: ObservableObject {
     // MARK: - Init
     init() {
         self.itemsCount = 0
-        self.itemsCountText = "0"
         self.newItemPresented = false
         self.newItemId = UUID()
         self.newItemName = ""
@@ -36,7 +34,6 @@ class ItemListVM: ObservableObject {
     // MARK: - Functions
     func setItemsCount(for itemVMs: [ItemVM]) {
         self.itemsCount = itemVMs.count
-        self.itemsCountText = "\(itemsCount)"
     }
     func showNewItem() {
         resetNewItem()

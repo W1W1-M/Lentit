@@ -13,6 +13,37 @@ struct HomeLoanView: View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
+                Menu {
+                    Button {
+                        
+                    } label: {
+                        HStack {
+                            Text("Loans")
+                            Image(systemName: "book.circle")
+                        }
+                    }.disabled(true)
+                    Button {
+                        
+                    } label: {
+                        HStack {
+                            Text("Borrowers")
+                            Image(systemName: "person.circle")
+                        }
+                    }.disabled(true)
+                    Button {
+                        
+                    } label: {
+                        HStack {
+                            Text("Items")
+                            Image(systemName: "archivebox.circle")
+                        }
+                    }.disabled(true)
+                } label: {
+                    Image(systemName: "book.circle.fill")
+                    Text("Loans").bold()
+                    Spacer()
+                }.padding()
+                .font(.largeTitle)
                 LoanListStatusView(loanListVM: appVM.loanListVM)
                 if(appVM.loanListVM.loansCount == 0) {
                     Spacer()

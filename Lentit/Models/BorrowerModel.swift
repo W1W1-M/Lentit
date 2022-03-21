@@ -10,18 +10,17 @@ import Foundation
 /// Data model for a person who borrows an item
 class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Variables
-    var id: UUID
+    let id: UUID
     var name: String
     var status: BorrowerStatusModel
     var loanIds: [UUID]
 // MARK: - Init
     init(
-        id: UUID,
         name: String,
         status: BorrowerStatusModel,
         loanIds: [UUID]
     ) {
-        self.id = id
+        self.id = UUID()
         self.name = name
         self.status = status
         self.loanIds = []
@@ -37,7 +36,6 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 
 extension BorrowerModel {
     static var defaultData: BorrowerModel = BorrowerModel(
-        id: UUID(),
         name: "Unknown borrower",
         status: BorrowerStatus.unknown,
         loanIds: [UUID()]

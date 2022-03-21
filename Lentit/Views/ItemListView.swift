@@ -29,8 +29,7 @@ struct ItemListView: View {
                         }
                         Section {
                             Button {
-                                appVM.createItem(
-                                    id: itemListVM.newItemId,
+                                itemListVM.newItemId = appVM.createItem(
                                     named: itemListVM.newItemName,
                                     worth: itemListVM.newItemValue,
                                     typed: itemListVM.newItemCategory
@@ -49,7 +48,7 @@ struct ItemListView: View {
                             .foregroundColor(.white)
                         }.listRowBackground(Color("InvertedAccentColor"))
                     }
-                    Section(header: Text("\(itemListVM.itemsCountText) items")) {
+                    Section(header: Text("\(itemListVM.itemsCount) items")) {
                         ForEach(appVM.itemVMs) { ItemVM in
                             ItemListItemButtonView(
                                 loanVM: loanVM,

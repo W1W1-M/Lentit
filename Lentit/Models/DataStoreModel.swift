@@ -6,62 +6,58 @@
 //
 import Foundation
 // MARK: - Classes
-/// Store for lent items
+/// Store for loans, items & borrowers
 class DataStoreModel: ObservableObject {
-// MARK: - Variables
-    @Published var storedLoans: [LoanModel]
-    @Published var storedItems: [ItemModel]
-    @Published var storedBorrowers: [BorrowerModel]
+// MARK: - Properties
+    private var storedLoans: [LoanModel]
+    private var storedItems: [ItemModel]
+    private var storedBorrowers: [BorrowerModel]
     init() {
         self.storedLoans = DataStoreModel.sampleLoanData
         self.storedItems = DataStoreModel.sampleItemData
         self.storedBorrowers = DataStoreModel.sampleBorrowerData
     }
-// MARK: - Functions
+// MARK: - Methods
     // MARK: - Loan
+    /// Method to add a loan to store
+    /// - Parameter loan: LoanModel
     func createLoan(newLoan loan: LoanModel) {
         storedLoans.append(loan)
     }
-    /// <#Description#>
-    /// - Returns: <#description#>
+    /// Method to get loans in store
+    /// - Returns: Array of LoanModel
     func readStoredLoans() -> [LoanModel] {
         return storedLoans
     }
-    /// <#Description#>
-    /// - Parameter loan: <#loan description#>
+    /// Method to delete a loan from store
+    /// - Parameter loan: LoanModel
     func deleteLoan(oldLoan loan: LoanModel) {
         if let oldIndex = storedLoans.firstIndex(of: loan) {
             storedLoans.remove(at: oldIndex)
         }
     }
 // MARK: - Item
-    /// Function to  add a new lent item to the store
-    /// - Parameter item: Added lent item object
+    /// Method to add an item to store
+    /// - Parameter item: ItemModel
     func createItem(newItem item: ItemModel) {
         storedItems.append(item)
     }
-    /// Function to delete a new lent item to the store
-    /// - Parameter item: Deleted lent item object
+    /// Method to get items in store
+    /// - Returns: Array of ItemModel
+    func readStoredItems() -> [ItemModel] {
+        return storedItems
+    }
+    /// Method to update an item in store
+    /// - Parameter itemVM: ItemVM
+    func updateStoredItem(for itemVM: ItemVM) {
+        // WIP
+    }
+    /// Method to delete an item from store
+    /// - Parameter item: ItemModel
     func deleteItem(oldItem item: ItemModel) {
         if let oldIndex = storedItems.firstIndex(of: item) {
             storedItems.remove(at: oldIndex)
         }
-    }
-    /// Function to get lent items in store
-    /// - Returns: Array of lent item objects
-    func readStoredItems() -> [ItemModel] {
-        return storedItems
-    }
-    /// Function to update a lent item in store
-    /// - Parameter itemVM: Lent item view model containing changes for corresponding lent item model 
-    func updateStoredItem(for itemVM: ItemVM) {
-        // WIP
-    }
-    /// Function to get number of stored lent items
-    /// - Returns: Int of number of lent item objects in store
-    func getItemStoreCount() -> Int {
-        let storeCount = storedItems.count
-        return storeCount
     }
 // MARK: - Borrower
     /// <#Description#>
@@ -91,7 +87,6 @@ class DataStoreModel: ObservableObject {
 extension DataStoreModel {
     static var sampleLoanData: [LoanModel] = [
         LoanModel(
-            id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
             reminder: Date(timeInterval: 600000.0, since: Date()),
@@ -102,7 +97,6 @@ extension DataStoreModel {
             borrowerId: sampleBorrowerData[0].id
         ),
         LoanModel(
-            id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
             reminder: Date(timeInterval: 600000.0, since: Date()),
@@ -113,7 +107,6 @@ extension DataStoreModel {
             borrowerId: sampleBorrowerData[1].id
         ),
         LoanModel(
-            id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
             reminder: Date(timeInterval: 600000.0, since: Date()),
@@ -124,7 +117,6 @@ extension DataStoreModel {
             borrowerId: sampleBorrowerData[2].id
         ),
         LoanModel(
-            id: UUID(),
             loanDate: Date(),
             loanTime: 600000.0,
             reminder: Date(timeInterval: 600000.0, since: Date()),
@@ -137,7 +129,6 @@ extension DataStoreModel {
     ]
     static var sampleItemData: [ItemModel] = [
         ItemModel(
-            id: UUID(),
             name: "IronMan bluray",
             description: "Film about some guy in an armored suit",
             value: 10,
@@ -146,7 +137,6 @@ extension DataStoreModel {
             loanIds: []
         ),
         ItemModel(
-            id: UUID(),
             name: "Vibranium shield",
             description: "An old rusty medievil shield",
             value: 250,
@@ -155,7 +145,6 @@ extension DataStoreModel {
             loanIds: []
         ),
         ItemModel(
-            id: UUID(),
             name: "Spiderman lego",
             description: "Red lego bricks",
             value: 30,
@@ -164,7 +153,6 @@ extension DataStoreModel {
             loanIds: []
         ),
         ItemModel(
-            id: UUID(),
             name: "Bike",
             description: "",
             value: 100,
@@ -173,7 +161,6 @@ extension DataStoreModel {
             loanIds: []
         ),
         ItemModel(
-            id: UUID(),
             name: "Book",
             description: "",
             value: 200,
@@ -184,25 +171,21 @@ extension DataStoreModel {
     ]
     static var sampleBorrowerData: [BorrowerModel] = [
         BorrowerModel(
-            id: UUID(),
             name: "Sarah",
             status: BorrowerStatus.regular,
             loanIds: []
         ),
         BorrowerModel(
-            id: UUID(),
             name: "Anthony",
             status: BorrowerStatus.regular,
             loanIds: []
         ),
         BorrowerModel(
-            id: UUID(),
             name: "Charly",
             status: BorrowerStatus.regular,
             loanIds: []
         ),
         BorrowerModel(
-            id: UUID(),
             name: "Bruno",
             status: BorrowerStatus.regular,
             loanIds: []

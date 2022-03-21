@@ -23,10 +23,7 @@ struct BorrowerListView: View {
                         }
                         Section {
                             Button {
-                                appVM.createBorrower(
-                                    id: borrowerListVM.newBorrowerId,
-                                    named: borrowerListVM.newBorrowerName
-                                )
+                                borrowerListVM.newBorrowerId = appVM.createBorrower(named: borrowerListVM.newBorrowerName)
                                 loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
                                 borrowerListVM.hideNewBorrower()
                                 sheetPresented = false
@@ -41,7 +38,7 @@ struct BorrowerListView: View {
                             .foregroundColor(.white)
                         }.listRowBackground(Color("InvertedAccentColor"))
                     }
-                    Section(header: Text("\(borrowerListVM.borrowersCountText) borrowers")) {
+                    Section(header: Text("\(borrowerListVM.borrowersCount) borrowers")) {
                         ForEach(appVM.borrowerVMs) { BorrowerVM in
                             BorrowerListItemView(
                                 loanVM: loanVM,

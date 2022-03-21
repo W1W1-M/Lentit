@@ -9,8 +9,8 @@ import Foundation
 /// Loan view model
 class LoanVM: ObservableObject, Identifiable {
     // MARK: - Variables
-    var loan: LoanModel
-    @Published var id: UUID
+    private(set) var loan: LoanModel
+    private(set) var id: UUID
     @Published var loanDate: Date {
         didSet{
             loan.loanDate = self.loanDate

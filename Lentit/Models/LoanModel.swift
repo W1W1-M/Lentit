@@ -9,7 +9,7 @@ import Foundation
 /// Data model for a item loan
 class LoanModel: ObservableObject, Identifiable, Equatable {
     // MARK: - Variables
-    var id: UUID
+    let id: UUID
     var loanDate: Date
     var loanTime: TimeInterval
     var loanExpiry: Date {
@@ -23,7 +23,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var borrowerId: UUID
     // MARK: - Init
     init(
-        id: UUID,
         loanDate: Date,
         loanTime: TimeInterval,
         reminder: Date,
@@ -33,7 +32,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         itemId: UUID,
         borrowerId: UUID
     ) {
-        self.id = id
+        self.id = UUID()
         self.loanDate = loanDate
         self.loanTime = loanTime
         self.reminder = reminder
@@ -50,8 +49,17 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
 }
 
 extension LoanModel {
+    enum loanState: String {
+        case new = "play.circle"
+        case unknown = "questionmark.circle"
+        case upcoming = "calendar.circle"
+        case current = "hourglass.circle"
+        case finished = "stop.circle"
+    }
+}
+
+extension LoanModel {
     static var defaultData: LoanModel = LoanModel(
-        id: UUID(),
         loanDate: Date(),
         loanTime: 100000.0,
         reminder: Date(),

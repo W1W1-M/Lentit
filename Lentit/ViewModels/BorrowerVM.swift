@@ -9,8 +9,8 @@ import Foundation
 /// Borrower view model
 class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
     // MARK: - Variables
-    var borrower: BorrowerModel
-    @Published var id: UUID
+    private(set) var borrower: BorrowerModel
+    private(set) var id: UUID
     @Published var nameText: String {
         didSet{
             borrower.name = self.nameText

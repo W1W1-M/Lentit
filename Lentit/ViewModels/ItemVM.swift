@@ -9,8 +9,8 @@ import Foundation
 /// Item view model
 class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
     // MARK: - Variables
-    var item: ItemModel
-    @Published var id: UUID
+    private(set) var item: ItemModel
+    private(set) var id: UUID
     @Published var nameText: String
     @Published var category: ItemCategoryModel
     @Published var status: ItemStatusModel{
