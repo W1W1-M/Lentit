@@ -11,7 +11,6 @@ struct BorrowerListView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerListVM: BorrowerListVM
     @ObservedObject var loanVM: LoanVM
-    @Binding var sheetPresented: Bool
     var body: some View {
         NavigationView {
             ZStack {
@@ -26,7 +25,7 @@ struct BorrowerListView: View {
                                 borrowerListVM.newBorrowerId = appVM.createBorrower(named: borrowerListVM.newBorrowerName)
                                 loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
                                 borrowerListVM.hideNewBorrower()
-                                sheetPresented = false
+                                appVM.sheetPresented = false
                             } label: {
                                 HStack {
                                     Spacer()
@@ -42,8 +41,7 @@ struct BorrowerListView: View {
                         ForEach(appVM.borrowerVMs) { BorrowerVM in
                             BorrowerListItemView(
                                 loanVM: loanVM,
-                                borrowerVM: BorrowerVM,
-                                sheetPresented: $sheetPresented
+                                borrowerVM: BorrowerVM
                             )
                         }
                     }
@@ -53,7 +51,7 @@ struct BorrowerListView: View {
                     ToolbarItem(placement: .navigation) {
                         Button {
                             borrowerListVM.hideNewBorrower()
-                            sheetPresented = false
+                            appVM.sheetPresented = false
                         } label: {
                             Text("Close")
                         }
@@ -79,13 +77,13 @@ struct BorrowerListView: View {
 }
 // MARK: -
 struct BorrowerListItemView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @ObservedObject var borrowerVM: BorrowerVM
-    @Binding var sheetPresented: Bool
     var body: some View {
         Button {
             loanVM.setLoanBorrower(to: borrowerVM)
-            sheetPresented = false
+            appVM.sheetPresented = false
         } label: {
             HStack {
                 Text("\(borrowerVM.nameText)")
@@ -102,8 +100,7 @@ struct BorrowersListView_Previews: PreviewProvider {
     static var previews: some View {
         BorrowerListView(
             borrowerListVM: BorrowerListVM(),
-            loanVM: LoanVM(),
-            sheetPresented: .constant(true)
+            loanVM: LoanVM()
         ).environmentObject(AppVM())
     }
 }

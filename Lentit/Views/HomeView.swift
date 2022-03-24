@@ -1,5 +1,5 @@
 //
-//  HomeLoanView.swift
+//  HomeView.swift
 //  Lentit
 //
 //  Created by William Mead on 19/12/2021.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 // MARK: - Views
-struct HomeLoanView: View {
+struct HomeView: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
         ZStack {
@@ -15,44 +15,51 @@ struct HomeLoanView: View {
             VStack {
                 Menu {
                     Button {
-                        
+                        appVM.activeElement = .Loans
                     } label: {
                         HStack {
                             Text("Loans")
                             Image(systemName: "book.circle")
                         }
-                    }.disabled(true)
+                    }
                     Button {
-                        
+                        appVM.activeElement = .Borrowers
                     } label: {
                         HStack {
                             Text("Borrowers")
                             Image(systemName: "person.circle")
                         }
-                    }.disabled(true)
+                    }
                     Button {
-                        
+                        appVM.activeElement = .Items
                     } label: {
                         HStack {
                             Text("Items")
                             Image(systemName: "archivebox.circle")
                         }
-                    }.disabled(true)
+                    }
                 } label: {
                     Image(systemName: "book.circle.fill")
                     Text("Loans").bold()
                     Spacer()
                 }.padding()
                 .font(.largeTitle)
-                LoanListStatusView(loanListVM: appVM.loanListVM)
-                if(appVM.loanListVM.loansCount == 0) {
+                switch appVM.activeElement {
+                case .Loans:
+                    LoanListStatusView(loanListVM: appVM.loanListVM)
+                    if(appVM.loanListVM.loansCount == 0) {
+                        Spacer()
+                        CreateLoanHintView()
+                        Spacer()
+                    } else {
+                        LoanListView(loanListVM: appVM.loanListVM)
+                    }
+                    NewLoanButtonView()
+                case .Borrowers:
                     Spacer()
-                    CreateLoanHintView()
+                case .Items:
                     Spacer()
-                } else {
-                    LoanListView(loanListVM: appVM.loanListVM)
                 }
-                NewLoanButtonView()
             }
         }.navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -85,7 +92,7 @@ struct LoanListStatusView: View {
             Menu {
                 ForEach(LoanModel.Status.allCases) { Status in
                     Button {
-                        appVM.activeStatus = Status
+                        appVM.activeLoanStatus = Status
                     } label: {
                         switch Status {
                         case .new:
@@ -103,18 +110,18 @@ struct LoanListStatusView: View {
                     }
                 }
             } label: {
-                switch appVM.activeStatus {
+                switch appVM.activeLoanStatus {
                 case .new:
-                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.blue)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.blue)
                     Text("new").fontWeight(.bold)
                 case .upcoming:
-                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.orange)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.orange)
                     Text("upcoming").fontWeight(.bold)
                 case .current:
-                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.green)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.green)
                     Text("ongoing").fontWeight(.bold)
                 case .finished:
-                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.red)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.red)
                     Text("finished").fontWeight(.bold)
                 default:
                     Text("unknown")
@@ -178,7 +185,7 @@ struct LoanListItemView: View {
                 }
                 Spacer()
                 HStack {
-                    switch appVM.activeSort {
+                    switch appVM.activeLoanSort {
                     case LoanModel.SortingOrder.byItemName:
                         Text("\(loanVM.borrowerVM.nameText)")
                             .italic()
@@ -242,7 +249,7 @@ struct LoanListBottomToolbarView: View {
             Menu {
                 ForEach(LoanModel.SortingOrder.allCases) { SortingOrder in
                     Button {
-                        appVM.activeSort = SortingOrder
+                        appVM.activeLoanSort = SortingOrder
                     } label: {
                         HStack {
                             switch SortingOrder {
@@ -255,7 +262,7 @@ struct LoanListBottomToolbarView: View {
                             default:
                                 Text("")
                             }
-                            if(appVM.activeSort == SortingOrder) {
+                            if(appVM.activeLoanSort == SortingOrder) {
                                 Image(systemName: "checkmark")
                             }
                         }
@@ -275,7 +282,7 @@ struct LoanListView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            HomeLoanView()
+            HomeView()
         }.environmentObject(AppVM())
         //
         LoanListStatusView(loanListVM: LoanListVM())

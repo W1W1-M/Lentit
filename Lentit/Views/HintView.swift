@@ -20,7 +20,7 @@ struct CreateLoanHintView: View {
         VStack {
             VStack {
                 Text("No Loans").font(.title)
-                ItemCategoryFullNameView(itemCategory: appVM.activeCategory).padding(2)
+                ItemCategoryFullNameView(itemCategory: appVM.activeItemCategory).padding(2)
             }.padding()
             Image(systemName: "\(Tips.createLoan.hintSymbol1)")
                 .font(.largeTitle)

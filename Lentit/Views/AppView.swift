@@ -15,20 +15,20 @@ struct AppView: View {
         case .regular:
             NavigationView {
                 SidebarMenuView()
-                HomeLoanView()
+                HomeView()
                 SelectLoanHintView()
             }.environmentObject(appVM)
         case .compact:
             NavigationView {
-                HomeLoanView()
+                HomeView()
             }.environmentObject(appVM)
         case .none:
             NavigationView {
-                HomeLoanView()
+                HomeView()
             }.environmentObject(appVM)
         case .some(_):
             NavigationView {
-                HomeLoanView()
+                HomeView()
             }.environmentObject(appVM)
         }
     }

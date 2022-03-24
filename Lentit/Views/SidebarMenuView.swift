@@ -45,24 +45,24 @@ struct CategoriesListMenuItems: View {
     var body: some View {
         Group {
             Button {
-                appVM.activeCategory = ItemModel.Category.all
+                appVM.activeItemCategory = ItemModel.Category.all
             } label: {
                 HStack {
                     ItemCategoryFullNameView(itemCategory: ItemModel.Category.all)
                     Spacer()
-                    if(appVM.activeCategory == ItemModel.Category.all) {
+                    if(appVM.activeItemCategory == ItemModel.Category.all) {
                         Image(systemName: "checkmark")
                     }
                 }
             }
             ForEach(ItemModel.Category.allCases) { Category in
                 Button {
-                    appVM.activeCategory = Category
+                    appVM.activeItemCategory = Category
                 } label: {
                     HStack {
                         ItemCategoryFullNameView(itemCategory: Category)
                         Spacer()
-                        if(appVM.activeCategory == Category) {
+                        if(appVM.activeItemCategory == Category) {
                             Image(systemName: "checkmark").foregroundColor(.accentColor)
                         }
                     }

@@ -11,7 +11,6 @@ struct ItemListView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemListVM: ItemListVM
     @ObservedObject var loanVM: LoanVM
-    @Binding var sheetPresented: Bool
     var body: some View {
         NavigationView {
             ZStack {
@@ -36,7 +35,7 @@ struct ItemListView: View {
                                 )
                                 loanVM.setLoanItem(to: appVM.getItem(with: itemListVM.newItemId))
                                 itemListVM.hideNewItem()
-                                sheetPresented = false
+                                appVM.sheetPresented = false
                             } label: {
                                 HStack {
                                     Spacer()
@@ -52,8 +51,7 @@ struct ItemListView: View {
                         ForEach(appVM.itemVMs) { ItemVM in
                             ItemListItemButtonView(
                                 loanVM: loanVM,
-                                itemVM: ItemVM,
-                                sheetPresented: $sheetPresented
+                                itemVM: ItemVM
                             )
                         }
                     }
@@ -63,7 +61,7 @@ struct ItemListView: View {
                     ToolbarItem(placement: .navigation) {
                         Button {
                             itemListVM.hideNewItem()
-                            sheetPresented = false
+                            appVM.sheetPresented = false
                         } label: {
                             Text("Close")
                         }
@@ -94,13 +92,13 @@ struct ItemListView: View {
 }
 // MARK: -
 struct ItemListItemButtonView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @ObservedObject var itemVM : ItemVM
-    @Binding var sheetPresented: Bool
     var body: some View {
         Button {
             loanVM.setLoanItem(to: itemVM)
-            sheetPresented = false
+            appVM.sheetPresented = false
         } label: {
             HStack {
                 ZStack {
@@ -140,14 +138,12 @@ struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
         ItemListView(
             itemListVM: ItemListVM(),
-            loanVM: LoanVM(),
-            sheetPresented: .constant(true)
+            loanVM: LoanVM()
         ).environmentObject(AppVM())
         //
         ItemListItemButtonView(
             loanVM: LoanVM(),
-            itemVM: ItemVM(),
-            sheetPresented: .constant(false)
+            itemVM: ItemVM()
         ).previewLayout(.sizeThatFits)
     }
 }

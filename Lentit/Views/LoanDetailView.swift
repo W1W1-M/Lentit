@@ -11,9 +11,7 @@ struct LoanDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @State var editDisabled: Bool = true
-    @State var alertPresented: Bool = false
     @State var activeAlert: AlertModel = Alerts.deleteLoan
-    @State var sheetPresented: Bool = false
     @State var activeSheet: SheetModel = Sheets.borrowersList
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
@@ -25,7 +23,6 @@ struct LoanDetailView: View {
                     LoanDetailSectionView(
                         loanVM: loanVM,
                         editDisabled: $editDisabled,
-                        sheetPresented: $sheetPresented,
                         activeSheet: $activeSheet
                     )
                     if(loanVM.status != LoanModel.Status.finished) {
@@ -54,13 +51,12 @@ struct LoanDetailView: View {
             ToolbarItem(placement: .bottomBar) {
                 if(loanVM.status != LoanModel.Status.new) {
                     LoanDetailDeleteButtonView(
-                        alertPresented: $alertPresented,
                         editDisabled: editDisabled
                     )
                 }
             }
         }
-        .alert(isPresented: $alertPresented) {
+        .alert(isPresented: $appVM.alertPresented) {
             switch activeAlert {
             case Alerts.deleteLoan:
                 return Alert(
@@ -81,19 +77,17 @@ struct LoanDetailView: View {
                 return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
             }
         }
-        .sheet(isPresented: $sheetPresented) { [activeSheet] in // Explicit state capture. Fix for known SwiftUI bug.
+        .sheet(isPresented: $appVM.sheetPresented) { [activeSheet] in // Explicit state capture. Fix for known SwiftUI bug.
             switch activeSheet {
             case Sheets.borrowersList:
                 BorrowerListView(
                     borrowerListVM: appVM.borrowerListVM,
-                    loanVM: loanVM,
-                    sheetPresented: $sheetPresented
+                    loanVM: loanVM
                 )
             case Sheets.itemsList:
                 ItemListView(
                     itemListVM: appVM.itemListVM,
-                    loanVM: loanVM,
-                    sheetPresented: $sheetPresented
+                    loanVM: loanVM
                 )
             default:
                 EmptyView()
@@ -111,7 +105,7 @@ struct LoanDetailView: View {
             if(loanVM.status == LoanModel.Status.new) {
                 loanVM.status = LoanModel.Status.current
             }
-            appVM.activeStatus = loanVM.status
+            appVM.activeLoanStatus = loanVM.status
         })
     }
 }
@@ -130,9 +124,9 @@ struct LoanItemImageView: View {
 }
 // MARK: -
 struct LoanDetailSectionView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @Binding var editDisabled: Bool
-    @Binding var sheetPresented: Bool
     @Binding var activeSheet: SheetModel
     var body: some View {
         Section(header: LoanDetailSectionHeaderView(loanVM: loanVM)) {
@@ -141,7 +135,7 @@ struct LoanDetailSectionView: View {
                 Spacer()
                 Button {
                     activeSheet = Sheets.itemsList
-                    sheetPresented = true
+                    appVM.sheetPresented = true
                 } label: {
                     Text(loanVM.itemVM.status == ItemModel.Status.unknown ? "Select item" : "\(loanVM.itemVM.nameText)")
                         .font(.headline)
@@ -153,7 +147,7 @@ struct LoanDetailSectionView: View {
                 Spacer()
                 Button {
                     activeSheet = Sheets.borrowersList
-                    sheetPresented = true
+                    appVM.sheetPresented = true
                 } label: {
                     Text(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
                         .font(.headline)
@@ -263,7 +257,7 @@ struct SaveNewLoanButtonView: View {
         Button {
             editDisabled = true
             loanVM.status = LoanModel.Status.current
-            appVM.activeStatus = LoanModel.Status.current
+            appVM.activeLoanStatus = LoanModel.Status.current
             navigationLinkIsActive = false
         } label: {
             HStack {
@@ -295,11 +289,11 @@ struct LoanDetailEditButtonView: View {
 }
 // MARK: -
 struct LoanDetailDeleteButtonView: View {
-    @Binding var alertPresented: Bool
+    @EnvironmentObject var appVM: AppVM
     var editDisabled: Bool
     var body: some View {
         Button {
-            alertPresented = true
+            appVM.alertPresented = true
         } label: {
             HStack {
                 Text("Delete")
@@ -323,7 +317,6 @@ struct LoanDetailView_Previews: PreviewProvider {
         LoanDetailSectionView(
             loanVM: LoanVM(),
             editDisabled: .constant(true),
-            sheetPresented: .constant(false),
             activeSheet: .constant(Sheets.itemsList)
         ).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())

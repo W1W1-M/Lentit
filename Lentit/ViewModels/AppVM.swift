@@ -28,26 +28,26 @@ class AppVM: ObservableObject {
     @Published var loanListVM: LoanListVM
     @Published var borrowerListVM: BorrowerListVM
     @Published var itemListVM: ItemListVM
-    @Published var activeCategory: ItemModel.Category {
+    @Published var activeItemCategory: ItemModel.Category {
         didSet{
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
-            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory)
-            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeStatus)
-            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
+            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
             self.loanListVM.setLoansCount(for: loanVMs)
         }
     }
-    @Published var activeSort: LoanModel.SortingOrder {
+    @Published var activeLoanSort: LoanModel.SortingOrder {
         didSet{
-            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
+            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
         }
     }
-    @Published var activeStatus: LoanModel.Status {
+    @Published var activeLoanStatus: LoanModel.Status {
         didSet{
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
-            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeStatus)
-            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory)
-            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
+            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
             self.loanListVM.setLoansCount(for: loanVMs)
         }
     }
@@ -61,6 +61,14 @@ class AppVM: ObservableObject {
             
         }
     }
+    @Published var activeElement: Element
+    enum Element {
+        case Loans
+        case Borrowers
+        case Items
+    }
+    @Published var alertPresented: Bool
+    @Published var sheetPresented: Bool
     // MARK: - Init
     init() {
         // Initialize with empty data
@@ -71,17 +79,20 @@ class AppVM: ObservableObject {
         self.loanListVM = LoanListVM()
         self.borrowerListVM = BorrowerListVM()
         self.itemListVM = ItemListVM()
-        self.activeCategory = ItemModel.Category.all
-        self.activeSort = LoanModel.SortingOrder.byItemName
-        self.activeStatus = LoanModel.Status.current
+        self.activeItemCategory = ItemModel.Category.all
+        self.activeLoanSort = LoanModel.SortingOrder.byItemName
+        self.activeLoanStatus = LoanModel.Status.current
         self.activeBorrower = BorrowerVM()
         self.activeItem = ItemVM()
+        self.activeElement = Element.Loans
+        self.alertPresented = false
+        self.sheetPresented = false
         // Set view models
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
-        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeStatus)
-        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory)
+        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
+        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
         self.loanListVM.setLoansCount(for: loanVMs)
         self.borrowerListVM.setBorrowersCount(for: borrowerVMs)
         self.itemListVM.setItemsCount(for: itemVMs)
@@ -111,8 +122,8 @@ class AppVM: ObservableObject {
             borrowerId: UUID() // WIP
         )
         self.dataStore.createLoan(newLoan: newLoan)
-        self.activeCategory = ItemModel.Category.all
-        self.activeStatus = LoanModel.Status.new
+        self.activeItemCategory = ItemModel.Category.all
+        self.activeLoanStatus = LoanModel.Status.new
     }
     func deleteLoan(for loanVM: LoanVM) {
         self.dataStore.deleteLoan(oldLoan: loanVM.loan)
