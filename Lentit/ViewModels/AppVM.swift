@@ -42,7 +42,7 @@ class AppVM: ObservableObject {
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
         }
     }
-    @Published var activeStatus: LoanStatusModel {
+    @Published var activeStatus: LoanModel.Status {
         didSet{
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
             self.loanVMs = filterLoanVMs(for: loanVMs, by: activeStatus)
@@ -73,7 +73,7 @@ class AppVM: ObservableObject {
         self.itemListVM = ItemListVM()
         self.activeCategory = ItemCategories.all
         self.activeSort = LoanSortingOrders.byItemName
-        self.activeStatus = LoanStatus.current
+        self.activeStatus = LoanModel.Status.current
         self.activeBorrower = BorrowerVM()
         self.activeItem = ItemVM()
         // Set view models
@@ -106,13 +106,13 @@ class AppVM: ObservableObject {
             reminder: Date(timeIntervalSinceNow: 30*24*60*60), // WIP
             reminderActive: false,
             returned: false,
-            status: LoanStatus.new,
+            status: LoanModel.Status.new,
             itemId: UUID(), // WIP
             borrowerId: UUID() // WIP
         )
         self.dataStore.createLoan(newLoan: newLoan)
         self.activeCategory = ItemCategories.all
-        self.activeStatus = LoanStatus.new
+        self.activeStatus = LoanModel.Status.new
     }
     func deleteLoan(for loanVM: LoanVM) {
         self.dataStore.deleteLoan(oldLoan: loanVM.loan)
@@ -144,7 +144,7 @@ class AppVM: ObservableObject {
             return loanVMs.filter { $0.itemVM.category == activeCategory }
         }
     }
-    func filterLoanVMs(for loanVMs: [LoanVM], by activeStatus: LoanStatusModel) -> [LoanVM] {
+    func filterLoanVMs(for loanVMs: [LoanVM], by activeStatus: LoanModel.Status) -> [LoanVM] {
         loanVMs.filter { $0.status == activeStatus }
     }
     func filterLoanVMs(for loanVMs: [LoanVM], by activeBorrower: BorrowerVM) -> [LoanVM] {
@@ -192,7 +192,7 @@ class AppVM: ObservableObject {
             description: "",
             value: value,
             category: category,
-            status: ItemStatus.new,
+            status: ItemModel.Status.new,
             loanIds: []
         )
         self.dataStore.createItem(newItem: newItem)

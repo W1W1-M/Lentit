@@ -18,7 +18,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var reminder: Date
     var reminderActive: Bool
     var returned: Bool
-    var status: LoanStatusModel
+    var status: LoanModel.Status
     var itemId: UUID
     var borrowerId: UUID
     // MARK: - Init
@@ -28,7 +28,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         reminder: Date,
         reminderActive: Bool,
         returned: Bool,
-        status: LoanStatusModel,
+        status: LoanModel.Status,
         itemId: UUID,
         borrowerId: UUID
     ) {
@@ -49,12 +49,16 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
 }
 
 extension LoanModel {
-    enum loanState: String {
-        case new = "play.circle"
-        case unknown = "questionmark.circle"
-        case upcoming = "calendar.circle"
-        case current = "hourglass.circle"
-        case finished = "stop.circle"
+    /// Predefined loan status
+    struct Status: Identifiable, Equatable, CaseIterable {
+        let id: UUID = UUID()
+        let symbolName: String
+        static let allCases: Array<LoanModel.Status> = [.upcoming, .current, .finished]
+        static let unknown: Status = Status(symbolName: "questionmark.circle")
+        static let new: Status = Status(symbolName: "play.circle")
+        static let upcoming: Status = Status(symbolName: "calendar.circle")
+        static let current: Status = Status(symbolName: "hourglass.circle")
+        static let finished: Status = Status(symbolName: "stop.circle")
     }
 }
 
@@ -65,7 +69,7 @@ extension LoanModel {
         reminder: Date(),
         reminderActive: false,
         returned: false,
-        status: LoanStatus.unknown,
+        status: LoanModel.Status.unknown,
         itemId: UUID(),
         borrowerId: UUID()
     )

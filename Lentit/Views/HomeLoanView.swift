@@ -83,42 +83,41 @@ struct LoanListStatusView: View {
     var body: some View {
         HStack {
             Menu {
-                ForEach(LoanStatus.status) { LoanStatusModel in
+                ForEach(LoanModel.Status.allCases) { Status in
                     Button {
-                        appVM.activeStatus = LoanStatusModel
+                        appVM.activeStatus = Status
                     } label: {
-                        switch LoanStatusModel {
-                        case LoanStatus.new:
+                        switch Status {
+                        case .new:
                             Text("new")
-                        case LoanStatus.upcoming:
+                        case .upcoming:
                             Text("upcoming")
-                        case LoanStatus.current:
+                        case .current:
                             Text("ongoing")
-                        case LoanStatus.finished:
+                        case .finished:
                             Text("finished")
                         default:
                             Text("unknown")
                         }
-                        Image(systemName: LoanStatusModel.symbolName)
+                        Image(systemName: Status.symbolName)
                     }
                 }
             } label: {
                 switch appVM.activeStatus {
-                case LoanStatus.new:
+                case .new:
                     Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.blue)
                     Text("new").fontWeight(.bold)
-                case LoanStatus.upcoming:
+                case .upcoming:
                     Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.orange)
                     Text("upcoming").fontWeight(.bold)
-                case LoanStatus.current:
+                case .current:
                     Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.green)
                     Text("ongoing").fontWeight(.bold)
-                case LoanStatus.finished:
+                case .finished:
                     Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.red)
                     Text("finished").fontWeight(.bold)
                 default:
-                    Image(systemName: appVM.activeStatus.symbolName).foregroundColor(Color.black)
-                    Text("unknown").fontWeight(.bold)
+                    Text("unknown")
                 }
             }.imageScale(.large)
             Spacer()
@@ -201,7 +200,7 @@ struct LoanListItemView: View {
             }.padding(2)
         }.onAppear(perform: {
             // Programmatic navigation to newly added loan
-            if(loanVM.status == LoanStatus.new) {
+            if(loanVM.status == LoanModel.Status.new) {
                 navigationLinkIsActive = true
             }
         })

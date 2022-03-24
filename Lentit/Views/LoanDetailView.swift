@@ -20,6 +20,7 @@ struct LoanDetailView: View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
+                LoanItemImageView()
                 List {
                     LoanDetailSectionView(
                         loanVM: loanVM,
@@ -27,14 +28,14 @@ struct LoanDetailView: View {
                         sheetPresented: $sheetPresented,
                         activeSheet: $activeSheet
                     )
-                    if(loanVM.status != LoanStatus.finished) {
+                    if(loanVM.status != LoanModel.Status.finished) {
                         LoanReminderSectionView(
                             loanVM: loanVM,
                             editDisabled: $editDisabled
                         )
                     }
                 }.listStyle(.insetGrouped)
-                if(loanVM.status == LoanStatus.new) {
+                if(loanVM.status == LoanModel.Status.new) {
                     Spacer()
                     SaveNewLoanButtonView(
                         loanVM: loanVM,
@@ -46,12 +47,12 @@ struct LoanDetailView: View {
         }.navigationTitle(loanVM.borrowerVM.status == BorrowerStatus.unknown ? "New loan" : "Loan to \(loanVM.borrowerVM.nameText)")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if(loanVM.status != LoanStatus.new) {
+                if(loanVM.status != LoanModel.Status.new) {
                     LoanDetailEditButtonView(editDisabled: $editDisabled)
                 }
             }
             ToolbarItem(placement: .bottomBar) {
-                if(loanVM.status != LoanStatus.new) {
+                if(loanVM.status != LoanModel.Status.new) {
                     LoanDetailDeleteButtonView(
                         alertPresented: $alertPresented,
                         editDisabled: editDisabled
@@ -102,16 +103,29 @@ struct LoanDetailView: View {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if loan just added
-            if(loanVM.status == LoanStatus.new) {
+            if(loanVM.status == LoanModel.Status.new) {
                 editDisabled = false
             }
         })
         .onDisappear(perform: {
-            if(loanVM.status == LoanStatus.new) {
-                loanVM.status = LoanStatus.current
+            if(loanVM.status == LoanModel.Status.new) {
+                loanVM.status = LoanModel.Status.current
             }
             appVM.activeStatus = loanVM.status
         })
+    }
+}
+// MARK: -
+struct LoanItemImageView: View {
+    var body: some View {
+        ZStack {
+            Circle()
+                .frame(width: 200, height: 200)
+                .foregroundColor(.accentColor)
+            Text("Image")
+                .font(.largeTitle)
+                .foregroundColor(.white)
+        }.padding(.top)
     }
 }
 // MARK: -
@@ -129,7 +143,7 @@ struct LoanDetailSectionView: View {
                     activeSheet = Sheets.itemsList
                     sheetPresented = true
                 } label: {
-                    Text(loanVM.itemVM.status == ItemStatus.unknown ? "Select item" : "\(loanVM.itemVM.nameText)")
+                    Text(loanVM.itemVM.status == ItemModel.Status.unknown ? "Select item" : "\(loanVM.itemVM.nameText)")
                         .font(.headline)
                         .foregroundColor(editDisabled ? .primary : .accentColor)
                 }.disabled(editDisabled)
@@ -171,7 +185,7 @@ struct LoanDetailSectionView: View {
                         Text("Returned").foregroundColor(.secondary)
                     }.disabled(editDisabled)
                 }
-            }.disabled(loanVM.status == LoanStatus.new)
+            }.disabled(loanVM.status == LoanModel.Status.new)
         }
     }
 }
@@ -183,13 +197,13 @@ struct LoanDetailSectionHeaderView: View {
             Text("Loan")
             Spacer()
             switch loanVM.status {
-            case LoanStatus.new:
+            case .new:
                 Text("new")
-            case LoanStatus.upcoming:
+            case .upcoming:
                 Text("upcoming")
-            case LoanStatus.current:
+            case .current:
                 Text("ongoing")
-            case LoanStatus.finished:
+            case .finished:
                 Text("finished")
             default:
                 Text("unknown")
@@ -248,8 +262,8 @@ struct SaveNewLoanButtonView: View {
     var body: some View {
         Button {
             editDisabled = true
-            loanVM.status = LoanStatus.current
-            appVM.activeStatus = LoanStatus.current
+            loanVM.status = LoanModel.Status.current
+            appVM.activeStatus = LoanModel.Status.current
             navigationLinkIsActive = false
         } label: {
             HStack {
@@ -304,9 +318,13 @@ struct LoanDetailView_Previews: PreviewProvider {
             ).environmentObject(AppVM())
         }
         //
-        LoanDetailView(
+        LoanItemImageView().previewLayout(.sizeThatFits)
+        //
+        LoanDetailSectionView(
             loanVM: LoanVM(),
-            navigationLinkIsActive: .constant(true)
+            editDisabled: .constant(true),
+            sheetPresented: .constant(false),
+            activeSheet: .constant(Sheets.itemsList)
         ).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
         //

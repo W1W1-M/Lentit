@@ -92,7 +92,7 @@ extension DataStoreModel {
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: false,
             returned: false,
-            status: LoanStatus.current,
+            status: LoanModel.Status.current,
             itemId: sampleItemData[0].id,
             borrowerId: sampleBorrowerData[0].id
         ),
@@ -102,7 +102,7 @@ extension DataStoreModel {
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: true,
             returned: false,
-            status: LoanStatus.current,
+            status: LoanModel.Status.current,
             itemId: sampleItemData[1].id,
             borrowerId: sampleBorrowerData[1].id
         ),
@@ -112,7 +112,7 @@ extension DataStoreModel {
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: false,
             returned: true,
-            status: LoanStatus.finished,
+            status: LoanModel.Status.finished,
             itemId: sampleItemData[2].id,
             borrowerId: sampleBorrowerData[2].id
         ),
@@ -122,7 +122,7 @@ extension DataStoreModel {
             reminder: Date(timeInterval: 600000.0, since: Date()),
             reminderActive: true,
             returned: false,
-            status: LoanStatus.current,
+            status: LoanModel.Status.current,
             itemId: sampleItemData[1].id,
             borrowerId: sampleBorrowerData[2].id
         )
@@ -133,7 +133,7 @@ extension DataStoreModel {
             description: "Film about some guy in an armored suit",
             value: 10,
             category: ItemCategories.categories[3],
-            status: ItemStatus.unavailable,
+            status: ItemModel.Status.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -141,7 +141,7 @@ extension DataStoreModel {
             description: "An old rusty medievil shield",
             value: 250,
             category: ItemCategories.categories[2],
-            status: ItemStatus.unavailable,
+            status: ItemModel.Status.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -149,7 +149,7 @@ extension DataStoreModel {
             description: "Red lego bricks",
             value: 30,
             category: ItemCategories.categories[6],
-            status: ItemStatus.unavailable,
+            status: ItemModel.Status.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -157,7 +157,7 @@ extension DataStoreModel {
             description: "",
             value: 100,
             category: ItemCategories.categories[4],
-            status: ItemStatus.available,
+            status: ItemModel.Status.available,
             loanIds: []
         ),
         ItemModel(
@@ -165,7 +165,7 @@ extension DataStoreModel {
             description: "",
             value: 200,
             category: ItemCategories.categories[4],
-            status: ItemStatus.available,
+            status: ItemModel.Status.available,
             loanIds: []
         )
     ]
