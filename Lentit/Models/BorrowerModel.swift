@@ -12,12 +12,12 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Variables
     let id: UUID
     var name: String
-    var status: BorrowerStatusModel
+    var status: BorrowerModel.Status
     var loanIds: [UUID]
 // MARK: - Init
     init(
         name: String,
-        status: BorrowerStatusModel,
+        status: BorrowerModel.Status,
         loanIds: [UUID]
     ) {
         self.id = UUID()
@@ -35,9 +35,21 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 }
 
 extension BorrowerModel {
+    /// Predefined borrower status
+    struct Status: Identifiable, Equatable, Hashable, CaseIterable {
+        let id: UUID = UUID()
+        let symbolName: String
+        static let new: Status = Status(symbolName: "play.circle")
+        static let regular: Status = Status(symbolName: "person.circle")
+        static let unknown: Status = Status(symbolName: "questionmark.circle")
+        static let allCases: Array<BorrowerModel.Status> = [new, regular]
+    }
+}
+
+extension BorrowerModel {
     static var defaultData: BorrowerModel = BorrowerModel(
         name: "Unknown borrower",
-        status: BorrowerStatus.unknown,
+        status: BorrowerModel.Status.unknown,
         loanIds: [UUID()]
     )
 }

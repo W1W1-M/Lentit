@@ -179,15 +179,15 @@ struct LoanListItemView: View {
                 Spacer()
                 HStack {
                     switch appVM.activeSort {
-                    case LoanSortingOrders.byItemName:
+                    case LoanModel.SortingOrder.byItemName:
                         Text("\(loanVM.borrowerVM.nameText)")
                             .italic()
                             .foregroundColor(Color("AccentColor"))
-                    case LoanSortingOrders.byBorrowerName:
+                    case LoanModel.SortingOrder.byBorrowerName:
                         Text("\(loanVM.borrowerVM.nameText)")
                             .italic()
                             .foregroundColor(Color("AccentColor"))
-                    case LoanSortingOrders.byLoanDate:
+                    case LoanModel.SortingOrder.byLoanDate:
                         Text("\(loanVM.loanDateText)")
                             .italic()
                             .foregroundColor(Color("AccentColor"))
@@ -240,22 +240,22 @@ struct LoanListBottomToolbarView: View {
                 }
             }
             Menu {
-                ForEach(LoanSortingOrders.sortingOrders) { LoanSortingOrderModel in
+                ForEach(LoanModel.SortingOrder.allCases) { SortingOrder in
                     Button {
-                        appVM.activeSort = LoanSortingOrderModel
+                        appVM.activeSort = SortingOrder
                     } label: {
                         HStack {
-                            switch LoanSortingOrderModel {
-                            case LoanSortingOrders.byItemName:
+                            switch SortingOrder {
+                            case LoanModel.SortingOrder.byItemName:
                                 Text("by Item")
-                            case LoanSortingOrders.byBorrowerName:
+                            case LoanModel.SortingOrder.byBorrowerName:
                                 Text("by Borrower")
-                            case LoanSortingOrders.byLoanDate:
+                            case LoanModel.SortingOrder.byLoanDate:
                                 Text("by Date")
                             default:
                                 Text("")
                             }
-                            if(appVM.activeSort == LoanSortingOrderModel) {
+                            if(appVM.activeSort == SortingOrder) {
                                 Image(systemName: "checkmark")
                             }
                         }

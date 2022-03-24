@@ -12,7 +12,7 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
     private(set) var item: ItemModel
     private(set) var id: UUID
     @Published var nameText: String
-    @Published var category: ItemCategoryModel
+    @Published var category: ItemModel.Category
     @Published var status: ItemModel.Status{
         didSet{
             item.status = self.status

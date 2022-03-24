@@ -16,7 +16,7 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
             borrower.name = self.nameText
         }
     }
-    @Published var status: BorrowerStatusModel {
+    @Published var status: BorrowerModel.Status {
         didSet{
             borrower.status = self.status
         }

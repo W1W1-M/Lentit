@@ -8,12 +8,12 @@
 import Foundation
 /// Data model for lent item
 class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
-// MARK: - Variables
+// MARK: - Properties
     let id: UUID
     var name: String
     var description: String
     var value: Int
-    var category: ItemCategoryModel
+    var category: ItemModel.Category
     var status: ItemModel.Status
     var loanIds: [UUID]
 // MARK: - Init
@@ -21,7 +21,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         name: String,
         description: String,
         value: Int,
-        category: ItemCategoryModel,
+        category: ItemModel.Category,
         status: ItemModel.Status,
         loanIds: [UUID]
     ) {
@@ -33,7 +33,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         self.status = status
         self.loanIds = loanIds
     }
-// MARK: - Functions
+// MARK: - Methods
     static func == (lhs: ItemModel, rhs: ItemModel) -> Bool {
         lhs.id == rhs.id
     }
@@ -43,8 +43,9 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
 }
 
 extension ItemModel {
-    /// Predefined loan status
-    struct Status: Equatable, CaseIterable {
+    /// Predefined item status
+    struct Status: Identifiable, Equatable, CaseIterable {
+        // Properties
         let id: UUID = UUID()
         let symbolName: String
         static let allCases: Array<ItemModel.Status> = [new, available, unavailable]
@@ -53,6 +54,35 @@ extension ItemModel {
         static let available: Status = Status(symbolName: "checkmark.circle")
         static let unavailable: Status = Status(symbolName: "xmark.circle")
     }
+    /// Predefined  item categories
+    struct Category: Identifiable, Equatable, Hashable, CaseIterable {
+        // Properties
+        let id: UUID = UUID()
+        let emoji: String
+        static let all: Category = Category(emoji: "🗂")
+        static let books: Category = Category(emoji: "📚")
+        static let cars: Category = Category(emoji: "🚗")
+        static let clothes: Category = Category(emoji: "👔")
+        static let films: Category = Category(emoji: "🎞")
+        static let other: Category = Category(emoji: "📦")
+        static let pens: Category = Category(emoji: "🖊")
+        static let toys: Category = Category(emoji: "🧸")
+        static let allCases: Array<ItemModel.Category> = [books, cars, clothes, films, other, pens, toys]
+        // Methods
+        func getSingularCategoryName(name: String) -> String {
+            var singularName: String = ""
+            if(name.hasSuffix("s")) {
+                singularName = String(name.prefix(upTo: name.index(before: name.endIndex)))
+            } else if(name == "Other") {
+                singularName = name
+            } else if(name == "All") {
+                singularName = name
+            } else {
+                singularName = ""
+            }
+            return singularName
+        }
+    }
 }
 
 extension ItemModel {
@@ -60,7 +90,7 @@ extension ItemModel {
         name: "Unknown item",
         description: "Unknown description",
         value: 100,
-        category: ItemCategories.categories[4],
+        category: ItemModel.Category.other,
         status: ItemModel.Status.unknown,
         loanIds: [UUID()]
     )

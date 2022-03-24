@@ -132,7 +132,7 @@ extension DataStoreModel {
             name: "IronMan bluray",
             description: "Film about some guy in an armored suit",
             value: 10,
-            category: ItemCategories.categories[3],
+            category: ItemModel.Category.clothes,
             status: ItemModel.Status.unavailable,
             loanIds: []
         ),
@@ -140,7 +140,7 @@ extension DataStoreModel {
             name: "Vibranium shield",
             description: "An old rusty medievil shield",
             value: 250,
-            category: ItemCategories.categories[2],
+            category: ItemModel.Category.clothes,
             status: ItemModel.Status.unavailable,
             loanIds: []
         ),
@@ -148,7 +148,7 @@ extension DataStoreModel {
             name: "Spiderman lego",
             description: "Red lego bricks",
             value: 30,
-            category: ItemCategories.categories[6],
+            category: ItemModel.Category.toys,
             status: ItemModel.Status.unavailable,
             loanIds: []
         ),
@@ -156,7 +156,7 @@ extension DataStoreModel {
             name: "Bike",
             description: "",
             value: 100,
-            category: ItemCategories.categories[4],
+            category: ItemModel.Category.other,
             status: ItemModel.Status.available,
             loanIds: []
         ),
@@ -164,7 +164,7 @@ extension DataStoreModel {
             name: "Book",
             description: "",
             value: 200,
-            category: ItemCategories.categories[4],
+            category: ItemModel.Category.other,
             status: ItemModel.Status.available,
             loanIds: []
         )
@@ -172,22 +172,22 @@ extension DataStoreModel {
     static var sampleBorrowerData: [BorrowerModel] = [
         BorrowerModel(
             name: "Sarah",
-            status: BorrowerStatus.regular,
+            status: BorrowerModel.Status.regular,
             loanIds: []
         ),
         BorrowerModel(
             name: "Anthony",
-            status: BorrowerStatus.regular,
+            status: BorrowerModel.Status.regular,
             loanIds: []
         ),
         BorrowerModel(
             name: "Charly",
-            status: BorrowerStatus.regular,
+            status: BorrowerModel.Status.regular,
             loanIds: []
         ),
         BorrowerModel(
             name: "Bruno",
-            status: BorrowerStatus.regular,
+            status: BorrowerModel.Status.regular,
             loanIds: []
         )
     ]

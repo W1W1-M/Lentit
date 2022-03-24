@@ -28,7 +28,7 @@ class AppVM: ObservableObject {
     @Published var loanListVM: LoanListVM
     @Published var borrowerListVM: BorrowerListVM
     @Published var itemListVM: ItemListVM
-    @Published var activeCategory: ItemCategoryModel {
+    @Published var activeCategory: ItemModel.Category {
         didSet{
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
             self.loanVMs = filterLoanVMs(for: loanVMs, by: activeCategory)
@@ -37,7 +37,7 @@ class AppVM: ObservableObject {
             self.loanListVM.setLoansCount(for: loanVMs)
         }
     }
-    @Published var activeSort: LoanSortingOrderModel{
+    @Published var activeSort: LoanModel.SortingOrder {
         didSet{
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeSort)
         }
@@ -71,8 +71,8 @@ class AppVM: ObservableObject {
         self.loanListVM = LoanListVM()
         self.borrowerListVM = BorrowerListVM()
         self.itemListVM = ItemListVM()
-        self.activeCategory = ItemCategories.all
-        self.activeSort = LoanSortingOrders.byItemName
+        self.activeCategory = ItemModel.Category.all
+        self.activeSort = LoanModel.SortingOrder.byItemName
         self.activeStatus = LoanModel.Status.current
         self.activeBorrower = BorrowerVM()
         self.activeItem = ItemVM()
@@ -111,7 +111,7 @@ class AppVM: ObservableObject {
             borrowerId: UUID() // WIP
         )
         self.dataStore.createLoan(newLoan: newLoan)
-        self.activeCategory = ItemCategories.all
+        self.activeCategory = ItemModel.Category.all
         self.activeStatus = LoanModel.Status.new
     }
     func deleteLoan(for loanVM: LoanVM) {
@@ -137,8 +137,8 @@ class AppVM: ObservableObject {
         }
         return loanBorrowerVM
     }
-    func filterLoanVMs(for loanVMs: [LoanVM], by activeCategory: ItemCategoryModel) -> [LoanVM] {
-        if(activeCategory == ItemCategories.all) {
+    func filterLoanVMs(for loanVMs: [LoanVM], by activeCategory: ItemModel.Category) -> [LoanVM] {
+        if(activeCategory == ItemModel.Category.all) {
             return loanVMs
         } else {
             return loanVMs.filter { $0.itemVM.category == activeCategory }
@@ -153,19 +153,19 @@ class AppVM: ObservableObject {
     func filterLoanVMs(for loanVMs: [LoanVM], by activeItem: ItemVM) -> [LoanVM] {
         loanVMs.filter { $0.itemVM == activeItem }
     }
-    func sortLoanVMs(for loanVMs: [LoanVM], by activeSort: LoanSortingOrderModel) -> [LoanVM] {
+    func sortLoanVMs(for loanVMs: [LoanVM], by activeSort: LoanModel.SortingOrder) -> [LoanVM] {
         var sortedLoanVMs = loanVMs
         // Use switch case to sort array
         switch activeSort {
-        case LoanSortingOrders.byItemName:
+        case LoanModel.SortingOrder.byItemName:
             sortedLoanVMs.sort {
                 $0.itemVM.nameText < $1.itemVM.nameText
             }
-        case LoanSortingOrders.byBorrowerName:
+        case LoanModel.SortingOrder.byBorrowerName:
             sortedLoanVMs.sort {
                 $0.borrowerVM.nameText < $1.borrowerVM.nameText
             }
-        case LoanSortingOrders.byLoanDate:
+        case LoanModel.SortingOrder.byLoanDate:
             sortedLoanVMs.sort {
                 $0.loanDate < $1.loanDate
             }
@@ -186,7 +186,7 @@ class AppVM: ObservableObject {
         }
         return itemVMs
     }
-    func createItem(named name: String, worth value: Int, typed category: ItemCategoryModel) -> UUID {
+    func createItem(named name: String, worth value: Int, typed category: ItemModel.Category) -> UUID {
         let newItem = ItemModel(
             name: name,
             description: "",
@@ -206,9 +206,9 @@ class AppVM: ObservableObject {
             return ItemVM()
         }
     }
-    func filterItemVMs(for itemVMs: [ItemVM], by activeCategory: ItemCategoryModel) -> [ItemVM] {
+    func filterItemVMs(for itemVMs: [ItemVM], by activeCategory: ItemModel.Category) -> [ItemVM] {
         var filteredItemVMs = itemVMs
-        if(activeCategory == ItemCategories.all) {
+        if(activeCategory == ItemModel.Category.all) {
             return filteredItemVMs
         } else {
             filteredItemVMs = filteredItemVMs.filter {
@@ -233,7 +233,7 @@ class AppVM: ObservableObject {
     func createBorrower(named name: String) -> UUID {
         let newBorrower = BorrowerModel(
             name: name,
-            status: BorrowerStatus.new,
+            status: BorrowerModel.Status.new,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)

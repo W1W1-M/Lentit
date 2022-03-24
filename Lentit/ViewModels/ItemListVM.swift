@@ -20,7 +20,7 @@ class ItemListVM: ObservableObject {
             self.newItemValue = setItemValue(for: self.newItemValueText)
         }
     }
-    @Published var newItemCategory: ItemCategoryModel
+    @Published var newItemCategory: ItemModel.Category
     // MARK: - Init
     init() {
         self.itemsCount = 0
@@ -29,7 +29,7 @@ class ItemListVM: ObservableObject {
         self.newItemName = ""
         self.newItemValue = 0
         self.newItemValueText = "0€"
-        self.newItemCategory = ItemCategories.categories[4]
+        self.newItemCategory = ItemModel.Category.other
     }
     // MARK: - Functions
     func setItemsCount(for itemVMs: [ItemVM]) {
@@ -48,7 +48,7 @@ class ItemListVM: ObservableObject {
         self.newItemName = ""
         self.newItemValue = 0
         self.newItemValueText = "0€"
-        self.newItemCategory = ItemCategories.categories[4]
+        self.newItemCategory = ItemModel.Category.other
     }
     func setItemValueText(for itemValue: Int) -> String {
         let numberFormat = NumberFormatter()

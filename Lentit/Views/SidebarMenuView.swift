@@ -45,24 +45,24 @@ struct CategoriesListMenuItems: View {
     var body: some View {
         Group {
             Button {
-                appVM.activeCategory = ItemCategories.all
+                appVM.activeCategory = ItemModel.Category.all
             } label: {
                 HStack {
-                    ItemCategoryFullNameView(itemCategoryModel: ItemCategories.all)
+                    ItemCategoryFullNameView(itemCategory: ItemModel.Category.all)
                     Spacer()
-                    if(appVM.activeCategory == ItemCategories.all) {
+                    if(appVM.activeCategory == ItemModel.Category.all) {
                         Image(systemName: "checkmark")
                     }
                 }
             }
-            ForEach(ItemCategories.categories) { ItemCategoryModel in
+            ForEach(ItemModel.Category.allCases) { Category in
                 Button {
-                    appVM.activeCategory = ItemCategoryModel
+                    appVM.activeCategory = Category
                 } label: {
                     HStack {
-                        ItemCategoryFullNameView(itemCategoryModel: ItemCategoryModel)
+                        ItemCategoryFullNameView(itemCategory: Category)
                         Spacer()
-                        if(appVM.activeCategory == ItemCategoryModel) {
+                        if(appVM.activeCategory == Category) {
                             Image(systemName: "checkmark").foregroundColor(.accentColor)
                         }
                     }
@@ -73,25 +73,25 @@ struct CategoriesListMenuItems: View {
 }
 // MARK: -
 struct ItemCategoryFullNameView: View {
-    let itemCategoryModel: ItemCategoryModel
+    let itemCategory: ItemModel.Category
     var body: some View {
-        switch itemCategoryModel {
-        case ItemCategories.all:
-            Text("\(itemCategoryModel.emoji) All")
-        case ItemCategories.books:
-            Text("\(itemCategoryModel.emoji) Books")
-        case ItemCategories.cars:
-            Text("\(itemCategoryModel.emoji) Cars")
-        case ItemCategories.clothes:
-            Text("\(itemCategoryModel.emoji) Clothes")
-        case ItemCategories.films:
-            Text("\(itemCategoryModel.emoji) Films")
-        case ItemCategories.other:
-            Text("\(itemCategoryModel.emoji) Other")
-        case ItemCategories.pens:
-            Text("\(itemCategoryModel.emoji) Pens")
-        case ItemCategories.toys:
-            Text("\(itemCategoryModel.emoji) Toys")
+        switch itemCategory {
+        case ItemModel.Category.all:
+            Text("\(itemCategory.emoji) All")
+        case ItemModel.Category.books:
+            Text("\(itemCategory.emoji) Books")
+        case ItemModel.Category.cars:
+            Text("\(itemCategory.emoji) Cars")
+        case ItemModel.Category.clothes:
+            Text("\(itemCategory.emoji) Clothes")
+        case ItemModel.Category.films:
+            Text("\(itemCategory.emoji) Films")
+        case ItemModel.Category.other:
+            Text("\(itemCategory.emoji) Other")
+        case ItemModel.Category.pens:
+            Text("\(itemCategory.emoji) Pens")
+        case ItemModel.Category.toys:
+            Text("\(itemCategory.emoji) Toys")
         default:
             Text("Unknown")
         }

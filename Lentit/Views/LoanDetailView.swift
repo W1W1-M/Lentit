@@ -44,7 +44,7 @@ struct LoanDetailView: View {
                     )
                 }
             }
-        }.navigationTitle(loanVM.borrowerVM.status == BorrowerStatus.unknown ? "New loan" : "Loan to \(loanVM.borrowerVM.nameText)")
+        }.navigationTitle(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "New loan" : "Loan to \(loanVM.borrowerVM.nameText)")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != LoanModel.Status.new) {
@@ -155,7 +155,7 @@ struct LoanDetailSectionView: View {
                     activeSheet = Sheets.borrowersList
                     sheetPresented = true
                 } label: {
-                    Text(loanVM.borrowerVM.status == BorrowerStatus.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
+                    Text(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
                         .font(.headline)
                         .italic()
                         .foregroundColor(editDisabled ? .primary : .accentColor)

@@ -60,6 +60,14 @@ extension LoanModel {
         static let current: Status = Status(symbolName: "hourglass.circle")
         static let finished: Status = Status(symbolName: "stop.circle")
     }
+    /// Predefined loan sort orders
+    struct SortingOrder: Identifiable, Equatable, Hashable, CaseIterable {
+        let id: UUID = UUID()
+        static let byItemName: SortingOrder = SortingOrder()
+        static let byBorrowerName: SortingOrder = SortingOrder()
+        static let byLoanDate: SortingOrder = SortingOrder()
+        static let allCases: Array<SortingOrder> = [byItemName, byBorrowerName, byLoanDate]
+    }
 }
 
 extension LoanModel {
