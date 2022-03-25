@@ -13,12 +13,12 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
     let id: UUID
     var name: String
     var status: BorrowerModel.Status
-    var loanIds: [UUID]
+    var loanIds: Set<UUID>
 // MARK: - Init
     init(
         name: String,
         status: BorrowerModel.Status,
-        loanIds: [UUID]
+        loanIds: Set<UUID>
     ) {
         self.id = UUID()
         self.name = name

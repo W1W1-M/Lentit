@@ -14,12 +14,6 @@ class ItemListVM: ObservableObject {
     @Published var newItemPresented: Bool
     @Published var newItemId: UUID
     @Published var newItemName: String
-    @Published var newItemValue: Int
-    @Published var newItemValueText: String{
-        didSet {
-            self.newItemValue = setItemValue(for: self.newItemValueText)
-        }
-    }
     @Published var newItemCategory: ItemModel.Category
     // MARK: - Init
     init() {
@@ -27,8 +21,6 @@ class ItemListVM: ObservableObject {
         self.newItemPresented = false
         self.newItemId = UUID()
         self.newItemName = ""
-        self.newItemValue = 0
-        self.newItemValueText = "0€"
         self.newItemCategory = ItemModel.Category.other
     }
     // MARK: - Functions
@@ -46,34 +38,6 @@ class ItemListVM: ObservableObject {
     func resetNewItem() {
         self.newItemId = UUID()
         self.newItemName = ""
-        self.newItemValue = 0
-        self.newItemValueText = "0€"
         self.newItemCategory = ItemModel.Category.other
-    }
-    func setItemValueText(for itemValue: Int) -> String {
-        let numberFormat = NumberFormatter()
-        numberFormat.locale = .current
-        numberFormat.numberStyle = .currency
-        numberFormat.maximumFractionDigits = 0
-        if let value = numberFormat.string(from: NSNumber(value: itemValue)) {
-            let valueText = value
-            return valueText
-        } else {
-            let valueText = "?"
-            return valueText
-        }
-    }
-    func setItemValue(for valueText: String) -> Int {
-        let filteredValueText = filterItemValueText(for: valueText)
-        if let value = Int(filteredValueText) {
-            return value
-        } else {
-            let value: Int = 0
-            return value
-        }
-    }
-    func filterItemValueText(for valueText: String) -> String {
-        let filteredValueText = valueText.filter("1234567890".contains)
-        return filteredValueText
     }
 }

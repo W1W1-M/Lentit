@@ -8,7 +8,7 @@
 import Foundation
 /// Loan view model
 class LoanVM: ObservableObject, Identifiable {
-    // MARK: - Variables
+// MARK: - Properties
     private(set) var loan: LoanModel
     private(set) var id: UUID
     @Published var loanDate: Date {
@@ -41,7 +41,7 @@ class LoanVM: ObservableObject, Identifiable {
     }
     @Published var itemVM: ItemVM
     @Published var borrowerVM: BorrowerVM
-    // MARK: - Init
+// MARK: - Init
     init() {
         self.loan = LoanModel.defaultData
         self.id = LoanModel.defaultData.id
@@ -56,7 +56,7 @@ class LoanVM: ObservableObject, Identifiable {
         //
         self.loanDateText = setLoanDateText(for: loanDate)
     }
-    // MARK: - Functions
+// MARK: - Methods
     func setLoanVM(from loanModel: LoanModel, _ itemVM: ItemVM, _ borrowerVM: BorrowerVM) {
         self.loan = loanModel
         self.id = loanModel.id
@@ -100,10 +100,12 @@ class LoanVM: ObservableObject, Identifiable {
     }
     func setLoanBorrower(to newBorrowerVM: BorrowerVM) {
         self.borrowerVM = newBorrowerVM
+        self.borrowerVM.updateBorrowerLoans(with: self.id)
         self.loan.borrowerId = self.borrowerVM.id
     }
     func setLoanItem(to newItemVM: ItemVM) {
         self.itemVM = newItemVM
+        self.itemVM.updateItemLoans(with: self.id)
         self.loan.itemId = self.itemVM.id
     }
     func setReturnedLoanStatus() {

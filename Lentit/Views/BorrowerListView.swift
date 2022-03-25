@@ -6,8 +6,44 @@
 //
 
 import SwiftUI
-
+//
 struct BorrowerListView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var borrowerListVM: BorrowerListVM
+    var body: some View {
+        List {
+            ForEach(appVM.borrowerVMs) { BorrowerVM in
+                BorrowerListItemView(borrowerVM: BorrowerVM)
+            }
+        }.listStyle(.plain)
+    }
+}
+//
+struct BorrowerListItemView: View {
+    @ObservedObject var borrowerVM: BorrowerVM
+    @State var navigationLinkIsActive: Bool = false
+    var body: some View {
+        NavigationLink(
+            destination: BorrowerDetailView(borrowerVM: borrowerVM),
+            isActive: $navigationLinkIsActive
+        ) {
+            HStack {
+                ZStack {
+                    Circle()
+                        .frame(width: 40, height: 40)
+                    Text("\(String(borrowerVM.nameText.prefix(2)))")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                }.padding(.horizontal, 4)
+                Text("\(borrowerVM.nameText)").foregroundColor(.primary)
+                Spacer()
+                Text("\(borrowerVM.loanCount) loans").foregroundColor(.secondary)
+            }
+        }
+    }
+}
+//
+struct BorrowerListSheetView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerListVM: BorrowerListVM
     @ObservedObject var loanVM: LoanVM
@@ -23,7 +59,7 @@ struct BorrowerListView: View {
                         Section {
                             Button {
                                 borrowerListVM.newBorrowerId = appVM.createBorrower(named: borrowerListVM.newBorrowerName)
-                                loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
+                                loanVM.setLoanBorrower(to: appVM.getBorrowerVM(with: borrowerListVM.newBorrowerId))
                                 borrowerListVM.hideNewBorrower()
                                 appVM.sheetPresented = false
                             } label: {
@@ -39,7 +75,7 @@ struct BorrowerListView: View {
                     }
                     Section(header: Text("\(borrowerListVM.borrowersCount) borrowers")) {
                         ForEach(appVM.borrowerVMs) { BorrowerVM in
-                            BorrowerListItemView(
+                            BorrowerListItemSheetView(
                                 loanVM: loanVM,
                                 borrowerVM: BorrowerVM
                             )
@@ -76,7 +112,7 @@ struct BorrowerListView: View {
     }
 }
 // MARK: -
-struct BorrowerListItemView: View {
+struct BorrowerListItemSheetView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @ObservedObject var borrowerVM: BorrowerVM
@@ -98,11 +134,12 @@ struct BorrowerListItemView: View {
 // MARK: - Previews
 struct BorrowersListView_Previews: PreviewProvider {
     static var previews: some View {
-        BorrowerListView(
+        //
+        BorrowerListView(borrowerListVM: BorrowerListVM()).environmentObject(AppVM())
+        //
+        BorrowerListSheetView(
             borrowerListVM: BorrowerListVM(),
             loanVM: LoanVM()
         ).environmentObject(AppVM())
     }
 }
-
-

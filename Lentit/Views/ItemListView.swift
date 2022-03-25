@@ -6,8 +6,109 @@
 //
 
 import SwiftUI
-
+// MARK: - Views
 struct ItemListView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var itemListVM: ItemListVM
+    var body: some View {
+        List {
+            ForEach(appVM.itemVMs) { ItemVM in
+                ItemListItemView(itemVM: ItemVM)
+            }
+        }.listStyle(.plain)
+    }
+}
+// MARK: -
+struct ItemListItemView: View {
+    @ObservedObject var itemVM: ItemVM
+    @State var navigationLinkIsActive: Bool = false
+    var body: some View {
+        NavigationLink(
+            destination: ItemDetailView(itemVM: itemVM),
+            isActive: $navigationLinkIsActive
+        ) {
+            HStack {
+                ZStack {
+                    Circle()
+                        .frame(width: 40, height: 40)
+                    Text("\(String(itemVM.nameText.prefix(2)))")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                }.padding(.horizontal, 4)
+                Text("\(itemVM.nameText)").foregroundColor(.primary)
+                Spacer()
+                Text("\(itemVM.category.emoji)")
+            }
+        }.onAppear(perform: {
+            // Programmatic navigation to newly added item
+            if(itemVM.status == ItemModel.Status.new) {
+                navigationLinkIsActive = true
+            }
+        })
+    }
+}
+// MARK: -
+struct NewItemButtonView: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        Button {
+            appVM.createEmptyItem()
+        } label: {
+            HStack {
+                Spacer()
+                Text("New Item").font(.headline)
+                Image(systemName: "plus.circle").imageScale(.large)
+                Spacer()
+            }.font(.headline)
+            .foregroundColor(.white)
+            .padding()
+        }.background(Color("InvertedAccentColor"))
+        .clipShape(Capsule())
+        .padding()
+    }
+}
+// MARK: -
+struct ItemListBottomToolbarView: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        Group {
+            Menu {
+                CategoriesListMenuItems()
+            } label: {
+                HStack {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                    Text("Category")
+                }
+            }
+            Menu {
+                ForEach(ItemModel.SortingOrder.allCases) { SortingOrder in
+                    Button {
+                        appVM.activeItemSort = SortingOrder
+                    } label: {
+                        HStack {
+                            switch SortingOrder {
+                            case ItemModel.SortingOrder.byName:
+                                Text("by Name")
+                            default:
+                                Text("")
+                            }
+                            if(appVM.activeItemSort == SortingOrder) {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Sort")
+                    Image(systemName: "arrow.up.arrow.down.circle")
+                }
+            }
+        }
+    }
+}
+// MARK: -
+struct ItemListSheetView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemListVM: ItemListVM
     @ObservedObject var loanVM: LoanVM
@@ -19,7 +120,6 @@ struct ItemListView: View {
                     if(itemListVM.newItemPresented) {
                         Section(header: Text("🆕 New item")) {
                             TextField("Name", text: $itemListVM.newItemName).disableAutocorrection(true)
-                            TextField("Value", text: $itemListVM.newItemValueText)
                             Picker("Category", selection: $itemListVM.newItemCategory) {
                                 ForEach(ItemModel.Category.allCases) { Category in
                                     ItemCategoryFullNameView(itemCategory: Category).tag(Category)
@@ -30,7 +130,6 @@ struct ItemListView: View {
                             Button {
                                 itemListVM.newItemId = appVM.createItem(
                                     named: itemListVM.newItemName,
-                                    worth: itemListVM.newItemValue,
                                     typed: itemListVM.newItemCategory
                                 )
                                 loanVM.setLoanItem(to: appVM.getItem(with: itemListVM.newItemId))
@@ -81,11 +180,6 @@ struct ItemListView: View {
                     // Background color fix
                     UITableView.appearance().backgroundColor = .clear
                 })
-                .onChange(of: itemListVM.newItemValueText, perform: { _ in
-                    // Filter unwanted characters & set value text
-                    itemListVM.newItemValueText = itemListVM.filterItemValueText(for: itemListVM.newItemValueText)
-                    itemListVM.newItemValueText = itemListVM.setItemValueText(for: itemListVM.newItemValue)
-            })
             }
         }
     }
@@ -136,7 +230,12 @@ struct ItemListItemButtonView: View {
 // MARK: - Previews
 struct ItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemListView(
+        //
+        ItemListView(itemListVM: ItemListVM())
+            .environmentObject(AppVM())
+            .previewLayout(.sizeThatFits)
+        //
+        ItemListSheetView(
             itemListVM: ItemListVM(),
             loanVM: LoanVM()
         ).environmentObject(AppVM())
@@ -145,5 +244,9 @@ struct ItemListView_Previews: PreviewProvider {
             loanVM: LoanVM(),
             itemVM: ItemVM()
         ).previewLayout(.sizeThatFits)
+        //
+        NewItemButtonView()
+            .environmentObject(AppVM())
+            .previewLayout(.sizeThatFits)
     }
 }

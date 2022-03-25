@@ -15,7 +15,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
     var value: Int
     var category: ItemModel.Category
     var status: ItemModel.Status
-    var loanIds: [UUID]
+    var loanIds: Set<UUID>
 // MARK: - Init
     init(
         name: String,
@@ -23,7 +23,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         value: Int,
         category: ItemModel.Category,
         status: ItemModel.Status,
-        loanIds: [UUID]
+        loanIds: Set<UUID>
     ) {
         self.id = UUID()
         self.name = name
@@ -54,7 +54,7 @@ extension ItemModel {
         static let available: Status = Status(symbolName: "checkmark.circle")
         static let unavailable: Status = Status(symbolName: "xmark.circle")
     }
-    /// Predefined  item categories
+    /// Predefined item categories
     struct Category: Identifiable, Equatable, Hashable, CaseIterable {
         // Properties
         let id: UUID = UUID()
@@ -82,6 +82,13 @@ extension ItemModel {
             }
             return singularName
         }
+    }
+    /// Predefined item sorting orders
+    struct SortingOrder: Identifiable, Equatable, Hashable, CaseIterable {
+        // Properties
+        let id: UUID = UUID()
+        static let byName: SortingOrder = SortingOrder()
+        static let allCases: [ItemModel.SortingOrder] = [byName]
     }
 }
 

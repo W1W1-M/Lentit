@@ -132,7 +132,7 @@ extension DataStoreModel {
             name: "IronMan bluray",
             description: "Film about some guy in an armored suit",
             value: 10,
-            category: ItemModel.Category.clothes,
+            category: ItemModel.Category.films,
             status: ItemModel.Status.unavailable,
             loanIds: []
         ),
@@ -164,7 +164,7 @@ extension DataStoreModel {
             name: "Book",
             description: "",
             value: 200,
-            category: ItemModel.Category.other,
+            category: ItemModel.Category.books,
             status: ItemModel.Status.available,
             loanIds: []
         )

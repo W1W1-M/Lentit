@@ -53,12 +53,13 @@ extension LoanModel {
     struct Status: Identifiable, Equatable, CaseIterable {
         let id: UUID = UUID()
         let symbolName: String
-        static let allCases: Array<LoanModel.Status> = [.upcoming, .current, .finished]
+        static let all: Status = Status(symbolName: "infinity.circle")
         static let unknown: Status = Status(symbolName: "questionmark.circle")
         static let new: Status = Status(symbolName: "play.circle")
         static let upcoming: Status = Status(symbolName: "calendar.circle")
         static let current: Status = Status(symbolName: "hourglass.circle")
         static let finished: Status = Status(symbolName: "stop.circle")
+        static let allCases: Array<LoanModel.Status> = [.all, .upcoming, .current, .finished]
     }
     /// Predefined loan sort orders
     struct SortingOrder: Identifiable, Equatable, Hashable, CaseIterable {

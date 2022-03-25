@@ -80,12 +80,12 @@ struct LoanDetailView: View {
         .sheet(isPresented: $appVM.sheetPresented) { [activeSheet] in // Explicit state capture. Fix for known SwiftUI bug.
             switch activeSheet {
             case Sheets.borrowersList:
-                BorrowerListView(
+                BorrowerListSheetView(
                     borrowerListVM: appVM.borrowerListVM,
                     loanVM: loanVM
                 )
             case Sheets.itemsList:
-                ItemListView(
+                ItemListSheetView(
                     itemListVM: appVM.itemListVM,
                     loanVM: loanVM
                 )
@@ -308,7 +308,7 @@ struct LoanDetailView_Previews: PreviewProvider {
         NavigationView {
             LoanDetailView(
                 loanVM: LoanVM(),
-                navigationLinkIsActive: .constant(true)
+                navigationLinkIsActive: .constant(false)
             ).environmentObject(AppVM())
         }
         //
