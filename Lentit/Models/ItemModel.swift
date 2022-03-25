@@ -11,7 +11,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
     let id: UUID
     var name: String
-    var description: String
+    var notes: String
     var value: Int
     var category: ItemModel.Category
     var status: ItemModel.Status
@@ -19,7 +19,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Init
     init(
         name: String,
-        description: String,
+        notes: String,
         value: Int,
         category: ItemModel.Category,
         status: ItemModel.Status,
@@ -27,7 +27,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
     ) {
         self.id = UUID()
         self.name = name
-        self.description = description
+        self.notes = notes
         self.value = value
         self.category = category
         self.status = status
@@ -48,11 +48,12 @@ extension ItemModel {
         // Properties
         let id: UUID = UUID()
         let symbolName: String
-        static let allCases: Array<ItemModel.Status> = [new, available, unavailable]
+        static let all: Status = Status(symbolName: "infinity.circle")
         static let unknown: Status = Status(symbolName: "questionmark.circle")
         static let new: Status = Status(symbolName: "play.circle")
         static let available: Status = Status(symbolName: "checkmark.circle")
         static let unavailable: Status = Status(symbolName: "xmark.circle")
+        static let allCases: Array<ItemModel.Status> = [available, unavailable]
     }
     /// Predefined item categories
     struct Category: Identifiable, Equatable, Hashable, CaseIterable {
@@ -95,7 +96,7 @@ extension ItemModel {
 extension ItemModel {
     static var defaultData: ItemModel = ItemModel(
         name: "Unknown item",
-        description: "Unknown description",
+        notes: "Unknown description",
         value: 100,
         category: ItemModel.Category.other,
         status: ItemModel.Status.unknown,

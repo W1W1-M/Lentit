@@ -37,19 +37,19 @@ struct LoanListStatusView: View {
             } label: {
                 switch appVM.activeLoanStatus {
                 case .all:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.blue)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.blue)
                     Text("all").fontWeight(.bold)
                 case .new:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.purple)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.purple)
                     Text("new").fontWeight(.bold)
                 case .upcoming:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.orange)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.orange)
                     Text("upcoming").fontWeight(.bold)
                 case .current:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.green)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.green)
                     Text("ongoing").fontWeight(.bold)
                 case .finished:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(Color.red)
+                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.red)
                     Text("finished").fontWeight(.bold)
                 default:
                     Text("unknown")

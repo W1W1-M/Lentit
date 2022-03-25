@@ -45,7 +45,7 @@ struct LoanDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != LoanModel.Status.new) {
-                    LoanDetailEditButtonView(editDisabled: $editDisabled)
+                    EditButtonView(editDisabled: $editDisabled)
                 }
             }
             ToolbarItem(placement: .bottomBar) {
@@ -274,7 +274,7 @@ struct SaveNewLoanButtonView: View {
     }
 }
 // MARK: -
-struct LoanDetailEditButtonView: View {
+struct EditButtonView: View {
     @Binding var editDisabled: Bool
     var body: some View {
         Button {

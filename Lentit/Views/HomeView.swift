@@ -70,6 +70,7 @@ struct HomeView: View {
                     BorrowerListView(borrowerListVM: appVM.borrowerListVM)
                     Spacer()
                 case .Items:
+                    ItemListStatusView(itemListVM: appVM.itemListVM)
                     ItemListView(itemListVM: appVM.itemListVM)
                     Spacer()
                     NewItemButtonView()

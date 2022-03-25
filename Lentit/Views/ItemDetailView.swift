@@ -14,10 +14,17 @@ struct ItemDetailView: View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             List {
-                ItemDetailSectionView(itemVM: itemVM)
+                ItemDetailSectionView(itemVM: itemVM).disabled(editDisabled)
                 ItemHistorySectionView(itemVM: itemVM)
             }.listStyle(.insetGrouped)
         }.navigationTitle("\(itemVM.nameText)")
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                if(itemVM.status != ItemModel.Status.new) {
+                    EditButtonView(editDisabled: $editDisabled)
+                }
+            }
+        }
         .onAppear(perform: {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
@@ -44,7 +51,6 @@ struct ItemDetailSectionView: View {
     var body: some View {
         Section(header: ItemDetailSectionHeaderView(itemVM: itemVM)) {
             TextField("Name", text: $itemVM.nameText)
-            TextField("Description", text: $itemVM.description)
             HStack {
                 Text("Category").foregroundColor(.secondary)
                 Spacer()
@@ -61,6 +67,9 @@ struct ItemDetailSectionView: View {
                     .multilineTextAlignment(.trailing)
                     .keyboardType(.numberPad)
             }
+        }
+        Section(header: Text("Notes")) {
+            TextEditor(text: $itemVM.notes)
         }
     }
 }
@@ -87,21 +96,6 @@ struct ItemDetailSectionHeaderView: View {
     }
 }
 //
-struct ItemHistorySectionView: View {
-    @ObservedObject var itemVM: ItemVM
-    var body: some View {
-        Section(header: ItemHistorySectionHeaderView(itemVM: itemVM)) {
-            ForEach(itemVM.loanIds.sorted(by: ==), id: \.self) { _ in
-                HStack {
-                    Text("borrower")
-                    Spacer()
-                    Text("01/01/2022")
-                }
-            }
-        }
-    }
-}
-//
 struct ItemHistorySectionHeaderView: View {
     @ObservedObject var itemVM: ItemVM
     var body: some View {
@@ -112,11 +106,38 @@ struct ItemHistorySectionHeaderView: View {
         }
     }
 }
+//
+struct ItemHistorySectionView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var itemVM: ItemVM
+    var body: some View {
+        if(itemVM.loanCount > 0) {
+            Section(header: ItemHistorySectionHeaderView(itemVM: itemVM)) {
+                ForEach(itemVM.loanIds.sorted(by: ==), id: \.self) { Id in
+                    ItemHistoryItemView(loanVM: appVM.getLoanVM(with: Id))
+                }
+            }
+        } else {
+            EmptyView()
+        }
+    }
+}
+//
+struct ItemHistoryItemView: View {
+    @ObservedObject var loanVM: LoanVM
+    var body: some View {
+        HStack {
+            Text("\(loanVM.borrowerVM.nameText)")
+            Spacer()
+            Text("\(loanVM.loanDateText)")
+        }
+    }
+}
 // MARK: - Previews
 struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ItemDetailView(itemVM: ItemVM())
+            ItemDetailView(itemVM: ItemVM()).environmentObject(AppVM())
         }
     }
 }

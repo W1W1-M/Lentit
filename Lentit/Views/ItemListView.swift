@@ -7,6 +7,56 @@
 
 import SwiftUI
 // MARK: - Views
+struct ItemListStatusView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var itemListVM: ItemListVM
+    var body: some View {
+        HStack {
+            Menu {
+                ForEach(ItemModel.Status.allCases) { Status in
+                    Button {
+                        appVM.activeItemStatus = Status
+                    } label: {
+                        switch Status {
+                        case .all:
+                            Text("all")
+                        case .new:
+                            Text("new")
+                        case .available:
+                            Text("available")
+                        case .unavailable:
+                            Text("unavailable")
+                        default:
+                            Text("unknown")
+                        }
+                        Image(systemName: Status.symbolName)
+                    }
+                }
+            } label: {
+                switch appVM.activeItemStatus {
+                case .all:
+                    Image(systemName: appVM.activeItemStatus.symbolName).foregroundColor(.blue)
+                    Text("all").fontWeight(.bold)
+                case .available:
+                    Image(systemName: appVM.activeItemStatus.symbolName).foregroundColor(.green)
+                    Text("available").fontWeight(.bold)
+                case .unavailable:
+                    Image(systemName: appVM.activeItemStatus.symbolName).foregroundColor(.red)
+                    Text("unavailable").fontWeight(.bold)
+                default:
+                    Text("unknown")
+                }
+            }.imageScale(.large)
+            Spacer()
+            Text("\(itemListVM.itemsCount) items")
+                .fontWeight(.bold)
+                .foregroundColor(.secondary)
+        }.font(.title3)
+        .textCase(.lowercase)
+        .padding(.horizontal, 30)
+    }
+}
+// MARK: -
 struct ItemListView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemListVM: ItemListVM
@@ -239,6 +289,10 @@ struct ItemListView_Previews: PreviewProvider {
             itemListVM: ItemListVM(),
             loanVM: LoanVM()
         ).environmentObject(AppVM())
+        //
+        ItemListStatusView(itemListVM: ItemListVM())
+            .environmentObject(AppVM())
+            .previewLayout(.sizeThatFits)
         //
         ItemListItemButtonView(
             loanVM: LoanVM(),

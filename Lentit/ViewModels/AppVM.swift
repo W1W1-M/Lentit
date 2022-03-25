@@ -45,6 +45,12 @@ class AppVM: ObservableObject {
             self.itemVMs = sortItemVMs(for: itemVMs, by: activeItemSort)
         }
     }
+    @Published var activeItemStatus: ItemModel.Status {
+        didSet {
+            self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
+            self.itemVMs = filterItemVMs(for: itemVMs, by: activeItemStatus)
+        }
+    }
     @Published var activeLoanSort: LoanModel.SortingOrder {
         didSet {
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
@@ -101,6 +107,7 @@ class AppVM: ObservableObject {
         self.borrowerListVM = BorrowerListVM()
         self.itemListVM = ItemListVM()
         self.activeItemCategory = ItemModel.Category.all
+        self.activeItemStatus = ItemModel.Status.available
         self.activeItemSort = ItemModel.SortingOrder.byName
         self.activeLoanSort = LoanModel.SortingOrder.byItemName
         self.activeLoanStatus = LoanModel.Status.current
@@ -153,6 +160,13 @@ class AppVM: ObservableObject {
         self.dataStore.deleteLoan(oldLoan: loanVM.loan)
         // Reload lent items count & VMs
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
+    }
+    func getLoanVM(with id: UUID) -> LoanVM {
+        if let loanVM = loanVMs.first(where: { $0.id == id }) {
+            return loanVM
+        } else {
+            return LoanVM()
+        }
     }
     func getLoanItemVM(in itemVMs: [ItemVM], for loan: LoanModel) -> ItemVM {
         var loanItemVM: ItemVM = ItemVM()
@@ -264,6 +278,17 @@ class AppVM: ObservableObject {
         } else {
             filteredItemVMs = filteredItemVMs.filter {
                 $0.category == activeCategory
+            }
+            return filteredItemVMs
+        }
+    }
+    func filterItemVMs(for itemVMs: [ItemVM], by activeStatus: ItemModel.Status) -> [ItemVM] {
+        var filteredItemVMs = itemVMs
+        if(activeStatus == ItemModel.Status.all) {
+            return filteredItemVMs
+        } else {
+            filteredItemVMs = filteredItemVMs.filter {
+                $0.status == activeStatus
             }
             return filteredItemVMs
         }

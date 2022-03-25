@@ -17,9 +17,9 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
             item.name = self.nameText
         }
     }
-    @Published var description: String {
+    @Published var notes: String {
         didSet {
-            item.description = self.description
+            item.notes = self.notes
         }
     }
     @Published var value: Int
@@ -45,7 +45,7 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
         self.id = ItemModel.defaultData.id
         self.loanIds = ItemModel.defaultData.loanIds
         self.nameText = ItemModel.defaultData.name
-        self.description = ItemModel.defaultData.description
+        self.notes = ItemModel.defaultData.notes
         self.value = ItemModel.defaultData.value
         self.valueText = ""
         self.category = ItemModel.defaultData.category
@@ -60,7 +60,7 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
         self.id = itemModel.id
         self.loanIds = itemModel.loanIds
         self.nameText = itemModel.name
-        self.description = itemModel.description
+        self.notes = itemModel.notes
         self.value = itemModel.value
         self.valueText = setItemValueText(for: self.value)
         self.category = itemModel.category
