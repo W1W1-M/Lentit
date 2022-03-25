@@ -242,7 +242,7 @@ class AppVM: ObservableObject {
     func createItem(named name: String, typed category: ItemModel.Category) -> UUID {
         let newItem = ItemModel(
             name: name,
-            description: "",
+            notes: "",
             value: 0,
             category: category,
             status: ItemModel.Status.new,
@@ -255,7 +255,7 @@ class AppVM: ObservableObject {
     func createEmptyItem() {
         let newItem = ItemModel(
             name: "",
-            description: "",
+            notes: "",
             value: 0,
             category: ItemModel.Category.other,
             status: ItemModel.Status.new,

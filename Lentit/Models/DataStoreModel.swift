@@ -130,7 +130,7 @@ extension DataStoreModel {
     static var sampleItemData: [ItemModel] = [
         ItemModel(
             name: "IronMan bluray",
-            description: "Film about some guy in an armored suit",
+            notes: "Film about some guy in an armored suit",
             value: 10,
             category: ItemModel.Category.films,
             status: ItemModel.Status.unavailable,
@@ -138,7 +138,7 @@ extension DataStoreModel {
         ),
         ItemModel(
             name: "Vibranium shield",
-            description: "An old rusty medievil shield",
+            notes: "An old rusty medievil shield",
             value: 250,
             category: ItemModel.Category.clothes,
             status: ItemModel.Status.unavailable,
@@ -146,7 +146,7 @@ extension DataStoreModel {
         ),
         ItemModel(
             name: "Spiderman lego",
-            description: "Red lego bricks",
+            notes: "Red lego bricks",
             value: 30,
             category: ItemModel.Category.toys,
             status: ItemModel.Status.unavailable,
@@ -154,7 +154,7 @@ extension DataStoreModel {
         ),
         ItemModel(
             name: "Bike",
-            description: "",
+            notes: "Some speedy bicycle",
             value: 100,
             category: ItemModel.Category.other,
             status: ItemModel.Status.available,
@@ -162,7 +162,7 @@ extension DataStoreModel {
         ),
         ItemModel(
             name: "Book",
-            description: "",
+            notes: "A nice book",
             value: 200,
             category: ItemModel.Category.books,
             status: ItemModel.Status.available,
