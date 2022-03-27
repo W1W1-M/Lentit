@@ -186,8 +186,6 @@ struct LoanListView_Previews: PreviewProvider {
             .environmentObject(AppVM())
             .previewLayout(.sizeThatFits)
         //
-        NewLoanButtonView().previewLayout(.sizeThatFits)
-        //
         LoanListBottomToolbarView().previewLayout(.sizeThatFits)
     }
 }

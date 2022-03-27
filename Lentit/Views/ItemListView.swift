@@ -267,9 +267,5 @@ struct ItemListView_Previews: PreviewProvider {
             loanVM: LoanVM(),
             itemVM: ItemVM()
         ).previewLayout(.sizeThatFits)
-        //
-        NewItemButtonView()
-            .environmentObject(AppVM())
-            .previewLayout(.sizeThatFits)
     }
 }
