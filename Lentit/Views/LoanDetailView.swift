@@ -11,8 +11,6 @@ struct LoanDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @State var editDisabled: Bool = true
-    @State var activeAlert: AlertModel = Alerts.deleteLoan
-    @State var activeSheet: SheetModel = Sheets.borrowersList
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         ZStack {
@@ -22,8 +20,7 @@ struct LoanDetailView: View {
                 List {
                     LoanDetailSectionView(
                         loanVM: loanVM,
-                        editDisabled: $editDisabled,
-                        activeSheet: $activeSheet
+                        editDisabled: $editDisabled
                     )
                     if(loanVM.status != LoanModel.Status.finished) {
                         LoanReminderSectionView(
@@ -50,15 +47,13 @@ struct LoanDetailView: View {
             }
             ToolbarItem(placement: .bottomBar) {
                 if(loanVM.status != LoanModel.Status.new) {
-                    LoanDetailDeleteButtonView(
-                        editDisabled: editDisabled
-                    )
+                    DeleteButtonView(element: .Loans)
                 }
             }
         }
         .alert(isPresented: $appVM.alertPresented) {
-            switch activeAlert {
-            case Alerts.deleteLoan:
+            switch appVM.activeAlert {
+            case .deleteLoan:
                 return Alert(
                     title: Text("Delete \(loanVM.itemVM.nameText) loan"),
                     message: Text("Are you sure you want to delete this loan ?"),
@@ -77,14 +72,14 @@ struct LoanDetailView: View {
                 return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
             }
         }
-        .sheet(isPresented: $appVM.sheetPresented) { [activeSheet] in // Explicit state capture. Fix for known SwiftUI bug.
-            switch activeSheet {
-            case Sheets.borrowersList:
+        .sheet(isPresented: $appVM.sheetPresented) {
+            switch appVM.activeSheet {
+            case .borrowersList:
                 BorrowerListSheetView(
                     borrowerListVM: appVM.borrowerListVM,
                     loanVM: loanVM
                 )
-            case Sheets.itemsList:
+            case .itemsList:
                 ItemListSheetView(
                     itemListVM: appVM.itemListVM,
                     loanVM: loanVM
@@ -127,14 +122,13 @@ struct LoanDetailSectionView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @Binding var editDisabled: Bool
-    @Binding var activeSheet: SheetModel
     var body: some View {
         Section(header: LoanDetailSectionHeaderView(loanVM: loanVM)) {
             HStack {
                 Text("Of").foregroundColor(.secondary)
                 Spacer()
                 Button {
-                    activeSheet = Sheets.itemsList
+                    appVM.activeSheet = .itemsList
                     appVM.sheetPresented = true
                 } label: {
                     Text(loanVM.itemVM.status == ItemModel.Status.unknown ? "Select item" : "\(loanVM.itemVM.nameText)")
@@ -146,7 +140,7 @@ struct LoanDetailSectionView: View {
                 Text("To").foregroundColor(.secondary)
                 Spacer()
                 Button {
-                    activeSheet = Sheets.borrowersList
+                    appVM.activeSheet = .borrowersList
                     appVM.sheetPresented = true
                 } label: {
                     Text(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
@@ -262,21 +256,6 @@ struct SaveNewLoanButtonView: View {
         .padding(.horizontal)
     }
 }
-// MARK: -
-struct LoanDetailDeleteButtonView: View {
-    @EnvironmentObject var appVM: AppVM
-    var editDisabled: Bool
-    var body: some View {
-        Button {
-            appVM.alertPresented = true
-        } label: {
-            HStack {
-                Text("Delete")
-                Image(systemName: "trash")
-            }
-        }
-    }
-}
 // MARK: - Previews
 struct LoanDetailView_Previews: PreviewProvider {
     static var previews: some View {
@@ -291,8 +270,7 @@ struct LoanDetailView_Previews: PreviewProvider {
         //
         LoanDetailSectionView(
             loanVM: LoanVM(),
-            editDisabled: .constant(true),
-            activeSheet: .constant(Sheets.itemsList)
+            editDisabled: .constant(true)
         ).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
         //

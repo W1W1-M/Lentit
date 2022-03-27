@@ -8,8 +8,10 @@
 import SwiftUI
 // MARK: - Views
 struct ItemDetailView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemVM: ItemVM
     @State var editDisabled: Bool = true
+    @Binding var navigationLinkIsActive: Bool
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
@@ -23,6 +25,32 @@ struct ItemDetailView: View {
                 if(itemVM.status != ItemModel.Status.new) {
                     EditButtonView(editDisabled: $editDisabled)
                 }
+            }
+            ToolbarItem(placement: .bottomBar) {
+                if(itemVM.status != ItemModel.Status.new) {
+                    DeleteButtonView(element: .Items)
+                }
+            }
+        }
+        .alert(isPresented: $appVM.alertPresented) {
+            switch appVM.activeAlert {
+            case .deleteItem:
+                return Alert(
+                    title: Text("Delete \(itemVM.nameText)"),
+                    message: Text("Are you sure you want to delete this item ?"),
+                    primaryButton: .default(
+                        Text("Cancel")
+                    ),
+                    secondaryButton: .destructive(
+                        Text("Delete"),
+                        action: {
+                            navigationLinkIsActive = false // Navigate back to lent item list
+                            appVM.deleteItem(for: itemVM)
+                        }
+                    )
+                )
+            default:
+                return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
             }
         }
         .onAppear(perform: {
@@ -138,7 +166,7 @@ struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            ItemDetailView(itemVM: ItemVM()).environmentObject(AppVM())
+            ItemDetailView(itemVM: ItemVM(), navigationLinkIsActive: .constant(true)).environmentObject(AppVM())
         }
         //
         List {

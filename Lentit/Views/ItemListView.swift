@@ -63,7 +63,10 @@ struct ItemListItemView: View {
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
-            destination: ItemDetailView(itemVM: itemVM),
+            destination: ItemDetailView(
+                itemVM: itemVM,
+                navigationLinkIsActive: $navigationLinkIsActive
+            ),
             isActive: $navigationLinkIsActive
         ) {
             HStack {

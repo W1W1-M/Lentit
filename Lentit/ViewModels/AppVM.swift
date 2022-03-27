@@ -96,6 +96,8 @@ class AppVM: ObservableObject {
     }
     @Published var alertPresented: Bool
     @Published var sheetPresented: Bool
+    @Published var activeAlert: AlertModel
+    @Published var activeSheet: SheetModel
     // MARK: - Init
     init() {
         // Initialize with empty data
@@ -116,6 +118,8 @@ class AppVM: ObservableObject {
         self.activeElement = Element.Loans
         self.alertPresented = false
         self.sheetPresented = false
+        self.activeAlert = .deleteLoan
+        self.activeSheet = .itemsList
         // Set view models
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
@@ -158,7 +162,6 @@ class AppVM: ObservableObject {
     }
     func deleteLoan(for loanVM: LoanVM) {
         self.dataStore.deleteLoan(oldLoan: loanVM.loan)
-        // Reload lent items count & VMs
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
     }
     func getLoanVM(with id: UUID) -> LoanVM {
@@ -271,6 +274,10 @@ class AppVM: ObservableObject {
             return ItemVM()
         }
     }
+    func deleteItem(for itemVM: ItemVM) {
+        self.dataStore.deleteItem(oldItem: itemVM.item)
+        self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
+    }
     func filterItemVMs(for itemVMs: [ItemVM], by activeCategory: ItemModel.Category) -> [ItemVM] {
         var filteredItemVMs = itemVMs
         if(activeCategory == ItemModel.Category.all) {
@@ -346,5 +353,9 @@ class AppVM: ObservableObject {
         } else {
             return BorrowerVM()
         }
+    }
+    func deleteBorrower(for borrowerVM: BorrowerVM) {
+        self.dataStore.deleteBorrower(oldBorrower: borrowerVM.borrower)
+        self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
     }
 }
