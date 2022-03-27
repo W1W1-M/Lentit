@@ -17,18 +17,7 @@ struct ItemListStatusView: View {
                     Button {
                         appVM.activeItemStatus = Status
                     } label: {
-                        switch Status {
-                        case .all:
-                            Text("all")
-                        case .new:
-                            Text("new")
-                        case .available:
-                            Text("available")
-                        case .unavailable:
-                            Text("unavailable")
-                        default:
-                            Text("unknown")
-                        }
+                        ItemStatusNameView(itemStatus: Status)
                         Image(systemName: Status.symbolName)
                     }
                 }

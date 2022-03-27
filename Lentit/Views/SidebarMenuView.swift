@@ -72,32 +72,6 @@ struct CategoriesListMenuItems: View {
     }
 }
 // MARK: -
-struct ItemCategoryFullNameView: View {
-    let itemCategory: ItemModel.Category
-    var body: some View {
-        switch itemCategory {
-        case ItemModel.Category.all:
-            Text("\(itemCategory.emoji) All")
-        case ItemModel.Category.books:
-            Text("\(itemCategory.emoji) Books")
-        case ItemModel.Category.cars:
-            Text("\(itemCategory.emoji) Cars")
-        case ItemModel.Category.clothes:
-            Text("\(itemCategory.emoji) Clothes")
-        case ItemModel.Category.films:
-            Text("\(itemCategory.emoji) Films")
-        case ItemModel.Category.other:
-            Text("\(itemCategory.emoji) Other")
-        case ItemModel.Category.pens:
-            Text("\(itemCategory.emoji) Pens")
-        case ItemModel.Category.toys:
-            Text("\(itemCategory.emoji) Toys")
-        default:
-            Text("Unknown")
-        }
-    }
-}
-// MARK: -
 struct BorrowersListMenuItems: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {

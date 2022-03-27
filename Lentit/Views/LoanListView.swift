@@ -17,20 +17,7 @@ struct LoanListStatusView: View {
                     Button {
                         appVM.activeLoanStatus = Status
                     } label: {
-                        switch Status {
-                        case .all:
-                            Text("all")
-                        case .new:
-                            Text("new")
-                        case .upcoming:
-                            Text("upcoming")
-                        case .current:
-                            Text("ongoing")
-                        case .finished:
-                            Text("finished")
-                        default:
-                            Text("unknown")
-                        }
+                        LoanStatusNameView(loanStatus: Status)
                         Image(systemName: Status.symbolName)
                     }
                 }

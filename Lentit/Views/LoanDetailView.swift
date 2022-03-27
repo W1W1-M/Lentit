@@ -190,18 +190,7 @@ struct LoanDetailSectionHeaderView: View {
         HStack {
             Text("Loan")
             Spacer()
-            switch loanVM.status {
-            case .new:
-                Text("new")
-            case .upcoming:
-                Text("upcoming")
-            case .current:
-                Text("ongoing")
-            case .finished:
-                Text("finished")
-            default:
-                Text("unknown")
-            }
+            LoanStatusNameView(loanStatus: loanVM.status)
         }.padding(.bottom, 5)
     }
 }

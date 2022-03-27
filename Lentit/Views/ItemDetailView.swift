@@ -80,18 +80,7 @@ struct ItemDetailSectionHeaderView: View {
         HStack {
             Text("item")
             Spacer()
-            switch itemVM.status {
-            case .unknown:
-                Text("unknown")
-            case .new:
-                Text("new")
-            case .available:
-                Text("available")
-            case .unavailable:
-                Text("unavailable")
-            default:
-                Text("")
-            }
+            ItemStatusNameView(itemStatus: itemVM.status)
         }
     }
 }
