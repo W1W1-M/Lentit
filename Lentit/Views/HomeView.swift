@@ -65,15 +65,16 @@ struct HomeView: View {
                     } else {
                         LoanListView(loanListVM: appVM.loanListVM)
                     }
-                    NewLoanButtonView()
+                    NewButtonView(element: AppVM.Element.Loans)
                 case .Borrowers:
                     BorrowerListView(borrowerListVM: appVM.borrowerListVM)
                     Spacer()
+                    NewButtonView(element: AppVM.Element.Borrowers)
                 case .Items:
                     ItemListStatusView(itemListVM: appVM.itemListVM)
                     ItemListView(itemListVM: appVM.itemListVM)
                     Spacer()
-                    NewItemButtonView()
+                    NewButtonView(element: AppVM.Element.Items)
                 }
             }
         }.navigationBarTitleDisplayMode(.inline)

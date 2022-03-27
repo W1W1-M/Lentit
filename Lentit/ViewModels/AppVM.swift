@@ -331,6 +331,15 @@ class AppVM: ObservableObject {
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
         return newBorrower.id
     }
+    func createEmptyBorrower() {
+        let newBorrower = BorrowerModel(
+            name: "",
+            status: BorrowerModel.Status.new,
+            loanIds: []
+        )
+        self.dataStore.createBorrower(newBorrower: newBorrower)
+        self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
+    }
     func getBorrowerVM(with id: UUID) -> BorrowerVM {
         if let borrowerVM = borrowerVMs.first(where: { $0.id == id }) {
             return borrowerVM

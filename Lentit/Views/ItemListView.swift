@@ -87,26 +87,6 @@ struct ItemListItemView: View {
     }
 }
 // MARK: -
-struct NewItemButtonView: View {
-    @EnvironmentObject var appVM: AppVM
-    var body: some View {
-        Button {
-            appVM.createEmptyItem()
-        } label: {
-            HStack {
-                Spacer()
-                Text("New Item").font(.headline)
-                Image(systemName: "plus.circle").imageScale(.large)
-                Spacer()
-            }.font(.headline)
-            .foregroundColor(.white)
-            .padding()
-        }.background(Color("InvertedAccentColor"))
-        .clipShape(Capsule())
-        .padding()
-    }
-}
-// MARK: -
 struct ItemListBottomToolbarView: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {

@@ -127,26 +127,6 @@ struct LoanListItemView: View {
     }
 }
 // MARK: -
-struct NewLoanButtonView: View {
-    @EnvironmentObject var appVM: AppVM
-    var body: some View {
-        Button {
-            appVM.createEmptyLoan()
-        } label: {
-            HStack {
-                Spacer()
-                Text("New Loan").font(.headline)
-                Image(systemName: "plus.circle").imageScale(.large)
-                Spacer()
-            }.font(.headline)
-            .foregroundColor(.white)
-            .padding()
-        }.background(Color("InvertedAccentColor"))
-        .clipShape(Capsule())
-        .padding()
-    }
-}
-// MARK: -
 struct LoanListBottomToolbarView: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
