@@ -88,10 +88,21 @@ struct ItemDetailSectionHeaderView: View {
 struct ItemHistorySectionHeaderView: View {
     @ObservedObject var itemVM: ItemVM
     var body: some View {
-        HStack {
-            Text("borrowed")
-            Spacer()
-            Text("\(itemVM.loanCount) times")
+        switch itemVM.loanCount {
+        case 0:
+            EmptyView()
+        case 1:
+            HStack {
+                Text("borrowed")
+                Spacer()
+                Text("\(itemVM.loanCount) time")
+            }
+        default:
+            HStack {
+                Text("borrowed")
+                Spacer()
+                Text("\(itemVM.loanCount) times")
+            }
         }
     }
 }
@@ -125,8 +136,18 @@ struct ItemHistoryItemView: View {
 // MARK: - Previews
 struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
+        //
         NavigationView {
             ItemDetailView(itemVM: ItemVM()).environmentObject(AppVM())
         }
+        //
+        List {
+            ItemDetailSectionView(itemVM: ItemVM())
+        }.previewLayout(.sizeThatFits)
+        //
+        List {
+            ItemHistorySectionView(itemVM: ItemVM())
+        }.environmentObject(AppVM())
+        .previewLayout(.sizeThatFits)
     }
 }

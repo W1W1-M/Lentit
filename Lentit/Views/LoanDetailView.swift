@@ -263,20 +263,6 @@ struct SaveNewLoanButtonView: View {
     }
 }
 // MARK: -
-struct EditButtonView: View {
-    @Binding var editDisabled: Bool
-    var body: some View {
-        Button {
-            editDisabled.toggle()
-        } label: {
-            HStack {
-                Text(editDisabled ? "Edit" : "Save")
-                Image(systemName: editDisabled ? "lock" : "lock.open")
-            }
-        }
-    }
-}
-// MARK: -
 struct LoanDetailDeleteButtonView: View {
     @EnvironmentObject var appVM: AppVM
     var editDisabled: Bool
