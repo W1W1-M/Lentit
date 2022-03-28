@@ -53,17 +53,13 @@ struct HomeView: View {
                         Text("Items").bold()
                         Spacer()
                     }
-                }.padding()
+                }.padding(.horizontal)
                 .font(.largeTitle)
                 switch appVM.activeElement {
                 case .Loans:
-                    LoanListStatusView(loanListVM: appVM.loanListVM)
+                    LoanListView(loanListVM: appVM.loanListVM)
                     if(appVM.loanListVM.loansCount == 0) {
-                        Spacer()
                         CreateLoanHintView()
-                        Spacer()
-                    } else {
-                        LoanListView(loanListVM: appVM.loanListVM)
                     }
                     NewButtonView(element: AppVM.Element.Loans)
                 case .Borrowers:
@@ -71,7 +67,6 @@ struct HomeView: View {
                     Spacer()
                     NewButtonView(element: AppVM.Element.Borrowers)
                 case .Items:
-                    ItemListStatusView(itemListVM: appVM.itemListVM)
                     ItemListView(itemListVM: appVM.itemListVM)
                     Spacer()
                     NewButtonView(element: AppVM.Element.Items)

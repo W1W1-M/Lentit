@@ -15,20 +15,32 @@ struct ItemDetailView: View {
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
-            List {
-                ItemDetailSectionView(itemVM: itemVM).disabled(editDisabled)
-                ItemHistorySectionView(itemVM: itemVM)
-            }.listStyle(.insetGrouped)
+            VStack {
+                Form {
+                    ItemImageView()
+                    ItemDetailSectionView(
+                        itemVM: itemVM,
+                        editDisabled: editDisabled
+                    ).disabled(editDisabled)
+                    ItemHistorySectionView(itemVM: itemVM)
+                    if(itemVM.status == ItemModel.Status.new) {
+                        SaveButtonView(
+                            editDisabled: $editDisabled,
+                            navigationLinkIsActive: $navigationLinkIsActive,
+                            element: .Items,
+                            elementId: itemVM.id
+                        )
+                    } else {
+                        DeleteButtonView(element: .Items)
+                    }
+                }
+            }
         }.navigationTitle("\(itemVM.nameText)")
+        .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(itemVM.status != ItemModel.Status.new) {
                     EditButtonView(editDisabled: $editDisabled)
-                }
-            }
-            ToolbarItem(placement: .bottomBar) {
-                if(itemVM.status != ItemModel.Status.new) {
-                    DeleteButtonView(element: .Items)
                 }
             }
         }
@@ -44,7 +56,7 @@ struct ItemDetailView: View {
                     secondaryButton: .destructive(
                         Text("Delete"),
                         action: {
-                            navigationLinkIsActive = false // Navigate back to lent item list
+                            navigationLinkIsActive = false // Navigate back to item list
                             appVM.deleteItem(for: itemVM)
                         }
                     )
@@ -76,9 +88,10 @@ struct ItemDetailView: View {
 //
 struct ItemDetailSectionView: View {
     @ObservedObject var itemVM: ItemVM
+    let editDisabled: Bool
     var body: some View {
         Section(header: ItemDetailSectionHeaderView(itemVM: itemVM)) {
-            TextField("Name", text: $itemVM.nameText)
+            TextField("Name", text: $itemVM.nameText).foregroundColor(editDisabled ? .secondary : .primary)
             HStack {
                 Text("Category").foregroundColor(.secondary)
                 Spacer()
@@ -91,13 +104,13 @@ struct ItemDetailSectionView: View {
             HStack {
                 Text("Value").foregroundColor(.secondary)
                 Spacer()
-                TextField("Value", text: $itemVM.valueText)
+                TextField("€", text: $itemVM.valueText)
                     .multilineTextAlignment(.trailing)
                     .keyboardType(.numberPad)
             }
         }
         Section(header: Text("Notes")) {
-            TextEditor(text: $itemVM.notes)
+            TextEditor(text: $itemVM.notes).foregroundColor(editDisabled ? .secondary : .primary)
         }
     }
 }
@@ -155,6 +168,13 @@ struct ItemHistoryItemView: View {
     @ObservedObject var loanVM: LoanVM
     var body: some View {
         HStack {
+            ZStack {
+                Circle()
+                    .frame(width: 30, height: 30)
+                Text("\(String(loanVM.borrowerVM.nameText.prefix(2)))")
+                    .font(.headline)
+                    .foregroundColor(.white)
+            }.padding(.horizontal, 4)
             Text("\(loanVM.borrowerVM.nameText)")
             Spacer()
             Text("\(loanVM.loanDateText)")
@@ -166,11 +186,17 @@ struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            ItemDetailView(itemVM: ItemVM(), navigationLinkIsActive: .constant(true)).environmentObject(AppVM())
+            ItemDetailView(
+                itemVM: ItemVM(),
+                navigationLinkIsActive: .constant(true)
+            ).environmentObject(AppVM())
         }
         //
         List {
-            ItemDetailSectionView(itemVM: ItemVM())
+            ItemDetailSectionView(
+                itemVM: ItemVM(),
+                editDisabled: true
+            )
         }.previewLayout(.sizeThatFits)
         //
         List {

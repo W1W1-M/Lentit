@@ -57,7 +57,7 @@ struct LoanListStatusView: View {
             }
         }.font(.title3)
         .textCase(.lowercase)
-        .padding(.horizontal, 30)
+        .padding(.bottom)
     }
 }
 // MARK: -
@@ -66,8 +66,12 @@ struct LoanListView: View {
     @ObservedObject var loanListVM: LoanListVM
     var body: some View {
         List {
-            ForEach(appVM.loanVMs) { LoanVM in
-                LoanListItemView(loanVM: LoanVM)
+            Section {
+                ForEach(appVM.loanVMs) { LoanVM in
+                    LoanListItemView(loanVM: LoanVM)
+                }
+            } header: {
+                LoanListStatusView(loanListVM: appVM.loanListVM)
             }
         }.listStyle(.plain)
     }

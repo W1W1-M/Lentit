@@ -53,7 +53,7 @@ extension ItemModel {
         static let new: Status = Status(symbolName: "play.circle")
         static let available: Status = Status(symbolName: "checkmark.circle")
         static let unavailable: Status = Status(symbolName: "xmark.circle")
-        static let allCases: Array<ItemModel.Status> = [available, unavailable]
+        static let allCases: Array<ItemModel.Status> = [all, available, unavailable]
     }
     /// Predefined item categories
     struct Category: Identifiable, Equatable, Hashable, CaseIterable {

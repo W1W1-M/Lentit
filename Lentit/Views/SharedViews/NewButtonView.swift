@@ -23,6 +23,7 @@ struct NewButtonView: View {
         } label: {
             HStack {
                 Spacer()
+                Image(systemName: "plus.circle").imageScale(.large)
                 switch element {
                 case .Loans:
                     Text("New Loan")
@@ -31,14 +32,14 @@ struct NewButtonView: View {
                 case .Items:
                     Text("New Item")
                 }
-                Image(systemName: "plus.circle").imageScale(.large)
                 Spacer()
             }.font(.headline)
             .foregroundColor(.white)
             .padding()
         }.background(Color("InvertedAccentColor"))
-        .clipShape(Capsule())
-        .padding()
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .padding(.horizontal)
+        .padding(.bottom)
     }
 }
 

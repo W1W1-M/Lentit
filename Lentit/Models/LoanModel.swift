@@ -59,7 +59,7 @@ extension LoanModel {
         static let upcoming: Status = Status(symbolName: "calendar.circle")
         static let current: Status = Status(symbolName: "hourglass.circle")
         static let finished: Status = Status(symbolName: "stop.circle")
-        static let allCases: Array<LoanModel.Status> = [.all, .upcoming, .current, .finished]
+        static let allCases: Array<LoanModel.Status> = [all, upcoming, current, finished]
     }
     /// Predefined loan sort orders
     struct SortingOrder: Identifiable, Equatable, Hashable, CaseIterable {

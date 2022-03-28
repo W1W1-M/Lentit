@@ -65,6 +65,11 @@ class AppVM: ObservableObject {
             self.loanListVM.setLoansCount(for: loanVMs)
         }
     }
+    @Published var activeBorrowerStatus: BorrowerModel.Status {
+        didSet {
+            
+        }
+    }
     @Published var activeBorrower: BorrowerVM {
         didSet {
             
@@ -109,10 +114,11 @@ class AppVM: ObservableObject {
         self.borrowerListVM = BorrowerListVM()
         self.itemListVM = ItemListVM()
         self.activeItemCategory = ItemModel.Category.all
-        self.activeItemStatus = ItemModel.Status.available
+        self.activeItemStatus = ItemModel.Status.all
         self.activeItemSort = ItemModel.SortingOrder.byName
         self.activeLoanSort = LoanModel.SortingOrder.byItemName
         self.activeLoanStatus = LoanModel.Status.current
+        self.activeBorrowerStatus = BorrowerModel.Status.regular
         self.activeBorrower = BorrowerVM()
         self.activeItem = ItemVM()
         self.activeElement = Element.Loans

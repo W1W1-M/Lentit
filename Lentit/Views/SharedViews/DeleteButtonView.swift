@@ -23,15 +23,22 @@ struct DeleteButtonView: View {
             appVM.alertPresented = true
         } label: {
             HStack {
+                Spacer()
+                Image(systemName: "trash").imageScale(.large)
                 Text("Delete")
-                Image(systemName: "trash")
+                Spacer()
             }
-        }
+        }.font(.headline)
+        .foregroundColor(.white)
+        .padding()
+        .background(Color.red)
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .listRowBackground(Color("BackgroundColor"))
     }
 }
 // MARK: - Previews
 struct DeleteButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        DeleteButtonView(element: .Loans)
+        DeleteButtonView(element: .Loans).previewLayout(.sizeThatFits)
     }
 }

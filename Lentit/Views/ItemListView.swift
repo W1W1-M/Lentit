@@ -42,7 +42,7 @@ struct ItemListStatusView: View {
                 .foregroundColor(.secondary)
         }.font(.title3)
         .textCase(.lowercase)
-        .padding(.horizontal, 30)
+        .padding(.bottom)
     }
 }
 // MARK: -
@@ -51,8 +51,12 @@ struct ItemListView: View {
     @ObservedObject var itemListVM: ItemListVM
     var body: some View {
         List {
-            ForEach(appVM.itemVMs) { ItemVM in
-                ItemListItemView(itemVM: ItemVM)
+            Section {
+                ForEach(appVM.itemVMs) { ItemVM in
+                    ItemListItemView(itemVM: ItemVM)
+                }
+            } header: {
+                ItemListStatusView(itemListVM: appVM.itemListVM)
             }
         }.listStyle(.plain)
     }

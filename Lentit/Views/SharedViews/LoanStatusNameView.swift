@@ -11,6 +11,8 @@ struct LoanStatusNameView: View {
     let loanStatus: LoanModel.Status
     var body: some View {
         switch loanStatus {
+        case .all:
+            Text("all")
         case .new:
             Text("new")
         case .upcoming:

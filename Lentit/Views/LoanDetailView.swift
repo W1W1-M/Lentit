@@ -15,39 +15,35 @@ struct LoanDetailView: View {
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
-            VStack {
-                LoanItemImageView()
-                List {
-                    LoanDetailSectionView(
+            Form {
+                ItemImageView()
+                LoanDetailSectionView(
+                    loanVM: loanVM,
+                    editDisabled: $editDisabled
+                )
+                if(loanVM.status != LoanModel.Status.finished) {
+                    LoanReminderSectionView(
                         loanVM: loanVM,
                         editDisabled: $editDisabled
                     )
-                    if(loanVM.status != LoanModel.Status.finished) {
-                        LoanReminderSectionView(
-                            loanVM: loanVM,
-                            editDisabled: $editDisabled
-                        )
-                    }
-                }.listStyle(.insetGrouped)
+                }
                 if(loanVM.status == LoanModel.Status.new) {
-                    Spacer()
-                    SaveNewLoanButtonView(
-                        loanVM: loanVM,
+                    SaveButtonView(
                         editDisabled: $editDisabled,
-                        navigationLinkIsActive: $navigationLinkIsActive
+                        navigationLinkIsActive: $navigationLinkIsActive,
+                        element: .Loans,
+                        elementId: loanVM.id
                     )
+                } else {
+                    DeleteButtonView(element: .Loans)
                 }
             }
         }.navigationTitle(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "New loan" : "Loan to \(loanVM.borrowerVM.nameText)")
+        .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != LoanModel.Status.new) {
                     EditButtonView(editDisabled: $editDisabled)
-                }
-            }
-            ToolbarItem(placement: .bottomBar) {
-                if(loanVM.status != LoanModel.Status.new) {
-                    DeleteButtonView(element: .Loans)
                 }
             }
         }
@@ -63,7 +59,7 @@ struct LoanDetailView: View {
                     secondaryButton: .destructive(
                         Text("Delete"),
                         action: {
-                            navigationLinkIsActive = false // Navigate back to lent item list
+                            navigationLinkIsActive = false // Navigate back to loan list
                             appVM.deleteLoan(for: loanVM)
                         }
                     )
@@ -102,19 +98,6 @@ struct LoanDetailView: View {
             }
             appVM.activeLoanStatus = loanVM.status
         })
-    }
-}
-// MARK: -
-struct LoanItemImageView: View {
-    var body: some View {
-        ZStack {
-            Circle()
-                .frame(width: 200, height: 200)
-                .foregroundColor(.accentColor)
-            Text("Image")
-                .font(.largeTitle)
-                .foregroundColor(.white)
-        }.padding(.top)
     }
 }
 // MARK: -
@@ -230,32 +213,6 @@ struct LoanReminderSectionView: View {
         }
     }
 }
-// MARK: -
-struct SaveNewLoanButtonView: View {
-    @EnvironmentObject var appVM: AppVM
-    @ObservedObject var loanVM: LoanVM
-    @Binding var editDisabled: Bool
-    @Binding var navigationLinkIsActive: Bool
-    var body: some View {
-        Button {
-            editDisabled = true
-            loanVM.status = LoanModel.Status.current
-            appVM.activeLoanStatus = LoanModel.Status.current
-            navigationLinkIsActive = false
-        } label: {
-            HStack {
-                Spacer()
-                Image(systemName: "plus.circle").imageScale(.large)
-                Text("Save new loan")
-                Spacer()
-            }.font(.headline)
-            .foregroundColor(.white)
-            .padding()
-        }.background(Color("InvertedAccentColor"))
-        .clipShape(Capsule())
-        .padding(.horizontal)
-    }
-}
 // MARK: - Previews
 struct LoanDetailView_Previews: PreviewProvider {
     static var previews: some View {
@@ -266,18 +223,12 @@ struct LoanDetailView_Previews: PreviewProvider {
             ).environmentObject(AppVM())
         }
         //
-        LoanItemImageView().previewLayout(.sizeThatFits)
+        ItemImageView().previewLayout(.sizeThatFits)
         //
         LoanDetailSectionView(
             loanVM: LoanVM(),
             editDisabled: .constant(true)
         ).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
-        //
-        SaveNewLoanButtonView(
-            loanVM: LoanVM(),
-            editDisabled: .constant(true),
-            navigationLinkIsActive: .constant(false)
-        ).previewLayout(.sizeThatFits)
     }
 }

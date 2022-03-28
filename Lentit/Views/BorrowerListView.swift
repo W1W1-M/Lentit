@@ -12,8 +12,28 @@ struct BorrowerListView: View {
     @ObservedObject var borrowerListVM: BorrowerListVM
     var body: some View {
         List {
-            ForEach(appVM.borrowerVMs) { BorrowerVM in
-                BorrowerListItemView(borrowerVM: BorrowerVM)
+            Section {
+                ForEach(appVM.borrowerVMs) { BorrowerVM in
+                    BorrowerListItemView(borrowerVM: BorrowerVM)
+                }
+            } header: {
+                HStack {
+                    Spacer()
+                    switch borrowerListVM.borrowersCount {
+                    case 0:
+                        EmptyView()
+                    case 1:
+                        Text("\(borrowerListVM.borrowersCount) borrower")
+                            .fontWeight(.bold)
+                            .foregroundColor(.secondary)
+                    default:
+                        Text("\(borrowerListVM.borrowersCount) borrowers")
+                            .fontWeight(.bold)
+                            .foregroundColor(.secondary)
+                    }
+                }.font(.title3)
+                .textCase(.lowercase)
+                .padding(.bottom)
             }
         }.listStyle(.plain)
     }
@@ -24,7 +44,10 @@ struct BorrowerListItemView: View {
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
-            destination: BorrowerDetailView(borrowerVM: borrowerVM),
+            destination: BorrowerDetailView(
+                borrowerVM: borrowerVM,
+                navigationLinkIsActive: $navigationLinkIsActive
+            ),
             isActive: $navigationLinkIsActive
         ) {
             HStack {
