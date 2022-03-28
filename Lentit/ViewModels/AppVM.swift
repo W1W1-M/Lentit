@@ -82,12 +82,15 @@ class AppVM: ObservableObject {
     }
     @Published var activeElement: Element {
         didSet {
+            self.activeLoanStatus = .all
+            self.activeItemStatus = .all
             self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
             self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), reference: itemVMs, borrowerVMs)
             self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
             self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
+            self.itemVMs = filterItemVMs(for: itemVMs, by: activeItemStatus)
             self.itemVMs = sortItemVMs(for: itemVMs, by: activeItemSort)
             self.loanListVM.setLoansCount(for: loanVMs)
             self.borrowerListVM.setBorrowersCount(for: borrowerVMs)
@@ -113,15 +116,15 @@ class AppVM: ObservableObject {
         self.loanListVM = LoanListVM()
         self.borrowerListVM = BorrowerListVM()
         self.itemListVM = ItemListVM()
-        self.activeItemCategory = ItemModel.Category.all
-        self.activeItemStatus = ItemModel.Status.all
-        self.activeItemSort = ItemModel.SortingOrder.byName
-        self.activeLoanSort = LoanModel.SortingOrder.byItemName
-        self.activeLoanStatus = LoanModel.Status.current
-        self.activeBorrowerStatus = BorrowerModel.Status.regular
+        self.activeItemCategory = .all
+        self.activeItemStatus = .all
+        self.activeItemSort = .byName
+        self.activeLoanSort = .byItemName
+        self.activeLoanStatus = .current
+        self.activeBorrowerStatus = .regular
         self.activeBorrower = BorrowerVM()
         self.activeItem = ItemVM()
-        self.activeElement = Element.Loans
+        self.activeElement = .Loans
         self.alertPresented = false
         self.sheetPresented = false
         self.activeAlert = .deleteLoan

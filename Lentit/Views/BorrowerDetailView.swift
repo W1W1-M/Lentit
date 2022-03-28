@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// MARK: - Views
 struct BorrowerDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerVM: BorrowerVM
@@ -17,14 +17,11 @@ struct BorrowerDetailView: View {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
                 Form {
-                    Section {
-                        TextField("Name", text: $borrowerVM.nameText).foregroundColor(editDisabled ? .secondary : .primary)
-                    }.disabled(editDisabled)
-                    Section {
-                        ForEach(borrowerVM.loanIds.sorted(by: ==), id: \.self) { Id in
-                            BorrowerHistoryItemView(loanVM: appVM.getLoanVM(with: Id))
-                        }
-                    }.disabled(editDisabled)
+                    BorrowerDetailSectionView(
+                        borrowerVM: borrowerVM,
+                        editDisabled: $editDisabled
+                    ).disabled(editDisabled)
+                    BorrowerHistorySectionView(borrowerVM: borrowerVM)
                     if(borrowerVM.status == BorrowerModel.Status.new) {
                         SaveButtonView(
                             editDisabled: $editDisabled,
@@ -77,7 +74,48 @@ struct BorrowerDetailView: View {
         })
     }
 }
-//
+// MARK: -
+struct BorrowerDetailSectionView: View {
+    @ObservedObject var borrowerVM: BorrowerVM
+    @Binding var editDisabled: Bool
+    var body: some View {
+        Section {
+            TextField("Name", text: $borrowerVM.nameText).foregroundColor(editDisabled ? .secondary : .primary)
+        } header: {
+            Text("Borrower")
+        }
+    }
+}
+// MARK: -
+struct BorrowerHistorySectionView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var borrowerVM: BorrowerVM
+    var body: some View {
+        Section {
+            ForEach(borrowerVM.loanIds.sorted(by: ==), id: \.self) { Id in
+                BorrowerHistoryItemView(loanVM: appVM.getLoanVM(with: Id))
+            }
+        } header: {
+            switch borrowerVM.loanCount {
+            case 0:
+                EmptyView()
+            case 1:
+                HStack {
+                    Text("borrowed")
+                    Spacer()
+                    Text("\(borrowerVM.loanCount) time")
+                }
+            default:
+                HStack {
+                    Text("borrowed")
+                    Spacer()
+                    Text("\(borrowerVM.loanCount) times")
+                }
+            }
+        }
+    }
+}
+// MARK: -
 struct BorrowerHistoryItemView: View {
     @ObservedObject var loanVM: LoanVM
     var body: some View {
