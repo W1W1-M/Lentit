@@ -35,7 +35,14 @@ struct SaveButtonView: View {
             HStack {
                 Spacer()
                 Image(systemName: "square.and.arrow.down").imageScale(.large)
-                Text("Save")
+                switch element {
+                case .Loans:
+                    Text("Save Loan")
+                case .Borrowers:
+                    Text("Save Borrower")
+                case .Items:
+                    Text("Save Item")
+                }
                 Spacer()
             }
         }.font(.headline)

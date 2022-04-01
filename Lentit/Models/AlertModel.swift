@@ -12,5 +12,7 @@ struct AlertModel: Identifiable, Hashable, Equatable, CaseIterable {
     static let deleteLoan: AlertModel = AlertModel()
     static let deleteBorrower: AlertModel = AlertModel()
     static let deleteItem: AlertModel = AlertModel()
-    static let allCases: [AlertModel] = [deleteLoan, deleteBorrower, deleteItem]
+    static let reminderAdded: AlertModel = AlertModel()
+    static let reminderNotAdded: AlertModel = AlertModel()
+    static let allCases: [AlertModel] = [deleteLoan, deleteBorrower, deleteItem, reminderAdded, reminderNotAdded]
 }

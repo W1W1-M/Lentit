@@ -82,6 +82,7 @@
 		3D572C7D279AE1E2002618D7 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		3D572C7F279B40EB002618D7 /* BorrowerListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerListVM.swift; sourceTree = "<group>"; };
 		3D572C81279B44D3002618D7 /* ItemListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListVM.swift; sourceTree = "<group>"; };
+		3D57DA1127F389B400806FA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3D5901D3276FC92500373871 /* Lentit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lentit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5901D6276FC92500373871 /* LentitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LentitApp.swift; sourceTree = "<group>"; };
 		3D5901D8276FC92500373871 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -175,6 +176,7 @@
 		3D5901D5276FC92500373871 /* Lentit */ = {
 			isa = PBXGroup;
 			children = (
+				3D57DA1127F389B400806FA2 /* Info.plist */,
 				3D5901DA276FC92700373871 /* Assets.xcassets */,
 				3D5901D6276FC92500373871 /* LentitApp.swift */,
 				3D5901DC276FC92700373871 /* Preview Content */,
@@ -624,9 +626,9 @@
 				DEVELOPMENT_TEAM = 93YH69Z9HR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lentit/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -655,9 +657,9 @@
 				DEVELOPMENT_TEAM = 93YH69Z9HR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lentit/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

@@ -17,6 +17,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     }
     var reminder: Date
     var reminderActive: Bool
+    var reminderId: String
     var returned: Bool
     var status: LoanModel.Status
     var itemId: UUID
@@ -37,6 +38,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         self.loanTime = loanTime
         self.reminder = reminder
         self.reminderActive = reminderActive
+        self.reminderId = ""
         self.returned = returned
         self.status = status
         self.itemId = itemId

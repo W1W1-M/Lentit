@@ -64,6 +64,28 @@ struct LoanDetailView: View {
                         }
                     )
                 )
+            case .reminderAdded:
+                return Alert(
+                    title: Text("Reminder activated"),
+                    message: Text("\(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) added to Apple Reminders"),
+                    dismissButton: .default(
+                        Text("OK"),
+                        action: {
+                            
+                        }
+                    )
+                )
+            case .reminderNotAdded:
+                return Alert(
+                    title: Text("Reminder error"),
+                    message: Text("Error adding \(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) to Apple Reminders"),
+                    dismissButton: .default(
+                        Text("OK"),
+                        action: {
+                            
+                        }
+                    )
+                )
             default:
                 return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
             }
@@ -181,36 +203,70 @@ struct LoanReminderSectionView: View {
                 Text("Reminder").foregroundColor(.secondary)
                 Spacer()
                 if(editDisabled) {
-                    if(loanVM.reminderActive) {
-                        DatePicker(
-                            "",
-                            selection: $loanVM.reminder,
-                            in: loanVM.loanDate...,
-                            displayedComponents: .date
-                        ).disabled(editDisabled)
+                    if(loanVM.reminderVM.reminderActive) {
+                        Text("\(loanVM.reminderVM.reminderDateText)")
                     } else {
-                        Toggle(isOn: $loanVM.reminderActive) {
+                        Toggle(isOn: $loanVM.reminderVM.reminderActive) {
                             Text("Reminder")
                         }.disabled(editDisabled)
                             .labelsHidden()
                     }
                 } else {
-                    if(loanVM.reminderActive) {
-                        DatePicker(
-                            "",
-                            selection: $loanVM.reminder,
-                            in: loanVM.loanDate...,
-                            displayedComponents: .date
-                        ).disabled(editDisabled)
-                    }
                     Spacer()
-                    Toggle(isOn: $loanVM.reminderActive) {
+                    Toggle(isOn: $loanVM.reminderVM.reminderActive) {
                         Text("Reminder")
                     }.disabled(editDisabled)
-                        .labelsHidden()
+                    .labelsHidden()
                 }
             }
+            if(!editDisabled && loanVM.reminderVM.reminderActive) {
+                LoanReminderDetailView(loanVM: loanVM).disabled(editDisabled)
+            }
         }
+    }
+}
+struct LoanReminderDetailView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var loanVM: LoanVM
+    var body: some View {
+        DatePicker(
+            "Date",
+            selection: $loanVM.reminderVM.reminderDate,
+            in: loanVM.loanDate...,
+            displayedComponents: .date
+        )
+        Button {
+            do {
+                try loanVM.reminderVM.createReminder()
+                appVM.activeAlert = .reminderAdded
+            } catch {
+                appVM.activeAlert = .reminderNotAdded
+            }
+            appVM.alertPresented = true
+        } label: {
+            HStack {
+                Spacer()
+                Image(systemName: "plus.circle").imageScale(.large)
+                Text("Add reminder")
+                Spacer()
+            }
+        }.foregroundColor(.white)
+        .listRowBackground(Color.green)
+        Button {
+            do {
+                try loanVM.reminderVM.deleteReminder(oldReminder: loanVM.reminderVM.ekReminder)
+            } catch {
+                // alert reminder delete error
+            }
+        } label: {
+            HStack {
+                Spacer()
+                Image(systemName: "minus.circle").imageScale(.large)
+                Text("Delete reminder")
+                Spacer()
+            }
+        }.foregroundColor(.white)
+        .listRowBackground(Color.red)
     }
 }
 // MARK: - Previews
@@ -230,5 +286,9 @@ struct LoanDetailView_Previews: PreviewProvider {
             editDisabled: .constant(true)
         ).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
+        //
+        Form {
+            LoanReminderDetailView(loanVM: LoanVM()).previewLayout(.sizeThatFits)
+        }
     }
 }
