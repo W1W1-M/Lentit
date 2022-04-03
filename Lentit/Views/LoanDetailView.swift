@@ -10,26 +10,19 @@ import SwiftUI
 struct LoanDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @State var editDisabled: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             Form {
                 ItemImageView()
-                LoanDetailSectionView(
-                    loanVM: loanVM,
-                    editDisabled: $editDisabled
-                )
+                LoanDetailSectionView(loanVM: loanVM)
                 if(loanVM.status != LoanModel.Status.finished) {
-                    LoanReminderSectionView(
-                        loanVM: loanVM,
-                        editDisabled: $editDisabled
-                    )
+                    LoanReminderSectionView(loanVM: loanVM)
                 }
                 if(loanVM.status == LoanModel.Status.new) {
                     SaveButtonView(
-                        editDisabled: $editDisabled,
+                        editDisabled: $loanVM.editDisabled,
                         navigationLinkIsActive: $navigationLinkIsActive,
                         element: .Loans,
                         elementId: loanVM.id
@@ -43,7 +36,7 @@ struct LoanDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != LoanModel.Status.new) {
-                    EditButtonView(editDisabled: $editDisabled)
+                    EditButtonView(editDisabled: $loanVM.editDisabled)
                 }
             }
         }
@@ -66,7 +59,7 @@ struct LoanDetailView: View {
                 )
             case .reminderAdded:
                 return Alert(
-                    title: Text("Reminder activated"),
+                    title: Text("Reminder added"),
                     message: Text("\(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) added to Apple Reminders"),
                     dismissButton: .default(
                         Text("OK"),
@@ -79,6 +72,28 @@ struct LoanDetailView: View {
                 return Alert(
                     title: Text("Reminder error"),
                     message: Text("Error adding \(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) to Apple Reminders"),
+                    dismissButton: .default(
+                        Text("OK"),
+                        action: {
+                            
+                        }
+                    )
+                )
+            case .reminderDeleted:
+                return Alert(
+                    title: Text("Reminder deleted"),
+                    message: Text("\(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) added to Apple Reminders"),
+                    dismissButton: .default(
+                        Text("OK"),
+                        action: {
+                            
+                        }
+                    )
+                )
+            case .reminderNotDeleted:
+                return Alert(
+                    title: Text("Reminder error"),
+                    message: Text("Error deleting \(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) to Apple Reminders"),
                     dismissButton: .default(
                         Text("OK"),
                         action: {
@@ -111,7 +126,7 @@ struct LoanDetailView: View {
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if loan just added
             if(loanVM.status == LoanModel.Status.new) {
-                editDisabled = false
+                loanVM.editDisabled = false
             }
         })
         .onDisappear(perform: {
@@ -126,7 +141,6 @@ struct LoanDetailView: View {
 struct LoanDetailSectionView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @Binding var editDisabled: Bool
     var body: some View {
         Section(header: LoanDetailSectionHeaderView(loanVM: loanVM)) {
             HStack {
@@ -138,8 +152,8 @@ struct LoanDetailSectionView: View {
                 } label: {
                     Text(loanVM.itemVM.status == ItemModel.Status.unknown ? "Select item" : "\(loanVM.itemVM.nameText)")
                         .font(.headline)
-                        .foregroundColor(editDisabled ? .primary : .accentColor)
-                }.disabled(editDisabled)
+                        .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                }.disabled(loanVM.editDisabled)
             }
             HStack {
                 Text("To").foregroundColor(.secondary)
@@ -151,8 +165,8 @@ struct LoanDetailSectionView: View {
                     Text(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
                         .font(.headline)
                         .italic()
-                        .foregroundColor(editDisabled ? .primary : .accentColor)
-                }.disabled(editDisabled)
+                        .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                }.disabled(loanVM.editDisabled)
             }
             HStack {
                 Text("On").foregroundColor(.secondary)
@@ -160,10 +174,10 @@ struct LoanDetailSectionView: View {
                     "",
                     selection: $loanVM.loanDate,
                     displayedComponents: .date
-                ).disabled(editDisabled)
+                ).disabled(loanVM.editDisabled)
             }
             HStack {
-                if(editDisabled) {
+                if(loanVM.editDisabled) {
                     if(loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
                         Spacer()
@@ -171,12 +185,12 @@ struct LoanDetailSectionView: View {
                     } else {
                         Toggle(isOn: $loanVM.returned) {
                             Text("Returned").foregroundColor(.secondary)
-                        }.disabled(editDisabled)
+                        }.disabled(loanVM.editDisabled)
                     }
                 } else {
                     Toggle(isOn: $loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
-                    }.disabled(editDisabled)
+                    }.disabled(loanVM.editDisabled)
                 }
             }.disabled(loanVM.status == LoanModel.Status.new)
         }
@@ -196,31 +210,36 @@ struct LoanDetailSectionHeaderView: View {
 // MARK: -
 struct LoanReminderSectionView: View {
     @ObservedObject var loanVM: LoanVM
-    @Binding var editDisabled: Bool
     var body: some View {
         Section {
             HStack {
                 Text("Reminder").foregroundColor(.secondary)
                 Spacer()
-                if(editDisabled) {
+                if(loanVM.editDisabled) {
                     if(loanVM.reminderVM.reminderActive) {
                         Text("\(loanVM.reminderVM.reminderDateText)")
                     } else {
                         Toggle(isOn: $loanVM.reminderVM.reminderActive) {
                             Text("Reminder")
-                        }.disabled(editDisabled)
+                        }.disabled(loanVM.editDisabled)
                             .labelsHidden()
                     }
                 } else {
+                    DatePicker(
+                        "",
+                        selection: $loanVM.reminderVM.reminderDate,
+                        in: loanVM.loanDate...,
+                        displayedComponents: .date
+                    )
                     Spacer()
                     Toggle(isOn: $loanVM.reminderVM.reminderActive) {
                         Text("Reminder")
-                    }.disabled(editDisabled)
+                    }.disabled(loanVM.editDisabled)
                     .labelsHidden()
                 }
             }
-            if(!editDisabled && loanVM.reminderVM.reminderActive) {
-                LoanReminderDetailView(loanVM: loanVM).disabled(editDisabled)
+            if(!loanVM.editDisabled && loanVM.reminderVM.reminderActive) {
+                LoanReminderDetailView(loanVM: loanVM).disabled(loanVM.editDisabled)
             }
         }
     }
@@ -229,44 +248,43 @@ struct LoanReminderDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     var body: some View {
-        DatePicker(
-            "Date",
-            selection: $loanVM.reminderVM.reminderDate,
-            in: loanVM.loanDate...,
-            displayedComponents: .date
-        )
-        Button {
-            do {
-                try loanVM.reminderVM.createReminder()
-                appVM.activeAlert = .reminderAdded
-            } catch {
-                appVM.activeAlert = .reminderNotAdded
-            }
-            appVM.alertPresented = true
-        } label: {
-            HStack {
-                Spacer()
-                Image(systemName: "plus.circle").imageScale(.large)
-                Text("Add reminder")
-                Spacer()
-            }
-        }.foregroundColor(.white)
-        .listRowBackground(Color.green)
-        Button {
-            do {
-                try loanVM.reminderVM.deleteReminder(oldReminder: loanVM.reminderVM.ekReminder)
-            } catch {
-                // alert reminder delete error
-            }
-        } label: {
-            HStack {
-                Spacer()
-                Image(systemName: "minus.circle").imageScale(.large)
-                Text("Delete reminder")
-                Spacer()
-            }
-        }.foregroundColor(.white)
-        .listRowBackground(Color.red)
+        if(loanVM.reminderVM.ekReminderExists) {
+            Button {
+                do {
+                    try loanVM.reminderVM.deleteReminder(oldReminder: loanVM.reminderVM.reminder)
+                    appVM.activeAlert = .reminderDeleted
+                } catch {
+                    appVM.activeAlert = .reminderNotDeleted
+                }
+                appVM.alertPresented = true
+            } label: {
+                HStack {
+                    Spacer()
+                    Image(systemName: "minus.circle").imageScale(.large)
+                    Text("Delete reminder")
+                    Spacer()
+                }
+            }.foregroundColor(.white)
+            .listRowBackground(Color.red)
+        } else {
+            Button {
+                do {
+                    try loanVM.reminderVM.createReminder()
+                    appVM.activeAlert = .reminderAdded
+                } catch {
+                    appVM.activeAlert = .reminderNotAdded
+                }
+                appVM.alertPresented = true
+            } label: {
+                HStack {
+                    Spacer()
+                    Image(systemName: "plus.circle").imageScale(.large)
+                    Text("Add reminder")
+                    Spacer()
+                }
+            }.foregroundColor(.white)
+            .listRowBackground(Color.green)
+        }
     }
 }
 // MARK: - Previews
@@ -281,14 +299,12 @@ struct LoanDetailView_Previews: PreviewProvider {
         //
         ItemImageView().previewLayout(.sizeThatFits)
         //
-        LoanDetailSectionView(
-            loanVM: LoanVM(),
-            editDisabled: .constant(true)
-        ).previewLayout(.sizeThatFits)
+        LoanDetailSectionView(loanVM: LoanVM()).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
         //
         Form {
-            LoanReminderDetailView(loanVM: LoanVM()).previewLayout(.sizeThatFits)
-        }
+            LoanReminderDetailView(loanVM: LoanVM())
+        }.previewLayout(.sizeThatFits)
+        .environmentObject(AppVM())
     }
 }

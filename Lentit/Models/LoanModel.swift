@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import EventKit
 /// Data model for a item loan
 class LoanModel: ObservableObject, Identifiable, Equatable {
     // MARK: - Variables
@@ -15,9 +16,8 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var loanExpiry: Date {
         loanDate.addingTimeInterval(loanTime)
     }
-    var reminder: Date
+    var reminder: EKReminder?
     var reminderActive: Bool
-    var reminderId: String
     var returned: Bool
     var status: LoanModel.Status
     var itemId: UUID
@@ -26,7 +26,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     init(
         loanDate: Date,
         loanTime: TimeInterval,
-        reminder: Date,
+        reminder: EKReminder?,
         reminderActive: Bool,
         returned: Bool,
         status: LoanModel.Status,
@@ -38,7 +38,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         self.loanTime = loanTime
         self.reminder = reminder
         self.reminderActive = reminderActive
-        self.reminderId = ""
         self.returned = returned
         self.status = status
         self.itemId = itemId
@@ -77,7 +76,7 @@ extension LoanModel {
     static var defaultData: LoanModel = LoanModel(
         loanDate: Date(),
         loanTime: 100000.0,
-        reminder: Date(),
+        reminder: EKReminder(),
         reminderActive: false,
         returned: false,
         status: LoanModel.Status.unknown,

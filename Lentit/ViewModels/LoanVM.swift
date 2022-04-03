@@ -33,6 +33,7 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var itemVM: ItemVM
     @Published var borrowerVM: BorrowerVM
     @Published var reminderVM: ReminderVM
+    @Published var editDisabled: Bool
 // MARK: - Init
     init() {
         self.loan = LoanModel.defaultData
@@ -44,13 +45,13 @@ class LoanVM: ObservableObject, Identifiable {
         self.itemVM = ItemVM()
         self.borrowerVM = BorrowerVM()
         self.reminderVM = ReminderVM(
-            reminderDate: LoanModel.defaultData.reminder,
+            reminder: EKReminder(),
             reminderActive: LoanModel.defaultData.reminderActive,
             loanDate: LoanModel.defaultData.loanDate,
-            reminderId: LoanModel.defaultData.reminderId,
             reminderTitle: "\(ItemModel.Category.other.emoji) Loan to \(BorrowerModel.defaultData.name)",
             reminderNotes: ItemModel.defaultData.name
         )
+        self.editDisabled = true
         //
         self.loanDateText = setLoanDateText(for: loanDate)
     }
@@ -63,12 +64,12 @@ class LoanVM: ObservableObject, Identifiable {
         self.status = loanModel.status
         self.itemVM = itemVM
         self.borrowerVM = borrowerVM
-        self.reminderVM.reminderDate = loanModel.reminder
+        self.reminderVM.reminder = loanModel.reminder ?? EKReminder()
         self.reminderVM.reminderActive = loanModel.reminderActive
         self.loanDate = loanModel.loanDate
-        self.reminderVM.reminderId = loanModel.reminderId
         self.reminderVM.reminderTitle = "\(itemVM.category.emoji) Loan to \(borrowerVM.nameText)"
         self.reminderVM.reminderNotes = itemVM.nameText
+        self.editDisabled = true
     }
     func setLoanDateText(for loanDate: Date) -> String {
         let dateFormat = DateFormatter()
@@ -122,28 +123,26 @@ class LoanVM: ObservableObject, Identifiable {
 extension LoanVM {
     class ReminderVM {
 // MARK: - Properties
-        @Published var ekReminder: EKReminder {
+        @Published var reminder: EKReminder {
             didSet {
-                self.reminderDateText = setReminderDateText(for: reminderDate)
-            }
-        }
-        @Published var reminderDate: Date {
-            didSet {
-                self.reminderDateText = setReminderDateText(for: reminderDate)
+                self.reminderDateText = setReminderDateText(for: reminder.dueDateComponents?.date ?? reminderDate)
+                self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
             }
         }
         @Published var reminderActive: Bool {
             didSet {
                 checkReminderAccess()
+                self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
             }
         }
+        @Published var reminderDate: Date
         @Published var reminderDateText: String
         private let eventStore: EKEventStore
         private var reminderAccess: EKAuthorizationStatus
         var loanDate: Date
-        var reminderId: String
-        var reminderTitle: String
-        var reminderNotes: String
+        @Published var ekReminderExists: Bool
+        @Published var reminderTitle: String
+        @Published var reminderNotes: String
         private var reminderDefaultCalendar: EKCalendar?
         enum reminderErrors: Error {
             case reminderNotFound
@@ -153,21 +152,20 @@ extension LoanVM {
         }
 // MARK: - Custom initializer
         init(
-            reminderDate: Date,
+            reminder: EKReminder,
             reminderActive: Bool,
             loanDate: Date,
-            reminderId: String,
             reminderTitle: String,
             reminderNotes: String
         ) {
-            self.ekReminder = EKReminder()
-            self.reminderDate = reminderDate
+            self.reminder = reminder
             self.reminderActive = reminderActive
+            self.reminderDate = Date()
             self.reminderDateText = ""
             self.eventStore = EKEventStore()
             self.reminderAccess = EKEventStore.authorizationStatus(for: .reminder)
             self.loanDate = loanDate
-            self.reminderId = reminderId
+            self.ekReminderExists = false
             self.reminderTitle = reminderTitle
             self.reminderNotes = reminderNotes
             do {
@@ -177,9 +175,20 @@ extension LoanVM {
                 print("Default calendar error: \(error)")
             }
             //
+            self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
+            self.reminderDate = reminder.dueDateComponents?.date ?? Date(timeInterval: 30*24*60*60, since: loanDate)
             self.reminderDateText = setReminderDateText(for: reminderDate)
         }
 // MARK: - Methods
+        func setReminderVM(
+            reminder: EKReminder,
+            reminderActive: Bool
+        ) {
+            self.reminder = reminder
+            self.reminderActive = reminderActive
+            self.reminderDate = reminder.dueDateComponents?.date ?? Date(timeInterval: 30*24*60*60, since: loanDate)
+            self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
+        }
         func requestReminderAccess() {
             eventStore.requestAccess(to: .reminder) { granted, error in
                 if granted {
@@ -218,11 +227,10 @@ extension LoanVM {
             newReminder.addAlarm(newAlarm)
             do {
                 try saveReminder(newReminder: newReminder)
-                self.ekReminder = newReminder
+                self.reminder = newReminder
             } catch {
                 print(error)
             }
-            self.reminderId = newReminder.calendarItemIdentifier
         }
         func saveReminder(newReminder: EKReminder) throws {
             do {
@@ -244,26 +252,26 @@ extension LoanVM {
                 throw reminderErrors.reminderNotDeleted
             }
         }
-        func getReminder(_ reminderId: String) throws -> EKCalendarItem {
+        func getReminder(_ reminderId: String) throws -> EKReminder {
             if let ekReminder = eventStore.calendarItem(withIdentifier: reminderId) {
                 print("Reminder \(reminderId) found")
-                return ekReminder
+                return ekReminder as! EKReminder
             } else {
                 print("Reminder \(reminderId) not found")
                 throw reminderErrors.reminderNotFound
             }
         }
-//        func getReminder(_ reminderId: String) throws -> EKReminder {
-//            if let ekReminder = eventStore.fetchReminders(matching: <#T##NSPredicate#>, completion: <#T##([EKReminder]?) -> Void#>) {
-//                print("Reminder \(reminderId) found")
-//                return ekReminder
-//            } else {
-//                print("Reminder \(reminderId) not found")
-//                throw reminderErrors.reminderNotFound
-//            }
-//        }
         func resetReminder() {
-            self.ekReminder = EKReminder()
+            self.reminder = EKReminder()
+        }
+        func checkReminderExists(_ reminderId: String) -> Bool {
+            if eventStore.calendarItem(withIdentifier: reminderId) != nil {
+                print("Reminder \(reminderId) found")
+                return true
+            } else {
+                print("Reminder \(reminderId) not found")
+                return false
+            }
         }
         func setReminderDateText(for reminderDate: Date) -> String {
             let dateFormat = DateFormatter()

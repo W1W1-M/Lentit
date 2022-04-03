@@ -89,7 +89,7 @@ extension DataStoreModel {
         LoanModel(
             loanDate: Date(),
             loanTime: 600000.0,
-            reminder: Date(timeInterval: 600000.0, since: Date()),
+            reminder: nil,
             reminderActive: false,
             returned: false,
             status: LoanModel.Status.current,
@@ -99,7 +99,7 @@ extension DataStoreModel {
         LoanModel(
             loanDate: Date(),
             loanTime: 600000.0,
-            reminder: Date(timeInterval: 600000.0, since: Date()),
+            reminder: nil,
             reminderActive: true,
             returned: false,
             status: LoanModel.Status.current,
@@ -109,7 +109,7 @@ extension DataStoreModel {
         LoanModel(
             loanDate: Date(),
             loanTime: 600000.0,
-            reminder: Date(timeInterval: 600000.0, since: Date()),
+            reminder: nil,
             reminderActive: false,
             returned: true,
             status: LoanModel.Status.finished,
@@ -119,7 +119,7 @@ extension DataStoreModel {
         LoanModel(
             loanDate: Date(),
             loanTime: 600000.0,
-            reminder: Date(timeInterval: 600000.0, since: Date()),
+            reminder: nil,
             reminderActive: true,
             returned: false,
             status: LoanModel.Status.current,

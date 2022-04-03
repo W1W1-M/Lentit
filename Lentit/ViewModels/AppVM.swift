@@ -158,7 +158,7 @@ class AppVM: ObservableObject {
         let newLoan = LoanModel(
             loanDate: Date(),
             loanTime: 100000.0, // WIP
-            reminder: Date(timeIntervalSinceNow: 30*24*60*60), // WIP
+            reminder: nil,
             reminderActive: false,
             returned: false,
             status: LoanModel.Status.new,
