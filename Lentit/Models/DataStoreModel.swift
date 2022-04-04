@@ -12,6 +12,12 @@ class DataStoreModel: ObservableObject {
     private var storedLoans: [LoanModel]
     private var storedItems: [ItemModel]
     private var storedBorrowers: [BorrowerModel]
+    private enum dataStoreErrors: Error {
+        case loanNotFound
+        case itemNotFound
+        case borrowerNotFound
+    }
+// MARK: - Custom initializer
     init() {
         self.storedLoans = DataStoreModel.sampleLoanData
         self.storedItems = DataStoreModel.sampleItemData
@@ -28,6 +34,16 @@ class DataStoreModel: ObservableObject {
     /// - Returns: Array of LoanModel
     func readStoredLoans() -> [LoanModel] {
         return storedLoans
+    }
+    /// Method to get a loan in store
+    /// - Parameter id: LoanModel id 
+    /// - Returns: LoanModel
+    func readStoredLoan(_ id: UUID) throws -> LoanModel {
+        if let loan = storedLoans.first(where: { $0.id == id}) {
+            return loan
+        } else {
+            throw dataStoreErrors.loanNotFound
+        }
     }
     /// Method to delete a loan from store
     /// - Parameter loan: LoanModel
@@ -46,6 +62,16 @@ class DataStoreModel: ObservableObject {
     /// - Returns: Array of ItemModel
     func readStoredItems() -> [ItemModel] {
         return storedItems
+    }
+    /// Method to get a item in store
+    /// - Parameter id: ItemModel id
+    /// - Returns: ItemModel
+    func readStoredItem(_ id: UUID) throws -> ItemModel {
+        if let item = storedItems.first(where: { $0.id == id}) {
+            return item
+        } else {
+            throw dataStoreErrors.itemNotFound
+        }
     }
     /// Method to update an item in store
     /// - Parameter itemVM: ItemVM
@@ -69,6 +95,16 @@ class DataStoreModel: ObservableObject {
     /// - Returns: <#description#>
     func readStoredBorrowers() -> [BorrowerModel] {
         return storedBorrowers
+    }
+    /// Method to get a borrower in store
+    /// - Parameter id: BorrowerModel id
+    /// - Returns: BorrowerModel
+    func readStoredBorrower(_ id: UUID) throws -> BorrowerModel {
+        if let borrower = storedBorrowers.first(where: { $0.id == id}) {
+            return borrower
+        } else {
+            throw dataStoreErrors.borrowerNotFound
+        }
     }
     /// <#Description#>
     /// - Parameter borrowerVM: <#borrowerVM description#>
@@ -100,7 +136,7 @@ extension DataStoreModel {
             loanDate: Date(),
             loanTime: 600000.0,
             reminder: nil,
-            reminderActive: true,
+            reminderActive: false,
             returned: false,
             status: LoanModel.Status.current,
             itemId: sampleItemData[1].id,
@@ -120,7 +156,7 @@ extension DataStoreModel {
             loanDate: Date(),
             loanTime: 600000.0,
             reminder: nil,
-            reminderActive: true,
+            reminderActive: false,
             returned: false,
             status: LoanModel.Status.current,
             itemId: sampleItemData[1].id,

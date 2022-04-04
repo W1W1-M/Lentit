@@ -25,7 +25,14 @@ struct DeleteButtonView: View {
             HStack {
                 Spacer()
                 Image(systemName: "trash").imageScale(.large)
-                Text("Delete")
+                switch element {
+                case .Loans:
+                    Text("Delete Loan")
+                case .Borrowers:
+                    Text("Delete Borrower")
+                case .Items:
+                    Text("Delete Item")
+                }
                 Spacer()
             }
         }.font(.headline)

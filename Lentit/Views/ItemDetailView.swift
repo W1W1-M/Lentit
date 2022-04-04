@@ -155,7 +155,7 @@ struct ItemHistorySectionView: View {
         if(itemVM.loanCount > 0) {
             Section(header: ItemHistorySectionHeaderView(itemVM: itemVM)) {
                 ForEach(itemVM.loanIds.sorted(by: ==), id: \.self) { Id in
-                    ItemHistoryItemView(loanVM: appVM.getLoanVM(with: Id))
+                    ItemHistoryItemView(loanVM: appVM.getLoanVM(for: Id))
                 }
             }
         } else {
@@ -171,11 +171,11 @@ struct ItemHistoryItemView: View {
             ZStack {
                 Circle()
                     .frame(width: 30, height: 30)
-                Text("\(String(loanVM.borrowerVM.nameText.prefix(2)))")
+                Text("\(String(loanVM.loanBorrowerName.prefix(2)))")
                     .font(.headline)
                     .foregroundColor(.white)
             }.padding(.horizontal, 4)
-            Text("\(loanVM.borrowerVM.nameText)")
+            Text("\(loanVM.loanBorrowerName)")
             Spacer()
             Text("\(loanVM.loanDateText)")
         }

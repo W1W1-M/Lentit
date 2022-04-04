@@ -11,6 +11,8 @@ import EventKit
 class LoanVM: ObservableObject, Identifiable {
 // MARK: - Properties
     private(set) var loan: LoanModel
+    private(set) var loanItem: ItemModel
+    private(set) var loanBorrower: BorrowerModel
     private(set) var id: UUID
     @Published var loanDate: Date {
         didSet{
@@ -30,46 +32,53 @@ class LoanVM: ObservableObject, Identifiable {
             loan.status = self.status
         }
     }
-    @Published var itemVM: ItemVM
-    @Published var borrowerVM: BorrowerVM
+    @Published var loanBorrowerName: String
+    @Published var loanItemName: String
+    @Published var loanItemCategory: ItemModel.Category
     @Published var reminderVM: ReminderVM
-    @Published var editDisabled: Bool
 // MARK: - Init
     init() {
+        print("LoanVM init ...")
         self.loan = LoanModel.defaultData
+        self.loanItem = ItemModel.defaultData
+        self.loanBorrower = BorrowerModel.defaultData
         self.id = LoanModel.defaultData.id
         self.loanDate = LoanModel.defaultData.loanDate
         self.loanDateText = "\(LoanModel.defaultData.loanDate)"
         self.returned = LoanModel.defaultData.returned
         self.status = LoanModel.defaultData.status
-        self.itemVM = ItemVM()
-        self.borrowerVM = BorrowerVM()
+        self.loanBorrowerName = BorrowerModel.defaultData.name
+        self.loanItemName = ItemModel.defaultData.name
+        self.loanItemCategory = ItemModel.defaultData.category
         self.reminderVM = ReminderVM(
-            reminder: EKReminder(),
-            reminderActive: LoanModel.defaultData.reminderActive,
-            loanDate: LoanModel.defaultData.loanDate,
+            loan: LoanModel.defaultData,
             reminderTitle: "\(ItemModel.Category.other.emoji) Loan to \(BorrowerModel.defaultData.name)",
             reminderNotes: ItemModel.defaultData.name
         )
-        self.editDisabled = true
         //
         self.loanDateText = setLoanDateText(for: loanDate)
+        print("... init LoanVM \(id)")
     }
 // MARK: - Methods
-    func setLoanVM(from loanModel: LoanModel, _ itemVM: ItemVM, _ borrowerVM: BorrowerVM) {
-        self.loan = loanModel
-        self.id = loanModel.id
-        self.loanDate = loanModel.loanDate
-        self.returned = loanModel.returned
-        self.status = loanModel.status
-        self.itemVM = itemVM
-        self.borrowerVM = borrowerVM
-        self.reminderVM.reminder = loanModel.reminder ?? EKReminder()
-        self.reminderVM.reminderActive = loanModel.reminderActive
-        self.loanDate = loanModel.loanDate
-        self.reminderVM.reminderTitle = "\(itemVM.category.emoji) Loan to \(borrowerVM.nameText)"
-        self.reminderVM.reminderNotes = itemVM.nameText
-        self.editDisabled = true
+    func setLoanVM(from loan: LoanModel, _ loanItem: ItemModel, _ loanBorrower: BorrowerModel) {
+        print("setLoanVM ...")
+        self.loan = loan
+        self.loanItem = loanItem
+        self.loanBorrower = loanBorrower
+        self.id = loan.id
+        self.loanDate = loan.loanDate
+        self.returned = loan.returned
+        self.status = loan.status
+        self.loanBorrowerName = loanBorrower.name
+        self.loanItemName = loanItem.name
+        self.loanItemCategory = loanItem.category
+        self.loan = loan
+        self.reminderVM = ReminderVM(
+            loan: loan,
+            reminderTitle: "\(loanItem.category.emoji) Loan to \(loanBorrower.name)",
+            reminderNotes: loanItem.name
+        )
+        print("... setLoanVM \(id)")
     }
     func setLoanDateText(for loanDate: Date) -> String {
         let dateFormat = DateFormatter()
@@ -101,15 +110,15 @@ class LoanVM: ObservableObject, Identifiable {
         let loanTime = loanExpiry.timeIntervalSince(loanDate)
         return loanTime
     }
-    func setLoanBorrower(to newBorrowerVM: BorrowerVM) {
-        self.borrowerVM = newBorrowerVM
-        self.borrowerVM.updateBorrowerLoans(with: self.id)
-        self.loan.borrowerId = self.borrowerVM.id
+    func setLoanBorrower(to newBorrower: BorrowerModel) {
+        self.loanBorrower = newBorrower
+        self.loanBorrower.addLoanId(with: self.id)
+        self.loan.updateBorrowerId(self.loanBorrower.id)
     }
-    func setLoanItem(to newItemVM: ItemVM) {
-        self.itemVM = newItemVM
-        self.itemVM.updateItemLoans(with: self.id)
-        self.loan.itemId = self.itemVM.id
+    func setLoanItem(to newItem: ItemModel) {
+        self.loanItem = newItem
+        self.loanItem.addLoanId(with: self.id)
+        self.loan.updateItemId(self.loanItem.id)
     }
     func setReturnedLoanStatus() {
         if(returned) {
@@ -123,16 +132,22 @@ class LoanVM: ObservableObject, Identifiable {
 extension LoanVM {
     class ReminderVM {
 // MARK: - Properties
+        private(set) var loan: LoanModel
+        private(set) var id: UUID
         @Published var reminder: EKReminder {
             didSet {
+                self.loan.reminder = reminder
                 self.reminderDateText = setReminderDateText(for: reminder.dueDateComponents?.date ?? reminderDate)
-                self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
             }
         }
         @Published var reminderActive: Bool {
             didSet {
-                checkReminderAccess()
-                self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
+                self.loan.reminderActive = reminderActive
+                if(reminderActive) {
+                    checkReminderAccess()
+                    setDefaultCalendar()
+                    self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
+                }
             }
         }
         @Published var reminderDate: Date
@@ -152,38 +167,39 @@ extension LoanVM {
         }
 // MARK: - Custom initializer
         init(
-            reminder: EKReminder,
-            reminderActive: Bool,
-            loanDate: Date,
+            loan: LoanModel,
             reminderTitle: String,
             reminderNotes: String
         ) {
-            self.reminder = reminder
-            self.reminderActive = reminderActive
+            print("ReminderVM init ...")
+            self.loan = loan
+            self.id = UUID()
+            self.reminder = loan.reminder ?? EKReminder()
+            self.reminderActive = loan.reminderActive
             self.reminderDate = Date()
             self.reminderDateText = ""
             self.eventStore = EKEventStore()
             self.reminderAccess = EKEventStore.authorizationStatus(for: .reminder)
-            self.loanDate = loanDate
+            self.loanDate = loan.loanDate
             self.ekReminderExists = false
             self.reminderTitle = reminderTitle
             self.reminderNotes = reminderNotes
-            do {
-                try self.reminderDefaultCalendar = getDefaultCalendar()
-                print("Default calendar set")
-            } catch {
-                print("Default calendar error: \(error)")
-            }
+            self.reminderDefaultCalendar = nil
             //
-            self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
+            self.id = UUID(uuidString: reminder.calendarItemIdentifier) ?? UUID()
             self.reminderDate = reminder.dueDateComponents?.date ?? Date(timeInterval: 30*24*60*60, since: loanDate)
             self.reminderDateText = setReminderDateText(for: reminderDate)
+            if(reminderActive) {
+                self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
+            }
+            print("... init ReminderVM \(id)")
         }
 // MARK: - Methods
         func setReminderVM(
             reminder: EKReminder,
             reminderActive: Bool
         ) {
+            self.id = UUID(uuidString: reminder.calendarItemIdentifier) ?? UUID()
             self.reminder = reminder
             self.reminderActive = reminderActive
             self.reminderDate = reminder.dueDateComponents?.date ?? Date(timeInterval: 30*24*60*60, since: loanDate)
@@ -216,7 +232,17 @@ extension LoanVM {
                 throw reminderErrors.calendarNotFound
             }
         }
+        func setDefaultCalendar() {
+            do {
+                self.reminderDefaultCalendar = try getDefaultCalendar()
+                print("Default calendar set")
+            } catch {
+                print("Default calendar error: \(error)")
+            }
+        }
         func createReminder() throws {
+            checkReminderAccess()
+            setDefaultCalendar()
             let newReminder = EKReminder(eventStore: eventStore)
             let newAlarm = EKAlarm(absoluteDate: self.reminderDate)
             newReminder.calendar = self.reminderDefaultCalendar
@@ -228,8 +254,10 @@ extension LoanVM {
             do {
                 try saveReminder(newReminder: newReminder)
                 self.reminder = newReminder
+                self.ekReminderExists = true
             } catch {
                 print(error)
+                throw reminderErrors.reminderNotSaved
             }
         }
         func saveReminder(newReminder: EKReminder) throws {
@@ -241,8 +269,10 @@ extension LoanVM {
                 throw reminderErrors.reminderNotSaved
             }
         }
-        func deleteReminder(oldReminder: EKReminder) throws {
+        func deleteReminder() throws {
+            print("deleteReminder ...")
             do {
+                let oldReminder = try getReminder(reminder.calendarItemIdentifier)
                 try eventStore.remove(oldReminder, commit: true)
                 self.reminderActive = false
                 resetReminder()
@@ -251,6 +281,7 @@ extension LoanVM {
                 print("Reminder delete error \(error)")
                 throw reminderErrors.reminderNotDeleted
             }
+            print("... deleteReminder")
         }
         func getReminder(_ reminderId: String) throws -> EKReminder {
             if let ekReminder = eventStore.calendarItem(withIdentifier: reminderId) {

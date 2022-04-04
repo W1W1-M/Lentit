@@ -15,20 +15,6 @@ struct SaveButtonView: View {
     let elementId: UUID
     var body: some View {
         Button {
-            switch element {
-            case .Loans:
-                let loanVM = appVM.getLoanVM(with: elementId)
-                loanVM.status = .current
-                appVM.activeLoanStatus = .current
-            case .Borrowers:
-                let borrowerVM = appVM.getBorrowerVM(with: elementId)
-                borrowerVM.status = .regular
-                appVM.activeBorrowerStatus = .regular
-            case .Items:
-                let itemVM = appVM.getItem(with: elementId)
-                itemVM.status = .available
-                appVM.activeItemStatus = .available
-            }
             editDisabled = true
             navigationLinkIsActive = false
         } label: {

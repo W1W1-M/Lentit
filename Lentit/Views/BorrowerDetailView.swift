@@ -93,7 +93,7 @@ struct BorrowerHistorySectionView: View {
     var body: some View {
         Section {
             ForEach(borrowerVM.loanIds.sorted(by: ==), id: \.self) { Id in
-                BorrowerHistoryItemView(loanVM: appVM.getLoanVM(with: Id))
+                BorrowerHistoryItemView(loanVM: appVM.getLoanVM(for: Id))
             }
         } header: {
             switch borrowerVM.loanCount {
@@ -120,7 +120,7 @@ struct BorrowerHistoryItemView: View {
     @ObservedObject var loanVM: LoanVM
     var body: some View {
         HStack {
-            Text("\(loanVM.itemVM.nameText)")
+            Text("\(loanVM.loanItemName)")
             Spacer()
             Text("\(loanVM.loanDateText)")
         }

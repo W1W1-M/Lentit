@@ -75,18 +75,18 @@ struct CategoriesListMenuItems: View {
 struct BorrowersListMenuItems: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
-        ForEach(appVM.borrowerVMs) { BorrowerVM in
+        ForEach(appVM.borrowerListEntryVMs) { BorrowerListEntryVM in
             Button {
-                appVM.activeBorrower = BorrowerVM
+                appVM.activeBorrower.nameText = BorrowerListEntryVM.name
             } label: {
-                if(appVM.activeBorrower.id == BorrowerVM.id) {
+                if(appVM.activeBorrower.id == BorrowerListEntryVM.id) {
                     HStack {
-                        Text("\(BorrowerVM.nameText)")
+                        Text("\(BorrowerListEntryVM.name)")
                         Spacer()
                         Image(systemName: "checkmark").foregroundColor(.accentColor)
                     }
                 } else {
-                    Text("\(BorrowerVM.nameText)")
+                    Text("\(BorrowerListEntryVM.name)")
                 }
             }
         }
@@ -96,18 +96,18 @@ struct BorrowersListMenuItems: View {
 struct ItemsListMenuItems: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
-        ForEach(appVM.itemVMs) { ItemVM in
+        ForEach(appVM.itemListEntryVMs) { ItemListEntryVM in
             Button {
-                appVM.activeItem = ItemVM
+                appVM.activeItem.nameText = ItemListEntryVM.name
             } label: {
-                if(appVM.activeItem.id == ItemVM.id) {
+                if(appVM.activeItem.id == ItemListEntryVM.id) {
                     HStack {
-                        Text("\(ItemVM.nameText)")
+                        Text("\(ItemListEntryVM.name)")
                         Spacer()
                         Image(systemName: "checkmark").foregroundColor(.accentColor)
                     }
                 } else {
-                    Text("\(ItemVM.nameText)")
+                    Text("\(ItemListEntryVM.name)")
                 }
             }
         }

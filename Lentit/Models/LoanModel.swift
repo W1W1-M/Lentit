@@ -9,7 +9,7 @@ import Foundation
 import EventKit
 /// Data model for a item loan
 class LoanModel: ObservableObject, Identifiable, Equatable {
-    // MARK: - Variables
+// MARK: - Properties
     let id: UUID
     var loanDate: Date
     var loanTime: TimeInterval
@@ -20,9 +20,9 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var reminderActive: Bool
     var returned: Bool
     var status: LoanModel.Status
-    var itemId: UUID
-    var borrowerId: UUID
-    // MARK: - Init
+    var itemId: UUID?
+    var borrowerId: UUID?
+// MARK: - Custom initializer
     init(
         loanDate: Date,
         loanTime: TimeInterval,
@@ -30,8 +30,8 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         reminderActive: Bool,
         returned: Bool,
         status: LoanModel.Status,
-        itemId: UUID,
-        borrowerId: UUID
+        itemId: UUID?,
+        borrowerId: UUID?
     ) {
         self.id = UUID()
         self.loanDate = loanDate
@@ -43,9 +43,15 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         self.itemId = itemId
         self.borrowerId = borrowerId
     }
-    // MARK: - Functions
+// MARK: - Methods
     static func == (lhs: LoanModel, rhs: LoanModel) -> Bool {
         lhs.id == rhs.id
+    }
+    func updateItemId(_ id: UUID) {
+        self.itemId = id
+    }
+    func updateBorrowerId(_ id: UUID) {
+        self.borrowerId = id
     }
 }
 

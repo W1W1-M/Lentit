@@ -23,19 +23,19 @@ struct HomeView: View {
                         }
                     }
                     Button {
-                        appVM.activeElement = .Borrowers
-                    } label: {
-                        HStack {
-                            Text("Borrowers")
-                            Image(systemName: "person.circle")
-                        }
-                    }
-                    Button {
                         appVM.activeElement = .Items
                     } label: {
                         HStack {
                             Text("Items")
                             Image(systemName: "archivebox.circle")
+                        }
+                    }
+                    Button {
+                        appVM.activeElement = .Borrowers
+                    } label: {
+                        HStack {
+                            Text("Borrowers")
+                            Image(systemName: "person.circle")
                         }
                     }
                 } label: {
@@ -44,13 +44,13 @@ struct HomeView: View {
                         Image(systemName: "book.circle.fill")
                         Text("Loans").bold()
                         Spacer()
-                    case .Borrowers:
-                        Image(systemName: "person.circle.fill")
-                        Text("Borrowers").bold()
-                        Spacer()
                     case .Items:
                         Image(systemName: "archivebox.circle.fill")
                         Text("Items").bold()
+                        Spacer()
+                    case .Borrowers:
+                        Image(systemName: "person.circle.fill")
+                        Text("Borrowers").bold()
                         Spacer()
                     }
                 }.padding(.horizontal)
@@ -62,14 +62,14 @@ struct HomeView: View {
                         CreateLoanHintView()
                     }
                     NewButtonView(element: AppVM.Element.Loans)
-                case .Borrowers:
-                    BorrowerListView(borrowerListVM: appVM.borrowerListVM)
-                    Spacer()
-                    NewButtonView(element: AppVM.Element.Borrowers)
                 case .Items:
                     ItemListView(itemListVM: appVM.itemListVM)
                     Spacer()
                     NewButtonView(element: AppVM.Element.Items)
+                case .Borrowers:
+                    BorrowerListView(borrowerListVM: appVM.borrowerListVM)
+                    Spacer()
+                    NewButtonView(element: AppVM.Element.Borrowers)
                 }
             }
         }.navigationBarTitleDisplayMode(.inline)
@@ -88,10 +88,10 @@ struct HomeView: View {
                 switch appVM.activeElement {
                 case .Loans:
                     LoanListBottomToolbarView()
-                case .Borrowers:
-                    EmptyView()
                 case .Items:
                     ItemListBottomToolbarView()
+                case .Borrowers:
+                    EmptyView()
                 }
             }
         }

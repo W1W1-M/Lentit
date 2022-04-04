@@ -11,18 +11,25 @@ struct LoanDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
     @Binding var navigationLinkIsActive: Bool
+    @State var editDisabled: Bool = true
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             Form {
                 ItemImageView()
-                LoanDetailSectionView(loanVM: loanVM)
+                LoanDetailSectionView(
+                    loanVM: loanVM,
+                    editDisabled: $editDisabled
+                )
                 if(loanVM.status != LoanModel.Status.finished) {
-                    LoanReminderSectionView(loanVM: loanVM)
+                    LoanReminderSectionView(
+                        loanVM: loanVM,
+                        editDisabled: $editDisabled
+                    )
                 }
                 if(loanVM.status == LoanModel.Status.new) {
                     SaveButtonView(
-                        editDisabled: $loanVM.editDisabled,
+                        editDisabled: $editDisabled,
                         navigationLinkIsActive: $navigationLinkIsActive,
                         element: .Loans,
                         elementId: loanVM.id
@@ -31,12 +38,12 @@ struct LoanDetailView: View {
                     DeleteButtonView(element: .Loans)
                 }
             }
-        }.navigationTitle(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "New loan" : "Loan to \(loanVM.borrowerVM.nameText)")
+        }.navigationTitle(loanVM.loanBorrower.status == BorrowerModel.Status.unknown ? "New loan" : "Loan to \(loanVM.loanBorrowerName)")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != LoanModel.Status.new) {
-                    EditButtonView(editDisabled: $loanVM.editDisabled)
+                    EditButtonView(editDisabled: $editDisabled)
                 }
             }
         }
@@ -44,7 +51,7 @@ struct LoanDetailView: View {
             switch appVM.activeAlert {
             case .deleteLoan:
                 return Alert(
-                    title: Text("Delete \(loanVM.itemVM.nameText) loan"),
+                    title: Text("Delete \(loanVM.loanItemName) loan"),
                     message: Text("Are you sure you want to delete this loan ?"),
                     primaryButton: .default(
                         Text("Cancel")
@@ -60,7 +67,7 @@ struct LoanDetailView: View {
             case .reminderAdded:
                 return Alert(
                     title: Text("Reminder added"),
-                    message: Text("\(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) added to Apple Reminders"),
+                    message: Text("\(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) added to Apple Reminders"),
                     dismissButton: .default(
                         Text("OK"),
                         action: {
@@ -71,7 +78,7 @@ struct LoanDetailView: View {
             case .reminderNotAdded:
                 return Alert(
                     title: Text("Reminder error"),
-                    message: Text("Error adding \(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) to Apple Reminders"),
+                    message: Text("Error adding \(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) to Apple Reminders. Please check Lentit has access to Reminders in iOS Privacy settings."),
                     dismissButton: .default(
                         Text("OK"),
                         action: {
@@ -82,7 +89,7 @@ struct LoanDetailView: View {
             case .reminderDeleted:
                 return Alert(
                     title: Text("Reminder deleted"),
-                    message: Text("\(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) added to Apple Reminders"),
+                    message: Text("\(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) deleted from Apple Reminders"),
                     dismissButton: .default(
                         Text("OK"),
                         action: {
@@ -93,7 +100,7 @@ struct LoanDetailView: View {
             case .reminderNotDeleted:
                 return Alert(
                     title: Text("Reminder error"),
-                    message: Text("Error deleting \(loanVM.itemVM.category.emoji) Loan to \(loanVM.borrowerVM.nameText) to Apple Reminders"),
+                    message: Text("Error deleting \(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) to Apple Reminders. Please check Lentit has access to Reminders in iOS Privacy settings."),
                     dismissButton: .default(
                         Text("OK"),
                         action: {
@@ -126,7 +133,7 @@ struct LoanDetailView: View {
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if loan just added
             if(loanVM.status == LoanModel.Status.new) {
-                loanVM.editDisabled = false
+                editDisabled = false
             }
         })
         .onDisappear(perform: {
@@ -141,6 +148,7 @@ struct LoanDetailView: View {
 struct LoanDetailSectionView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
+    @Binding var editDisabled: Bool
     var body: some View {
         Section(header: LoanDetailSectionHeaderView(loanVM: loanVM)) {
             HStack {
@@ -150,10 +158,10 @@ struct LoanDetailSectionView: View {
                     appVM.activeSheet = .itemsList
                     appVM.sheetPresented = true
                 } label: {
-                    Text(loanVM.itemVM.status == ItemModel.Status.unknown ? "Select item" : "\(loanVM.itemVM.nameText)")
+                    Text(loanVM.loanItem.status == ItemModel.Status.unknown ? "Select item" : "\(loanVM.loanItemName)")
                         .font(.headline)
-                        .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
-                }.disabled(loanVM.editDisabled)
+                        .foregroundColor(editDisabled ? .primary : .accentColor)
+                }.disabled(editDisabled)
             }
             HStack {
                 Text("To").foregroundColor(.secondary)
@@ -162,11 +170,11 @@ struct LoanDetailSectionView: View {
                     appVM.activeSheet = .borrowersList
                     appVM.sheetPresented = true
                 } label: {
-                    Text(loanVM.borrowerVM.status == BorrowerModel.Status.unknown ? "Select borrower" : "\(loanVM.borrowerVM.nameText)")
+                    Text(loanVM.loanBorrower.status == BorrowerModel.Status.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
                         .font(.headline)
                         .italic()
-                        .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
-                }.disabled(loanVM.editDisabled)
+                        .foregroundColor(editDisabled ? .primary : .accentColor)
+                }.disabled(editDisabled)
             }
             HStack {
                 Text("On").foregroundColor(.secondary)
@@ -174,10 +182,10 @@ struct LoanDetailSectionView: View {
                     "",
                     selection: $loanVM.loanDate,
                     displayedComponents: .date
-                ).disabled(loanVM.editDisabled)
+                ).disabled(editDisabled)
             }
             HStack {
-                if(loanVM.editDisabled) {
+                if(editDisabled) {
                     if(loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
                         Spacer()
@@ -185,12 +193,12 @@ struct LoanDetailSectionView: View {
                     } else {
                         Toggle(isOn: $loanVM.returned) {
                             Text("Returned").foregroundColor(.secondary)
-                        }.disabled(loanVM.editDisabled)
+                        }.disabled(editDisabled)
                     }
                 } else {
                     Toggle(isOn: $loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
-                    }.disabled(loanVM.editDisabled)
+                    }.disabled(editDisabled)
                 }
             }.disabled(loanVM.status == LoanModel.Status.new)
         }
@@ -210,18 +218,19 @@ struct LoanDetailSectionHeaderView: View {
 // MARK: -
 struct LoanReminderSectionView: View {
     @ObservedObject var loanVM: LoanVM
+    @Binding var editDisabled: Bool
     var body: some View {
         Section {
             HStack {
                 Text("Reminder").foregroundColor(.secondary)
                 Spacer()
-                if(loanVM.editDisabled) {
+                if(editDisabled) {
                     if(loanVM.reminderVM.reminderActive) {
                         Text("\(loanVM.reminderVM.reminderDateText)")
                     } else {
                         Toggle(isOn: $loanVM.reminderVM.reminderActive) {
                             Text("Reminder")
-                        }.disabled(loanVM.editDisabled)
+                        }.disabled(editDisabled)
                             .labelsHidden()
                     }
                 } else {
@@ -234,12 +243,12 @@ struct LoanReminderSectionView: View {
                     Spacer()
                     Toggle(isOn: $loanVM.reminderVM.reminderActive) {
                         Text("Reminder")
-                    }.disabled(loanVM.editDisabled)
+                    }.disabled(editDisabled)
                     .labelsHidden()
                 }
             }
-            if(!loanVM.editDisabled && loanVM.reminderVM.reminderActive) {
-                LoanReminderDetailView(loanVM: loanVM).disabled(loanVM.editDisabled)
+            if(!editDisabled && loanVM.reminderVM.reminderActive) {
+                LoanReminderDetailView(loanVM: loanVM).disabled(editDisabled)
             }
         }
     }
@@ -251,7 +260,7 @@ struct LoanReminderDetailView: View {
         if(loanVM.reminderVM.ekReminderExists) {
             Button {
                 do {
-                    try loanVM.reminderVM.deleteReminder(oldReminder: loanVM.reminderVM.reminder)
+                    try loanVM.reminderVM.deleteReminder()
                     appVM.activeAlert = .reminderDeleted
                 } catch {
                     appVM.activeAlert = .reminderNotDeleted
@@ -299,7 +308,10 @@ struct LoanDetailView_Previews: PreviewProvider {
         //
         ItemImageView().previewLayout(.sizeThatFits)
         //
-        LoanDetailSectionView(loanVM: LoanVM()).previewLayout(.sizeThatFits)
+        LoanDetailSectionView(
+            loanVM: LoanVM(),
+            editDisabled: .constant(false)
+        ).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
         //
         Form {

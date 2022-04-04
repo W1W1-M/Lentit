@@ -24,8 +24,8 @@ class ItemListVM: ObservableObject {
         self.newItemCategory = ItemModel.Category.other
     }
     // MARK: - Functions
-    func setItemsCount(for itemVMs: [ItemVM]) {
-        self.itemsCount = itemVMs.count
+    func setItemsCount(for itemListEntryVMs: [ItemListEntryVM]) {
+        self.itemsCount = itemListEntryVMs.count
     }
     func showNewItem() {
         resetNewItem()

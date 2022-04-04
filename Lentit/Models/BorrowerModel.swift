@@ -9,12 +9,12 @@ import Foundation
 // MARK: - Classes
 /// Data model for a person who borrows an item
 class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
-// MARK: - Variables
+// MARK: - Properties
     let id: UUID
     var name: String
     var status: BorrowerModel.Status
     var loanIds: Set<UUID>
-// MARK: - Init
+// MARK: - Custom initializer
     init(
         name: String,
         status: BorrowerModel.Status,
@@ -25,12 +25,18 @@ class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
         self.status = status
         self.loanIds = []
     }
-// MARK: - Functions
+// MARK: - Methods
     static func == (lhs: BorrowerModel, rhs: BorrowerModel) -> Bool {
         return lhs.id == rhs.id
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+    func addLoanId(with loanId: UUID) {
+        self.loanIds.insert(loanId)
+    }
+    func removeLoanId(with loanId: UUID) {
+        self.loanIds.remove(loanId)
     }
 }
 

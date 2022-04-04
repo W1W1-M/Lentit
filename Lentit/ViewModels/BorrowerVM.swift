@@ -35,7 +35,7 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
         self.loanCount = countBorrowerLoans()
     }
     // MARK: - Functions
-    func setBorrowerVM(for borrowerModel: BorrowerModel) {
+    func setBorrowerVM(from borrowerModel: BorrowerModel) {
         self.borrower = borrowerModel
         self.id = borrowerModel.id // Shared with borrower data object
         self.loanIds = borrowerModel.loanIds

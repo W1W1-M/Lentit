@@ -40,6 +40,12 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+    func addLoanId(with loanId: UUID) {
+        self.loanIds.insert(loanId)
+    }
+    func removeLoanId(with loanId: UUID) {
+        self.loanIds.remove(loanId)
+    }
 }
 
 extension ItemModel {

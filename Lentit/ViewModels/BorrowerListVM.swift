@@ -22,8 +22,8 @@ class BorrowerListVM: ObservableObject {
         self.newBorrowerName = ""
     }
     // MARK: - Functions
-    func setBorrowersCount(for borrowerVMs: [BorrowerVM]) {
-        self.borrowersCount = borrowerVMs.count
+    func setBorrowersCount(for borrowerListEntryVMs: [BorrowerListEntryVM]) {
+        self.borrowersCount = borrowerListEntryVMs.count
     }
     func showNewBorrower() {
         resetNewBorrower()
