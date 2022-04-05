@@ -22,7 +22,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var status: LoanModel.Status
     var itemId: UUID?
     var borrowerId: UUID?
-// MARK: - Custom initializer
+// MARK: - Init & deinit
     init(
         loanDate: Date,
         loanTime: TimeInterval,
@@ -33,6 +33,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         itemId: UUID?,
         borrowerId: UUID?
     ) {
+        print("LoanModel init ...")
         self.id = UUID()
         self.loanDate = loanDate
         self.loanTime = loanTime
@@ -42,6 +43,9 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         self.status = status
         self.itemId = itemId
         self.borrowerId = borrowerId
+    }
+    deinit {
+        print("... deinit LoanModel")
     }
 // MARK: - Methods
     static func == (lhs: LoanModel, rhs: LoanModel) -> Bool {

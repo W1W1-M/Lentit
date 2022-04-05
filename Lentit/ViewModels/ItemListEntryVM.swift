@@ -6,23 +6,27 @@
 //
 
 import Foundation
-/// Description
-class ItemListEntryVM: ObservableObject, Identifiable {
-    // MARK: - Properties
+/// Item list entry view model
+final class ItemListEntryVM: ObservableObject, Identifiable {
+// MARK: - Properties
     private(set) var item: ItemModel
     private(set) var id: UUID
     @Published var name: String
     @Published var category: ItemModel.Category
     @Published var status: ItemModel.Status
-    // MARK: - Custom initializer
+// MARK: - Init & deinit
     init() {
+        print("ItemListEntryVM init ...")
         self.item = ItemModel.defaultData
         self.id = UUID()
         self.name = ItemModel.defaultData.name
         self.category = ItemModel.defaultData.category
         self.status = ItemModel.defaultData.status
     }
-    // MARK: - Methods
+    deinit {
+        print("... deinit ItemListEntryVM")
+    }
+// MARK: - Methods
     func setVM(from item: ItemModel) {
         self.item = item
         self.id = item.id

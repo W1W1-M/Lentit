@@ -5,9 +5,8 @@
 //  Created by William Mead on 20/12/2021.
 //
 import Foundation
-// MARK: - Classes
 /// Store for loans, items & borrowers
-class DataStoreModel: ObservableObject {
+final class DataStoreModel: ObservableObject {
 // MARK: - Properties
     private var storedLoans: [LoanModel]
     private var storedItems: [ItemModel]
@@ -17,11 +16,15 @@ class DataStoreModel: ObservableObject {
         case itemNotFound
         case borrowerNotFound
     }
-// MARK: - Custom initializer
+// MARK: - Init & deinit
     init() {
+        print("DataStoreModel init ...")
         self.storedLoans = DataStoreModel.sampleLoanData
         self.storedItems = DataStoreModel.sampleItemData
         self.storedBorrowers = DataStoreModel.sampleBorrowerData
+    }
+    deinit {
+        print("... deinit DataStoreModel")
     }
 // MARK: - Methods
     // MARK: - Loan

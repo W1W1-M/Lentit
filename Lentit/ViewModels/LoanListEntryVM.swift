@@ -6,9 +6,9 @@
 //
 
 import Foundation
-/// Loan list item view model
-class LoanListEntryVM: ObservableObject, Identifiable {
-    // MARK: - Properties
+/// Loan list entry view model
+final class LoanListEntryVM: ObservableObject, Identifiable {
+// MARK: - Properties
     private(set) var loan: LoanModel
     private(set) var id: UUID
     private(set) var loanDate: Date
@@ -17,10 +17,9 @@ class LoanListEntryVM: ObservableObject, Identifiable {
     @Published var itemName: String
     @Published var itemCategory: ItemModel.Category
     @Published var borrowerName: String
-    // MARK: - Custom initializer
-    /// <#Description#>
-    /// - Parameter name: <#name description#>
+// MARK: - Init & deinit
     init() {
+        print("LoanListEntryVM init ...")
         self.loan = LoanModel.defaultData
         self.id = UUID()
         self.loanDate = LoanModel.defaultData.loanDate
@@ -32,8 +31,11 @@ class LoanListEntryVM: ObservableObject, Identifiable {
         //
         self.loanDateText = setLoanDateText(for: self.loanDate)
     }
-    // MARK: - Methods
-    func setLoanListEntryVM(from loan: LoanModel, _ item: ItemModel, _ borrower: BorrowerModel) {
+    deinit {
+        print("... deinit LoanListEntryVM")
+    }
+// MARK: - Methods
+    func setVM(from loan: LoanModel, _ item: ItemModel, _ borrower: BorrowerModel) {
         self.loan = loan
         self.id = loan.id
         self.loanDate = loan.loanDate

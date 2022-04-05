@@ -8,7 +8,7 @@
 import Foundation
 /// Borrower view model
 class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
-    // MARK: - Variables
+// MARK: - Properties
     private(set) var borrower: BorrowerModel
     private(set) var id: UUID
     private(set) var loanIds: Set<UUID>
@@ -23,8 +23,9 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
         }
     }
     @Published var loanCount: Int
-    // MARK: - Init
+// MARK: - Init & deinit
     init() {
+        print("BorrowerVM init ...")
         self.borrower = BorrowerModel.defaultData
         self.id = BorrowerModel.defaultData.id
         self.loanIds = BorrowerModel.defaultData.loanIds
@@ -34,7 +35,10 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
         //
         self.loanCount = countBorrowerLoans()
     }
-    // MARK: - Functions
+    deinit {
+        print("... deinit BorrowerVM")
+    }
+// MARK: - Methods
     func setBorrowerVM(from borrowerModel: BorrowerModel) {
         self.borrower = borrowerModel
         self.id = borrowerModel.id // Shared with borrower data object

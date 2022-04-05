@@ -6,14 +6,17 @@
 //
 
 import Foundation
-// MARK: - Classes
 /// Loan list view model
 class LoanListVM: ObservableObject {
 // MARK: - Properties
     @Published var loansCount: Int
-// MARK: - Custom initializer
+// MARK: - Init & deinit
     init() {
+        print("LoanListVM init ...")
         self.loansCount = 0
+    }
+    deinit {
+        print("... deinit LoanListVM")
     }
 // MARK: - Methods
     func setLoansCount(for LoanListEntryVMs: [LoanListEntryVM]) {

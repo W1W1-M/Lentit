@@ -6,22 +6,25 @@
 //
 
 import Foundation
-
 /// Borrowers list view model
-class BorrowerListVM: ObservableObject {
-    // MARK: - Variables
+final class BorrowerListVM: ObservableObject {
+// MARK: - Properties
     @Published var borrowersCount: Int
     @Published var newBorrowerPresented: Bool
     @Published var newBorrowerId: UUID
     @Published var newBorrowerName: String
-    // MARK: - Init
+// MARK: - Init & deinit
     init() {
+        print("BorrowerListVM init ...")
         self.borrowersCount = 0
         self.newBorrowerPresented = false
         self.newBorrowerId = UUID()
         self.newBorrowerName = ""
     }
-    // MARK: - Functions
+    deinit {
+        print("... deinit BorrowerListVM")
+    }
+// MARK: - Methods
     func setBorrowersCount(for borrowerListEntryVMs: [BorrowerListEntryVM]) {
         self.borrowersCount = borrowerListEntryVMs.count
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 /// Lentit app view model
-class AppVM: ObservableObject {
+final class AppVM: ObservableObject {
     // MARK: - Properties
     @Published var dataStore: DataStoreModel
     // List entry view models
@@ -110,7 +110,7 @@ class AppVM: ObservableObject {
         case Borrowers
         case Items
     }
-    // MARK: - Custom initializer
+    // MARK: - Init & deinit
     init() {
         print("AppVM init ...")
         // Initialize with empty data
@@ -118,8 +118,6 @@ class AppVM: ObservableObject {
         self.loanListEntryVMs = []
         self.itemListEntryVMs = []
         self.borrowerListEntryVMs = []
-//        self.itemVMs = []
-//        self.borrowerVMs = []
         self.loanListVM = LoanListVM()
         self.borrowerListVM = BorrowerListVM()
         self.itemListVM = ItemListVM()
@@ -147,7 +145,9 @@ class AppVM: ObservableObject {
         self.loanListVM.setLoansCount(for: loanListEntryVMs)
         self.itemListVM.setItemsCount(for: itemListEntryVMs)
         self.borrowerListVM.setBorrowersCount(for: borrowerListEntryVMs)
-        
+    }
+    deinit {
+        print("... deinit AppVM")
     }
 // MARK: - Methods
 // MARK: - Loan
@@ -158,7 +158,7 @@ class AppVM: ObservableObject {
             let loanItem = getLoanItem(in: items, for: loan)
             let loanBorrower = getLoanBorrower(in: borrowers, for: loan)
             let loanListEntryVM = LoanListEntryVM()
-            loanListEntryVM.setLoanListEntryVM(from: loan, loanItem, loanBorrower)
+            loanListEntryVM.setVM(from: loan, loanItem, loanBorrower)
             loanListEntryVMs.append(loanListEntryVM)
         }
         print("... setLoanListEntryVMs")

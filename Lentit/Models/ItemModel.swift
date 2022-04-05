@@ -16,7 +16,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
     var category: ItemModel.Category
     var status: ItemModel.Status
     var loanIds: Set<UUID>
-// MARK: - Init
+// MARK: - Init & deinit
     init(
         name: String,
         notes: String,
@@ -25,6 +25,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         status: ItemModel.Status,
         loanIds: Set<UUID>
     ) {
+        print("ItemModel init ...")
         self.id = UUID()
         self.name = name
         self.notes = notes
@@ -32,6 +33,9 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         self.category = category
         self.status = status
         self.loanIds = loanIds
+    }
+    deinit {
+        print("... deinit ItemModel")
     }
 // MARK: - Methods
     static func == (lhs: ItemModel, rhs: ItemModel) -> Bool {

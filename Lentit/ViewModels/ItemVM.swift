@@ -8,7 +8,7 @@
 import Foundation
 /// Item view model
 class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
-    // MARK: - Variables
+// MARK: - Properties
     private(set) var item: ItemModel
     private(set) var id: UUID
     private(set) var loanIds: Set<UUID>
@@ -39,8 +39,9 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
         }
     }
     @Published var loanCount: Int
-    // MARK: - Init
+// MARK: - Init & deinit
     init() {
+        print("Init ItemVM ...")
         self.item = ItemModel.defaultData
         self.id = ItemModel.defaultData.id
         self.loanIds = ItemModel.defaultData.loanIds
@@ -54,7 +55,10 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
         //
         self.loanCount = countItemLoans()
     }
-    // MARK: - Functions
+    deinit {
+        print("... deinit ItemVM")
+    }
+// MARK: - Methods
     func setItemVM(from itemModel: ItemModel) {
         self.item = itemModel
         self.id = itemModel.id

@@ -6,24 +6,27 @@
 //
 
 import Foundation
-
 /// Item list view model
 class ItemListVM: ObservableObject {
-    // MARK: - Variables
+// MARK: - Properties
     @Published var itemsCount: Int
     @Published var newItemPresented: Bool
     @Published var newItemId: UUID
     @Published var newItemName: String
     @Published var newItemCategory: ItemModel.Category
-    // MARK: - Init
+// MARK: - Init & deinit
     init() {
+        print("ItemListVM init ...")
         self.itemsCount = 0
         self.newItemPresented = false
         self.newItemId = UUID()
         self.newItemName = ""
         self.newItemCategory = ItemModel.Category.other
     }
-    // MARK: - Functions
+    deinit {
+        print("... deinit ItemListVM")
+    }
+// MARK: - Methods
     func setItemsCount(for itemListEntryVMs: [ItemListEntryVM]) {
         self.itemsCount = itemListEntryVMs.count
     }

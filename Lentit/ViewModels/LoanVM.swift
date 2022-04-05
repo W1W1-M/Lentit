@@ -36,7 +36,7 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var loanItemName: String
     @Published var loanItemCategory: ItemModel.Category
     @Published var reminderVM: ReminderVM
-// MARK: - Init
+// MARK: - Init & deinit
     init() {
         print("LoanVM init ...")
         self.loan = LoanModel.defaultData
@@ -57,7 +57,9 @@ class LoanVM: ObservableObject, Identifiable {
         )
         //
         self.loanDateText = setLoanDateText(for: loanDate)
-        print("... init LoanVM \(id)")
+    }
+    deinit {
+        print("... deinit LoanVM")
     }
 // MARK: - Methods
     func setLoanVM(from loan: LoanModel, _ loanItem: ItemModel, _ loanBorrower: BorrowerModel) {
@@ -165,7 +167,7 @@ extension LoanVM {
             case reminderNotSaved
             case reminderNotDeleted
         }
-// MARK: - Custom initializer
+// MARK: - Init & deinit
         init(
             loan: LoanModel,
             reminderTitle: String,
@@ -192,7 +194,9 @@ extension LoanVM {
             if(reminderActive) {
                 self.ekReminderExists = checkReminderExists(reminder.calendarItemIdentifier)
             }
-            print("... init ReminderVM \(id)")
+        }
+        deinit {
+            print("... deinit ReminderVM")
         }
 // MARK: - Methods
         func setReminderVM(

@@ -6,24 +6,27 @@
 //
 
 import Foundation
-// MARK: - Classes
 /// Data model for a person who borrows an item
-class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
+final class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
     let id: UUID
     var name: String
     var status: BorrowerModel.Status
     var loanIds: Set<UUID>
-// MARK: - Custom initializer
+// MARK: - Init & deinit
     init(
         name: String,
         status: BorrowerModel.Status,
         loanIds: Set<UUID>
     ) {
+        print("BorrowerModel init ...")
         self.id = UUID()
         self.name = name
         self.status = status
         self.loanIds = []
+    }
+    deinit {
+        print("BorrowerModel init ...")
     }
 // MARK: - Methods
     static func == (lhs: BorrowerModel, rhs: BorrowerModel) -> Bool {
