@@ -40,6 +40,7 @@
 		3D8C9F4927F098E30002EA78 /* LoanStatusNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4827F098E30002EA78 /* LoanStatusNameView.swift */; };
 		3D8C9F4B27F09D120002EA78 /* EditButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4A27F09D120002EA78 /* EditButtonView.swift */; };
 		3D8C9F4D27F09E0F0002EA78 /* NewButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4C27F09E0F0002EA78 /* NewButtonView.swift */; };
+		3D8EAD8827FE17B800EC4DB9 /* ActiveStatusIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8EAD8727FE17B800EC4DB9 /* ActiveStatusIconView.swift */; };
 		3DB6AECF27F0F6F600AB4B97 /* DeleteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB6AECE27F0F6F600AB4B97 /* DeleteButtonView.swift */; };
 		3DD3F1C227DF3939000F64D0 /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD3F1C127DF3939000F64D0 /* HintView.swift */; };
 		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
@@ -109,6 +110,7 @@
 		3D8C9F4827F098E30002EA78 /* LoanStatusNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanStatusNameView.swift; sourceTree = "<group>"; };
 		3D8C9F4A27F09D120002EA78 /* EditButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButtonView.swift; sourceTree = "<group>"; };
 		3D8C9F4C27F09E0F0002EA78 /* NewButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewButtonView.swift; sourceTree = "<group>"; };
+		3D8EAD8727FE17B800EC4DB9 /* ActiveStatusIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStatusIconView.swift; sourceTree = "<group>"; };
 		3DB6AECE27F0F6F600AB4B97 /* DeleteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonView.swift; sourceTree = "<group>"; };
 		3DCC2A5027831F20005C252B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3DCC2A5127832238005C252B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				3DB6AECE27F0F6F600AB4B97 /* DeleteButtonView.swift */,
 				3D6669B027F1941900D24C91 /* ItemImageView.swift */,
 				3D6669B227F19EA500D24C91 /* SaveButtonView.swift */,
+				3D8EAD8727FE17B800EC4DB9 /* ActiveStatusIconView.swift */,
 			);
 			path = SharedViews;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				3DF0225D2797592B00211124 /* ItemModel.swift in Sources */,
 				3D80ABC227F9B33A00A58DA7 /* LoanListEntryVM.swift in Sources */,
 				3D6669B327F19EA500D24C91 /* SaveButtonView.swift in Sources */,
+				3D8EAD8827FE17B800EC4DB9 /* ActiveStatusIconView.swift in Sources */,
 				3D05A6D427EDAFF9002A17C1 /* LoanListView.swift in Sources */,
 				3D590204276FD16100373871 /* HomeView.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,

@@ -12,6 +12,19 @@ struct LoanListStatusView: View {
     @ObservedObject var loanListVM: LoanListVM
     var body: some View {
         HStack {
+            switch loanListVM.loansCount {
+            case 0:
+                Text("")
+            case 1:
+                Text("\(loanListVM.loansCount) loan")
+                    .fontWeight(.bold)
+                    .foregroundColor(.secondary)
+            default:
+                Text("\(loanListVM.loansCount) loans")
+                    .fontWeight(.bold)
+                    .foregroundColor(.secondary)
+            }
+            Spacer()
             Menu {
                 ForEach(LoanModel.Status.allCases) { Status in
                     Button {
@@ -24,36 +37,29 @@ struct LoanListStatusView: View {
             } label: {
                 switch appVM.activeLoanStatus {
                 case .all:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.blue)
-                    Text("all").fontWeight(.bold)
+                    Text("all")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 case .new:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.purple)
-                    Text("new").fontWeight(.bold)
+                    Text("new")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 case .upcoming:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.orange)
-                    Text("upcoming").fontWeight(.bold)
+                    Text("upcoming")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 case .current:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.green)
-                    Text("ongoing").fontWeight(.bold)
+                    Text("ongoing")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 case .finished:
-                    Image(systemName: appVM.activeLoanStatus.symbolName).foregroundColor(.red)
-                    Text("finished").fontWeight(.bold)
+                    Text("finished")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 default:
                     Text("unknown")
                 }
-            }.imageScale(.large)
-            Spacer()
-            switch loanListVM.loansCount {
-            case 0:
-                Text("")
-            case 1:
-                Text("\(loanListVM.loansCount) loan")
-                    .fontWeight(.bold)
-                    .foregroundColor(.secondary)
-            default:
-                Text("\(loanListVM.loansCount) loans")
-                    .fontWeight(.bold)
-                    .foregroundColor(.secondary)
+                ActiveLoanStatusIconView()
             }
         }.font(.title3)
         .textCase(.lowercase)

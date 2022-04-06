@@ -41,15 +41,30 @@ struct HomeView: View {
                 } label: {
                     switch appVM.activeElement {
                     case .Loans:
-                        Image(systemName: "book.circle.fill")
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            Image(systemName: "book.circle")
+                                .foregroundColor(.white)
+                                .font(.title2)
+                        }.frame(width: 30, height: 30)
                         Text("Loans").bold()
                         Spacer()
                     case .Items:
-                        Image(systemName: "archivebox.circle.fill")
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            Image(systemName: "archivebox.circle")
+                                .foregroundColor(.white)
+                                .font(.title2)
+                        }.frame(width: 30, height: 30)
                         Text("Items").bold()
                         Spacer()
                     case .Borrowers:
-                        Image(systemName: "person.circle.fill")
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            Image(systemName: "person.circle")
+                                .foregroundColor(.white)
+                                .font(.title2)
+                        }.frame(width: 30, height: 30)
                         Text("Borrowers").bold()
                         Spacer()
                     }

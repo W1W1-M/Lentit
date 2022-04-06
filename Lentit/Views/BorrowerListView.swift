@@ -18,7 +18,6 @@ struct BorrowerListView: View {
                 }
             } header: {
                 HStack {
-                    Spacer()
                     switch borrowerListVM.borrowersCount {
                     case 0:
                         EmptyView()
@@ -31,6 +30,7 @@ struct BorrowerListView: View {
                             .fontWeight(.bold)
                             .foregroundColor(.secondary)
                     }
+                    Spacer()
                 }.font(.title3)
                 .textCase(.lowercase)
                 .padding(.bottom)

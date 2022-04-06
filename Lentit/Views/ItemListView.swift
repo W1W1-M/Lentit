@@ -12,6 +12,10 @@ struct ItemListStatusView: View {
     @ObservedObject var itemListVM: ItemListVM
     var body: some View {
         HStack {
+            Text("\(itemListVM.itemsCount) items")
+                .fontWeight(.bold)
+                .foregroundColor(.secondary)
+            Spacer()
             Menu {
                 ForEach(ItemModel.Status.allCases) { Status in
                     Button {
@@ -24,22 +28,22 @@ struct ItemListStatusView: View {
             } label: {
                 switch appVM.activeItemStatus {
                 case .all:
-                    Image(systemName: appVM.activeItemStatus.symbolName).foregroundColor(.blue)
-                    Text("all").fontWeight(.bold)
+                    Text("all")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 case .available:
-                    Image(systemName: appVM.activeItemStatus.symbolName).foregroundColor(.green)
-                    Text("available").fontWeight(.bold)
+                    Text("available")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 case .unavailable:
-                    Image(systemName: appVM.activeItemStatus.symbolName).foregroundColor(.red)
-                    Text("unavailable").fontWeight(.bold)
+                    Text("unavailable")
+                        .fontWeight(.bold)
+                        .fixedSize()
                 default:
                     Text("unknown")
                 }
-            }.imageScale(.large)
-            Spacer()
-            Text("\(itemListVM.itemsCount) items")
-                .fontWeight(.bold)
-                .foregroundColor(.secondary)
+                ActiveItemStatusIconView()
+            }
         }.font(.title3)
         .textCase(.lowercase)
         .padding(.bottom)
