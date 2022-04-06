@@ -48,10 +48,11 @@ extension BorrowerModel {
     struct Status: Identifiable, Equatable, Hashable, CaseIterable {
         let id: UUID = UUID()
         let symbolName: String
+        static let all: Status = Status(symbolName: "infinity.circle")
         static let new: Status = Status(symbolName: "play.circle")
         static let regular: Status = Status(symbolName: "person.circle")
         static let unknown: Status = Status(symbolName: "questionmark.circle")
-        static let allCases: Array<BorrowerModel.Status> = [new, regular]
+        static let allCases: Array<BorrowerModel.Status> = [all, new, regular]
     }
 }
 

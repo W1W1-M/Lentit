@@ -32,10 +32,11 @@ final class LoanListEntryVM: ObservableObject, Identifiable {
         self.loanDateText = setLoanDateText(for: self.loanDate)
     }
     deinit {
-        print("... deinit LoanListEntryVM")
+        print("... deinit LoanListEntryVM \(id)")
     }
 // MARK: - Methods
     func setVM(from loan: LoanModel, _ item: ItemModel, _ borrower: BorrowerModel) {
+        print("setVM \(loan.id) ...")
         self.loan = loan
         self.id = loan.id
         self.loanDate = loan.loanDate

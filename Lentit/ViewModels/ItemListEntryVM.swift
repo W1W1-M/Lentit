@@ -24,10 +24,11 @@ final class ItemListEntryVM: ObservableObject, Identifiable {
         self.status = ItemModel.defaultData.status
     }
     deinit {
-        print("... deinit ItemListEntryVM")
+        print("... deinit ItemListEntryVM \(id)")
     }
 // MARK: - Methods
     func setVM(from item: ItemModel) {
+        print("setVM \(item.id) ...")
         self.item = item
         self.id = item.id
         self.name = item.name

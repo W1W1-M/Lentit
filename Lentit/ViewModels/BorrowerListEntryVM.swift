@@ -24,10 +24,11 @@ final class BorrowerListEntryVM: ObservableObject, Identifiable {
         self.loanCount = 0
     }
     deinit {
-        print("... deinit BorrowerListEntryVM")
+        print("... deinit BorrowerListEntryVM \(id)")
     }
 // MARK: - Methods
     func setVM(from borrower: BorrowerModel) {
+        print("setVM \(borrower.id) ...")
         self.borrower = borrower
         self.id = borrower.id
         self.name = borrower.name

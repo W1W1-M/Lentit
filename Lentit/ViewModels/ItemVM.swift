@@ -41,7 +41,7 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
     @Published var loanCount: Int
 // MARK: - Init & deinit
     init() {
-        print("Init ItemVM ...")
+        print("ItemVM init ...")
         self.item = ItemModel.defaultData
         self.id = ItemModel.defaultData.id
         self.loanIds = ItemModel.defaultData.loanIds
