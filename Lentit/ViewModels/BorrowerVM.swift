@@ -2,7 +2,7 @@
 //  BorrowerVM.swift
 //  Lentit
 //
-//  Created by William Mead on 15/01/2022.
+//  Created by William Mead on 07/04/2022.
 //
 
 import Foundation
@@ -11,48 +11,31 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
     private(set) var borrower: BorrowerModel
     private(set) var id: UUID
-    private(set) var loanIds: Set<UUID>
-    @Published var nameText: String {
-        didSet{
-            borrower.name = self.nameText
-        }
-    }
-    @Published var status: BorrowerModel.Status {
-        didSet{
-            borrower.status = self.status
-        }
-    }
+    @Published var name: String
+    @Published var status: BorrowerModel.Status
     @Published var loanCount: Int
 // MARK: - Init & deinit
     init() {
         print("BorrowerVM init ...")
         self.borrower = BorrowerModel.defaultData
         self.id = BorrowerModel.defaultData.id
-        self.loanIds = BorrowerModel.defaultData.loanIds
-        self.nameText = BorrowerModel.defaultData.name
-        self.status = BorrowerModel.defaultData.status
+        self.name = BorrowerModel.defaultData.name
+        self.status = BorrowerModel.Status.unknown
         self.loanCount = 0
-        //
-        self.loanCount = countBorrowerLoans()
     }
     deinit {
         print("... deinit BorrowerVM")
     }
 // MARK: - Methods
-    func setBorrowerVM(from borrowerModel: BorrowerModel) {
+    func setVM(from borrowerModel: BorrowerModel) {
         self.borrower = borrowerModel
         self.id = borrowerModel.id // Shared with borrower data object
-        self.loanIds = borrowerModel.loanIds
-        self.nameText = borrowerModel.name
+        self.name = borrowerModel.name
         self.status = borrowerModel.status
-        self.loanCount = countBorrowerLoans()
+        self.loanCount = countBorrowerLoans(for: borrowerModel)
     }
-    func countBorrowerLoans() -> Int {
-        self.loanIds.count
-    }
-    func updateBorrowerLoans(with loanVMId: UUID) {
-        self.loanIds.insert(loanVMId)
-        self.borrower.loanIds = self.loanIds
+    func countBorrowerLoans(for borrower: BorrowerModel) -> Int {
+        borrower.loanIds.count
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

@@ -77,7 +77,7 @@ struct BorrowersListMenuItems: View {
     var body: some View {
         ForEach(appVM.borrowerListEntryVMs) { BorrowerListEntryVM in
             Button {
-                appVM.activeBorrower.nameText = BorrowerListEntryVM.name
+                appVM.activeBorrower.name = BorrowerListEntryVM.name
             } label: {
                 if(appVM.activeBorrower.id == BorrowerListEntryVM.id) {
                     HStack {

@@ -46,7 +46,7 @@ struct BorrowerListItemView: View {
     var body: some View {
         NavigationLink(
             destination: BorrowerDetailView(
-                borrowerVM: appVM.getBorrowerVM(for: borrowerListEntryVM.id),
+                borrowerDetailVM: appVM.getBorrowerDetailVM(for: borrowerListEntryVM.id),
                 navigationLinkIsActive: $navigationLinkIsActive
             ),
             isActive: $navigationLinkIsActive

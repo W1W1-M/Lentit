@@ -9,7 +9,18 @@ import Foundation
 /// Lentit app view model
 final class AppVM: ObservableObject {
     // MARK: - Properties
-    @Published var dataStore: DataStoreModel
+    @Published var dataStore: DataStoreModel {
+        didSet {
+            switch activeElement {
+            case .Loans:
+                self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
+            case .Items:
+                self.itemListEntryVMs = setItemListEntryVMs(for: dataStore.readStoredItems())
+            case .Borrowers:
+                self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
+            }
+        }
+    }
     // List entry view models
     @Published var loanListEntryVMs: Array<LoanListEntryVM> {
         didSet {
@@ -273,7 +284,7 @@ final class AppVM: ObservableObject {
         }
     }
     func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeBorrower: BorrowerVM) -> [LoanListEntryVM] {
-        loanListEntryVMs.filter { $0.borrowerName == activeBorrower.nameText } // WIP
+        loanListEntryVMs.filter { $0.borrowerName == activeBorrower.name } // WIP
     }
     func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeItem: ItemVM) -> [LoanListEntryVM] {
         loanListEntryVMs.filter { $0.itemName == activeItem.nameText } // WIP
@@ -427,18 +438,18 @@ final class AppVM: ObservableObject {
         self.dataStore.createBorrower(newBorrower: newBorrower)
         self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
     }
-    func getBorrowerVM(for id: UUID) -> BorrowerVM {
-        print("getBorrowerVM ...")
+    func getBorrowerDetailVM(for id: UUID) -> BorrowerDetailVM {
+        print("getBorrowerDetailVM ...")
         do {
             var borrower: BorrowerModel
             borrower = try dataStore.readStoredBorrower(id)
-            let borrowerVM = BorrowerVM()
-            borrowerVM.setBorrowerVM(from: borrower)
-            print("... getBorrowerVM \(id)")
-            return borrowerVM
+            let borrowerDetailVM = BorrowerDetailVM()
+            borrowerDetailVM.setVM(from: borrower)
+            print("... getBorrowerDetailVM \(id)")
+            return borrowerDetailVM
         } catch {
             print(error)
-            return BorrowerVM()
+            return BorrowerDetailVM()
         }
     }
     func getBorrowerListEntryVM(with id: UUID) -> BorrowerListEntryVM {
@@ -448,8 +459,8 @@ final class AppVM: ObservableObject {
             return BorrowerListEntryVM()
         }
     }
-    func deleteBorrower(for borrowerVM: BorrowerVM) {
-        self.dataStore.deleteBorrower(oldBorrower: borrowerVM.borrower)
+    func deleteBorrower(for id: UUID) {
+        self.dataStore.deleteBorrower(oldBorrowerId: id)
         self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
     }
 }

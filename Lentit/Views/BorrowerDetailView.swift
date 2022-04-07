@@ -9,7 +9,7 @@ import SwiftUI
 // MARK: - Views
 struct BorrowerDetailView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
     @State var editDisabled: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
@@ -18,27 +18,27 @@ struct BorrowerDetailView: View {
             VStack {
                 Form {
                     BorrowerDetailSectionView(
-                        borrowerVM: borrowerVM,
+                        borrowerDetailVM: borrowerDetailVM,
                         editDisabled: $editDisabled
                     ).disabled(editDisabled)
-                    BorrowerHistorySectionView(borrowerVM: borrowerVM)
-                    if(borrowerVM.status == BorrowerModel.Status.new) {
+                    BorrowerHistorySectionView(borrowerDetailVM: borrowerDetailVM)
+                    if(borrowerDetailVM.status == BorrowerModel.Status.new) {
                         SaveButtonView(
                             editDisabled: $editDisabled,
                             navigationLinkIsActive: $navigationLinkIsActive,
                             element: .Borrowers,
-                            elementId: borrowerVM.id
+                            elementId: borrowerDetailVM.id
                         )
                     } else {
                         DeleteButtonView(element: .Borrowers)
                     }
                 }
             }
-        }.navigationTitle("\(borrowerVM.nameText)")
+        }.navigationTitle("\(borrowerDetailVM.name)")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if(borrowerVM.status != BorrowerModel.Status.new) {
+                if(borrowerDetailVM.status != BorrowerModel.Status.new) {
                     EditButtonView(editDisabled: $editDisabled)
                 }
             }
@@ -47,7 +47,7 @@ struct BorrowerDetailView: View {
             switch appVM.activeAlert {
             case .deleteBorrower:
                 return Alert(
-                    title: Text("Delete \(borrowerVM.nameText)"),
+                    title: Text("Delete \(borrowerDetailVM.name)"),
                     message: Text("Are you sure you want to delete this borrower ?"),
                     primaryButton: .default(
                         Text("Cancel")
@@ -56,7 +56,7 @@ struct BorrowerDetailView: View {
                         Text("Delete"),
                         action: {
                             navigationLinkIsActive = false // Navigate back to borrower list
-                            appVM.deleteBorrower(for: borrowerVM)
+                            appVM.deleteBorrower(for: borrowerDetailVM.id)
                         }
                     )
                 )
@@ -68,7 +68,7 @@ struct BorrowerDetailView: View {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if item just added
-            if(borrowerVM.status == BorrowerModel.Status.new) {
+            if(borrowerDetailVM.status == BorrowerModel.Status.new) {
                 editDisabled = false
             }
         })
@@ -76,11 +76,11 @@ struct BorrowerDetailView: View {
 }
 // MARK: -
 struct BorrowerDetailSectionView: View {
-    @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
     @Binding var editDisabled: Bool
     var body: some View {
         Section {
-            TextField("Name", text: $borrowerVM.nameText).foregroundColor(editDisabled ? .secondary : .primary)
+            TextField("Name", text: $borrowerDetailVM.name).foregroundColor(editDisabled ? .secondary : .primary)
         } header: {
             Text("Borrower")
         }
@@ -89,27 +89,27 @@ struct BorrowerDetailSectionView: View {
 // MARK: -
 struct BorrowerHistorySectionView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
     var body: some View {
         Section {
-            ForEach(borrowerVM.loanIds.sorted(by: ==), id: \.self) { Id in
+            ForEach(borrowerDetailVM.loanIds.sorted(by: ==), id: \.self) { Id in
                 BorrowerHistoryItemView(loanVM: appVM.getLoanVM(for: Id))
             }
         } header: {
-            switch borrowerVM.loanCount {
+            switch borrowerDetailVM.loanCount {
             case 0:
                 EmptyView()
             case 1:
                 HStack {
                     Text("borrowed")
                     Spacer()
-                    Text("\(borrowerVM.loanCount) time")
+                    Text("\(borrowerDetailVM.loanCount) time")
                 }
             default:
                 HStack {
                     Text("borrowed")
                     Spacer()
-                    Text("\(borrowerVM.loanCount) times")
+                    Text("\(borrowerDetailVM.loanCount) times")
                 }
             }
         }
@@ -131,7 +131,7 @@ struct BorrowerDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             BorrowerDetailView(
-                borrowerVM: BorrowerVM(),
+                borrowerDetailVM: BorrowerDetailVM(),
                 navigationLinkIsActive: .constant(true)
             ).environmentObject(AppVM())
         }

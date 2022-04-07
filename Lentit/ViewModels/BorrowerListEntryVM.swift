@@ -7,32 +7,17 @@
 
 import Foundation
 /// Borrower list entry view model
-final class BorrowerListEntryVM: ObservableObject, Identifiable {
+final class BorrowerListEntryVM: BorrowerVM {
 // MARK: - Properties
-    private(set) var borrower: BorrowerModel
-    private(set) var id: UUID
-    @Published var name: String
-    @Published var status: BorrowerModel.Status
-    @Published var loanCount: Int
+
 // MARK: - Init & deinit
-    init() {
+    override init() {
         print("BorrowerListEntryVM init ...")
-        self.borrower = BorrowerModel.defaultData
-        self.id = UUID()
-        self.name = BorrowerModel.defaultData.name
-        self.status = BorrowerModel.defaultData.status
-        self.loanCount = 0
+        super.init()
     }
     deinit {
         print("... deinit BorrowerListEntryVM \(id)")
     }
 // MARK: - Methods
-    func setVM(from borrower: BorrowerModel) {
-        print("setVM \(borrower.id) ...")
-        self.borrower = borrower
-        self.id = borrower.id
-        self.name = borrower.name
-        self.status = borrower.status
-        self.loanCount = borrower.loanIds.count
-    }
+    
 }

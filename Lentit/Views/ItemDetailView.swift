@@ -134,15 +134,15 @@ struct ItemHistorySectionHeaderView: View {
             EmptyView()
         case 1:
             HStack {
-                Text("borrowed")
+                Text("history")
                 Spacer()
-                Text("\(itemVM.loanCount) time")
+                Text("borrowed once")
             }
         default:
             HStack {
-                Text("borrowed")
+                Text("history")
                 Spacer()
-                Text("\(itemVM.loanCount) times")
+                Text("borrowed \(itemVM.loanCount) times")
             }
         }
     }

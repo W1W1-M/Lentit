@@ -116,8 +116,8 @@ final class DataStoreModel: ObservableObject {
     }
     /// <#Description#>
     /// - Parameter borrower: <#borrower description#>
-    func deleteBorrower(oldBorrower borrower: BorrowerModel) {
-        if let oldIndex = storedBorrowers.firstIndex(of: borrower) {
+    func deleteBorrower(oldBorrowerId id: UUID) {
+        if let oldIndex = storedBorrowers.firstIndex(where: { $0.id == id }) {
             storedBorrowers.remove(at: oldIndex)
         }
     }
