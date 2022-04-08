@@ -22,7 +22,7 @@ struct BorrowerDetailView: View {
                         editDisabled: $editDisabled
                     ).disabled(editDisabled)
                     BorrowerHistorySectionView(borrowerDetailVM: borrowerDetailVM)
-                    if(borrowerDetailVM.status == BorrowerModel.Status.new) {
+                    if(borrowerDetailVM.status == StatusModel.new) {
                         SaveButtonView(
                             editDisabled: $editDisabled,
                             navigationLinkIsActive: $navigationLinkIsActive,
@@ -38,7 +38,7 @@ struct BorrowerDetailView: View {
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if(borrowerDetailVM.status != BorrowerModel.Status.new) {
+                if(borrowerDetailVM.status != StatusModel.new) {
                     EditButtonView(editDisabled: $editDisabled)
                 }
             }
@@ -68,7 +68,7 @@ struct BorrowerDetailView: View {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if item just added
-            if(borrowerDetailVM.status == BorrowerModel.Status.new) {
+            if(borrowerDetailVM.status == StatusModel.new) {
                 editDisabled = false
             }
         })

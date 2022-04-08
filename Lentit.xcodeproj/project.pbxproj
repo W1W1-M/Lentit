@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D02550928005421004D5657 /* ViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D02550828005421004D5657 /* ViewModelProtocol.swift */; };
+		3D02550B28006418004D5657 /* ModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D02550A28006418004D5657 /* ModelProtocol.swift */; };
+		3D02550D28006E04004D5657 /* StatableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D02550C28006E04004D5657 /* StatableProtocol.swift */; };
+		3D02550F28007E8F004D5657 /* StatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D02550E28007E8F004D5657 /* StatusModel.swift */; };
 		3D05A6D427EDAFF9002A17C1 /* LoanListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D05A6D327EDAFF9002A17C1 /* LoanListView.swift */; };
 		3D05A6D627EDBBAA002A17C1 /* BorrowerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D05A6D527EDBBAA002A17C1 /* BorrowerDetailView.swift */; };
 		3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D13A65327960DD6008FDC42 /* LoanModel.swift */; };
@@ -36,8 +40,7 @@
 		3D6669B327F19EA500D24C91 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6669B227F19EA500D24C91 /* SaveButtonView.swift */; };
 		3D80ABC227F9B33A00A58DA7 /* LoanListEntryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D80ABC127F9B33A00A58DA7 /* LoanListEntryVM.swift */; };
 		3D8C9F4527F096B90002EA78 /* ItemCategoryFullNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4427F096B90002EA78 /* ItemCategoryFullNameView.swift */; };
-		3D8C9F4727F097EF0002EA78 /* ItemStatusNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4627F097EF0002EA78 /* ItemStatusNameView.swift */; };
-		3D8C9F4927F098E30002EA78 /* LoanStatusNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4827F098E30002EA78 /* LoanStatusNameView.swift */; };
+		3D8C9F4927F098E30002EA78 /* StatusNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4827F098E30002EA78 /* StatusNameView.swift */; };
 		3D8C9F4B27F09D120002EA78 /* EditButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4A27F09D120002EA78 /* EditButtonView.swift */; };
 		3D8C9F4D27F09E0F0002EA78 /* NewButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4C27F09E0F0002EA78 /* NewButtonView.swift */; };
 		3D8EAD8827FE17B800EC4DB9 /* ActiveStatusIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8EAD8727FE17B800EC4DB9 /* ActiveStatusIconView.swift */; };
@@ -75,6 +78,10 @@
 /* Begin PBXFileReference section */
 		3D01279C27CE230D002634C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3D01279D27CE2362002634C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3D02550828005421004D5657 /* ViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelProtocol.swift; sourceTree = "<group>"; };
+		3D02550A28006418004D5657 /* ModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProtocol.swift; sourceTree = "<group>"; };
+		3D02550C28006E04004D5657 /* StatableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatableProtocol.swift; sourceTree = "<group>"; };
+		3D02550E28007E8F004D5657 /* StatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusModel.swift; sourceTree = "<group>"; };
 		3D05A6D327EDAFF9002A17C1 /* LoanListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListView.swift; sourceTree = "<group>"; };
 		3D05A6D527EDBBAA002A17C1 /* BorrowerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerDetailView.swift; sourceTree = "<group>"; };
 		3D13A65327960DD6008FDC42 /* LoanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanModel.swift; sourceTree = "<group>"; };
@@ -108,8 +115,7 @@
 		3D6669B227F19EA500D24C91 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
 		3D80ABC127F9B33A00A58DA7 /* LoanListEntryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListEntryVM.swift; sourceTree = "<group>"; };
 		3D8C9F4427F096B90002EA78 /* ItemCategoryFullNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategoryFullNameView.swift; sourceTree = "<group>"; };
-		3D8C9F4627F097EF0002EA78 /* ItemStatusNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStatusNameView.swift; sourceTree = "<group>"; };
-		3D8C9F4827F098E30002EA78 /* LoanStatusNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanStatusNameView.swift; sourceTree = "<group>"; };
+		3D8C9F4827F098E30002EA78 /* StatusNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusNameView.swift; sourceTree = "<group>"; };
 		3D8C9F4A27F09D120002EA78 /* EditButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButtonView.swift; sourceTree = "<group>"; };
 		3D8C9F4C27F09E0F0002EA78 /* NewButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewButtonView.swift; sourceTree = "<group>"; };
 		3D8EAD8727FE17B800EC4DB9 /* ActiveStatusIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveStatusIconView.swift; sourceTree = "<group>"; };
@@ -253,6 +259,9 @@
 				3D13A65327960DD6008FDC42 /* LoanModel.swift */,
 				3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */,
 				3DE4283127DFDEC3006FA751 /* HintModel.swift */,
+				3D02550A28006418004D5657 /* ModelProtocol.swift */,
+				3D02550C28006E04004D5657 /* StatableProtocol.swift */,
+				3D02550E28007E8F004D5657 /* StatusModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -272,6 +281,7 @@
 				3DF022542796FCEB00211124 /* LoanListVM.swift */,
 				3DF022562796FE2B00211124 /* LoanVM.swift */,
 				3DCCC1A427FF62BA0036A9A7 /* ReminderVM.swift */,
+				3D02550828005421004D5657 /* ViewModelProtocol.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -280,12 +290,11 @@
 			isa = PBXGroup;
 			children = (
 				3D8C9F4427F096B90002EA78 /* ItemCategoryFullNameView.swift */,
-				3D8C9F4827F098E30002EA78 /* LoanStatusNameView.swift */,
+				3D8C9F4827F098E30002EA78 /* StatusNameView.swift */,
 				3D8C9F4A27F09D120002EA78 /* EditButtonView.swift */,
 				3D8C9F4C27F09E0F0002EA78 /* NewButtonView.swift */,
 				3DB6AECE27F0F6F600AB4B97 /* DeleteButtonView.swift */,
 				3D6669B027F1941900D24C91 /* ItemImageView.swift */,
-				3D8C9F4627F097EF0002EA78 /* ItemStatusNameView.swift */,
 				3D6669B227F19EA500D24C91 /* SaveButtonView.swift */,
 				3D8EAD8727FE17B800EC4DB9 /* ActiveStatusIconView.swift */,
 			);
@@ -441,6 +450,7 @@
 				3D05A6D427EDAFF9002A17C1 /* LoanListView.swift in Sources */,
 				3DCCC1A527FF62BA0036A9A7 /* ReminderVM.swift in Sources */,
 				3D590204276FD16100373871 /* HomeView.swift in Sources */,
+				3D02550928005421004D5657 /* ViewModelProtocol.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
 				3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */,
 				3D8C9F4527F096B90002EA78 /* ItemCategoryFullNameView.swift in Sources */,
@@ -448,10 +458,12 @@
 				3DCCC1A727FF6D150036A9A7 /* BorrowerVM.swift in Sources */,
 				3DDE13E327945D5C00EBB6E7 /* BorrowerListView.swift in Sources */,
 				3D5901D7276FC92500373871 /* LentitApp.swift in Sources */,
+				3D02550B28006418004D5657 /* ModelProtocol.swift in Sources */,
 				3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */,
 				3DE4283227DFDEC3006FA751 /* HintModel.swift in Sources */,
-				3D8C9F4927F098E30002EA78 /* LoanStatusNameView.swift in Sources */,
+				3D8C9F4927F098E30002EA78 /* StatusNameView.swift in Sources */,
 				3D52612327FB744700E8D739 /* BorrowerListEntryVM.swift in Sources */,
+				3D02550D28006E04004D5657 /* StatableProtocol.swift in Sources */,
 				3D52612127FB742D00E8D739 /* ItemListEntryVM.swift in Sources */,
 				3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */,
 				3DF0225B2797591600211124 /* ItemVM.swift in Sources */,
@@ -460,7 +472,7 @@
 				3D572C7E279AE1E2002618D7 /* ItemListView.swift in Sources */,
 				3DF02259279701A500211124 /* AppVM.swift in Sources */,
 				3D6669B127F1941900D24C91 /* ItemImageView.swift in Sources */,
-				3D8C9F4727F097EF0002EA78 /* ItemStatusNameView.swift in Sources */,
+				3D02550F28007E8F004D5657 /* StatusModel.swift in Sources */,
 				3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */,
 				3DF022552796FCEB00211124 /* LoanListVM.swift in Sources */,
 				3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */,

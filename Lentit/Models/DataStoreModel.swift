@@ -131,7 +131,7 @@ extension DataStoreModel {
             reminder: nil,
             reminderActive: false,
             returned: false,
-            status: LoanModel.Status.current,
+            status: StatusModel.current,
             itemId: sampleItemData[0].id,
             borrowerId: sampleBorrowerData[0].id
         ),
@@ -141,7 +141,7 @@ extension DataStoreModel {
             reminder: nil,
             reminderActive: false,
             returned: false,
-            status: LoanModel.Status.current,
+            status: StatusModel.current,
             itemId: sampleItemData[1].id,
             borrowerId: sampleBorrowerData[1].id
         ),
@@ -151,7 +151,7 @@ extension DataStoreModel {
             reminder: nil,
             reminderActive: false,
             returned: true,
-            status: LoanModel.Status.finished,
+            status: StatusModel.finished,
             itemId: sampleItemData[2].id,
             borrowerId: sampleBorrowerData[2].id
         ),
@@ -161,7 +161,7 @@ extension DataStoreModel {
             reminder: nil,
             reminderActive: false,
             returned: false,
-            status: LoanModel.Status.current,
+            status: StatusModel.current,
             itemId: sampleItemData[1].id,
             borrowerId: sampleBorrowerData[2].id
         )
@@ -172,7 +172,7 @@ extension DataStoreModel {
             notes: "Film about some guy in an armored suit",
             value: 10,
             category: ItemModel.Category.films,
-            status: ItemModel.Status.unavailable,
+            status: StatusModel.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -180,7 +180,7 @@ extension DataStoreModel {
             notes: "An old rusty medievil shield",
             value: 250,
             category: ItemModel.Category.clothes,
-            status: ItemModel.Status.unavailable,
+            status: StatusModel.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -188,7 +188,7 @@ extension DataStoreModel {
             notes: "Red lego bricks",
             value: 30,
             category: ItemModel.Category.toys,
-            status: ItemModel.Status.unavailable,
+            status: StatusModel.unavailable,
             loanIds: []
         ),
         ItemModel(
@@ -196,7 +196,7 @@ extension DataStoreModel {
             notes: "Some speedy bicycle",
             value: 100,
             category: ItemModel.Category.other,
-            status: ItemModel.Status.available,
+            status: StatusModel.available,
             loanIds: []
         ),
         ItemModel(
@@ -204,29 +204,29 @@ extension DataStoreModel {
             notes: "A nice book",
             value: 200,
             category: ItemModel.Category.books,
-            status: ItemModel.Status.available,
+            status: StatusModel.available,
             loanIds: []
         )
     ]
     static var sampleBorrowerData: [BorrowerModel] = [
         BorrowerModel(
             name: "Sarah",
-            status: BorrowerModel.Status.regular,
+            status: StatusModel.regular,
             loanIds: []
         ),
         BorrowerModel(
             name: "Anthony",
-            status: BorrowerModel.Status.regular,
+            status: StatusModel.regular,
             loanIds: []
         ),
         BorrowerModel(
             name: "Charly",
-            status: BorrowerModel.Status.regular,
+            status: StatusModel.regular,
             loanIds: []
         ),
         BorrowerModel(
             name: "Bruno",
-            status: BorrowerModel.Status.regular,
+            status: StatusModel.regular,
             loanIds: []
         )
     ]

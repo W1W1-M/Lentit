@@ -23,7 +23,7 @@ struct ItemDetailView: View {
                         editDisabled: editDisabled
                     ).disabled(editDisabled)
                     ItemHistorySectionView(itemVM: itemVM)
-                    if(itemVM.status == ItemModel.Status.new) {
+                    if(itemVM.status == StatusModel.new) {
                         SaveButtonView(
                             editDisabled: $editDisabled,
                             navigationLinkIsActive: $navigationLinkIsActive,
@@ -39,7 +39,7 @@ struct ItemDetailView: View {
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if(itemVM.status != ItemModel.Status.new) {
+                if(itemVM.status != StatusModel.new) {
                     EditButtonView(editDisabled: $editDisabled)
                 }
             }
@@ -69,7 +69,7 @@ struct ItemDetailView: View {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if item just added
-            if(itemVM.status == ItemModel.Status.new) {
+            if(itemVM.status == StatusModel.new) {
                 editDisabled = false
             }
         })
@@ -79,8 +79,8 @@ struct ItemDetailView: View {
             itemVM.valueText = itemVM.setItemValueText(for: itemVM.valueText)
         })
         .onDisappear(perform: {
-            if(itemVM.status == ItemModel.Status.new) {
-                itemVM.status = ItemModel.Status.available
+            if(itemVM.status == StatusModel.new) {
+                itemVM.status = StatusModel.available
             }
         })
     }
@@ -121,7 +121,7 @@ struct ItemDetailSectionHeaderView: View {
         HStack {
             Text("item")
             Spacer()
-            ItemStatusNameView(itemStatus: itemVM.status)
+            StatusNameView(status: itemVM.status)
         }
     }
 }

@@ -7,8 +7,9 @@
 
 import Foundation
 /// Lentit app view model
-final class AppVM: ObservableObject {
+final class AppVM: ViewModel, ObservableObject {
     // MARK: - Properties
+    internal var id: UUID
     @Published var dataStore: DataStoreModel {
         didSet {
             switch activeElement {
@@ -64,7 +65,7 @@ final class AppVM: ObservableObject {
             self.itemListEntryVMs = sortItemListEntryVMs(for: itemListEntryVMs, by: activeItemSort)
         }
     }
-    @Published var activeItemStatus: ItemModel.Status {
+    @Published var activeItemStatus: StatusModel {
         didSet {
             self.itemListEntryVMs = setItemListEntryVMs(for: dataStore.readStoredItems())
             self.itemListEntryVMs = filterItemListEntryVMs(for: itemListEntryVMs, by: activeItemStatus)
@@ -76,7 +77,7 @@ final class AppVM: ObservableObject {
             self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
         }
     }
-    @Published var activeLoanStatus: LoanModel.Status {
+    @Published var activeLoanStatus: StatusModel {
         didSet {
             self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
             self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
@@ -84,7 +85,7 @@ final class AppVM: ObservableObject {
             self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
         }
     }
-    @Published var activeBorrowerStatus: BorrowerModel.Status {
+    @Published var activeBorrowerStatus: StatusModel {
         didSet {
             
         }
@@ -133,6 +134,7 @@ final class AppVM: ObservableObject {
     // MARK: - Init & deinit
     init() {
         print("AppVM init ...")
+        self.id = UUID()
         // Initialize with empty data
         self.dataStore = DataStoreModel()
         self.loanListEntryVMs = []
@@ -164,6 +166,9 @@ final class AppVM: ObservableObject {
         print("... deinit AppVM")
     }
 // MARK: - Methods
+    func setVM() {
+        
+    }
 // MARK: - Loan
     func setLoanListEntryVMs(for loans: [LoanModel], _ items: [ItemModel], _ borrowers: [BorrowerModel]) -> [LoanListEntryVM] {
         print("setLoanListEntryVMs ...")
@@ -186,13 +191,13 @@ final class AppVM: ObservableObject {
             reminder: nil,
             reminderActive: false,
             returned: false,
-            status: LoanModel.Status.new,
+            status: StatusModel.new,
             itemId: nil,
             borrowerId: nil
         )
         self.dataStore.createLoan(newLoan: newLoan)
         self.activeItemCategory = ItemModel.Category.all
-        self.activeLoanStatus = LoanModel.Status.new
+        self.activeLoanStatus = StatusModel.new
         print("... createEmptyLoan \(newLoan.id)")
     }
     func deleteLoan(for loanVM: LoanVM) {
@@ -276,7 +281,7 @@ final class AppVM: ObservableObject {
             return loanListEntryVMs.filter { $0.itemCategory == activeCategory }
         }
     }
-    func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeStatus: LoanModel.Status) -> [LoanListEntryVM] {
+    func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeStatus: StatusModel) -> [LoanListEntryVM] {
         if(activeStatus == .all) {
             return loanListEntryVMs
         } else {
@@ -328,7 +333,7 @@ final class AppVM: ObservableObject {
             notes: "",
             value: 0,
             category: category,
-            status: ItemModel.Status.new,
+            status: StatusModel.new,
             loanIds: []
         )
         self.dataStore.createItem(newItem: newItem)
@@ -341,7 +346,7 @@ final class AppVM: ObservableObject {
             notes: "",
             value: 0,
             category: ItemModel.Category.other,
-            status: ItemModel.Status.new,
+            status: StatusModel.new,
             loanIds: []
         )
         self.dataStore.createItem(newItem: newItem)
@@ -353,7 +358,7 @@ final class AppVM: ObservableObject {
             var item: ItemModel
             item = try dataStore.readStoredItem(id)
             let itemVM = ItemVM()
-            itemVM.setItemVM(from: item)
+            itemVM.setVM(from: item)
             print("... getItemVM \(id)")
             return itemVM
         } catch {
@@ -383,9 +388,9 @@ final class AppVM: ObservableObject {
             return filteredItemListEntryVMs
         }
     }
-    func filterItemListEntryVMs(for itemListEntryVMs: [ItemListEntryVM], by activeStatus: ItemModel.Status) -> [ItemListEntryVM] {
+    func filterItemListEntryVMs(for itemListEntryVMs: [ItemListEntryVM], by activeStatus: StatusModel) -> [ItemListEntryVM] {
         var filteredItemListEntryVMs = itemListEntryVMs
-        if(activeStatus == ItemModel.Status.all) {
+        if(activeStatus == StatusModel.all) {
             return filteredItemListEntryVMs
         } else {
             filteredItemListEntryVMs = filteredItemListEntryVMs.filter {
@@ -422,7 +427,7 @@ final class AppVM: ObservableObject {
     func createBorrower(named name: String) -> UUID {
         let newBorrower = BorrowerModel(
             name: name,
-            status: BorrowerModel.Status.new,
+            status: StatusModel.new,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
@@ -432,7 +437,7 @@ final class AppVM: ObservableObject {
     func createEmptyBorrower() {
         let newBorrower = BorrowerModel(
             name: "",
-            status: BorrowerModel.Status.new,
+            status: StatusModel.new,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)

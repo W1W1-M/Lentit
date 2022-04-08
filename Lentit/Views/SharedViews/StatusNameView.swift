@@ -1,5 +1,5 @@
 //
-//  LoanStatusNameView.swift
+//  StatusNameView.swift
 //  Lentit
 //
 //  Created by William Mead on 27/03/2022.
@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct LoanStatusNameView: View {
-    let loanStatus: LoanModel.Status
+struct StatusNameView: View {
+    let status: StatusModel
     var body: some View {
-        switch loanStatus {
+        switch status {
         case .all:
             Text("all")
         case .new:
@@ -21,6 +21,10 @@ struct LoanStatusNameView: View {
             Text("ongoing")
         case .finished:
             Text("finished")
+        case .available:
+            Text("available")
+        case .unavailable:
+            Text("unavailable")
         default:
             Text("unknown")
         }
@@ -29,6 +33,6 @@ struct LoanStatusNameView: View {
 
 struct LoanStatusNameView_Previews: PreviewProvider {
     static var previews: some View {
-        LoanStatusNameView(loanStatus: LoanModel.Status.current).previewLayout(.sizeThatFits)
+        StatusNameView(status: StatusModel.current).previewLayout(.sizeThatFits)
     }
 }

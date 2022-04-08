@@ -17,11 +17,11 @@ struct ItemListStatusView: View {
                 .foregroundColor(.secondary)
             Spacer()
             Menu {
-                ForEach(ItemModel.Status.allCases) { Status in
+                ForEach(StatusModel.itemStatusCases) { Status in
                     Button {
                         appVM.activeItemStatus = Status
                     } label: {
-                        ItemStatusNameView(itemStatus: Status)
+                        StatusNameView(status: Status)
                         Image(systemName: Status.symbolName)
                     }
                 }
@@ -92,7 +92,7 @@ struct ItemListItemView: View {
             }
         }.onAppear(perform: {
             // Programmatic navigation to newly added item
-            if(itemListEntryVM.status == ItemModel.Status.new) {
+            if(itemListEntryVM.status == StatusModel.new) {
                 navigationLinkIsActive = true
             }
         })

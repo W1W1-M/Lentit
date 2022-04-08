@@ -7,10 +7,10 @@
 
 import Foundation
 /// Item view model
-class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
+class ItemVM: ViewModel, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
     private(set) var item: ItemModel
-    private(set) var id: UUID
+    internal var id: UUID
     private(set) var loanIds: Set<UUID>
     @Published var nameText: String {
         didSet {
@@ -33,7 +33,7 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
             item.category = self.category
         }
     }
-    @Published var status: ItemModel.Status{
+    @Published var status: StatusModel {
         didSet{
             item.status = self.status
         }
@@ -59,7 +59,7 @@ class ItemVM: ObservableObject, Identifiable, Equatable, Hashable {
         print("... deinit ItemVM")
     }
 // MARK: - Methods
-    func setItemVM(from itemModel: ItemModel) {
+    func setVM(from itemModel: ItemModel) {
         self.item = itemModel
         self.id = itemModel.id
         self.loanIds = itemModel.loanIds

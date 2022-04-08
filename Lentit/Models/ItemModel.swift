@@ -7,14 +7,14 @@
 
 import Foundation
 /// Data model for lent item
-class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
+class ItemModel: Model, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
     let id: UUID
     var name: String
     var notes: String
     var value: Int
     var category: ItemModel.Category
-    var status: ItemModel.Status
+    var status: StatusModel
     var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
@@ -22,7 +22,7 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
         notes: String,
         value: Int,
         category: ItemModel.Category,
-        status: ItemModel.Status,
+        status: StatusModel,
         loanIds: Set<UUID>
     ) {
         print("ItemModel init ...")
@@ -53,18 +53,6 @@ class ItemModel: ObservableObject, Identifiable, Equatable, Hashable {
 }
 
 extension ItemModel {
-    /// Predefined item status
-    struct Status: Identifiable, Equatable, CaseIterable {
-        // Properties
-        let id: UUID = UUID()
-        let symbolName: String
-        static let all: Status = Status(symbolName: "infinity.circle")
-        static let unknown: Status = Status(symbolName: "questionmark.circle")
-        static let new: Status = Status(symbolName: "play.circle")
-        static let available: Status = Status(symbolName: "checkmark.circle")
-        static let unavailable: Status = Status(symbolName: "xmark.circle")
-        static let allCases: Array<ItemModel.Status> = [all, available, unavailable]
-    }
     /// Predefined item categories
     struct Category: Identifiable, Equatable, Hashable, CaseIterable {
         // Properties
@@ -109,7 +97,7 @@ extension ItemModel {
         notes: "Unknown description",
         value: 100,
         category: ItemModel.Category.other,
-        status: ItemModel.Status.unknown,
+        status: StatusModel.unknown,
         loanIds: [UUID()]
     )
 }

@@ -27,7 +27,7 @@ class LoanVM: ObservableObject, Identifiable {
             setReturnedLoanStatus()
         }
     }
-    @Published var status: LoanModel.Status {
+    @Published var status: StatusModel {
         didSet{
             loan.status = self.status
         }
@@ -124,9 +124,9 @@ class LoanVM: ObservableObject, Identifiable {
     }
     func setReturnedLoanStatus() {
         if(returned) {
-            self.status = LoanModel.Status.finished
-        } else if(!returned && status == LoanModel.Status.finished) {
-            self.status = LoanModel.Status.current
+            self.status = StatusModel.finished
+        } else if(!returned && status == StatusModel.finished) {
+            self.status = StatusModel.current
         }
     }
 }

@@ -21,13 +21,13 @@ struct LoanDetailView: View {
                     loanVM: loanVM,
                     editDisabled: $editDisabled
                 )
-                if(loanVM.status != LoanModel.Status.finished) {
+                if(loanVM.status != StatusModel.finished) {
                     LoanReminderSectionView(
                         loanVM: loanVM,
                         editDisabled: $editDisabled
                     )
                 }
-                if(loanVM.status == LoanModel.Status.new) {
+                if(loanVM.status == StatusModel.new) {
                     SaveButtonView(
                         editDisabled: $editDisabled,
                         navigationLinkIsActive: $navigationLinkIsActive,
@@ -38,11 +38,11 @@ struct LoanDetailView: View {
                     DeleteButtonView(element: .Loans)
                 }
             }
-        }.navigationTitle(loanVM.loanBorrower.status == BorrowerModel.Status.unknown ? "New loan" : "Loan to \(loanVM.loanBorrowerName)")
+        }.navigationTitle(loanVM.loanBorrower.status == StatusModel.unknown ? "New loan" : "Loan to \(loanVM.loanBorrowerName)")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if(loanVM.status != LoanModel.Status.new) {
+                if(loanVM.status != StatusModel.new) {
                     EditButtonView(editDisabled: $editDisabled)
                 }
             }
@@ -132,13 +132,13 @@ struct LoanDetailView: View {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if loan just added
-            if(loanVM.status == LoanModel.Status.new) {
+            if(loanVM.status == StatusModel.new) {
                 editDisabled = false
             }
         })
         .onDisappear(perform: {
-            if(loanVM.status == LoanModel.Status.new) {
-                loanVM.status = LoanModel.Status.current
+            if(loanVM.status == StatusModel.new) {
+                loanVM.status = StatusModel.current
             }
             appVM.activeLoanStatus = loanVM.status
         })
@@ -158,7 +158,7 @@ struct LoanDetailSectionView: View {
                     appVM.activeSheet = .itemsList
                     appVM.sheetPresented = true
                 } label: {
-                    Text(loanVM.loanItem.status == ItemModel.Status.unknown ? "Select item" : "\(loanVM.loanItemName)")
+                    Text(loanVM.loanItem.status == StatusModel.unknown ? "Select item" : "\(loanVM.loanItemName)")
                         .font(.headline)
                         .foregroundColor(editDisabled ? .primary : .accentColor)
                 }.disabled(editDisabled)
@@ -170,7 +170,7 @@ struct LoanDetailSectionView: View {
                     appVM.activeSheet = .borrowersList
                     appVM.sheetPresented = true
                 } label: {
-                    Text(loanVM.loanBorrower.status == BorrowerModel.Status.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
+                    Text(loanVM.loanBorrower.status == StatusModel.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
                         .font(.headline)
                         .italic()
                         .foregroundColor(editDisabled ? .primary : .accentColor)
@@ -200,7 +200,7 @@ struct LoanDetailSectionView: View {
                         Text("Returned").foregroundColor(.secondary)
                     }.disabled(editDisabled)
                 }
-            }.disabled(loanVM.status == LoanModel.Status.new)
+            }.disabled(loanVM.status == StatusModel.new)
         }
     }
 }
@@ -211,7 +211,7 @@ struct LoanDetailSectionHeaderView: View {
         HStack {
             Text("Loan")
             Spacer()
-            LoanStatusNameView(loanStatus: loanVM.status)
+            StatusNameView(status: loanVM.status)
         }.padding(.bottom, 5)
     }
 }

@@ -13,7 +13,7 @@ final class LoanListEntryVM: ObservableObject, Identifiable {
     private(set) var id: UUID
     private(set) var loanDate: Date
     @Published var loanDateText: String
-    @Published var loanStatus: LoanModel.Status
+    @Published var loanStatus: StatusModel
     @Published var itemName: String
     @Published var itemCategory: ItemModel.Category
     @Published var borrowerName: String

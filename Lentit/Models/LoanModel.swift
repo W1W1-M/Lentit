@@ -8,7 +8,7 @@
 import Foundation
 import EventKit
 /// Data model for a item loan
-class LoanModel: ObservableObject, Identifiable, Equatable {
+class LoanModel: Model, ObservableObject, Identifiable, Equatable {
 // MARK: - Properties
     let id: UUID
     var loanDate: Date
@@ -19,7 +19,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
     var reminder: EKReminder?
     var reminderActive: Bool
     var returned: Bool
-    var status: LoanModel.Status
+    var status: StatusModel
     var itemId: UUID?
     var borrowerId: UUID?
 // MARK: - Init & deinit
@@ -29,7 +29,7 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
         reminder: EKReminder?,
         reminderActive: Bool,
         returned: Bool,
-        status: LoanModel.Status,
+        status: StatusModel,
         itemId: UUID?,
         borrowerId: UUID?
     ) {
@@ -60,18 +60,6 @@ class LoanModel: ObservableObject, Identifiable, Equatable {
 }
 
 extension LoanModel {
-    /// Predefined loan status
-    struct Status: Identifiable, Equatable, CaseIterable {
-        let id: UUID = UUID()
-        let symbolName: String
-        static let all: Status = Status(symbolName: "infinity.circle")
-        static let unknown: Status = Status(symbolName: "questionmark.circle")
-        static let new: Status = Status(symbolName: "play.circle")
-        static let upcoming: Status = Status(symbolName: "calendar.circle")
-        static let current: Status = Status(symbolName: "hourglass.circle")
-        static let finished: Status = Status(symbolName: "stop.circle")
-        static let allCases: Array<LoanModel.Status> = [all, upcoming, current, finished]
-    }
     /// Predefined loan sort orders
     struct SortingOrder: Identifiable, Equatable, Hashable, CaseIterable {
         let id: UUID = UUID()
@@ -89,7 +77,7 @@ extension LoanModel {
         reminder: EKReminder(),
         reminderActive: false,
         returned: false,
-        status: LoanModel.Status.unknown,
+        status: StatusModel.unknown,
         itemId: UUID(),
         borrowerId: UUID()
     )

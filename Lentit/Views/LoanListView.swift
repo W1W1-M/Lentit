@@ -26,11 +26,11 @@ struct LoanListStatusView: View {
             }
             Spacer()
             Menu {
-                ForEach(LoanModel.Status.allCases) { Status in
+                ForEach(StatusModel.loanStatusCases) { Status in
                     Button {
                         appVM.activeLoanStatus = Status
                     } label: {
-                        LoanStatusNameView(loanStatus: Status)
+                        StatusNameView(status: Status)
                         Image(systemName: Status.symbolName)
                     }
                 }
@@ -129,7 +129,7 @@ struct LoanListItemView: View {
                 }
             }.padding(2)
         }.onAppear(perform: {
-            if(loanListEntryVM.loanStatus == LoanModel.Status.new) {
+            if(loanListEntryVM.loanStatus == StatusModel.new) {
                 print("Programmatic navigation to new loan ...")
                 navigationLinkIsActive = true
             }

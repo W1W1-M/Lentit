@@ -13,7 +13,7 @@ final class ItemListEntryVM: ObservableObject, Identifiable {
     private(set) var id: UUID
     @Published var name: String
     @Published var category: ItemModel.Category
-    @Published var status: ItemModel.Status
+    @Published var status: StatusModel
 // MARK: - Init & deinit
     init() {
         print("ItemListEntryVM init ...")

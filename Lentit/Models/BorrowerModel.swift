@@ -7,16 +7,16 @@
 
 import Foundation
 /// Data model for a person who borrows an item
-final class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
+final class BorrowerModel: Model, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
     let id: UUID
     var name: String
-    var status: BorrowerModel.Status
+    var status: StatusModel
     var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
         name: String,
-        status: BorrowerModel.Status,
+        status: StatusModel,
         loanIds: Set<UUID>
     ) {
         print("BorrowerModel init ...")
@@ -44,22 +44,9 @@ final class BorrowerModel: ObservableObject, Identifiable, Equatable, Hashable {
 }
 
 extension BorrowerModel {
-    /// Predefined borrower status
-    struct Status: Identifiable, Equatable, Hashable, CaseIterable {
-        let id: UUID = UUID()
-        let symbolName: String
-        static let all: Status = Status(symbolName: "infinity.circle")
-        static let new: Status = Status(symbolName: "play.circle")
-        static let regular: Status = Status(symbolName: "person.circle")
-        static let unknown: Status = Status(symbolName: "questionmark.circle")
-        static let allCases: Array<BorrowerModel.Status> = [all, new, regular]
-    }
-}
-
-extension BorrowerModel {
     static var defaultData: BorrowerModel = BorrowerModel(
         name: "Unknown borrower",
-        status: BorrowerModel.Status.unknown,
+        status: StatusModel.unknown,
         loanIds: [UUID()]
     )
 }

@@ -7,12 +7,12 @@
 
 import Foundation
 /// Borrower view model
-class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
+class BorrowerVM: ViewModel, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
     private(set) var borrower: BorrowerModel
-    private(set) var id: UUID
+    internal var id: UUID
     @Published var name: String
-    @Published var status: BorrowerModel.Status
+    @Published var status: StatusModel
     @Published var loanCount: Int
 // MARK: - Init & deinit
     init() {
@@ -20,7 +20,7 @@ class BorrowerVM: ObservableObject, Identifiable, Equatable, Hashable {
         self.borrower = BorrowerModel.defaultData
         self.id = BorrowerModel.defaultData.id
         self.name = BorrowerModel.defaultData.name
-        self.status = BorrowerModel.Status.unknown
+        self.status = StatusModel.unknown
         self.loanCount = 0
     }
     deinit {
