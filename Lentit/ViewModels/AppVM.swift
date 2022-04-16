@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import EventKit
+import Contacts
 /// Lentit app view model
 final class AppVM: ViewModel, ObservableObject {
-    // MARK: - Properties
+// MARK: - Properties
     internal var id: UUID
     @Published var dataStore: DataStoreModel {
         didSet {
@@ -131,11 +133,18 @@ final class AppVM: ViewModel, ObservableObject {
         case Items
         case Borrowers
     }
-    // MARK: - Init & deinit
+    // EventKit
+    internal var eventStore: EKEventStore
+    internal var remindersAccess: EKAuthorizationStatus
+    internal var remindersDefaultCalendar: EKCalendar?
+    //
+    internal let contactsStore: CNContactStore
+    internal var contactsAccess: CNAuthorizationStatus
+// MARK: - Init & deinit
     init() {
         print("AppVM init ...")
+        // Initialize properties
         self.id = UUID()
-        // Initialize with empty data
         self.dataStore = DataStoreModel()
         self.loanListEntryVMs = []
         self.itemListEntryVMs = []
@@ -156,7 +165,12 @@ final class AppVM: ViewModel, ObservableObject {
         self.sheetPresented = false
         self.activeAlert = .deleteLoan
         self.activeSheet = .itemsList
-        // Set with data
+        self.eventStore = EKEventStore()
+        self.remindersAccess = .notDetermined
+        self.remindersDefaultCalendar = nil
+        self.contactsStore = CNContactStore()
+        self.contactsAccess = .notDetermined
+        // Set properties
         self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
         self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
         self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeItemCategory)
@@ -188,7 +202,8 @@ final class AppVM: ViewModel, ObservableObject {
         let newLoan = LoanModel(
             loanDate: Date(),
             loanTime: 100000.0, // WIP
-            reminder: nil,
+            ekReminderId: nil,
+            reminderDate: nil,
             reminderActive: false,
             returned: false,
             status: StatusModel.new,
@@ -467,5 +482,21 @@ final class AppVM: ViewModel, ObservableObject {
     func deleteBorrower(for id: UUID) {
         self.dataStore.deleteBorrower(oldBorrowerId: id)
         self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
+    }
+// MARK: - Reminder
+    func getReminderVM(for loan: LoanModel) -> ReminderVM {
+        let loanItem = getLoanItem(in: dataStore.readStoredItems(), for: loan)
+        let loanBorrower = getLoanBorrower(in: dataStore.readStoredBorrowers(), for: loan)
+        let reminderTitle: String = "Loan to \(loanBorrower.name)"
+        let reminderNotes: String = "\(loanItem.name)"
+        let reminderVM = ReminderVM(
+            loan: loan,
+            reminderTitle: reminderTitle,
+            reminderNotes: reminderNotes,
+            eventStore: eventStore,
+            reminderAccess: remindersAccess,
+            reminderDefaultCalendar: remindersDefaultCalendar
+        )
+        return reminderVM
     }
 }

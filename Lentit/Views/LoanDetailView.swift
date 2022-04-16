@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import EventKit
 // MARK: - Views
 struct LoanDetailView: View {
     @EnvironmentObject var appVM: AppVM
@@ -24,6 +25,7 @@ struct LoanDetailView: View {
                 if(loanVM.status != StatusModel.finished) {
                     LoanReminderSectionView(
                         loanVM: loanVM,
+                        reminderVM: appVM.getReminderVM(for: loanVM.loan),
                         editDisabled: $editDisabled
                     )
                 }
@@ -78,7 +80,7 @@ struct LoanDetailView: View {
             case .reminderNotAdded:
                 return Alert(
                     title: Text("Reminder error"),
-                    message: Text("Error adding \(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) to Apple Reminders. Please check Lentit has access to Reminders in iOS Privacy settings."),
+                    message: Text("Error adding \(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) to Apple Reminders"),
                     dismissButton: .default(
                         Text("OK"),
                         action: {
@@ -100,7 +102,7 @@ struct LoanDetailView: View {
             case .reminderNotDeleted:
                 return Alert(
                     title: Text("Reminder error"),
-                    message: Text("Error deleting \(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) to Apple Reminders. Please check Lentit has access to Reminders in iOS Privacy settings."),
+                    message: Text("Error deleting \(loanVM.loanItemCategory.emoji) Loan to \(loanVM.loanBorrowerName) to Apple Reminders"),
                     dismissButton: .default(
                         Text("OK"),
                         action: {
@@ -218,6 +220,7 @@ struct LoanDetailSectionHeaderView: View {
 // MARK: -
 struct LoanReminderSectionView: View {
     @ObservedObject var loanVM: LoanVM
+    @ObservedObject var reminderVM: ReminderVM
     @Binding var editDisabled: Bool
     var body: some View {
         Section {
@@ -225,30 +228,36 @@ struct LoanReminderSectionView: View {
                 Text("Reminder").foregroundColor(.secondary)
                 Spacer()
                 if(editDisabled) {
-                    if(loanVM.reminderVM.reminderActive) {
-                        Text("\(loanVM.reminderVM.reminderDateText)")
+                    if(reminderVM.reminderActive) {
+                        Text("\(reminderVM.reminderDateText)")
+                        if(reminderVM.ekReminderExists) {
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(.green)
+                                .imageScale(.large)
+                        } else {
+                            Image(systemName: "xmark.circle")
+                                .foregroundColor(.red)
+                                .imageScale(.large)
+                        }
                     } else {
-                        Toggle(isOn: $loanVM.reminderVM.reminderActive) {
+                        Toggle(isOn: $reminderVM.reminderActive) {
                             Text("Reminder")
                         }.disabled(editDisabled)
-                            .labelsHidden()
+                        .labelsHidden()
                     }
                 } else {
-                    DatePicker(
-                        "",
-                        selection: $loanVM.reminderVM.reminderDate,
-                        in: loanVM.loanDate...,
-                        displayedComponents: .date
-                    )
                     Spacer()
-                    Toggle(isOn: $loanVM.reminderVM.reminderActive) {
+                    Toggle(isOn: $reminderVM.reminderActive) {
                         Text("Reminder")
                     }.disabled(editDisabled)
                     .labelsHidden()
                 }
             }
-            if(!editDisabled && loanVM.reminderVM.reminderActive) {
-                LoanReminderDetailView(loanVM: loanVM).disabled(editDisabled)
+            if(!editDisabled && reminderVM.reminderActive) {
+                LoanReminderDetailView(
+                    loanVM: loanVM,
+                    reminderVM: reminderVM
+                ).disabled(editDisabled)
             }
         }
     }
@@ -256,11 +265,33 @@ struct LoanReminderSectionView: View {
 struct LoanReminderDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
+    @ObservedObject var reminderVM: ReminderVM
     var body: some View {
-        if(loanVM.reminderVM.ekReminderExists) {
+        DatePicker(
+            "Date",
+            selection: $reminderVM.reminderDate,
+            in: loanVM.loanDate...,
+            displayedComponents: .date
+        ).foregroundColor(.secondary)
+        HStack {
+            Text("Apple iOS Reminder")
+            Spacer()
+            if(reminderVM.ekReminderExists) {
+                Text("Set")
+                Image(systemName: "checkmark.circle")
+                    .foregroundColor(.green)
+                    .imageScale(.large)
+            } else {
+                Text("Unset")
+                Image(systemName: "xmark.circle")
+                    .foregroundColor(.red)
+                    .imageScale(.large)
+            }
+        }.foregroundColor(.secondary)
+        if(reminderVM.ekReminderExists) {
             Button {
                 do {
-                    try loanVM.reminderVM.deleteReminder()
+                    try reminderVM.deleteReminder()
                     appVM.activeAlert = .reminderDeleted
                 } catch {
                     appVM.activeAlert = .reminderNotDeleted
@@ -278,7 +309,7 @@ struct LoanReminderDetailView: View {
         } else {
             Button {
                 do {
-                    try loanVM.reminderVM.createReminder()
+                    try reminderVM.createReminder()
                     appVM.activeAlert = .reminderAdded
                 } catch {
                     appVM.activeAlert = .reminderNotAdded
@@ -315,7 +346,17 @@ struct LoanDetailView_Previews: PreviewProvider {
         .environmentObject(AppVM())
         //
         Form {
-            LoanReminderDetailView(loanVM: LoanVM())
+            LoanReminderDetailView(
+                loanVM: LoanVM(),
+                reminderVM: ReminderVM(
+                    loan: LoanModel.defaultData,
+                    reminderTitle: "",
+                    reminderNotes: "",
+                    eventStore: EKEventStore(),
+                    reminderAccess: .notDetermined,
+                    reminderDefaultCalendar: EKCalendar(for: .reminder, eventStore: EKEventStore())
+                )
+            )
         }.previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
     }

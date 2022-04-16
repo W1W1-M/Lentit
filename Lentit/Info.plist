@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>In order to use loan reminders please grant access</string>
+	<key>NSContactsUsageDescription</key>
+	<string>In order to link your contacts to loans please grant access</string>
 	<key>NSRemindersUsageDescription</key>
-	<string>In order  to use loan reminders please grant access</string>
+	<string>In order to use loan reminders please grant access</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

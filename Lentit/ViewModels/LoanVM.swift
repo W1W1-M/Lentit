@@ -35,7 +35,6 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var loanBorrowerName: String
     @Published var loanItemName: String
     @Published var loanItemCategory: ItemModel.Category
-    @Published var reminderVM: ReminderVM
 // MARK: - Init & deinit
     init() {
         print("LoanVM init ...")
@@ -50,11 +49,6 @@ class LoanVM: ObservableObject, Identifiable {
         self.loanBorrowerName = BorrowerModel.defaultData.name
         self.loanItemName = ItemModel.defaultData.name
         self.loanItemCategory = ItemModel.defaultData.category
-        self.reminderVM = ReminderVM(
-            loan: LoanModel.defaultData,
-            reminderTitle: "\(ItemModel.Category.other.emoji) Loan to \(BorrowerModel.defaultData.name)",
-            reminderNotes: ItemModel.defaultData.name
-        )
         //
         self.loanDateText = setLoanDateText(for: loanDate)
     }
@@ -75,11 +69,6 @@ class LoanVM: ObservableObject, Identifiable {
         self.loanItemName = loanItem.name
         self.loanItemCategory = loanItem.category
         self.loan = loan
-        self.reminderVM = ReminderVM(
-            loan: loan,
-            reminderTitle: "\(loanItem.category.emoji) Loan to \(loanBorrower.name)",
-            reminderNotes: loanItem.name
-        )
         print("... setLoanVM \(id)")
     }
     func setLoanDateText(for loanDate: Date) -> String {

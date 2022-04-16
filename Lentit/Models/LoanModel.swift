@@ -16,7 +16,8 @@ class LoanModel: Model, ObservableObject, Identifiable, Equatable {
     var loanExpiry: Date {
         loanDate.addingTimeInterval(loanTime)
     }
-    var reminder: EKReminder?
+    var ekReminderId: String?
+    var reminderDate: Date?
     var reminderActive: Bool
     var returned: Bool
     var status: StatusModel
@@ -26,7 +27,8 @@ class LoanModel: Model, ObservableObject, Identifiable, Equatable {
     init(
         loanDate: Date,
         loanTime: TimeInterval,
-        reminder: EKReminder?,
+        ekReminderId: String?,
+        reminderDate: Date?,
         reminderActive: Bool,
         returned: Bool,
         status: StatusModel,
@@ -37,7 +39,8 @@ class LoanModel: Model, ObservableObject, Identifiable, Equatable {
         self.id = UUID()
         self.loanDate = loanDate
         self.loanTime = loanTime
-        self.reminder = reminder
+        self.ekReminderId = ekReminderId
+        self.reminderDate = reminderDate
         self.reminderActive = reminderActive
         self.returned = returned
         self.status = status
@@ -74,7 +77,8 @@ extension LoanModel {
     static var defaultData: LoanModel = LoanModel(
         loanDate: Date(),
         loanTime: 100000.0,
-        reminder: EKReminder(),
+        ekReminderId: nil,
+        reminderDate: nil,
         reminderActive: false,
         returned: false,
         status: StatusModel.unknown,
