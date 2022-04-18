@@ -12,17 +12,23 @@ final class BorrowerModel: Model, ObservableObject, Identifiable, Equatable, Has
     let id: UUID
     var name: String
     var status: StatusModel
+    var contactLink: Bool
+    var contactId: String?
     var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
         name: String,
         status: StatusModel,
+        contactLink: Bool,
+        contactId: String?,
         loanIds: Set<UUID>
     ) {
         print("BorrowerModel init ...")
         self.id = UUID()
         self.name = name
         self.status = status
+        self.contactLink = false
+        self.contactId = contactId
         self.loanIds = []
     }
     deinit {
@@ -47,6 +53,8 @@ extension BorrowerModel {
     static var defaultData: BorrowerModel = BorrowerModel(
         name: "Unknown borrower",
         status: StatusModel.unknown,
+        contactLink: false,
+        contactId: nil,
         loanIds: [UUID()]
     )
 }

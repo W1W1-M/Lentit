@@ -25,7 +25,7 @@ struct LoanDetailView: View {
                 if(loanVM.status != StatusModel.finished) {
                     LoanReminderSectionView(
                         loanVM: loanVM,
-                        reminderVM: appVM.getReminderVM(for: loanVM.loan),
+                        remindersVM: appVM.getRemindersVM(for: loanVM.loan),
                         editDisabled: $editDisabled
                     )
                 }
@@ -220,7 +220,7 @@ struct LoanDetailSectionHeaderView: View {
 // MARK: -
 struct LoanReminderSectionView: View {
     @ObservedObject var loanVM: LoanVM
-    @ObservedObject var reminderVM: ReminderVM
+    @ObservedObject var remindersVM: RemindersVM
     @Binding var editDisabled: Bool
     var body: some View {
         Section {
@@ -228,9 +228,9 @@ struct LoanReminderSectionView: View {
                 Text("Reminder").foregroundColor(.secondary)
                 Spacer()
                 if(editDisabled) {
-                    if(reminderVM.reminderActive) {
-                        Text("\(reminderVM.reminderDateText)")
-                        if(reminderVM.ekReminderExists) {
+                    if(remindersVM.reminderActive) {
+                        Text("\(remindersVM.reminderDateText)")
+                        if(remindersVM.ekReminderExists) {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)
                                 .imageScale(.large)
@@ -240,23 +240,23 @@ struct LoanReminderSectionView: View {
                                 .imageScale(.large)
                         }
                     } else {
-                        Toggle(isOn: $reminderVM.reminderActive) {
+                        Toggle(isOn: $remindersVM.reminderActive) {
                             Text("Reminder")
                         }.disabled(editDisabled)
                         .labelsHidden()
                     }
                 } else {
                     Spacer()
-                    Toggle(isOn: $reminderVM.reminderActive) {
+                    Toggle(isOn: $remindersVM.reminderActive) {
                         Text("Reminder")
                     }.disabled(editDisabled)
                     .labelsHidden()
                 }
             }
-            if(!editDisabled && reminderVM.reminderActive) {
+            if(!editDisabled && remindersVM.reminderActive) {
                 LoanReminderDetailView(
                     loanVM: loanVM,
-                    reminderVM: reminderVM
+                    remindersVM: remindersVM
                 ).disabled(editDisabled)
             }
         }
@@ -265,18 +265,18 @@ struct LoanReminderSectionView: View {
 struct LoanReminderDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @ObservedObject var reminderVM: ReminderVM
+    @ObservedObject var remindersVM: RemindersVM
     var body: some View {
         DatePicker(
             "Date",
-            selection: $reminderVM.reminderDate,
+            selection: $remindersVM.reminderDate,
             in: loanVM.loanDate...,
             displayedComponents: .date
         ).foregroundColor(.secondary)
         HStack {
             Text("Apple iOS Reminder")
             Spacer()
-            if(reminderVM.ekReminderExists) {
+            if(remindersVM.ekReminderExists) {
                 Text("Set")
                 Image(systemName: "checkmark.circle")
                     .foregroundColor(.green)
@@ -288,10 +288,10 @@ struct LoanReminderDetailView: View {
                     .imageScale(.large)
             }
         }.foregroundColor(.secondary)
-        if(reminderVM.ekReminderExists) {
+        if(remindersVM.ekReminderExists) {
             Button {
                 do {
-                    try reminderVM.deleteReminder()
+                    try remindersVM.deleteReminder()
                     appVM.activeAlert = .reminderDeleted
                 } catch {
                     appVM.activeAlert = .reminderNotDeleted
@@ -309,7 +309,7 @@ struct LoanReminderDetailView: View {
         } else {
             Button {
                 do {
-                    try reminderVM.createReminder()
+                    try remindersVM.createReminder()
                     appVM.activeAlert = .reminderAdded
                 } catch {
                     appVM.activeAlert = .reminderNotAdded
@@ -348,7 +348,7 @@ struct LoanDetailView_Previews: PreviewProvider {
         Form {
             LoanReminderDetailView(
                 loanVM: LoanVM(),
-                reminderVM: ReminderVM(
+                remindersVM: RemindersVM(
                     loan: LoanModel.defaultData,
                     reminderTitle: "",
                     reminderNotes: "",

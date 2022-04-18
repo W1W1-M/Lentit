@@ -19,6 +19,7 @@ struct BorrowerDetailView: View {
                 Form {
                     BorrowerDetailSectionView(
                         borrowerDetailVM: borrowerDetailVM,
+                        contactsVM: appVM.getContactsVM(for: borrowerDetailVM.borrower),
                         editDisabled: $editDisabled
                     ).disabled(editDisabled)
                     BorrowerHistorySectionView(borrowerDetailVM: borrowerDetailVM)
@@ -77,10 +78,30 @@ struct BorrowerDetailView: View {
 // MARK: -
 struct BorrowerDetailSectionView: View {
     @ObservedObject var borrowerDetailVM: BorrowerDetailVM
+    @ObservedObject var contactsVM: ContactsVM
     @Binding var editDisabled: Bool
     var body: some View {
         Section {
-            TextField("Name", text: $borrowerDetailVM.name).foregroundColor(editDisabled ? .secondary : .primary)
+            if contactsVM.borrowerContactLink {
+                Button {
+                    contactsVM.checkContactsAccess()
+                } label: {
+                    HStack {
+                        Text("some name")
+                        Image(systemName: "person")
+                    }
+                }
+            } else {
+                Button {
+                    contactsVM.checkContactsAccess()
+                } label: {
+                    HStack {
+                        Text("Select contact")
+                        Image(systemName: "person.plus")
+                    }
+                }
+                TextField("Name", text: $borrowerDetailVM.name).foregroundColor(editDisabled ? .secondary : .primary)
+            }
         } header: {
             Text("Borrower")
         }

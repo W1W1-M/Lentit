@@ -106,7 +106,7 @@ final class AppVM: ViewModel, ObservableObject {
         didSet {
             switch activeElement {
             case .Loans:
-                self.activeLoanStatus = .all
+                self.activeLoanStatus = .current
                 self.activeItemCategory = .all
                 self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
                 self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
@@ -137,8 +137,8 @@ final class AppVM: ViewModel, ObservableObject {
     internal var eventStore: EKEventStore
     internal var remindersAccess: EKAuthorizationStatus
     internal var remindersDefaultCalendar: EKCalendar?
-    //
-    internal let contactsStore: CNContactStore
+    // Contacts
+    internal var contactsStore: CNContactStore
     internal var contactsAccess: CNAuthorizationStatus
 // MARK: - Init & deinit
     init() {
@@ -443,6 +443,8 @@ final class AppVM: ViewModel, ObservableObject {
         let newBorrower = BorrowerModel(
             name: name,
             status: StatusModel.new,
+            contactLink: false,
+            contactId: nil,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
@@ -453,6 +455,8 @@ final class AppVM: ViewModel, ObservableObject {
         let newBorrower = BorrowerModel(
             name: "",
             status: StatusModel.new,
+            contactLink: false,
+            contactId: nil,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
@@ -483,13 +487,13 @@ final class AppVM: ViewModel, ObservableObject {
         self.dataStore.deleteBorrower(oldBorrowerId: id)
         self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
     }
-// MARK: - Reminder
-    func getReminderVM(for loan: LoanModel) -> ReminderVM {
+// MARK: - Reminders
+    func getRemindersVM(for loan: LoanModel) -> RemindersVM {
         let loanItem = getLoanItem(in: dataStore.readStoredItems(), for: loan)
         let loanBorrower = getLoanBorrower(in: dataStore.readStoredBorrowers(), for: loan)
         let reminderTitle: String = "Loan to \(loanBorrower.name)"
         let reminderNotes: String = "\(loanItem.name)"
-        let reminderVM = ReminderVM(
+        let remindersVM = RemindersVM(
             loan: loan,
             reminderTitle: reminderTitle,
             reminderNotes: reminderNotes,
@@ -497,6 +501,16 @@ final class AppVM: ViewModel, ObservableObject {
             reminderAccess: remindersAccess,
             reminderDefaultCalendar: remindersDefaultCalendar
         )
-        return reminderVM
+        return remindersVM
+    }
+// MARK: - Contacts
+    func getContactsVM(for borrower: BorrowerModel) -> ContactsVM {
+        let contactsVM = ContactsVM(
+            borrower: borrower,
+            contactsStore: contactsStore,
+            contactsAccess: contactsAccess
+        )
+        return contactsVM
     }
 }
+

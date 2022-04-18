@@ -216,21 +216,29 @@ extension DataStoreModel {
         BorrowerModel(
             name: "Sarah",
             status: StatusModel.regular,
+            contactLink: false,
+            contactId: nil,
             loanIds: []
         ),
         BorrowerModel(
             name: "Anthony",
             status: StatusModel.regular,
+            contactLink: false,
+            contactId: nil,
             loanIds: []
         ),
         BorrowerModel(
             name: "Charly",
             status: StatusModel.regular,
+            contactLink: false,
+            contactId: nil,
             loanIds: []
         ),
         BorrowerModel(
             name: "Bruno",
             status: StatusModel.regular,
+            contactLink: false,
+            contactId: nil,
             loanIds: []
         )
     ]

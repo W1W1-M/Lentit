@@ -1,5 +1,5 @@
 //
-//  ReminderVM.swift
+//  RemindersVM.swift
 //  Lentit
 //
 //  Created by William Mead on 07/04/2022.
@@ -8,7 +8,7 @@
 import Foundation
 import EventKit
 /// Reminder view model
-class ReminderVM: ObservableObject, Identifiable {
+final class RemindersVM: ObservableObject, Identifiable {
 // MARK: - Properties
     private(set) var loan: LoanModel
     private(set) var id: UUID
@@ -22,8 +22,8 @@ class ReminderVM: ObservableObject, Identifiable {
     @Published var reminderActive: Bool {
         didSet {
             self.loan.reminderActive = reminderActive
-            if(reminderActive) {
-                checkReminderAccess()
+            if reminderActive {
+                checkRemindersAccess()
             } else {
                 resetReminder()
             }
@@ -60,7 +60,7 @@ class ReminderVM: ObservableObject, Identifiable {
         reminderAccess: EKAuthorizationStatus,
         reminderDefaultCalendar: EKCalendar?
     ) {
-        print("ReminderVM init ...")
+        print("RemindersVM init ...")
         self.loan = loan
         self.id = UUID()
         self.reminderActive = loan.reminderActive
@@ -77,15 +77,15 @@ class ReminderVM: ObservableObject, Identifiable {
         //
         self.id = UUID(uuidString: ekReminderId) ?? UUID()
         self.reminderDateText = setReminderDateText(for: reminderDate)
-        if(reminderActive) {
+        if reminderActive {
             self.ekReminderExists = checkReminderExists(ekReminderId)
         }
     }
     deinit {
-        print("... deinit ReminderVM \(id)")
+        print("... deinit RemindersVM \(id)")
     }
 // MARK: - Methods
-    func setReminderVM(
+    func setRemindersVM(
         ekReminderId: String,
         reminderActive: Bool,
         reminderDate: Date
@@ -95,30 +95,30 @@ class ReminderVM: ObservableObject, Identifiable {
         self.reminderDate = reminderDate
         self.ekReminderExists = checkReminderExists(ekReminderId)
     }
-    func requestReminderAccess() {
-        print("requestReminderAccess ...")
+    func requestRemindersAccess() {
+        print("requestRemindersAccess ...")
         eventStore.requestAccess(to: .reminder) { granted, error in
             if granted {
                 self.reminderAccess = .authorized
-                print("Reminder access authorized")
+                print("Reminders access authorized")
             }
             if let error = error {
                 print(error)
-                print("Reminder access not authorized")
+                print("Reminders access not authorized")
                 return
             }
         }
     }
-    func checkReminderAccess() {
-        print("checkReminderAccess ...")
+    func checkRemindersAccess() {
+        print("checkRemindersAccess ...")
         self.reminderAccess = EKEventStore.authorizationStatus(for: .reminder)
         if(reminderActive && reminderAccess != .authorized) {
-            requestReminderAccess()
+            requestRemindersAccess()
         }
     }
     func getDefaultCalendar() throws -> EKCalendar {
         print("getDefaultCalendar ...")
-        checkReminderAccess()
+        checkRemindersAccess()
         resetEventStore()
         if let defaultCalendar = self.eventStore.defaultCalendarForNewReminders() {
             print("... getDefaultCalendar \(defaultCalendar.title)")
