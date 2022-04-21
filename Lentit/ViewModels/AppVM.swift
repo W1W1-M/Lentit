@@ -175,6 +175,8 @@ final class AppVM: ViewModel, ObservableObject {
         self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
         self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeItemCategory)
         self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
+        self.itemListEntryVMs = setItemListEntryVMs(for: dataStore.readStoredItems())
+        self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
     }
     deinit {
         print("... deinit AppVM")
@@ -483,6 +485,17 @@ final class AppVM: ViewModel, ObservableObject {
             return BorrowerListEntryVM()
         }
     }
+    func getBorrower(with ud: UUID) -> BorrowerModel {
+        print("getBorrower ...")
+        var borrower = BorrowerModel.defaultData
+        do {
+            borrower = try dataStore.readStoredBorrower(id)
+            return borrower
+        } catch {
+            print("borrower \(id) not found, defaulting to unknown borrower")
+            return borrower
+        }
+    }
     func deleteBorrower(for id: UUID) {
         self.dataStore.deleteBorrower(oldBorrowerId: id)
         self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
@@ -504,13 +517,6 @@ final class AppVM: ViewModel, ObservableObject {
         return remindersVM
     }
 // MARK: - Contacts
-    func getContactsVM(for borrower: BorrowerModel) -> ContactsVM {
-        let contactsVM = ContactsVM(
-            borrower: borrower,
-            contactsStore: contactsStore,
-            contactsAccess: contactsAccess
-        )
-        return contactsVM
-    }
+    
 }
 

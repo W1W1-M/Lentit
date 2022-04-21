@@ -48,6 +48,8 @@
 		3DCCC1A527FF62BA0036A9A7 /* RemindersVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCCC1A427FF62BA0036A9A7 /* RemindersVM.swift */; };
 		3DCCC1A727FF6D150036A9A7 /* BorrowerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCCC1A627FF6D150036A9A7 /* BorrowerVM.swift */; };
 		3DD3F1C227DF3939000F64D0 /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD3F1C127DF3939000F64D0 /* HintView.swift */; };
+		3DDCED8C280DF295006A2EB5 /* ContactsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */; };
+		3DDCED8E280DF44A006A2EB5 /* ContactListEntryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDCED8D280DF44A006A2EB5 /* ContactListEntryVM.swift */; };
 		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
 		3DDE13E327945D5C00EBB6E7 /* BorrowerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */; };
 		3DE4283227DFDEC3006FA751 /* HintModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE4283127DFDEC3006FA751 /* HintModel.swift */; };
@@ -126,6 +128,8 @@
 		3DCCC1A427FF62BA0036A9A7 /* RemindersVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersVM.swift; sourceTree = "<group>"; };
 		3DCCC1A627FF6D150036A9A7 /* BorrowerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerVM.swift; sourceTree = "<group>"; };
 		3DD3F1C127DF3939000F64D0 /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
+		3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListView.swift; sourceTree = "<group>"; };
+		3DDCED8D280DF44A006A2EB5 /* ContactListEntryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListEntryVM.swift; sourceTree = "<group>"; };
 		3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
 		3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerListView.swift; sourceTree = "<group>"; };
 		3DE4283127DFDEC3006FA751 /* HintModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintModel.swift; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 				3D590207276FD91F00373871 /* LoanDetailView.swift */,
 				3D05A6D327EDAFF9002A17C1 /* LoanListView.swift */,
 				3D590209276FDDF200373871 /* SidebarMenuView.swift */,
+				3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -285,6 +290,7 @@
 				3DCCC1A427FF62BA0036A9A7 /* RemindersVM.swift */,
 				3D02550828005421004D5657 /* ViewModelProtocol.swift */,
 				3DF91381280B4D1200854B44 /* ContactsVM.swift */,
+				3DDCED8D280DF44A006A2EB5 /* ContactListEntryVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -368,7 +374,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1310;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					3D5901D2276FC92500373871 = {
 						CreatedOnToolsVersion = 13.1;
@@ -456,6 +462,7 @@
 				3D590204276FD16100373871 /* HomeView.swift in Sources */,
 				3D02550928005421004D5657 /* ViewModelProtocol.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
+				3DDCED8E280DF44A006A2EB5 /* ContactListEntryVM.swift in Sources */,
 				3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */,
 				3D8C9F4527F096B90002EA78 /* ItemCategoryFullNameView.swift in Sources */,
 				3D572C80279B40EB002618D7 /* BorrowerListVM.swift in Sources */,
@@ -476,6 +483,7 @@
 				3D572C7E279AE1E2002618D7 /* ItemListView.swift in Sources */,
 				3DF02259279701A500211124 /* AppVM.swift in Sources */,
 				3D6669B127F1941900D24C91 /* ItemImageView.swift in Sources */,
+				3DDCED8C280DF295006A2EB5 /* ContactsListView.swift in Sources */,
 				3D02550F28007E8F004D5657 /* StatusModel.swift in Sources */,
 				3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */,
 				3DF022552796FCEB00211124 /* LoanListVM.swift in Sources */,
@@ -541,6 +549,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -603,6 +612,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

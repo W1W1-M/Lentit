@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-//
+// MARK: - Views
 struct BorrowerListView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerListVM: BorrowerListVM
@@ -38,7 +38,7 @@ struct BorrowerListView: View {
         }.listStyle(.plain)
     }
 }
-//
+// MARK: -
 struct BorrowerListItemView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerListEntryVM: BorrowerListEntryVM
@@ -66,7 +66,7 @@ struct BorrowerListItemView: View {
         }
     }
 }
-//
+// MARK: -
 struct BorrowerListSheetView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerListVM: BorrowerListVM
@@ -83,7 +83,7 @@ struct BorrowerListSheetView: View {
                         Section {
                             Button {
                                 borrowerListVM.newBorrowerId = appVM.createBorrower(named: borrowerListVM.newBorrowerName)
-                                // loanVM.setLoanBorrower(to: try appVM.dataStore.readStoredBorrower(borrowerListVM.newBorrowerId))
+                                loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
                                 borrowerListVM.hideNewBorrower()
                                 appVM.sheetPresented = false
                             } label: {

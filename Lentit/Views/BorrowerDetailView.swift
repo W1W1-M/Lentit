@@ -19,7 +19,6 @@ struct BorrowerDetailView: View {
                 Form {
                     BorrowerDetailSectionView(
                         borrowerDetailVM: borrowerDetailVM,
-                        contactsVM: appVM.getContactsVM(for: borrowerDetailVM.borrower),
                         editDisabled: $editDisabled
                     ).disabled(editDisabled)
                     BorrowerHistorySectionView(borrowerDetailVM: borrowerDetailVM)
@@ -65,6 +64,13 @@ struct BorrowerDetailView: View {
                 return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
             }
         }
+        .sheet(isPresented: $appVM.sheetPresented) {
+            ContactsListView(contactsVM: ContactsVM(
+                contactsStore: appVM.contactsStore,
+                contactsAccess: appVM.contactsAccess
+            ), borrowerDetailVM: borrowerDetailVM
+            )
+        }
         .onAppear(perform: {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
@@ -77,27 +83,32 @@ struct BorrowerDetailView: View {
 }
 // MARK: -
 struct BorrowerDetailSectionView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerDetailVM: BorrowerDetailVM
-    @ObservedObject var contactsVM: ContactsVM
     @Binding var editDisabled: Bool
     var body: some View {
         Section {
-            if contactsVM.borrowerContactLink {
+            Toggle(isOn: $borrowerDetailVM.contactLink) {
+                Text("Apple iOS Contacts link")
+            }
+            if borrowerDetailVM.contactLink {
                 Button {
-                    contactsVM.checkContactsAccess()
+                    appVM.activeSheet = .contactsList
+                    appVM.sheetPresented = true
                 } label: {
                     HStack {
-                        Text("some name")
+                        Text("\(borrowerDetailVM.name)")
                         Image(systemName: "person")
                     }
                 }
             } else {
                 Button {
-                    contactsVM.checkContactsAccess()
+                    appVM.activeSheet = .contactsList
+                    appVM.sheetPresented = true
                 } label: {
                     HStack {
                         Text("Select contact")
-                        Image(systemName: "person.plus")
+                        Image(systemName: "person")
                     }
                 }
                 TextField("Name", text: $borrowerDetailVM.name).foregroundColor(editDisabled ? .secondary : .primary)
