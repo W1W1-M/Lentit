@@ -8,19 +8,18 @@
 import Foundation
 import Contacts
 /// Description
-final class ContactListEntryVM: ViewModel, ObservableObject, Identifiable {
+final class ContactListEntryVM: ViewModel, ObservableObject {
     // MARK: - Properties
     private(set) var contact: CNContact?
-    internal var id: UUID
     @Published var name: String
     @Published var borrowerContactLink: Bool
     // MARK: - Init & deinit
-    init() {
+    override init() {
         print("ContactListEntryVM init ...")
         self.contact = nil
-        self.id = UUID()
         self.name = ""
         self.borrowerContactLink = false
+        super.init()
     }
     deinit {
         print("... deinit ContactListEntryVM")

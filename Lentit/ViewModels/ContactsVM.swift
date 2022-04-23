@@ -8,9 +8,8 @@
 import Foundation
 import Contacts
 /// Contacts view model
-final class ContactsVM: ViewModel, ObservableObject, Identifiable {
+final class ContactsVM: ViewModel, ObservableObject {
 // MARK: - Properties
-    internal var id: UUID
     internal var contactsStore: CNContactStore
     internal var contactsAccess: CNAuthorizationStatus {
         didSet {
@@ -25,11 +24,11 @@ final class ContactsVM: ViewModel, ObservableObject, Identifiable {
         contactsAccess: CNAuthorizationStatus
     ) {
         print("ContactsVM init ...")
-        self.id = UUID()
         self.contactsStore = contactsStore
         self.contactsAccess = contactsAccess
         self.contacts = []
         self.contactsVMs = []
+        super.init()
         //
         checkContactsAccess()
         setContacts()

@@ -73,8 +73,8 @@ struct LoanListView: View {
     var body: some View {
         List {
             Section {
-                ForEach(appVM.loanListEntryVMs) { LoanListEntryVM in
-                    LoanListItemView(loanListEntryVM: LoanListEntryVM)
+                ForEach(appVM.loanVMs) { LoanVM in
+                    LoanListItemView(loanVM: LoanVM)
                 }
             } header: {
                 LoanListStatusView(loanListVM: appVM.loanListVM)
@@ -85,12 +85,12 @@ struct LoanListView: View {
 // MARK: -
 struct LoanListItemView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var loanListEntryVM: LoanListEntryVM
+    @ObservedObject var loanVM: LoanVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
             destination: LoanDetailView(
-                loanVM: appVM.getLoanVM(for: loanListEntryVM.id),
+                loanVM: loanVM,
                 navigationLinkIsActive: $navigationLinkIsActive
             ),
             isActive: $navigationLinkIsActive
@@ -99,37 +99,37 @@ struct LoanListItemView: View {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                    Text("\(String(loanListEntryVM.itemName.prefix(2)))")
+                    Text("\(String(loanVM.loanItemName.prefix(2)))")
                         .font(.title2)
                         .foregroundColor(.white)
                 }.padding(.horizontal, 4)
                 HStack {
-                    Text("\(loanListEntryVM.itemName)").font(.headline)
+                    Text("\(loanVM.loanItemName)").font(.headline)
                 }
                 Spacer()
                 HStack {
                     switch appVM.activeLoanSort {
                     case LoanModel.SortingOrder.byItemName:
-                        Text("\(loanListEntryVM.borrowerName)")
+                        Text("\(loanVM.loanBorrowerName)")
                             .italic()
                             .foregroundColor(Color("AccentColor"))
                     case LoanModel.SortingOrder.byBorrowerName:
-                        Text("\(loanListEntryVM.borrowerName)")
+                        Text("\(loanVM.loanBorrowerName)")
                             .italic()
                             .foregroundColor(Color("AccentColor"))
                     case LoanModel.SortingOrder.byLoanDate:
-                        Text("\(loanListEntryVM.loanDateText)")
+                        Text("\(loanVM.loanDateText)")
                             .italic()
                             .foregroundColor(Color("AccentColor"))
                     default:
-                        Text("\(loanListEntryVM.borrowerName)")
+                        Text("\(loanVM.loanBorrowerName)")
                             .italic()
                             .foregroundColor(Color("AccentColor"))
                     }
                 }
             }.padding(2)
         }.onAppear(perform: {
-            if(loanListEntryVM.loanStatus == StatusModel.new) {
+            if(loanVM.status == StatusModel.new) {
                 print("Programmatic navigation to new loan ...")
                 navigationLinkIsActive = true
             }
@@ -192,7 +192,7 @@ struct LoanListView_Previews: PreviewProvider {
             .environmentObject(AppVM())
             .previewLayout(.sizeThatFits)
         //
-        LoanListItemView(loanListEntryVM: LoanListEntryVM())
+        LoanListItemView(loanVM: LoanVM())
             .environmentObject(AppVM())
             .previewLayout(.sizeThatFits)
         //

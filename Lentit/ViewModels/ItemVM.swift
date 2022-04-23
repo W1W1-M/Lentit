@@ -7,10 +7,9 @@
 
 import Foundation
 /// Item view model
-class ItemVM: ViewModel, ObservableObject, Identifiable, Equatable, Hashable {
+class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
     private(set) var item: ItemModel
-    internal var id: UUID
     private(set) var loanIds: Set<UUID>
     @Published var nameText: String {
         didSet {
@@ -40,10 +39,9 @@ class ItemVM: ViewModel, ObservableObject, Identifiable, Equatable, Hashable {
     }
     @Published var loanCount: Int
 // MARK: - Init & deinit
-    init() {
+    override init() {
         print("ItemVM init ...")
         self.item = ItemModel.defaultData
-        self.id = ItemModel.defaultData.id
         self.loanIds = ItemModel.defaultData.loanIds
         self.nameText = ItemModel.defaultData.name
         self.notes = ItemModel.defaultData.notes
@@ -52,6 +50,7 @@ class ItemVM: ViewModel, ObservableObject, Identifiable, Equatable, Hashable {
         self.category = ItemModel.defaultData.category
         self.status = ItemModel.defaultData.status
         self.loanCount = 0
+        super.init()
         //
         self.loanCount = countItemLoans()
     }

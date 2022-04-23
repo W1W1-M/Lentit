@@ -7,9 +7,27 @@
 
 import Foundation
 /// View model protocol
-protocol ViewModel {
+protocol ViewModelProtocol: AnyObject {
 // MARK: - Properties
     var id: UUID { get set }
 // MARK: - Methods
-    
+    func setVM(from model: Model)
+}
+/// Description
+class ViewModel: ViewModelProtocol, Identifiable {
+// MARK: - Properties
+    internal var id: UUID
+// MARK: - Init & deinit
+    init() {
+        print("ViewModel init ...")
+        self.id = UUID()
+    }
+    deinit {
+        print("... deinit ViewModel")
+    }
+// MARK: - Methods
+    func setVM(from model: Model) {
+        print("setVM ...")
+        self.id = model.id
+    }
 }

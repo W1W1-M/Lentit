@@ -8,7 +8,7 @@
 import Foundation
 import EventKit
 /// Data model for a item loan
-class LoanModel: Model, ObservableObject, Identifiable, Equatable {
+final class LoanModel: Model, ObservableObject, Identifiable, Equatable {
 // MARK: - Properties
     let id: UUID
     var loanDate: Date

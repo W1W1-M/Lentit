@@ -38,7 +38,6 @@
 		3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D590209276FDDF200373871 /* SidebarMenuView.swift */; };
 		3D6669B127F1941900D24C91 /* ItemImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6669B027F1941900D24C91 /* ItemImageView.swift */; };
 		3D6669B327F19EA500D24C91 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D6669B227F19EA500D24C91 /* SaveButtonView.swift */; };
-		3D80ABC227F9B33A00A58DA7 /* LoanListEntryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D80ABC127F9B33A00A58DA7 /* LoanListEntryVM.swift */; };
 		3D8C9F4527F096B90002EA78 /* ItemCategoryFullNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4427F096B90002EA78 /* ItemCategoryFullNameView.swift */; };
 		3D8C9F4927F098E30002EA78 /* StatusNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4827F098E30002EA78 /* StatusNameView.swift */; };
 		3D8C9F4B27F09D120002EA78 /* EditButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D8C9F4A27F09D120002EA78 /* EditButtonView.swift */; };
@@ -116,7 +115,6 @@
 		3D590209276FDDF200373871 /* SidebarMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarMenuView.swift; sourceTree = "<group>"; };
 		3D6669B027F1941900D24C91 /* ItemImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImageView.swift; sourceTree = "<group>"; };
 		3D6669B227F19EA500D24C91 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
-		3D80ABC127F9B33A00A58DA7 /* LoanListEntryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListEntryVM.swift; sourceTree = "<group>"; };
 		3D8C9F4427F096B90002EA78 /* ItemCategoryFullNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategoryFullNameView.swift; sourceTree = "<group>"; };
 		3D8C9F4827F098E30002EA78 /* StatusNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusNameView.swift; sourceTree = "<group>"; };
 		3D8C9F4A27F09D120002EA78 /* EditButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButtonView.swift; sourceTree = "<group>"; };
@@ -284,7 +282,6 @@
 				3D52612027FB742D00E8D739 /* ItemListEntryVM.swift */,
 				3D572C81279B44D3002618D7 /* ItemListVM.swift */,
 				3DF0225A2797591600211124 /* ItemVM.swift */,
-				3D80ABC127F9B33A00A58DA7 /* LoanListEntryVM.swift */,
 				3DF022542796FCEB00211124 /* LoanListVM.swift */,
 				3DF022562796FE2B00211124 /* LoanVM.swift */,
 				3DCCC1A427FF62BA0036A9A7 /* RemindersVM.swift */,
@@ -453,7 +450,6 @@
 				3D572C82279B44D3002618D7 /* ItemListVM.swift in Sources */,
 				3D590208276FD91F00373871 /* LoanDetailView.swift in Sources */,
 				3DF0225D2797592B00211124 /* ItemModel.swift in Sources */,
-				3D80ABC227F9B33A00A58DA7 /* LoanListEntryVM.swift in Sources */,
 				3D6669B327F19EA500D24C91 /* SaveButtonView.swift in Sources */,
 				3DF91382280B4D1200854B44 /* ContactsVM.swift in Sources */,
 				3D8EAD8827FE17B800EC4DB9 /* ActiveStatusIconView.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import Foundation
 /// Model protocol
-protocol Model {
+protocol Model: AnyObject {
 // MARK: - Properties
     var id: UUID { get }
     var status: StatusModel { get set }

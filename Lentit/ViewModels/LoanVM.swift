@@ -8,12 +8,19 @@
 import Foundation
 import EventKit
 /// Loan view model
-class LoanVM: ObservableObject, Identifiable {
+final class LoanVM: ViewModel, ObservableObject {
 // MARK: - Properties
     private(set) var loan: LoanModel
-    private(set) var loanItem: ItemModel
-    private(set) var loanBorrower: BorrowerModel
-    private(set) var id: UUID
+    private(set) var loanItem: ItemModel {
+        didSet {
+            self.loanItemName = loanItem.name
+        }
+    }
+    private(set) var loanBorrower: BorrowerModel {
+        didSet {
+            self.loanBorrowerName = loanBorrower.name
+        }
+    }
     @Published var loanDate: Date {
         didSet{
             loan.loanDate = self.loanDate
@@ -36,12 +43,11 @@ class LoanVM: ObservableObject, Identifiable {
     @Published var loanItemName: String
     @Published var loanItemCategory: ItemModel.Category
 // MARK: - Init & deinit
-    init() {
+    override init() {
         print("LoanVM init ...")
         self.loan = LoanModel.defaultData
         self.loanItem = ItemModel.defaultData
         self.loanBorrower = BorrowerModel.defaultData
-        self.id = LoanModel.defaultData.id
         self.loanDate = LoanModel.defaultData.loanDate
         self.loanDateText = "\(LoanModel.defaultData.loanDate)"
         self.returned = LoanModel.defaultData.returned
@@ -49,7 +55,9 @@ class LoanVM: ObservableObject, Identifiable {
         self.loanBorrowerName = BorrowerModel.defaultData.name
         self.loanItemName = ItemModel.defaultData.name
         self.loanItemCategory = ItemModel.defaultData.category
+        super.init()
         //
+        self.id = LoanModel.defaultData.id
         self.loanDateText = setLoanDateText(for: loanDate)
     }
     deinit {

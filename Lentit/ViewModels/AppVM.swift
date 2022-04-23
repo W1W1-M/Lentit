@@ -11,12 +11,11 @@ import Contacts
 /// Lentit app view model
 final class AppVM: ViewModel, ObservableObject {
 // MARK: - Properties
-    internal var id: UUID
     @Published var dataStore: DataStoreModel {
         didSet {
             switch activeElement {
             case .Loans:
-                self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
+                self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
             case .Items:
                 self.itemListEntryVMs = setItemListEntryVMs(for: dataStore.readStoredItems())
             case .Borrowers:
@@ -25,9 +24,9 @@ final class AppVM: ViewModel, ObservableObject {
         }
     }
     // List entry view models
-    @Published var loanListEntryVMs: Array<LoanListEntryVM> {
+    @Published var loanVMs: Array<LoanVM> {
         didSet {
-            loanListVM.setLoansCount(for: loanListEntryVMs)
+            loanListVM.setLoansCount(for: loanVMs)
         }
     }
     @Published var itemListEntryVMs: Array<ItemListEntryVM> {
@@ -49,10 +48,10 @@ final class AppVM: ViewModel, ObservableObject {
         didSet {
             switch activeElement {
             case .Loans:
-                self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
-                self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeItemCategory)
-                self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
-                self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
+                self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
+                self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
+                self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
+                self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
             case .Items:
                 self.itemListEntryVMs = setItemListEntryVMs(for: dataStore.readStoredItems())
                 self.itemListEntryVMs = filterItemListEntryVMs(for: itemListEntryVMs, by: activeItemCategory)
@@ -76,15 +75,15 @@ final class AppVM: ViewModel, ObservableObject {
     }
     @Published var activeLoanSort: LoanModel.SortingOrder {
         didSet {
-            self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
+            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
         }
     }
     @Published var activeLoanStatus: StatusModel {
         didSet {
-            self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
-            self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
-            self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeItemCategory)
-            self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
+            self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
+            self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
+            self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
         }
     }
     @Published var activeBorrowerStatus: StatusModel {
@@ -108,10 +107,10 @@ final class AppVM: ViewModel, ObservableObject {
             case .Loans:
                 self.activeLoanStatus = .current
                 self.activeItemCategory = .all
-                self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
-                self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
-                self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeItemCategory)
-                self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
+                self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
+                self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
+                self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
+                self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
             case .Items:
                 self.activeItemStatus = .all
                 self.activeItemCategory = .all
@@ -141,12 +140,11 @@ final class AppVM: ViewModel, ObservableObject {
     internal var contactsStore: CNContactStore
     internal var contactsAccess: CNAuthorizationStatus
 // MARK: - Init & deinit
-    init() {
+    override init() {
         print("AppVM init ...")
         // Initialize properties
-        self.id = UUID()
         self.dataStore = DataStoreModel()
-        self.loanListEntryVMs = []
+        self.loanVMs = []
         self.itemListEntryVMs = []
         self.borrowerListEntryVMs = []
         self.loanListVM = LoanListVM()
@@ -170,11 +168,12 @@ final class AppVM: ViewModel, ObservableObject {
         self.remindersDefaultCalendar = nil
         self.contactsStore = CNContactStore()
         self.contactsAccess = .notDetermined
+        super.init()
         // Set properties
-        self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
-        self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanStatus)
-        self.loanListEntryVMs = filterLoanListEntryVMs(for: loanListEntryVMs, by: activeItemCategory)
-        self.loanListEntryVMs = sortLoanListEntryVMs(for: loanListEntryVMs, by: activeLoanSort)
+        self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
+        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
+        self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
+        self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
         self.itemListEntryVMs = setItemListEntryVMs(for: dataStore.readStoredItems())
         self.borrowerListEntryVMs = setBorrowerListEntryVMs(for: dataStore.readStoredBorrowers())
     }
@@ -186,18 +185,18 @@ final class AppVM: ViewModel, ObservableObject {
         
     }
 // MARK: - Loan
-    func setLoanListEntryVMs(for loans: [LoanModel], _ items: [ItemModel], _ borrowers: [BorrowerModel]) -> [LoanListEntryVM] {
-        print("setLoanListEntryVMs ...")
-        var loanListEntryVMs: [LoanListEntryVM] = []
+    func setLoanVMs(for loans: [LoanModel], _ items: [ItemModel], _ borrowers: [BorrowerModel]) -> [LoanVM] {
+        print("setLoanVMs ...")
+        var loanVMs: [LoanVM] = []
         for loan in loans {
             let loanItem = getLoanItem(in: items, for: loan)
             let loanBorrower = getLoanBorrower(in: borrowers, for: loan)
-            let loanListEntryVM = LoanListEntryVM()
-            loanListEntryVM.setVM(from: loan, loanItem, loanBorrower)
-            loanListEntryVMs.append(loanListEntryVM)
+            let loanVM = LoanVM()
+            loanVM.setVM(from: loan, loanItem, loanBorrower)
+            loanVMs.append(loanVM)
         }
-        print("... setLoanListEntryVMs")
-        return loanListEntryVMs
+        print("... setLoanVMs")
+        return loanVMs
     }
     func createEmptyLoan() {
         print("createEmptyLoan ...")
@@ -220,7 +219,7 @@ final class AppVM: ViewModel, ObservableObject {
     func deleteLoan(for loanVM: LoanVM) {
         print("deleteLoan \(loanVM.id) ...")
         self.dataStore.deleteLoan(oldLoan: loanVM.loan)
-        self.loanListEntryVMs = setLoanListEntryVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
+        self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
     }
     func getLoanVM(for id: UUID) -> LoanVM {
         print("getLoanVM ...")
@@ -240,7 +239,7 @@ final class AppVM: ViewModel, ObservableObject {
                 loanBorrower = BorrowerModel.defaultData
             }
             let loanVM = LoanVM()
-            loanVM.setLoanVM(from: loan, loanItem, loanBorrower)
+            loanVM.setVM(from: loan, loanItem, loanBorrower)
             print("... getLoanVM \(id)")
             return loanVM
         } catch {
@@ -248,11 +247,11 @@ final class AppVM: ViewModel, ObservableObject {
             return LoanVM()
         }
     }
-    func getLoanListEntryVM(with id: UUID, in loanListEntryVMs: [LoanListEntryVM]) -> LoanListEntryVM {
-        if let loanListEntryVM = loanListEntryVMs.first(where: { $0.id == id }) {
-            return loanListEntryVM
+    func getLoanVM(with id: UUID, in loanVMs: [LoanVM]) -> LoanVM {
+        if let loanVM = loanVMs.first(where: { $0.id == id }) {
+            return loanVM
         } else {
-            return LoanListEntryVM()
+            return LoanVM()
         }
     }
     func getLoanItemVM(in itemVMs: [ItemVM], for loan: LoanModel) -> ItemVM {
@@ -291,48 +290,48 @@ final class AppVM: ViewModel, ObservableObject {
         }
         return loanBorrower
     }
-    func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeCategory: ItemModel.Category) -> [LoanListEntryVM] {
+    func filterLoanVMs(for loanVMs: [LoanVM], by activeCategory: ItemModel.Category) -> [LoanVM] {
         if(activeCategory == ItemModel.Category.all) {
-            return loanListEntryVMs
+            return loanVMs
         } else {
-            return loanListEntryVMs.filter { $0.itemCategory == activeCategory }
+            return loanVMs.filter { $0.loanItemCategory == activeCategory }
         }
     }
-    func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeStatus: StatusModel) -> [LoanListEntryVM] {
+    func filterLoanVMs(for loanVMs: [LoanVM], by activeStatus: StatusModel) -> [LoanVM] {
         if(activeStatus == .all) {
-            return loanListEntryVMs
+            return loanVMs
         } else {
-            return loanListEntryVMs.filter { $0.loanStatus == activeStatus }
+            return loanVMs.filter { $0.status == activeStatus }
         }
     }
-    func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeBorrower: BorrowerVM) -> [LoanListEntryVM] {
-        loanListEntryVMs.filter { $0.borrowerName == activeBorrower.name } // WIP
+    func filterLoanVMs(for loanVMs: [LoanVM], by activeBorrower: BorrowerVM) -> [LoanVM] {
+        loanVMs.filter { $0.loanBorrowerName == activeBorrower.name } // WIP
     }
-    func filterLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeItem: ItemVM) -> [LoanListEntryVM] {
-        loanListEntryVMs.filter { $0.itemName == activeItem.nameText } // WIP
+    func filterLoanVMs(for loanVMs: [LoanVM], by activeItem: ItemVM) -> [LoanVM] {
+        loanVMs.filter { $0.loanItemName == activeItem.nameText } // WIP
     }
-    func sortLoanListEntryVMs(for loanListEntryVMs: [LoanListEntryVM], by activeSort: LoanModel.SortingOrder) -> [LoanListEntryVM] {
-        var sortedLoanListEntryVMs = loanListEntryVMs
+    func sortLoanVMs(for loanVMs: [LoanVM], by activeSort: LoanModel.SortingOrder) -> [LoanVM] {
+        var sortedLoanVMs = loanVMs
         // Use switch case to sort array
         switch activeSort {
         case LoanModel.SortingOrder.byItemName:
-            sortedLoanListEntryVMs.sort {
-                $0.itemName < $1.itemName
+            sortedLoanVMs.sort {
+                $0.loanItemName < $1.loanItemName
             }
         case LoanModel.SortingOrder.byBorrowerName:
-            sortedLoanListEntryVMs.sort {
-                $0.borrowerName < $1.borrowerName
+            sortedLoanVMs.sort {
+                $0.loanBorrowerName < $1.loanBorrowerName
             }
         case LoanModel.SortingOrder.byLoanDate:
-            sortedLoanListEntryVMs.sort {
+            sortedLoanVMs.sort {
                 $0.loanDate < $1.loanDate
             }
         default:
-            sortedLoanListEntryVMs.sort {
+            sortedLoanVMs.sort {
                 $0.id < $1.id
             }
         }
-        return sortedLoanListEntryVMs
+        return sortedLoanVMs
     }
 // MARK: - Item
     func setItemListEntryVMs(for items: [ItemModel]) -> [ItemListEntryVM] {

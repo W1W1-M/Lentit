@@ -7,10 +7,9 @@
 
 import Foundation
 /// Borrower view model
-class BorrowerVM: ViewModel, ObservableObject, Identifiable, Equatable, Hashable {
+class BorrowerVM: ViewModel, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
     private(set) var borrower: BorrowerModel
-    internal var id: UUID
     @Published var name: String {
         didSet {
             self.borrower.name = name
@@ -20,14 +19,14 @@ class BorrowerVM: ViewModel, ObservableObject, Identifiable, Equatable, Hashable
     @Published var loanCount: Int
     @Published var contactLink: Bool
 // MARK: - Init & deinit
-    init() {
+    override init() {
         print("BorrowerVM init ...")
         self.borrower = BorrowerModel.defaultData
-        self.id = BorrowerModel.defaultData.id
         self.name = BorrowerModel.defaultData.name
         self.status = StatusModel.unknown
         self.loanCount = 0
         self.contactLink = BorrowerModel.defaultData.contactLink
+        super.init()
     }
     deinit {
         print("... deinit BorrowerVM")

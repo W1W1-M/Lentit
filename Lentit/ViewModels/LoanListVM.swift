@@ -19,8 +19,8 @@ class LoanListVM: ObservableObject {
         print("... deinit LoanListVM")
     }
 // MARK: - Methods
-    func setLoansCount(for LoanListEntryVMs: [LoanListEntryVM]) {
-        self.loansCount = LoanListEntryVMs.count
+    func setLoansCount(for LoanVMs: [LoanVM]) {
+        self.loansCount = LoanVMs.count
     }
     
 }
