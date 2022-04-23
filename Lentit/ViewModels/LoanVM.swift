@@ -55,11 +55,12 @@ final class LoanVM: ViewModel, ObservableObject {
         self.loanDateText = setLoanDateText(for: loanDate)
     }
     deinit {
-        print("... deinit LoanVM")
+        print("... deinit LoanVM \(id)")
     }
 // MARK: - Methods
     func setVM(from loan: LoanModel, _ loanItem: ItemModel, _ loanBorrower: BorrowerModel) {
         print("setLoanVM ...")
+        self.model = loan
         self.loan = loan
         self.loanItem = loanItem
         self.loanBorrower = loanBorrower
@@ -70,7 +71,6 @@ final class LoanVM: ViewModel, ObservableObject {
         self.loanBorrowerName = loanBorrower.name
         self.loanItemName = loanItem.name
         self.loanItemCategory = loanItem.category
-        self.loan = loan
         print("... setLoanVM \(id)")
     }
     func setLoanDateText(for loanDate: Date) -> String {

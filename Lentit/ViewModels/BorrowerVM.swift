@@ -29,10 +29,11 @@ class BorrowerVM: ViewModel, ObservableObject, Equatable, Hashable {
         super.init()
     }
     deinit {
-        print("... deinit BorrowerVM")
+        print("... deinit BorrowerVM \(id)")
     }
 // MARK: - Methods
     func setVM(from borrower: BorrowerModel) {
+        self.model = borrower
         self.borrower = borrower
         self.id = borrower.id // Shared with borrower data object
         self.name = borrower.name

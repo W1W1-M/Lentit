@@ -49,10 +49,11 @@ class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
         self.loanCount = countItemLoans()
     }
     deinit {
-        print("... deinit ItemVM")
+        print("... deinit ItemVM \(id)")
     }
 // MARK: - Methods
     func setVM(from item: ItemModel) {
+        self.model = item
         self.item = item
         self.id = item.id
         self.loanIds = item.loanIds

@@ -18,7 +18,7 @@ protocol ViewModelProtocol: AnyObject {
 class ViewModel: ViewModelProtocol, Identifiable {
 // MARK: - Properties
     internal var id: UUID
-    private(set) var model: Model
+    internal var model: Model
     @Published var status: StatusModel {
         didSet {
             self.model.status = status
