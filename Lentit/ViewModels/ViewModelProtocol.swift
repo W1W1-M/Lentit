@@ -23,7 +23,7 @@ class ViewModel: ViewModelProtocol, Identifiable {
         self.id = UUID()
     }
     deinit {
-        print("... deinit ViewModel")
+        print("... deinit ViewModel \(id)")
     }
 // MARK: - Methods
     func setVM(from model: Model) {

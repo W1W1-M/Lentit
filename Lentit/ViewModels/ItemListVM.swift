@@ -27,8 +27,8 @@ class ItemListVM: ObservableObject {
         print("... deinit ItemListVM")
     }
 // MARK: - Methods
-    func setItemsCount(for itemListEntryVMs: [ItemListEntryVM]) {
-        self.itemsCount = itemListEntryVMs.count
+    func setItemsCount(for itemVMs: [ItemVM]) {
+        self.itemsCount = itemVMs.count
     }
     func showNewItem() {
         resetNewItem()

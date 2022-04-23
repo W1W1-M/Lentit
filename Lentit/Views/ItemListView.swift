@@ -56,8 +56,8 @@ struct ItemListView: View {
     var body: some View {
         List {
             Section {
-                ForEach(appVM.itemListEntryVMs) { ItemListEntryVM in
-                    ItemListItemView(itemListEntryVM: ItemListEntryVM)
+                ForEach(appVM.itemVMs) { ItemVM in
+                    ItemListItemView(itemVM: ItemVM)
                 }
             } header: {
                 ItemListStatusView(itemListVM: appVM.itemListVM)
@@ -68,12 +68,12 @@ struct ItemListView: View {
 // MARK: -
 struct ItemListItemView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var itemListEntryVM: ItemListEntryVM
+    @ObservedObject var itemVM: ItemVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
             destination: ItemDetailView(
-                itemVM: appVM.getItemVM(for: itemListEntryVM.id),
+                itemVM: appVM.getItemVM(for: itemVM.id),
                 navigationLinkIsActive: $navigationLinkIsActive
             ),
             isActive: $navigationLinkIsActive
@@ -82,17 +82,17 @@ struct ItemListItemView: View {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                    Text("\(String(itemListEntryVM.name.prefix(2)))")
+                    Text("\(String(itemVM.name.prefix(2)))")
                         .font(.title2)
                         .foregroundColor(.white)
                 }.padding(.horizontal, 4)
-                Text("\(itemListEntryVM.name)").foregroundColor(.primary)
+                Text("\(itemVM.name)").foregroundColor(.primary)
                 Spacer()
-                Text("\(itemListEntryVM.category.emoji)")
+                Text("\(itemVM.category.emoji)")
             }
         }.onAppear(perform: {
             // Programmatic navigation to newly added item
-            if(itemListEntryVM.status == StatusModel.new) {
+            if(itemVM.status == StatusModel.new) {
                 navigationLinkIsActive = true
             }
         })
@@ -178,10 +178,10 @@ struct ItemListSheetView: View {
                         }.listRowBackground(Color("InvertedAccentColor"))
                     }
                     Section(header: Text("\(itemListVM.itemsCount) items")) {
-                        ForEach(appVM.itemListEntryVMs) { ItemListEntryVM in
+                        ForEach(appVM.itemVMs) { ItemVM in
                             ItemListItemButtonView(
                                 loanVM: loanVM,
-                                itemListEntryVM: ItemListEntryVM
+                                itemVM: ItemVM
                             )
                         }
                     }
@@ -219,39 +219,39 @@ struct ItemListSheetView: View {
 struct ItemListItemButtonView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @ObservedObject var itemListEntryVM : ItemListEntryVM
+    @ObservedObject var itemVM : ItemVM
     var body: some View {
         Button {
-            loanVM.setLoanItem(to: itemListEntryVM.item)
+            loanVM.setLoanItem(to: itemVM.item)
             appVM.sheetPresented = false
         } label: {
             HStack {
                 ZStack {
                     Circle()
                         .frame(width: 50, height: 50)
-                    Text("\(String(itemListEntryVM.name.prefix(2)))")
+                    Text("\(String(itemVM.name.prefix(2)))")
                         .font(.title)
                         .foregroundColor(.white)
                 }.padding(.horizontal, 4)
                 VStack {
                     HStack {
-                        Text("\(itemListEntryVM.name)")
+                        Text("\(itemVM.name)")
                             .font(.headline)
                             .foregroundColor(.primary)
                         Spacer()
                     }.padding(2)
                     HStack {
-                        ItemCategoryFullNameView(itemCategory: itemListEntryVM.category)
+                        ItemCategoryFullNameView(itemCategory: itemVM.category)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         Spacer()
                     }.padding(2)
                 }
                 HStack {
-                    if(loanVM.loanItem.id == itemListEntryVM.id) {
+                    if(loanVM.loanItem.id == itemVM.id) {
                         Image(systemName: "checkmark").imageScale(.large)
                     } else {
-                        Image(systemName: "\(itemListEntryVM.status.symbolName)").imageScale(.large)
+                        Image(systemName: "\(itemVM.status.symbolName)").imageScale(.large)
                     }
                 }
             }.padding(2)
@@ -277,7 +277,7 @@ struct ItemListView_Previews: PreviewProvider {
         //
         ItemListItemButtonView(
             loanVM: LoanVM(),
-            itemListEntryVM: ItemListEntryVM()
+            itemVM: ItemVM()
         ).previewLayout(.sizeThatFits)
     }
 }

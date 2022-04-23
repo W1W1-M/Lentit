@@ -35,7 +35,7 @@ struct ItemDetailView: View {
                     }
                 }
             }
-        }.navigationTitle("\(itemVM.nameText)")
+        }.navigationTitle("\(itemVM.name)")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
@@ -48,7 +48,7 @@ struct ItemDetailView: View {
             switch appVM.activeAlert {
             case .deleteItem:
                 return Alert(
-                    title: Text("Delete \(itemVM.nameText)"),
+                    title: Text("Delete \(itemVM.name)"),
                     message: Text("Are you sure you want to delete this item ?"),
                     primaryButton: .default(
                         Text("Cancel")
@@ -91,7 +91,7 @@ struct ItemDetailSectionView: View {
     let editDisabled: Bool
     var body: some View {
         Section(header: ItemDetailSectionHeaderView(itemVM: itemVM)) {
-            TextField("Name", text: $itemVM.nameText).foregroundColor(editDisabled ? .secondary : .primary)
+            TextField("Name", text: $itemVM.name).foregroundColor(editDisabled ? .secondary : .primary)
             HStack {
                 Text("Category").foregroundColor(.secondary)
                 Spacer()

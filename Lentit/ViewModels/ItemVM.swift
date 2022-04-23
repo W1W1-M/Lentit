@@ -11,9 +11,9 @@ class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
     private(set) var item: ItemModel
     private(set) var loanIds: Set<UUID>
-    @Published var nameText: String {
+    @Published var name: String {
         didSet {
-            item.name = self.nameText
+            item.name = self.name
         }
     }
     @Published var notes: String {
@@ -43,7 +43,7 @@ class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
         print("ItemVM init ...")
         self.item = ItemModel.defaultData
         self.loanIds = ItemModel.defaultData.loanIds
-        self.nameText = ItemModel.defaultData.name
+        self.name = ItemModel.defaultData.name
         self.notes = ItemModel.defaultData.notes
         self.value = ItemModel.defaultData.value
         self.valueText = ""
@@ -62,7 +62,7 @@ class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
         self.item = item
         self.id = item.id
         self.loanIds = item.loanIds
-        self.nameText = item.name
+        self.name = item.name
         self.notes = item.notes
         self.value = item.value
         self.valueText = setItemValueText(for: self.value)

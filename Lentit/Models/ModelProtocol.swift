@@ -25,7 +25,7 @@ class Model: ModelProtocol, Identifiable {
         self.status = status
     }
     deinit {
-        print("... deinit Model")
+        print("... deinit Model \(id)")
     }
     // MARK: - Methods
 }
