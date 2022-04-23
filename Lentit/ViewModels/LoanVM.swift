@@ -64,7 +64,7 @@ final class LoanVM: ViewModel, ObservableObject {
         print("... deinit LoanVM")
     }
 // MARK: - Methods
-    func setLoanVM(from loan: LoanModel, _ loanItem: ItemModel, _ loanBorrower: BorrowerModel) {
+    func setVM(from loan: LoanModel, _ loanItem: ItemModel, _ loanBorrower: BorrowerModel) {
         print("setLoanVM ...")
         self.loan = loan
         self.loanItem = loanItem

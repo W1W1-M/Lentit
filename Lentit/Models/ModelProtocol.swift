@@ -7,10 +7,25 @@
 
 import Foundation
 /// Model protocol
-protocol Model: AnyObject {
+protocol ModelProtocol: AnyObject {
 // MARK: - Properties
     var id: UUID { get }
     var status: StatusModel { get set }
 // MARK: - Methods
-    
+}
+/// Description
+class Model: ModelProtocol, Identifiable {
+    // MARK: - Properties
+    internal var id: UUID
+    internal var status: StatusModel
+    // MARK: - Init & deinit
+    init(status: StatusModel) {
+        print("Model init ...")
+        self.id = UUID()
+        self.status = status
+    }
+    deinit {
+        print("... deinit Model")
+    }
+    // MARK: - Methods
 }

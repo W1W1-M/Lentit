@@ -7,11 +7,9 @@
 
 import Foundation
 /// Data model for a person who borrows an item
-final class BorrowerModel: Model, ObservableObject, Identifiable, Equatable, Hashable {
+final class BorrowerModel: Model, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
-    let id: UUID
     var name: String
-    var status: StatusModel
     var contactLink: Bool
     var contactId: String?
     var loanIds: Set<UUID>
@@ -24,12 +22,11 @@ final class BorrowerModel: Model, ObservableObject, Identifiable, Equatable, Has
         loanIds: Set<UUID>
     ) {
         print("BorrowerModel init ...")
-        self.id = UUID()
         self.name = name
-        self.status = status
         self.contactLink = false
         self.contactId = contactId
         self.loanIds = []
+        super.init(status: status)
     }
     deinit {
         print("BorrowerModel init ...")

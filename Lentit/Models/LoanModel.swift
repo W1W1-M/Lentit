@@ -8,9 +8,8 @@
 import Foundation
 import EventKit
 /// Data model for a item loan
-final class LoanModel: Model, ObservableObject, Identifiable, Equatable {
+final class LoanModel: Model, ObservableObject, Equatable {
 // MARK: - Properties
-    let id: UUID
     var loanDate: Date
     var loanTime: TimeInterval
     var loanExpiry: Date {
@@ -20,7 +19,6 @@ final class LoanModel: Model, ObservableObject, Identifiable, Equatable {
     var reminderDate: Date?
     var reminderActive: Bool
     var returned: Bool
-    var status: StatusModel
     var itemId: UUID?
     var borrowerId: UUID?
 // MARK: - Init & deinit
@@ -36,16 +34,15 @@ final class LoanModel: Model, ObservableObject, Identifiable, Equatable {
         borrowerId: UUID?
     ) {
         print("LoanModel init ...")
-        self.id = UUID()
         self.loanDate = loanDate
         self.loanTime = loanTime
         self.ekReminderId = ekReminderId
         self.reminderDate = reminderDate
         self.reminderActive = reminderActive
         self.returned = returned
-        self.status = status
         self.itemId = itemId
         self.borrowerId = borrowerId
+        super.init(status: status)
     }
     deinit {
         print("... deinit LoanModel")

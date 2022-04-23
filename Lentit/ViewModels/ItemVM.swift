@@ -58,16 +58,16 @@ class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
         print("... deinit ItemVM")
     }
 // MARK: - Methods
-    func setVM(from itemModel: ItemModel) {
-        self.item = itemModel
-        self.id = itemModel.id
-        self.loanIds = itemModel.loanIds
-        self.nameText = itemModel.name
-        self.notes = itemModel.notes
-        self.value = itemModel.value
+    func setVM(from item: ItemModel) {
+        self.item = item
+        self.id = item.id
+        self.loanIds = item.loanIds
+        self.nameText = item.name
+        self.notes = item.notes
+        self.value = item.value
         self.valueText = setItemValueText(for: self.value)
-        self.category = itemModel.category
-        self.status = itemModel.status
+        self.category = item.category
+        self.status = item.status
         self.loanCount = countItemLoans()
     }
     func countItemLoans() -> Int {

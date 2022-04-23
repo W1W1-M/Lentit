@@ -7,14 +7,12 @@
 
 import Foundation
 /// Data model for lent item
-class ItemModel: Model, ObservableObject, Identifiable, Equatable, Hashable {
+final class ItemModel: Model, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
-    let id: UUID
     var name: String
     var notes: String
     var value: Int
     var category: ItemModel.Category
-    var status: StatusModel
     var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
@@ -26,13 +24,12 @@ class ItemModel: Model, ObservableObject, Identifiable, Equatable, Hashable {
         loanIds: Set<UUID>
     ) {
         print("ItemModel init ...")
-        self.id = UUID()
         self.name = name
         self.notes = notes
         self.value = value
         self.category = category
-        self.status = status
         self.loanIds = loanIds
+        super.init(status: status)
     }
     deinit {
         print("... deinit ItemModel")

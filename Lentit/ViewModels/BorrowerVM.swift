@@ -32,13 +32,13 @@ class BorrowerVM: ViewModel, ObservableObject, Equatable, Hashable {
         print("... deinit BorrowerVM")
     }
 // MARK: - Methods
-    func setVM(from borrowerModel: BorrowerModel) {
-        self.borrower = borrowerModel
-        self.id = borrowerModel.id // Shared with borrower data object
-        self.name = borrowerModel.name
-        self.status = borrowerModel.status
-        self.loanCount = countBorrowerLoans(for: borrowerModel)
-        self.contactLink = borrowerModel.contactLink
+    func setVM(from borrower: BorrowerModel) {
+        self.borrower = borrower
+        self.id = borrower.id // Shared with borrower data object
+        self.name = borrower.name
+        self.status = borrower.status
+        self.loanCount = countBorrowerLoans(for: borrower)
+        self.contactLink = borrower.contactLink
     }
     func countBorrowerLoans(for borrower: BorrowerModel) -> Int {
         borrower.loanIds.count
