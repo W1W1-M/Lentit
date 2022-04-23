@@ -34,30 +34,24 @@ final class LoanVM: ViewModel, ObservableObject {
             setReturnedLoanStatus()
         }
     }
-    @Published var status: StatusModel {
-        didSet{
-            loan.status = self.status
-        }
-    }
     @Published var loanBorrowerName: String
     @Published var loanItemName: String
     @Published var loanItemCategory: ItemModel.Category
 // MARK: - Init & deinit
     override init() {
         print("LoanVM init ...")
-        self.loan = LoanModel.defaultData
-        self.loanItem = ItemModel.defaultData
-        self.loanBorrower = BorrowerModel.defaultData
-        self.loanDate = LoanModel.defaultData.loanDate
-        self.loanDateText = "\(LoanModel.defaultData.loanDate)"
-        self.returned = LoanModel.defaultData.returned
-        self.status = LoanModel.defaultData.status
-        self.loanBorrowerName = BorrowerModel.defaultData.name
-        self.loanItemName = ItemModel.defaultData.name
-        self.loanItemCategory = ItemModel.defaultData.category
+        self.loan = LoanModel.defaultLoanData
+        self.loanItem = ItemModel.defaultItemData
+        self.loanBorrower = BorrowerModel.defaultBorrowerData
+        self.loanDate = LoanModel.defaultLoanData.loanDate
+        self.loanDateText = "\(LoanModel.defaultLoanData.loanDate)"
+        self.returned = LoanModel.defaultLoanData.returned
+        self.loanBorrowerName = BorrowerModel.defaultBorrowerData.name
+        self.loanItemName = ItemModel.defaultItemData.name
+        self.loanItemCategory = ItemModel.defaultItemData.category
         super.init()
         //
-        self.id = LoanModel.defaultData.id
+        self.id = LoanModel.defaultLoanData.id
         self.loanDateText = setLoanDateText(for: loanDate)
     }
     deinit {

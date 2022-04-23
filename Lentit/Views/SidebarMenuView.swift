@@ -75,18 +75,18 @@ struct CategoriesListMenuItems: View {
 struct BorrowersListMenuItems: View {
     @EnvironmentObject var appVM: AppVM
     var body: some View {
-        ForEach(appVM.borrowerListEntryVMs) { BorrowerListEntryVM in
+        ForEach(appVM.borrowerVMs) { BorrowerVM in
             Button {
-                appVM.activeBorrower.name = BorrowerListEntryVM.name
+                appVM.activeBorrower.name = BorrowerVM.name
             } label: {
-                if(appVM.activeBorrower.id == BorrowerListEntryVM.id) {
+                if(appVM.activeBorrower.id == BorrowerVM.id) {
                     HStack {
-                        Text("\(BorrowerListEntryVM.name)")
+                        Text("\(BorrowerVM.name)")
                         Spacer()
                         Image(systemName: "checkmark").foregroundColor(.accentColor)
                     }
                 } else {
-                    Text("\(BorrowerListEntryVM.name)")
+                    Text("\(BorrowerVM.name)")
                 }
             }
         }

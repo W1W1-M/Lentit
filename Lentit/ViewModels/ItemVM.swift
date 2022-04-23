@@ -32,23 +32,17 @@ class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
             item.category = self.category
         }
     }
-    @Published var status: StatusModel {
-        didSet{
-            item.status = self.status
-        }
-    }
     @Published var loanCount: Int
 // MARK: - Init & deinit
     override init() {
         print("ItemVM init ...")
-        self.item = ItemModel.defaultData
-        self.loanIds = ItemModel.defaultData.loanIds
-        self.name = ItemModel.defaultData.name
-        self.notes = ItemModel.defaultData.notes
-        self.value = ItemModel.defaultData.value
+        self.item = ItemModel.defaultItemData
+        self.loanIds = ItemModel.defaultItemData.loanIds
+        self.name = ItemModel.defaultItemData.name
+        self.notes = ItemModel.defaultItemData.notes
+        self.value = ItemModel.defaultItemData.value
         self.valueText = ""
-        self.category = ItemModel.defaultData.category
-        self.status = ItemModel.defaultData.status
+        self.category = ItemModel.defaultItemData.category
         self.loanCount = 0
         super.init()
         //

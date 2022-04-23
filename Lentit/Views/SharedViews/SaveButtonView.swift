@@ -12,9 +12,17 @@ struct SaveButtonView: View {
     @Binding var editDisabled: Bool
     @Binding var navigationLinkIsActive: Bool
     let element: AppVM.Element
-    let elementId: UUID
+    let viewModel: ViewModel
     var body: some View {
         Button {
+            switch element {
+            case .Loans:
+                viewModel.status = .current
+            case .Items:
+                viewModel.status = .available
+            case .Borrowers:
+                viewModel.status = .regular
+            }
             editDisabled = true
             navigationLinkIsActive = false
         } label: {
@@ -46,7 +54,7 @@ struct SaveButtonView_Previews: PreviewProvider {
             editDisabled: .constant(false),
             navigationLinkIsActive: .constant(false),
             element: .Loans,
-            elementId: UUID()
+            viewModel: ViewModel()
         ).previewLayout(.sizeThatFits)
     }
 }

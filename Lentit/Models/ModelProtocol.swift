@@ -29,3 +29,7 @@ class Model: ModelProtocol, Identifiable {
     }
     // MARK: - Methods
 }
+//
+extension Model {
+    static var defaultModelData: Model = Model(status: .unknown)
+}

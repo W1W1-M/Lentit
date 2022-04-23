@@ -15,17 +15,17 @@ class BorrowerVM: ViewModel, ObservableObject, Equatable, Hashable {
             self.borrower.name = name
         }
     }
-    @Published var status: StatusModel
     @Published var loanCount: Int
     @Published var contactLink: Bool
+    private(set) var loanIds: Set<UUID>
 // MARK: - Init & deinit
     override init() {
         print("BorrowerVM init ...")
-        self.borrower = BorrowerModel.defaultData
-        self.name = BorrowerModel.defaultData.name
-        self.status = StatusModel.unknown
+        self.borrower = BorrowerModel.defaultBorrowerData
+        self.name = BorrowerModel.defaultBorrowerData.name
         self.loanCount = 0
-        self.contactLink = BorrowerModel.defaultData.contactLink
+        self.contactLink = BorrowerModel.defaultBorrowerData.contactLink
+        self.loanIds = BorrowerModel.defaultBorrowerData.loanIds
         super.init()
     }
     deinit {
@@ -39,12 +39,17 @@ class BorrowerVM: ViewModel, ObservableObject, Equatable, Hashable {
         self.status = borrower.status
         self.loanCount = countBorrowerLoans(for: borrower)
         self.contactLink = borrower.contactLink
+        self.loanIds = borrower.loanIds
     }
     func countBorrowerLoans(for borrower: BorrowerModel) -> Int {
         borrower.loanIds.count
     }
     func updateName(to newName: String) {
         self.name = newName
+    }
+    func updateBorrowerLoans(with loanVMId: UUID) {
+        self.loanIds.insert(loanVMId)
+        self.borrower.loanIds = self.loanIds
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

@@ -10,6 +10,7 @@ import Foundation
 protocol ViewModelProtocol: AnyObject {
 // MARK: - Properties
     var id: UUID { get set }
+    var status: StatusModel { get set }
 // MARK: - Methods
     func setVM(from model: Model)
 }
@@ -17,10 +18,18 @@ protocol ViewModelProtocol: AnyObject {
 class ViewModel: ViewModelProtocol, Identifiable {
 // MARK: - Properties
     internal var id: UUID
+    private(set) var model: Model
+    @Published var status: StatusModel {
+        didSet {
+            self.model.status = status
+        }
+    }
 // MARK: - Init & deinit
     init() {
         print("ViewModel init ...")
         self.id = UUID()
+        self.model = Model.defaultModelData
+        self.status = Model.defaultModelData.status
     }
     deinit {
         print("... deinit ViewModel \(id)")
@@ -29,5 +38,6 @@ class ViewModel: ViewModelProtocol, Identifiable {
     func setVM(from model: Model) {
         print("setVM ...")
         self.id = model.id
+        self.status = model.status
     }
 }

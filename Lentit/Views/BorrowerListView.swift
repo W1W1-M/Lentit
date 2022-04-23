@@ -13,8 +13,8 @@ struct BorrowerListView: View {
     var body: some View {
         List {
             Section {
-                ForEach(appVM.borrowerListEntryVMs) { BorrowerListEntryVM in
-                    BorrowerListItemView(borrowerListEntryVM: BorrowerListEntryVM)
+                ForEach(appVM.borrowerVMs) { BorrowerVM in
+                    BorrowerListItemView(borrowerVM: BorrowerVM)
                 }
             } header: {
                 HStack {
@@ -41,12 +41,12 @@ struct BorrowerListView: View {
 // MARK: -
 struct BorrowerListItemView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var borrowerListEntryVM: BorrowerListEntryVM
+    @ObservedObject var borrowerVM: BorrowerVM
     @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
             destination: BorrowerDetailView(
-                borrowerDetailVM: appVM.getBorrowerDetailVM(for: borrowerListEntryVM.id),
+                borrowerVM: appVM.getBorrowerVM(for: borrowerVM.id),
                 navigationLinkIsActive: $navigationLinkIsActive
             ),
             isActive: $navigationLinkIsActive
@@ -55,13 +55,13 @@ struct BorrowerListItemView: View {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                    Text("\(String(borrowerListEntryVM.name.prefix(2)))")
+                    Text("\(String(borrowerVM.name.prefix(2)))")
                         .font(.title2)
                         .foregroundColor(.white)
                 }.padding(.horizontal, 4)
-                Text("\(borrowerListEntryVM.name)").foregroundColor(.primary)
+                Text("\(borrowerVM.name)").foregroundColor(.primary)
                 Spacer()
-                Text("\(borrowerListEntryVM.loanCount) loans").foregroundColor(.secondary)
+                Text("\(borrowerVM.loanCount) loans").foregroundColor(.secondary)
             }
         }
     }
@@ -98,10 +98,10 @@ struct BorrowerListSheetView: View {
                         }.listRowBackground(Color("InvertedAccentColor"))
                     }
                     Section(header: Text("\(borrowerListVM.borrowersCount) borrowers")) {
-                        ForEach(appVM.borrowerListEntryVMs) { BorrowerListEntryVM in
+                        ForEach(appVM.borrowerVMs) { BorrowerVM in
                             BorrowerListItemSheetView(
                                 loanVM: loanVM,
-                                borrowerListEntryVM: BorrowerListEntryVM
+                                borrowerVM: BorrowerVM
                             )
                         }
                     }
@@ -139,16 +139,16 @@ struct BorrowerListSheetView: View {
 struct BorrowerListItemSheetView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @ObservedObject var borrowerListEntryVM: BorrowerListEntryVM
+    @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Button {
-            loanVM.setLoanBorrower(to: borrowerListEntryVM.borrower)
+            loanVM.setLoanBorrower(to: borrowerVM.borrower)
             appVM.sheetPresented = false
         } label: {
             HStack {
-                Text("\(borrowerListEntryVM.name)")
+                Text("\(borrowerVM.name)")
                 Spacer()
-                if(loanVM.loanBorrower.id == borrowerListEntryVM.id) {
+                if(loanVM.loanBorrower.id == borrowerVM.id) {
                     Image(systemName: "checkmark")
                 }
             }

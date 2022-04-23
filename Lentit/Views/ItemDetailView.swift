@@ -28,7 +28,7 @@ struct ItemDetailView: View {
                             editDisabled: $editDisabled,
                             navigationLinkIsActive: $navigationLinkIsActive,
                             element: .Items,
-                            elementId: itemVM.id
+                            viewModel: itemVM
                         )
                     } else {
                         DeleteButtonView(element: .Items)

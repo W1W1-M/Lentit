@@ -25,8 +25,8 @@ final class BorrowerListVM: ObservableObject {
         print("... deinit BorrowerListVM")
     }
 // MARK: - Methods
-    func setBorrowersCount(for borrowerListEntryVMs: [BorrowerListEntryVM]) {
-        self.borrowersCount = borrowerListEntryVMs.count
+    func setBorrowersCount(for borrowerVMs: [BorrowerVM]) {
+        self.borrowersCount = borrowerVMs.count
     }
     func showNewBorrower() {
         resetNewBorrower()

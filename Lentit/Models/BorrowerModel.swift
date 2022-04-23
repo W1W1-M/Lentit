@@ -47,7 +47,7 @@ final class BorrowerModel: Model, ObservableObject, Equatable, Hashable {
 }
 
 extension BorrowerModel {
-    static var defaultData: BorrowerModel = BorrowerModel(
+    static var defaultBorrowerData: BorrowerModel = BorrowerModel(
         name: "Unknown borrower",
         status: StatusModel.unknown,
         contactLink: false,

@@ -34,7 +34,7 @@ struct LoanDetailView: View {
                         editDisabled: $editDisabled,
                         navigationLinkIsActive: $navigationLinkIsActive,
                         element: .Loans,
-                        elementId: loanVM.id
+                        viewModel: loanVM
                     )
                 } else {
                     DeleteButtonView(element: .Loans)
@@ -139,9 +139,9 @@ struct LoanDetailView: View {
             }
         })
         .onDisappear(perform: {
-            if(loanVM.status == StatusModel.new) {
-                loanVM.status = StatusModel.current
-            }
+//            if(loanVM.status == StatusModel.new) {
+//                loanVM.status = StatusModel.current
+//            }
             appVM.activeLoanStatus = loanVM.status
         })
     }
@@ -349,7 +349,7 @@ struct LoanDetailView_Previews: PreviewProvider {
             LoanReminderDetailView(
                 loanVM: LoanVM(),
                 remindersVM: RemindersVM(
-                    loan: LoanModel.defaultData,
+                    loan: LoanModel.defaultLoanData,
                     reminderTitle: "",
                     reminderNotes: "",
                     eventStore: EKEventStore(),

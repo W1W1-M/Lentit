@@ -11,7 +11,7 @@ import Contacts
 struct ContactsListView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var contactsVM: ContactsVM
-    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
+    @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         NavigationView {
             ZStack {
@@ -21,7 +21,7 @@ struct ContactsListView: View {
                         ForEach(contactsVM.contactsVMs) { ContactVM in
                             ContactsListEntryView(
                                 contactListEntryVM: ContactVM,
-                                borrowerDetailVM: borrowerDetailVM
+                                borrowerVM: borrowerVM
                             )
                         }
                     } header: {
@@ -43,10 +43,10 @@ struct ContactsListView: View {
 // MARK: -
 struct ContactsListEntryView: View {
     @ObservedObject var contactListEntryVM: ContactListEntryVM
-    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
+    @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Button {
-            borrowerDetailVM.updateName(to: contactListEntryVM.name)
+            borrowerVM.updateName(to: contactListEntryVM.name)
         } label: {
             HStack {
                 Text("\(contactListEntryVM.name)")
@@ -61,7 +61,7 @@ struct ContactsListView_Previews: PreviewProvider {
     static var previews: some View {
         ContactsListView(
             contactsVM: ContactsVM(contactsStore: CNContactStore(), contactsAccess: .authorized),
-            borrowerDetailVM: BorrowerDetailVM()
+            borrowerVM: BorrowerVM()
         )
     }
 }

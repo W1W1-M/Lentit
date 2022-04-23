@@ -89,7 +89,7 @@ extension ItemModel {
 }
 
 extension ItemModel {
-    static var defaultData: ItemModel = ItemModel(
+    static var defaultItemData: ItemModel = ItemModel(
         name: "Unknown item",
         notes: "Unknown description",
         value: 100,

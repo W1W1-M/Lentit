@@ -71,7 +71,7 @@ extension LoanModel {
 }
 
 extension LoanModel {
-    static var defaultData: LoanModel = LoanModel(
+    static var defaultLoanData: LoanModel = LoanModel(
         loanDate: Date(),
         loanTime: 100000.0,
         ekReminderId: nil,

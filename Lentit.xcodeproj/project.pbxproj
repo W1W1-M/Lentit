@@ -15,11 +15,9 @@
 		3D05A6D627EDBBAA002A17C1 /* BorrowerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D05A6D527EDBBAA002A17C1 /* BorrowerDetailView.swift */; };
 		3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D13A65327960DD6008FDC42 /* LoanModel.swift */; };
 		3D4FD96F2793033000B52F3C /* BorrowerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD96E2793033000B52F3C /* BorrowerModel.swift */; };
-		3D4FD9712793092600B52F3C /* BorrowerDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD9702793092600B52F3C /* BorrowerDetailVM.swift */; };
 		3D4FD975279365B800B52F3C /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4FD974279365B800B52F3C /* AlertModel.swift */; };
 		3D4FD97A279379E200B52F3C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FD978279379E200B52F3C /* InfoPlist.strings */; };
 		3D4FD97D279379E200B52F3C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D4FD97B279379E200B52F3C /* Localizable.strings */; };
-		3D52612327FB744700E8D739 /* BorrowerListEntryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D52612227FB744700E8D739 /* BorrowerListEntryVM.swift */; };
 		3D54BDE42794A920001DF0AD /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D54BDE32794A920001DF0AD /* ItemDetailView.swift */; };
 		3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5551F12770E9300007BE3E /* DataStoreModel.swift */; };
 		3D572C7E279AE1E2002618D7 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D572C7D279AE1E2002618D7 /* ItemListView.swift */; };
@@ -87,11 +85,9 @@
 		3D05A6D527EDBBAA002A17C1 /* BorrowerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerDetailView.swift; sourceTree = "<group>"; };
 		3D13A65327960DD6008FDC42 /* LoanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanModel.swift; sourceTree = "<group>"; };
 		3D4FD96E2793033000B52F3C /* BorrowerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerModel.swift; sourceTree = "<group>"; };
-		3D4FD9702793092600B52F3C /* BorrowerDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerDetailVM.swift; sourceTree = "<group>"; };
 		3D4FD974279365B800B52F3C /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		3D4FD979279379E200B52F3C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3D4FD97C279379E200B52F3C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		3D52612227FB744700E8D739 /* BorrowerListEntryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerListEntryVM.swift; sourceTree = "<group>"; };
 		3D54BDE32794A920001DF0AD /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		3D5551F12770E9300007BE3E /* DataStoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreModel.swift; sourceTree = "<group>"; };
 		3D572C7D279AE1E2002618D7 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
@@ -273,8 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				3DF02258279701A500211124 /* AppVM.swift */,
-				3D4FD9702793092600B52F3C /* BorrowerDetailVM.swift */,
-				3D52612227FB744700E8D739 /* BorrowerListEntryVM.swift */,
 				3D572C7F279B40EB002618D7 /* BorrowerListVM.swift */,
 				3DCCC1A627FF6D150036A9A7 /* BorrowerVM.swift */,
 				3D572C81279B44D3002618D7 /* ItemListVM.swift */,
@@ -466,12 +460,10 @@
 				3D5551F22770E9300007BE3E /* DataStoreModel.swift in Sources */,
 				3DE4283227DFDEC3006FA751 /* HintModel.swift in Sources */,
 				3D8C9F4927F098E30002EA78 /* StatusNameView.swift in Sources */,
-				3D52612327FB744700E8D739 /* BorrowerListEntryVM.swift in Sources */,
 				3D02550D28006E04004D5657 /* StatableProtocol.swift in Sources */,
 				3D13A65427960DD6008FDC42 /* LoanModel.swift in Sources */,
 				3DF0225B2797591600211124 /* ItemVM.swift in Sources */,
 				3DD3F1C227DF3939000F64D0 /* HintView.swift in Sources */,
-				3D4FD9712793092600B52F3C /* BorrowerDetailVM.swift in Sources */,
 				3D572C7E279AE1E2002618D7 /* ItemListView.swift in Sources */,
 				3DF02259279701A500211124 /* AppVM.swift in Sources */,
 				3D6669B127F1941900D24C91 /* ItemImageView.swift in Sources */,

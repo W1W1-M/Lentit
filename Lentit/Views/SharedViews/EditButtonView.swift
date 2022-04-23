@@ -14,7 +14,7 @@ struct EditButtonView: View {
             editDisabled.toggle()
         } label: {
             HStack {
-                Text(editDisabled ? "Edit" : "Save")
+                Text(editDisabled ? "Edit" : "Edit")
                 Image(systemName: editDisabled ? "lock" : "lock.open")
             }
         }

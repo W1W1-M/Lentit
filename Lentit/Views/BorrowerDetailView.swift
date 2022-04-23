@@ -9,7 +9,7 @@ import SwiftUI
 // MARK: - Views
 struct BorrowerDetailView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
+    @ObservedObject var borrowerVM: BorrowerVM
     @State var editDisabled: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
@@ -18,27 +18,27 @@ struct BorrowerDetailView: View {
             VStack {
                 Form {
                     BorrowerDetailSectionView(
-                        borrowerDetailVM: borrowerDetailVM,
+                        borrowerVM: borrowerVM,
                         editDisabled: $editDisabled
                     ).disabled(editDisabled)
-                    BorrowerHistorySectionView(borrowerDetailVM: borrowerDetailVM)
-                    if(borrowerDetailVM.status == StatusModel.new) {
+                    BorrowerHistorySectionView(borrowerVM: borrowerVM)
+                    if(borrowerVM.status == StatusModel.new) {
                         SaveButtonView(
                             editDisabled: $editDisabled,
                             navigationLinkIsActive: $navigationLinkIsActive,
                             element: .Borrowers,
-                            elementId: borrowerDetailVM.id
+                            viewModel: borrowerVM
                         )
                     } else {
                         DeleteButtonView(element: .Borrowers)
                     }
                 }
             }
-        }.navigationTitle("\(borrowerDetailVM.name)")
+        }.navigationTitle("\(borrowerVM.name)")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if(borrowerDetailVM.status != StatusModel.new) {
+                if(borrowerVM.status != StatusModel.new) {
                     EditButtonView(editDisabled: $editDisabled)
                 }
             }
@@ -47,7 +47,7 @@ struct BorrowerDetailView: View {
             switch appVM.activeAlert {
             case .deleteBorrower:
                 return Alert(
-                    title: Text("Delete \(borrowerDetailVM.name)"),
+                    title: Text("Delete \(borrowerVM.name)"),
                     message: Text("Are you sure you want to delete this borrower ?"),
                     primaryButton: .default(
                         Text("Cancel")
@@ -56,7 +56,7 @@ struct BorrowerDetailView: View {
                         Text("Delete"),
                         action: {
                             navigationLinkIsActive = false // Navigate back to borrower list
-                            appVM.deleteBorrower(for: borrowerDetailVM.id)
+                            appVM.deleteBorrower(for: borrowerVM.id)
                         }
                     )
                 )
@@ -68,14 +68,14 @@ struct BorrowerDetailView: View {
             ContactsListView(contactsVM: ContactsVM(
                 contactsStore: appVM.contactsStore,
                 contactsAccess: appVM.contactsAccess
-            ), borrowerDetailVM: borrowerDetailVM
+            ), borrowerVM: borrowerVM
             )
         }
         .onAppear(perform: {
             // Background color fix
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if item just added
-            if(borrowerDetailVM.status == StatusModel.new) {
+            if(borrowerVM.status == StatusModel.new) {
                 editDisabled = false
             }
         })
@@ -84,20 +84,20 @@ struct BorrowerDetailView: View {
 // MARK: -
 struct BorrowerDetailSectionView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
+    @ObservedObject var borrowerVM: BorrowerVM
     @Binding var editDisabled: Bool
     var body: some View {
         Section {
-            Toggle(isOn: $borrowerDetailVM.contactLink) {
+            Toggle(isOn: $borrowerVM.contactLink) {
                 Text("Apple iOS Contacts link")
             }
-            if borrowerDetailVM.contactLink {
+            if borrowerVM.contactLink {
                 Button {
                     appVM.activeSheet = .contactsList
                     appVM.sheetPresented = true
                 } label: {
                     HStack {
-                        Text("\(borrowerDetailVM.name)")
+                        Text("\(borrowerVM.name)")
                         Image(systemName: "person")
                     }
                 }
@@ -111,7 +111,7 @@ struct BorrowerDetailSectionView: View {
                         Image(systemName: "person")
                     }
                 }
-                TextField("Name", text: $borrowerDetailVM.name).foregroundColor(editDisabled ? .secondary : .primary)
+                TextField("Name", text: $borrowerVM.name).foregroundColor(editDisabled ? .secondary : .primary)
             }
         } header: {
             Text("Borrower")
@@ -121,27 +121,27 @@ struct BorrowerDetailSectionView: View {
 // MARK: -
 struct BorrowerHistorySectionView: View {
     @EnvironmentObject var appVM: AppVM
-    @ObservedObject var borrowerDetailVM: BorrowerDetailVM
+    @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Section {
-            ForEach(borrowerDetailVM.loanIds.sorted(by: ==), id: \.self) { Id in
+            ForEach(borrowerVM.loanIds.sorted(by: ==), id: \.self) { Id in
                 BorrowerHistoryItemView(loanVM: appVM.getLoanVM(for: Id))
             }
         } header: {
-            switch borrowerDetailVM.loanCount {
+            switch borrowerVM.loanCount {
             case 0:
                 EmptyView()
             case 1:
                 HStack {
                     Text("borrowed")
                     Spacer()
-                    Text("\(borrowerDetailVM.loanCount) time")
+                    Text("\(borrowerVM.loanCount) time")
                 }
             default:
                 HStack {
                     Text("borrowed")
                     Spacer()
-                    Text("\(borrowerDetailVM.loanCount) times")
+                    Text("\(borrowerVM.loanCount) times")
                 }
             }
         }
@@ -163,7 +163,7 @@ struct BorrowerDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             BorrowerDetailView(
-                borrowerDetailVM: BorrowerDetailVM(),
+                borrowerVM: BorrowerVM(),
                 navigationLinkIsActive: .constant(true)
             ).environmentObject(AppVM())
         }
