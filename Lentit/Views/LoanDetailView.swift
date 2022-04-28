@@ -25,7 +25,7 @@ struct LoanDetailView: View {
                 if(loanVM.status != StatusModel.finished) {
                     LoanReminderSectionView(
                         loanVM: loanVM,
-                        remindersVM: appVM.getRemindersVM(for: loanVM.loan),
+                        remindersVM: appVM.getRemindersVM(for: loanVM.model),
                         editDisabled: $editDisabled
                     )
                 }

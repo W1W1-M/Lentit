@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct SaveButtonView: View {
+struct SaveButtonView<VMT: ViewModelProtocol>: View {
     @EnvironmentObject var appVM: AppVM
     @Binding var editDisabled: Bool
     @Binding var navigationLinkIsActive: Bool
     let element: AppVM.Element
-    let viewModel: ViewModel
+    var viewModel: VMT
     var body: some View {
         Button {
             switch element {
@@ -54,7 +54,7 @@ struct SaveButtonView_Previews: PreviewProvider {
             editDisabled: .constant(false),
             navigationLinkIsActive: .constant(false),
             element: .Loans,
-            viewModel: ViewModel()
+            viewModel: LoanVM()
         ).previewLayout(.sizeThatFits)
     }
 }

@@ -7,12 +7,14 @@
 
 import Foundation
 /// Data model for a person who borrows an item
-final class BorrowerModel: Model, ObservableObject, Equatable, Hashable {
+final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
-    var name: String
-    var contactLink: Bool
-    var contactId: String?
-    var loanIds: Set<UUID>
+    internal var id: UUID
+    internal var name: String
+    internal var status: StatusModel
+    internal var contactLink: Bool
+    internal var contactId: String?
+    internal var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
         name: String,
@@ -22,27 +24,28 @@ final class BorrowerModel: Model, ObservableObject, Equatable, Hashable {
         loanIds: Set<UUID>
     ) {
         print("BorrowerModel init ...")
+        self.id = UUID()
         self.name = name
+        self.status = status
         self.contactLink = false
         self.contactId = contactId
         self.loanIds = []
-        super.init(status: status)
     }
     deinit {
         print("BorrowerModel init ...")
     }
 // MARK: - Methods
-    static func == (lhs: BorrowerModel, rhs: BorrowerModel) -> Bool {
-        return lhs.id == rhs.id
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
     func addLoanId(with loanId: UUID) {
         self.loanIds.insert(loanId)
     }
     func removeLoanId(with loanId: UUID) {
         self.loanIds.remove(loanId)
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    static func == (lhs: BorrowerModel, rhs: BorrowerModel) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

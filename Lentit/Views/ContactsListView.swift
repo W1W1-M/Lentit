@@ -20,7 +20,7 @@ struct ContactsListView: View {
                     Section {
                         ForEach(contactsVM.contactsVMs) { ContactVM in
                             ContactsListEntryView(
-                                contactListEntryVM: ContactVM,
+                                contactVM: ContactVM,
                                 borrowerVM: borrowerVM
                             )
                         }
@@ -42,14 +42,14 @@ struct ContactsListView: View {
 }
 // MARK: -
 struct ContactsListEntryView: View {
-    @ObservedObject var contactListEntryVM: ContactListEntryVM
+    @ObservedObject var contactVM: ContactVM
     @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Button {
-            borrowerVM.updateName(to: contactListEntryVM.name)
+            borrowerVM.updateName(to: contactVM.name)
         } label: {
             HStack {
-                Text("\(contactListEntryVM.name)")
+                Text("\(contactVM.name)")
                 Spacer()
                 Image(systemName: "xmark")
             }

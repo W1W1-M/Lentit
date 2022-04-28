@@ -142,7 +142,7 @@ struct BorrowerListItemSheetView: View {
     @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Button {
-            loanVM.setLoanBorrower(to: borrowerVM.borrower)
+            loanVM.setLoanBorrower(to: borrowerVM.model)
             appVM.sheetPresented = false
         } label: {
             HStack {

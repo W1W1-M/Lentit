@@ -13,23 +13,3 @@ protocol ModelProtocol: AnyObject {
     var status: StatusModel { get set }
 // MARK: - Methods
 }
-/// Description
-class Model: ModelProtocol, Identifiable {
-    // MARK: - Properties
-    internal var id: UUID
-    internal var status: StatusModel
-    // MARK: - Init & deinit
-    init(status: StatusModel) {
-        print("Model init ...")
-        self.id = UUID()
-        self.status = status
-    }
-    deinit {
-        print("... deinit Model \(id)")
-    }
-    // MARK: - Methods
-}
-//
-extension Model {
-    static var defaultModelData: Model = Model(status: .unknown)
-}

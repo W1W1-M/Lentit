@@ -7,13 +7,15 @@
 
 import Foundation
 /// Data model for lent item
-final class ItemModel: Model, ObservableObject, Equatable, Hashable {
+final class ItemModel: ModelProtocol, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
-    var name: String
-    var notes: String
-    var value: Int
-    var category: ItemModel.Category
-    var loanIds: Set<UUID>
+    internal var id: UUID
+    internal var name: String
+    internal var notes: String
+    internal var value: Int
+    internal var category: ItemModel.Category
+    internal var status: StatusModel
+    internal var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
         name: String,
@@ -24,28 +26,29 @@ final class ItemModel: Model, ObservableObject, Equatable, Hashable {
         loanIds: Set<UUID>
     ) {
         print("ItemModel init ...")
+        self.id = UUID()
         self.name = name
         self.notes = notes
         self.value = value
         self.category = category
+        self.status = status
         self.loanIds = loanIds
-        super.init(status: status)
     }
     deinit {
         print("... deinit ItemModel")
     }
 // MARK: - Methods
-    static func == (lhs: ItemModel, rhs: ItemModel) -> Bool {
-        lhs.id == rhs.id
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
     func addLoanId(with loanId: UUID) {
         self.loanIds.insert(loanId)
     }
     func removeLoanId(with loanId: UUID) {
         self.loanIds.remove(loanId)
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    static func == (lhs: ItemModel, rhs: ItemModel) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

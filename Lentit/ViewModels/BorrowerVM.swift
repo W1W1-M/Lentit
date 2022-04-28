@@ -7,40 +7,49 @@
 
 import Foundation
 /// Borrower view model
-class BorrowerVM: ViewModel, ObservableObject, Equatable, Hashable {
+final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
-    private(set) var borrower: BorrowerModel
+    typealias ModelType = BorrowerModel
+    internal var model: ModelType
+    internal var id: UUID
+    internal var loanIds: Set<UUID>
     @Published var name: String {
         didSet {
-            self.borrower.name = name
+            self.model.name = name
+        }
+    }
+    @Published var status: StatusModel {
+        didSet {
+            self.model.status = status
         }
     }
     @Published var loanCount: Int
     @Published var contactLink: Bool
-    private(set) var loanIds: Set<UUID>
 // MARK: - Init & deinit
-    override init() {
+    init() {
         print("BorrowerVM init ...")
-        self.borrower = BorrowerModel.defaultBorrowerData
+        self.model = BorrowerModel.defaultBorrowerData
+        self.id = BorrowerModel.defaultBorrowerData.id
         self.name = BorrowerModel.defaultBorrowerData.name
+        self.status = BorrowerModel.defaultBorrowerData.status
         self.loanCount = 0
         self.contactLink = BorrowerModel.defaultBorrowerData.contactLink
         self.loanIds = BorrowerModel.defaultBorrowerData.loanIds
-        super.init()
     }
     deinit {
         print("... deinit BorrowerVM \(id)")
     }
 // MARK: - Methods
-    func setVM(from borrower: BorrowerModel) {
-        self.model = borrower
-        self.borrower = borrower
-        self.id = borrower.id // Shared with borrower data object
-        self.name = borrower.name
-        self.status = borrower.status
-        self.loanCount = countBorrowerLoans(for: borrower)
-        self.contactLink = borrower.contactLink
-        self.loanIds = borrower.loanIds
+    func setVM(from model: ModelType) {
+        print("setVM ...")
+        self.model = model
+        self.id = model.id // Shared with borrower data object
+        self.name = model.name
+        self.status = model.status
+        self.loanCount = countBorrowerLoans(for: model)
+        self.contactLink = model.contactLink
+        self.loanIds = model.loanIds
+        print("... setVM Borrower \(id)")
     }
     func countBorrowerLoans(for borrower: BorrowerModel) -> Int {
         borrower.loanIds.count
@@ -50,7 +59,7 @@ class BorrowerVM: ViewModel, ObservableObject, Equatable, Hashable {
     }
     func updateBorrowerLoans(with loanVMId: UUID) {
         self.loanIds.insert(loanVMId)
-        self.borrower.loanIds = self.loanIds
+        self.model.loanIds = self.loanIds
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

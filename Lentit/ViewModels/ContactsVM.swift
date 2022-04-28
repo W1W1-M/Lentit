@@ -8,7 +8,7 @@
 import Foundation
 import Contacts
 /// Contacts view model
-final class ContactsVM: ViewModel, ObservableObject {
+final class ContactsVM: ObservableObject {
 // MARK: - Properties
     internal var contactsStore: CNContactStore
     internal var contactsAccess: CNAuthorizationStatus {
@@ -17,7 +17,7 @@ final class ContactsVM: ViewModel, ObservableObject {
         }
     }
     internal var contacts: Array<CNContact>
-    @Published var contactsVMs: Array<ContactListEntryVM>
+    @Published var contactsVMs: Array<ContactVM>
 // MARK: - Init & deinit
     init(
         contactsStore: CNContactStore,
@@ -28,7 +28,6 @@ final class ContactsVM: ViewModel, ObservableObject {
         self.contactsAccess = contactsAccess
         self.contacts = []
         self.contactsVMs = []
-        super.init()
         //
         checkContactsAccess()
         setContacts()
@@ -87,7 +86,7 @@ final class ContactsVM: ViewModel, ObservableObject {
     func setContactsVMs() {
         print("setContactsVMs ...")
         for contact in self.contacts {
-            let contactVM = ContactListEntryVM()
+            let contactVM = ContactVM()
             contactVM.setVM(contact: contact)
             contactsVMs.append(contactVM)
         }

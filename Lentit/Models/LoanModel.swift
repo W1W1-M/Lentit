@@ -8,19 +8,21 @@
 import Foundation
 import EventKit
 /// Data model for a item loan
-final class LoanModel: Model, ObservableObject, Equatable {
+final class LoanModel: ModelProtocol, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
-    var loanDate: Date
-    var loanTime: TimeInterval
-    var loanExpiry: Date {
+    internal var id: UUID
+    internal var loanDate: Date
+    internal var loanTime: TimeInterval
+    internal var loanExpiry: Date {
         loanDate.addingTimeInterval(loanTime)
     }
-    var ekReminderId: String?
-    var reminderDate: Date?
-    var reminderActive: Bool
-    var returned: Bool
-    var itemId: UUID?
-    var borrowerId: UUID?
+    internal var ekReminderId: String?
+    internal var reminderDate: Date?
+    internal var reminderActive: Bool
+    internal var returned: Bool
+    internal var status: StatusModel
+    internal var itemId: UUID?
+    internal var borrowerId: UUID?
 // MARK: - Init & deinit
     init(
         loanDate: Date,
@@ -34,28 +36,32 @@ final class LoanModel: Model, ObservableObject, Equatable {
         borrowerId: UUID?
     ) {
         print("LoanModel init ...")
+        self.id = UUID()
         self.loanDate = loanDate
         self.loanTime = loanTime
         self.ekReminderId = ekReminderId
         self.reminderDate = reminderDate
         self.reminderActive = reminderActive
+        self.status = status
         self.returned = returned
         self.itemId = itemId
         self.borrowerId = borrowerId
-        super.init(status: status)
     }
     deinit {
         print("... deinit LoanModel")
     }
 // MARK: - Methods
-    static func == (lhs: LoanModel, rhs: LoanModel) -> Bool {
-        lhs.id == rhs.id
-    }
     func updateItemId(_ id: UUID) {
         self.itemId = id
     }
     func updateBorrowerId(_ id: UUID) {
         self.borrowerId = id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    static func == (lhs: LoanModel, rhs: LoanModel) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

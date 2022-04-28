@@ -222,7 +222,7 @@ struct ItemListItemButtonView: View {
     @ObservedObject var itemVM : ItemVM
     var body: some View {
         Button {
-            loanVM.setLoanItem(to: itemVM.item)
+            loanVM.setLoanItem(to: itemVM.model)
             appVM.sheetPresented = false
         } label: {
             HStack {

@@ -8,70 +8,79 @@
 import Foundation
 import EventKit
 /// Loan view model
-final class LoanVM: ViewModel, ObservableObject {
+final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
-    private(set) var loan: LoanModel
-    private(set) var loanItem: ItemModel {
+    typealias ModelType = LoanModel
+    internal var model: ModelType
+    internal var id: UUID
+    internal var loanItem: ItemModel {
         didSet {
             self.loanItemName = loanItem.name
         }
     }
-    private(set) var loanBorrower: BorrowerModel {
+    internal var loanBorrower: BorrowerModel {
         didSet {
             self.loanBorrowerName = loanBorrower.name
         }
     }
     @Published var loanDate: Date {
         didSet{
-            loan.loanDate = self.loanDate
+            model.loanDate = self.loanDate
             loanDateText = setLoanDateText(for: loanDate)
         }
     }
     @Published var loanDateText: String
     @Published var returned: Bool {
         didSet{
-            loan.returned = self.returned
+            model.returned = self.returned
             setReturnedLoanStatus()
+        }
+    }
+    @Published var status: StatusModel {
+        didSet {
+            self.model.status = status
         }
     }
     @Published var loanBorrowerName: String
     @Published var loanItemName: String
     @Published var loanItemCategory: ItemModel.Category
 // MARK: - Init & deinit
-    override init() {
+    init() {
         print("LoanVM init ...")
-        self.loan = LoanModel.defaultLoanData
+        self.model = LoanModel.defaultLoanData
+        self.id = LoanModel.defaultLoanData.id
         self.loanItem = ItemModel.defaultItemData
         self.loanBorrower = BorrowerModel.defaultBorrowerData
         self.loanDate = LoanModel.defaultLoanData.loanDate
         self.loanDateText = "\(LoanModel.defaultLoanData.loanDate)"
         self.returned = LoanModel.defaultLoanData.returned
+        self.status = LoanModel.defaultLoanData.status
         self.loanBorrowerName = BorrowerModel.defaultBorrowerData.name
         self.loanItemName = ItemModel.defaultItemData.name
         self.loanItemCategory = ItemModel.defaultItemData.category
-        super.init()
         //
-        self.id = LoanModel.defaultLoanData.id
         self.loanDateText = setLoanDateText(for: loanDate)
     }
     deinit {
         print("... deinit LoanVM \(id)")
     }
 // MARK: - Methods
+    func setVM(from model: ModelType) {
+        self.model = model
+        self.id = model.id
+        self.loanDate = model.loanDate
+        self.returned = model.returned
+        self.status = model.status
+    }
     func setVM(from loan: LoanModel, _ loanItem: ItemModel, _ loanBorrower: BorrowerModel) {
-        print("setLoanVM ...")
-        self.model = loan
-        self.loan = loan
+        print("setVM ...")
+        setVM(from: loan)
         self.loanItem = loanItem
         self.loanBorrower = loanBorrower
-        self.id = loan.id
-        self.loanDate = loan.loanDate
-        self.returned = loan.returned
-        self.status = loan.status
         self.loanBorrowerName = loanBorrower.name
         self.loanItemName = loanItem.name
         self.loanItemCategory = loanItem.category
-        print("... setLoanVM \(id)")
+        print("... setVM Loan \(id)")
     }
     func setLoanDateText(for loanDate: Date) -> String {
         let dateFormat = DateFormatter()
@@ -106,12 +115,12 @@ final class LoanVM: ViewModel, ObservableObject {
     func setLoanBorrower(to newBorrower: BorrowerModel) {
         self.loanBorrower = newBorrower
         self.loanBorrower.addLoanId(with: self.id)
-        self.loan.updateBorrowerId(self.loanBorrower.id)
+        self.model.updateBorrowerId(self.loanBorrower.id)
     }
     func setLoanItem(to newItem: ItemModel) {
         self.loanItem = newItem
         self.loanItem.addLoanId(with: self.id)
-        self.loan.updateItemId(self.loanItem.id)
+        self.model.updateItemId(self.loanItem.id)
     }
     func setReturnedLoanStatus() {
         if(returned) {
@@ -119,5 +128,11 @@ final class LoanVM: ViewModel, ObservableObject {
         } else if(!returned && status == StatusModel.finished) {
             self.status = StatusModel.current
         }
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    static func == (lhs: LoanVM, rhs: LoanVM) -> Bool {
+        lhs.id == rhs.id
     }
 }

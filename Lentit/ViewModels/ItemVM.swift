@@ -7,63 +7,70 @@
 
 import Foundation
 /// Item view model
-class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
+final class ItemVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
-    private(set) var item: ItemModel
-    private(set) var loanIds: Set<UUID>
+    typealias ModelType = ItemModel
+    internal var model: ModelType
+    internal var id: UUID
+    internal var loanIds: Set<UUID>
     @Published var name: String {
         didSet {
-            item.name = self.name
+            model.name = self.name
         }
     }
     @Published var notes: String {
         didSet {
-            item.notes = self.notes
+            model.notes = self.notes
         }
     }
     @Published var value: Int
     @Published var valueText: String {
         didSet {
-            item.value = setItemValue(for: self.valueText)
+            model.value = setItemValue(for: self.valueText)
+        }
+    }
+    @Published var status: StatusModel {
+        didSet {
+            self.model.status = status
         }
     }
     @Published var category: ItemModel.Category {
         didSet {
-            item.category = self.category
+            model.category = self.category
         }
     }
     @Published var loanCount: Int
 // MARK: - Init & deinit
-    override init() {
+    init() {
         print("ItemVM init ...")
-        self.item = ItemModel.defaultItemData
+        self.model = ItemModel.defaultItemData
+        self.id = ItemModel.defaultItemData.id
         self.loanIds = ItemModel.defaultItemData.loanIds
         self.name = ItemModel.defaultItemData.name
         self.notes = ItemModel.defaultItemData.notes
         self.value = ItemModel.defaultItemData.value
         self.valueText = ""
+        self.status = ItemModel.defaultItemData.status
         self.category = ItemModel.defaultItemData.category
         self.loanCount = 0
-        super.init()
-        //
-        self.loanCount = countItemLoans()
     }
     deinit {
         print("... deinit ItemVM \(id)")
     }
 // MARK: - Methods
-    func setVM(from item: ItemModel) {
-        self.model = item
-        self.item = item
-        self.id = item.id
-        self.loanIds = item.loanIds
-        self.name = item.name
-        self.notes = item.notes
-        self.value = item.value
+    func setVM(from model: ModelType) {
+        print("setVM ...")
+        self.model = model
+        self.id = model.id
+        self.loanIds = model.loanIds
+        self.name = model.name
+        self.notes = model.notes
+        self.value = model.value
         self.valueText = setItemValueText(for: self.value)
-        self.category = item.category
-        self.status = item.status
+        self.category = model.category
+        self.status = model.status
         self.loanCount = countItemLoans()
+        print("... setVM Item \(id)")
     }
     func countItemLoans() -> Int {
         loanIds.count
@@ -110,7 +117,7 @@ class ItemVM: ViewModel, ObservableObject, Equatable, Hashable {
     }
     func updateItemLoans(with loanVMId: UUID) {
         self.loanIds.insert(loanVMId)
-        self.item.loanIds = self.loanIds
+        self.model.loanIds = self.loanIds
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

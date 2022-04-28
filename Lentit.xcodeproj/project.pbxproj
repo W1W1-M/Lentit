@@ -45,7 +45,7 @@
 		3DCCC1A727FF6D150036A9A7 /* BorrowerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCCC1A627FF6D150036A9A7 /* BorrowerVM.swift */; };
 		3DD3F1C227DF3939000F64D0 /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD3F1C127DF3939000F64D0 /* HintView.swift */; };
 		3DDCED8C280DF295006A2EB5 /* ContactsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */; };
-		3DDCED8E280DF44A006A2EB5 /* ContactListEntryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDCED8D280DF44A006A2EB5 /* ContactListEntryVM.swift */; };
+		3DDCED8E280DF44A006A2EB5 /* ContactVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDCED8D280DF44A006A2EB5 /* ContactVM.swift */; };
 		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
 		3DDE13E327945D5C00EBB6E7 /* BorrowerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */; };
 		3DE4283227DFDEC3006FA751 /* HintModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE4283127DFDEC3006FA751 /* HintModel.swift */; };
@@ -121,7 +121,7 @@
 		3DCCC1A627FF6D150036A9A7 /* BorrowerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerVM.swift; sourceTree = "<group>"; };
 		3DD3F1C127DF3939000F64D0 /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListView.swift; sourceTree = "<group>"; };
-		3DDCED8D280DF44A006A2EB5 /* ContactListEntryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListEntryVM.swift; sourceTree = "<group>"; };
+		3DDCED8D280DF44A006A2EB5 /* ContactVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactVM.swift; sourceTree = "<group>"; };
 		3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
 		3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerListView.swift; sourceTree = "<group>"; };
 		3DE4283127DFDEC3006FA751 /* HintModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintModel.swift; sourceTree = "<group>"; };
@@ -278,7 +278,7 @@
 				3DCCC1A427FF62BA0036A9A7 /* RemindersVM.swift */,
 				3D02550828005421004D5657 /* ViewModelProtocol.swift */,
 				3DF91381280B4D1200854B44 /* ContactsVM.swift */,
-				3DDCED8D280DF44A006A2EB5 /* ContactListEntryVM.swift */,
+				3DDCED8D280DF44A006A2EB5 /* ContactVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -449,7 +449,7 @@
 				3D590204276FD16100373871 /* HomeView.swift in Sources */,
 				3D02550928005421004D5657 /* ViewModelProtocol.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
-				3DDCED8E280DF44A006A2EB5 /* ContactListEntryVM.swift in Sources */,
+				3DDCED8E280DF44A006A2EB5 /* ContactVM.swift in Sources */,
 				3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */,
 				3D8C9F4527F096B90002EA78 /* ItemCategoryFullNameView.swift in Sources */,
 				3D572C80279B40EB002618D7 /* BorrowerListVM.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  ContactListEntryVM.swift
+//  ContactVM.swift
 //  Lentit
 //
 //  Created by William Mead on 18/04/2022.
@@ -8,21 +8,22 @@
 import Foundation
 import Contacts
 /// Description
-final class ContactListEntryVM: ViewModel, ObservableObject {
+final class ContactVM: ObservableObject, Identifiable {
     // MARK: - Properties
-    private(set) var contact: CNContact?
+    internal var id: UUID
+    internal var contact: CNContact?
     @Published var name: String
     @Published var borrowerContactLink: Bool
     // MARK: - Init & deinit
-    override init() {
-        print("ContactListEntryVM init ...")
+    init() {
+        print("ContactVM init ...")
+        self.id = UUID()
         self.contact = nil
         self.name = ""
         self.borrowerContactLink = false
-        super.init()
     }
     deinit {
-        print("... deinit ContactListEntryVM")
+        print("... deinit ContactVM")
     }
     // MARK: - Methods
     func setVM(contact: CNContact) {

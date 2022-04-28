@@ -9,7 +9,7 @@ import Foundation
 import EventKit
 import Contacts
 /// Lentit app view model
-final class AppVM: ViewModel, ObservableObject {
+final class AppVM: ObservableObject {
 // MARK: - Properties
     @Published var dataStore: DataStoreModel {
         didSet {
@@ -140,7 +140,7 @@ final class AppVM: ViewModel, ObservableObject {
     internal var contactsStore: CNContactStore
     internal var contactsAccess: CNAuthorizationStatus
 // MARK: - Init & deinit
-    override init() {
+    init() {
         print("AppVM init ...")
         // Initialize properties
         self.dataStore = DataStoreModel()
@@ -168,7 +168,6 @@ final class AppVM: ViewModel, ObservableObject {
         self.remindersDefaultCalendar = nil
         self.contactsStore = CNContactStore()
         self.contactsAccess = .notDetermined
-        super.init()
         // Set properties
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
         self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
@@ -218,7 +217,7 @@ final class AppVM: ViewModel, ObservableObject {
     }
     func deleteLoan(for loanVM: LoanVM) {
         print("deleteLoan \(loanVM.id) ...")
-        self.dataStore.deleteLoan(oldLoan: loanVM.loan)
+        self.dataStore.deleteLoan(oldLoan: loanVM.model)
         self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
     }
     func getLoanVM(for id: UUID) -> LoanVM {
@@ -390,7 +389,7 @@ final class AppVM: ViewModel, ObservableObject {
         }
     }
     func deleteItem(for itemVM: ItemVM) {
-        self.dataStore.deleteItem(oldItem: itemVM.item)
+        self.dataStore.deleteItem(oldItem: itemVM.model)
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
     }
     func filterItemVMs(for itemVMs: [ItemVM], by activeCategory: ItemModel.Category) -> [ItemVM] {
@@ -484,7 +483,7 @@ final class AppVM: ViewModel, ObservableObject {
             return BorrowerVM()
         }
     }
-    func getBorrower(with ud: UUID) -> BorrowerModel {
+    func getBorrower(with id: UUID) -> BorrowerModel {
         print("getBorrower ...")
         var borrower = BorrowerModel.defaultBorrowerData
         do {
