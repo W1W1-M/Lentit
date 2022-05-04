@@ -18,11 +18,15 @@ struct SaveButtonView<VMT: ViewModelProtocol>: View {
             switch element {
             case .Loans:
                 viewModel.status = .current
+                appVM.activeLoanStatus = .current
             case .Items:
                 viewModel.status = .available
+                appVM.activeItemStatus = .all
             case .Borrowers:
                 viewModel.status = .regular
+                appVM.activeBorrowerStatus = .all
             }
+            viewModel.updateModel()
             editDisabled = true
             navigationLinkIsActive = false
         } label: {

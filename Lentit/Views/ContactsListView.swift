@@ -28,13 +28,14 @@ struct ContactsListView: View {
                         Text("\(contactsVM.contactsVMs.count) contacts")
                     }
                 }.listStyle(.insetGrouped)
-            }
-        }.toolbar {
-            ToolbarItem(placement: .navigation) {
-                Button {
-                    appVM.sheetPresented = false
-                } label: {
-                    Text("Close")
+            }.navigationTitle(Text("Contacts"))
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button {
+                        appVM.sheetPresented = false
+                    } label: {
+                        Text("Close")
+                    }
                 }
             }
         }
@@ -42,16 +43,23 @@ struct ContactsListView: View {
 }
 // MARK: -
 struct ContactsListEntryView: View {
+    @EnvironmentObject var appVM: AppVM
     @ObservedObject var contactVM: ContactVM
     @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Button {
+            borrowerVM.updateContactId(to: contactVM.contact.identifier)
             borrowerVM.updateName(to: contactVM.name)
+            appVM.sheetPresented = false
         } label: {
             HStack {
                 Text("\(contactVM.name)")
                 Spacer()
-                Image(systemName: "xmark")
+                if borrowerVM.contactId == contactVM.contact.identifier {
+                    Image(systemName: "checkmark")
+                } else {
+                    Image(systemName: "xmark")
+                }
             }
         }
     }

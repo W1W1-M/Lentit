@@ -10,21 +10,17 @@ import SwiftUI
 struct BorrowerDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerVM: BorrowerVM
-    @State var editDisabled: Bool = true
     @Binding var navigationLinkIsActive: Bool
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
                 Form {
-                    BorrowerDetailSectionView(
-                        borrowerVM: borrowerVM,
-                        editDisabled: $editDisabled
-                    ).disabled(editDisabled)
+                    BorrowerDetailSectionView(borrowerVM: borrowerVM).disabled(borrowerVM.editDisabled)
                     BorrowerHistorySectionView(borrowerVM: borrowerVM)
                     if(borrowerVM.status == StatusModel.new) {
                         SaveButtonView(
-                            editDisabled: $editDisabled,
+                            editDisabled: $borrowerVM.editDisabled,
                             navigationLinkIsActive: $navigationLinkIsActive,
                             element: .Borrowers,
                             viewModel: borrowerVM
@@ -39,7 +35,7 @@ struct BorrowerDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(borrowerVM.status != StatusModel.new) {
-                    EditButtonView(editDisabled: $editDisabled)
+                    EditButtonView(editDisabled: $borrowerVM.editDisabled)
                 }
             }
         }
@@ -76,7 +72,7 @@ struct BorrowerDetailView: View {
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if item just added
             if(borrowerVM.status == StatusModel.new) {
-                editDisabled = false
+                borrowerVM.editDisabled = false
             }
         })
     }
@@ -85,37 +81,44 @@ struct BorrowerDetailView: View {
 struct BorrowerDetailSectionView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerVM: BorrowerVM
-    @Binding var editDisabled: Bool
     var body: some View {
         Section {
             Toggle(isOn: $borrowerVM.contactLink) {
                 Text("Apple iOS Contacts link")
             }
             if borrowerVM.contactLink {
-                Button {
-                    appVM.activeSheet = .contactsList
-                    appVM.sheetPresented = true
-                } label: {
-                    HStack {
-                        Text("\(borrowerVM.name)")
-                        Image(systemName: "person")
-                    }
-                }
+                BorrowerDetailSectionContactView(
+                    borrowerVM: borrowerVM,
+                    contactsVM: ContactsVM(
+                        contactsStore: appVM.contactsStore,
+                        contactsAccess: appVM.contactsAccess
+                    )
+                )
             } else {
-                Button {
-                    appVM.activeSheet = .contactsList
-                    appVM.sheetPresented = true
-                } label: {
-                    HStack {
-                        Text("Select contact")
-                        Image(systemName: "person")
-                    }
-                }
-                TextField("Name", text: $borrowerVM.name).foregroundColor(editDisabled ? .secondary : .primary)
+                TextField("Name", text: $borrowerVM.name).foregroundColor(borrowerVM.editDisabled ? .secondary : .primary)
             }
         } header: {
             Text("Borrower")
         }
+    }
+}
+// MARK: -
+struct BorrowerDetailSectionContactView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var contactsVM: ContactsVM
+    var body: some View {
+        Button {
+            appVM.activeSheet = .contactsList
+            appVM.sheetPresented = true
+        } label: {
+            HStack {
+                Text("\(borrowerVM.name)")
+                Image(systemName: "person")
+            }
+        }.onAppear(perform: {
+            contactsVM.checkBorrowerContact(for: borrowerVM)
+        })
     }
 }
 // MARK: -

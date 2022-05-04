@@ -72,6 +72,9 @@ final class ItemVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         self.loanCount = countItemLoans()
         print("... setVM Item \(id)")
     }
+    func updateModel() {
+        print("updateModel \(self.id)...")
+    }
     func countItemLoans() -> Int {
         loanIds.count
     }

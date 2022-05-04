@@ -72,6 +72,9 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         self.returned = model.returned
         self.status = model.status
     }
+    func updateModel() {
+        print("updateModel \(self.id)...")
+    }
     func setVM(from loan: LoanModel, _ loanItem: ItemModel, _ loanBorrower: BorrowerModel) {
         print("setVM ...")
         setVM(from: loan)

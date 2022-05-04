@@ -15,4 +15,5 @@ protocol ViewModelProtocol: AnyObject {
     var status: StatusModel { get set }
 // MARK: - Methods
     func setVM(from model: ModelType)
+    func updateModel()
 }

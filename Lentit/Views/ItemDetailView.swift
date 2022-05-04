@@ -78,11 +78,6 @@ struct ItemDetailView: View {
             itemVM.valueText = itemVM.filterItemValueText(for: itemVM.valueText)
             itemVM.valueText = itemVM.setItemValueText(for: itemVM.valueText)
         })
-        .onDisappear(perform: {
-            if(itemVM.status == StatusModel.new) {
-                itemVM.status = StatusModel.available
-            }
-        })
     }
 }
 //

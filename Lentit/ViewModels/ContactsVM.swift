@@ -32,6 +32,7 @@ final class ContactsVM: ObservableObject {
         checkContactsAccess()
         setContacts()
         setContactsVMs()
+        sortContactsVMs()
     }
     deinit {
         print("... deinit ContactsVM")
@@ -89,6 +90,29 @@ final class ContactsVM: ObservableObject {
             let contactVM = ContactVM()
             contactVM.setVM(contact: contact)
             contactsVMs.append(contactVM)
+        }
+    }
+    func sortContactsVMs() {
+        contactsVMs.sort()
+    }
+    func getBorrowerContact(for borrowerVM: BorrowerVM) -> CNContact? {
+        print("getBorrowerContact ...")
+        do {
+            let contacts = try getContacts()
+            return contacts.first(where: { $0.identifier == borrowerVM.contactId } )
+        } catch {
+            print("getBorrowerContact error")
+            return nil
+        }
+    }
+    func checkBorrowerContact(for borrowerVM: BorrowerVM) {
+        print("checkBorrowerContact ...")
+        let contact = getBorrowerContact(for: borrowerVM)
+        if let contact = contact {
+            let contactName = "\(contact.givenName) \(contact.familyName)"
+            if borrowerVM.name != contactName {
+                borrowerVM.name = contactName
+            }
         }
     }
 }

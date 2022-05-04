@@ -139,9 +139,6 @@ struct LoanDetailView: View {
             }
         })
         .onDisappear(perform: {
-//            if(loanVM.status == StatusModel.new) {
-//                loanVM.status = StatusModel.current
-//            }
             appVM.activeLoanStatus = loanVM.status
         })
     }

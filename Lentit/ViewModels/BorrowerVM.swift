@@ -13,18 +13,18 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     internal var model: ModelType
     internal var id: UUID
     internal var loanIds: Set<UUID>
-    @Published var name: String {
-        didSet {
-            self.model.name = name
-        }
-    }
-    @Published var status: StatusModel {
-        didSet {
-            self.model.status = status
-        }
-    }
+    @Published var name: String
+    @Published var status: StatusModel
     @Published var loanCount: Int
     @Published var contactLink: Bool
+    @Published var contactId: String?
+    @Published var editDisabled: Bool {
+        didSet {
+            if editDisabled {
+                updateModel()
+            }
+        }
+    }
 // MARK: - Init & deinit
     init() {
         print("BorrowerVM init ...")
@@ -34,32 +34,48 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
         self.status = BorrowerModel.defaultBorrowerData.status
         self.loanCount = 0
         self.contactLink = BorrowerModel.defaultBorrowerData.contactLink
+        self.contactId = nil
         self.loanIds = BorrowerModel.defaultBorrowerData.loanIds
+        self.editDisabled = true
     }
     deinit {
         print("... deinit BorrowerVM \(id)")
     }
 // MARK: - Methods
     func setVM(from model: ModelType) {
-        print("setVM ...")
+        print("setVM \(model.id)...")
         self.model = model
         self.id = model.id // Shared with borrower data object
         self.name = model.name
         self.status = model.status
         self.loanCount = countBorrowerLoans(for: model)
         self.contactLink = model.contactLink
+        self.contactId = model.contactId
         self.loanIds = model.loanIds
         print("... setVM Borrower \(id)")
+    }
+    func updateModel() {
+        print("updateModel \(self.id) ...")
+        self.model.id = self.id
+        self.model.name = self.name
+        self.model.status = self.status
+        self.model.contactLink = self.contactLink
+        self.model.contactId = self.contactId
+        self.model.loanIds = self.loanIds
     }
     func countBorrowerLoans(for borrower: BorrowerModel) -> Int {
         borrower.loanIds.count
     }
     func updateName(to newName: String) {
+        print("updateName \(newName) ...")
         self.name = newName
+    }
+    func updateContactId(to newContactId: String) {
+        print("updateContactId \(newContactId) ...")
+        self.contactId = newContactId
     }
     func updateBorrowerLoans(with loanVMId: UUID) {
         self.loanIds.insert(loanVMId)
-        self.model.loanIds = self.loanIds
     }
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
