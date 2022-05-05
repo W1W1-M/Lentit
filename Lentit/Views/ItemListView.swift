@@ -69,14 +69,12 @@ struct ItemListView: View {
 struct ItemListItemView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemVM: ItemVM
-    @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
             destination: ItemDetailView(
-                itemVM: appVM.getItemVM(for: itemVM.id),
-                navigationLinkIsActive: $navigationLinkIsActive
+                itemVM: appVM.getItemVM(for: itemVM.id)
             ),
-            isActive: $navigationLinkIsActive
+            isActive: $itemVM.navigationLinkActive
         ) {
             HStack {
                 ZStack {
@@ -93,7 +91,7 @@ struct ItemListItemView: View {
         }.onAppear(perform: {
             // Programmatic navigation to newly added item
             if(itemVM.status == StatusModel.new) {
-                navigationLinkIsActive = true
+                itemVM.navigationLinkActive = true
             }
         })
     }

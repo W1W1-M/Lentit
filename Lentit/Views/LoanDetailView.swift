@@ -11,28 +11,20 @@ import EventKit
 struct LoanDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @Binding var navigationLinkIsActive: Bool
-    @State var editDisabled: Bool = true
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             Form {
                 ItemImageView()
-                LoanDetailSectionView(
-                    loanVM: loanVM,
-                    editDisabled: $editDisabled
-                )
+                LoanDetailSectionView(loanVM: loanVM)
                 if(loanVM.status != StatusModel.finished) {
                     LoanReminderSectionView(
                         loanVM: loanVM,
-                        remindersVM: appVM.getRemindersVM(for: loanVM.model),
-                        editDisabled: $editDisabled
+                        remindersVM: appVM.getRemindersVM(for: loanVM.model)
                     )
                 }
                 if(loanVM.status == StatusModel.new) {
                     SaveButtonView(
-                        editDisabled: $editDisabled,
-                        navigationLinkIsActive: $navigationLinkIsActive,
                         element: .Loans,
                         viewModel: loanVM
                     )
@@ -45,7 +37,7 @@ struct LoanDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != StatusModel.new) {
-                    EditButtonView(editDisabled: $editDisabled)
+                    EditButtonView(editDisabled: $loanVM.editDisabled)
                 }
             }
         }
@@ -61,7 +53,7 @@ struct LoanDetailView: View {
                     secondaryButton: .destructive(
                         Text("Delete"),
                         action: {
-                            navigationLinkIsActive = false // Navigate back to loan list
+                            loanVM.navigationLinkActive = false // Navigate back to loan list
                             appVM.deleteLoan(for: loanVM)
                         }
                     )
@@ -135,7 +127,7 @@ struct LoanDetailView: View {
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if loan just added
             if(loanVM.status == StatusModel.new) {
-                editDisabled = false
+                loanVM.editDisabled = false
             }
         })
         .onDisappear(perform: {
@@ -147,7 +139,6 @@ struct LoanDetailView: View {
 struct LoanDetailSectionView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @Binding var editDisabled: Bool
     var body: some View {
         Section(header: LoanDetailSectionHeaderView(loanVM: loanVM)) {
             HStack {
@@ -159,8 +150,8 @@ struct LoanDetailSectionView: View {
                 } label: {
                     Text(loanVM.loanItem.status == StatusModel.unknown ? "Select item" : "\(loanVM.loanItemName)")
                         .font(.headline)
-                        .foregroundColor(editDisabled ? .primary : .accentColor)
-                }.disabled(editDisabled)
+                        .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                }.disabled(loanVM.editDisabled)
             }
             HStack {
                 Text("To").foregroundColor(.secondary)
@@ -172,8 +163,8 @@ struct LoanDetailSectionView: View {
                     Text(loanVM.loanBorrower.status == StatusModel.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
                         .font(.headline)
                         .italic()
-                        .foregroundColor(editDisabled ? .primary : .accentColor)
-                }.disabled(editDisabled)
+                        .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                }.disabled(loanVM.editDisabled)
             }
             HStack {
                 Text("On").foregroundColor(.secondary)
@@ -181,10 +172,10 @@ struct LoanDetailSectionView: View {
                     "",
                     selection: $loanVM.loanDate,
                     displayedComponents: .date
-                ).disabled(editDisabled)
+                ).disabled(loanVM.editDisabled)
             }
             HStack {
-                if(editDisabled) {
+                if(loanVM.editDisabled) {
                     if(loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
                         Spacer()
@@ -192,12 +183,12 @@ struct LoanDetailSectionView: View {
                     } else {
                         Toggle(isOn: $loanVM.returned) {
                             Text("Returned").foregroundColor(.secondary)
-                        }.disabled(editDisabled)
+                        }.disabled(loanVM.editDisabled)
                     }
                 } else {
                     Toggle(isOn: $loanVM.returned) {
                         Text("Returned").foregroundColor(.secondary)
-                    }.disabled(editDisabled)
+                    }.disabled(loanVM.editDisabled)
                 }
             }.disabled(loanVM.status == StatusModel.new)
         }
@@ -218,13 +209,12 @@ struct LoanDetailSectionHeaderView: View {
 struct LoanReminderSectionView: View {
     @ObservedObject var loanVM: LoanVM
     @ObservedObject var remindersVM: RemindersVM
-    @Binding var editDisabled: Bool
     var body: some View {
         Section {
             HStack {
                 Text("Reminder").foregroundColor(.secondary)
                 Spacer()
-                if(editDisabled) {
+                if(loanVM.editDisabled) {
                     if(remindersVM.reminderActive) {
                         Text("\(remindersVM.reminderDateText)")
                         if(remindersVM.ekReminderExists) {
@@ -239,22 +229,22 @@ struct LoanReminderSectionView: View {
                     } else {
                         Toggle(isOn: $remindersVM.reminderActive) {
                             Text("Reminder")
-                        }.disabled(editDisabled)
+                        }.disabled(loanVM.editDisabled)
                         .labelsHidden()
                     }
                 } else {
                     Spacer()
                     Toggle(isOn: $remindersVM.reminderActive) {
                         Text("Reminder")
-                    }.disabled(editDisabled)
+                    }.disabled(loanVM.editDisabled)
                     .labelsHidden()
                 }
             }
-            if(!editDisabled && remindersVM.reminderActive) {
+            if(!loanVM.editDisabled && remindersVM.reminderActive) {
                 LoanReminderDetailView(
                     loanVM: loanVM,
                     remindersVM: remindersVM
-                ).disabled(editDisabled)
+                ).disabled(loanVM.editDisabled)
             }
         }
     }
@@ -328,18 +318,12 @@ struct LoanReminderDetailView: View {
 struct LoanDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            LoanDetailView(
-                loanVM: LoanVM(),
-                navigationLinkIsActive: .constant(false)
-            ).environmentObject(AppVM())
+            LoanDetailView(loanVM: LoanVM()).environmentObject(AppVM())
         }
         //
         ItemImageView().previewLayout(.sizeThatFits)
         //
-        LoanDetailSectionView(
-            loanVM: LoanVM(),
-            editDisabled: .constant(false)
-        ).previewLayout(.sizeThatFits)
+        LoanDetailSectionView(loanVM: LoanVM()).previewLayout(.sizeThatFits)
         .environmentObject(AppVM())
         //
         Form {

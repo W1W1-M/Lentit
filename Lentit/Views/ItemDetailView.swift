@@ -10,23 +10,16 @@ import SwiftUI
 struct ItemDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemVM: ItemVM
-    @State var editDisabled: Bool = true
-    @Binding var navigationLinkIsActive: Bool
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
                 Form {
                     ItemImageView()
-                    ItemDetailSectionView(
-                        itemVM: itemVM,
-                        editDisabled: editDisabled
-                    ).disabled(editDisabled)
+                    ItemDetailSectionView(itemVM: itemVM).disabled(itemVM.editDisabled)
                     ItemHistorySectionView(itemVM: itemVM)
                     if(itemVM.status == StatusModel.new) {
                         SaveButtonView(
-                            editDisabled: $editDisabled,
-                            navigationLinkIsActive: $navigationLinkIsActive,
                             element: .Items,
                             viewModel: itemVM
                         )
@@ -40,7 +33,7 @@ struct ItemDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(itemVM.status != StatusModel.new) {
-                    EditButtonView(editDisabled: $editDisabled)
+                    EditButtonView(editDisabled: $itemVM.editDisabled)
                 }
             }
         }
@@ -56,7 +49,7 @@ struct ItemDetailView: View {
                     secondaryButton: .destructive(
                         Text("Delete"),
                         action: {
-                            navigationLinkIsActive = false // Navigate back to item list
+                            itemVM.navigationLinkActive = false // Navigate back to item list
                             appVM.deleteItem(for: itemVM)
                         }
                     )
@@ -70,7 +63,7 @@ struct ItemDetailView: View {
             UITableView.appearance().backgroundColor = .clear
             // Unlock edit mode if item just added
             if(itemVM.status == StatusModel.new) {
-                editDisabled = false
+                itemVM.editDisabled = false
             }
         })
         .onChange(of: itemVM.valueText, perform: { _ in
@@ -83,10 +76,9 @@ struct ItemDetailView: View {
 //
 struct ItemDetailSectionView: View {
     @ObservedObject var itemVM: ItemVM
-    let editDisabled: Bool
     var body: some View {
         Section(header: ItemDetailSectionHeaderView(itemVM: itemVM)) {
-            TextField("Name", text: $itemVM.name).foregroundColor(editDisabled ? .secondary : .primary)
+            TextField("Name", text: $itemVM.name).foregroundColor(itemVM.editDisabled ? .secondary : .primary)
             HStack {
                 Text("Category").foregroundColor(.secondary)
                 Spacer()
@@ -105,7 +97,7 @@ struct ItemDetailSectionView: View {
             }
         }
         Section(header: Text("Notes")) {
-            TextEditor(text: $itemVM.notes).foregroundColor(editDisabled ? .secondary : .primary)
+            TextEditor(text: $itemVM.notes).foregroundColor(itemVM.editDisabled ? .secondary : .primary)
         }
     }
 }
@@ -181,17 +173,11 @@ struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
         //
         NavigationView {
-            ItemDetailView(
-                itemVM: ItemVM(),
-                navigationLinkIsActive: .constant(true)
-            ).environmentObject(AppVM())
+            ItemDetailView(itemVM: ItemVM()).environmentObject(AppVM())
         }
         //
         List {
-            ItemDetailSectionView(
-                itemVM: ItemVM(),
-                editDisabled: true
-            )
+            ItemDetailSectionView(itemVM: ItemVM())
         }.previewLayout(.sizeThatFits)
         //
         List {

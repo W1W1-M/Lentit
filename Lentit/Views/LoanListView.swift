@@ -86,14 +86,10 @@ struct LoanListView: View {
 struct LoanListItemView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var loanVM: LoanVM
-    @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
-            destination: LoanDetailView(
-                loanVM: loanVM,
-                navigationLinkIsActive: $navigationLinkIsActive
-            ),
-            isActive: $navigationLinkIsActive
+            destination: LoanDetailView(loanVM: loanVM),
+            isActive: $loanVM.navigationLinkActive
         ) {
             HStack {
                 ZStack {
@@ -131,7 +127,7 @@ struct LoanListItemView: View {
         }.onAppear(perform: {
             if(loanVM.status == StatusModel.new) {
                 print("Programmatic navigation to new loan \(loanVM.id) ...")
-                navigationLinkIsActive = true
+                loanVM.navigationLinkActive = true
             }
         })
     }

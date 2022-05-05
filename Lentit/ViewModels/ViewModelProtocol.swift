@@ -7,7 +7,7 @@
 
 import Foundation
 /// View model protocol
-protocol ViewModelProtocol: AnyObject {
+protocol ViewModelProtocol: ObservableObject {
 // MARK: - Properties
     associatedtype ModelType
     var model: ModelType { get set }

@@ -9,10 +9,8 @@ import SwiftUI
 
 struct SaveButtonView<VMT: ViewModelProtocol>: View {
     @EnvironmentObject var appVM: AppVM
-    @Binding var editDisabled: Bool
-    @Binding var navigationLinkIsActive: Bool
     let element: AppVM.Element
-    var viewModel: VMT
+    @ObservedObject var viewModel: VMT
     var body: some View {
         Button {
             switch element {
@@ -27,8 +25,8 @@ struct SaveButtonView<VMT: ViewModelProtocol>: View {
                 appVM.activeBorrowerStatus = .all
             }
             viewModel.updateModel()
-            editDisabled = true
-            navigationLinkIsActive = false
+            viewModel.editDisabled = true
+            viewModel.navigationLinkActive = false
         } label: {
             HStack {
                 Spacer()
@@ -55,8 +53,6 @@ struct SaveButtonView<VMT: ViewModelProtocol>: View {
 struct SaveButtonView_Previews: PreviewProvider {
     static var previews: some View {
         SaveButtonView(
-            editDisabled: .constant(false),
-            navigationLinkIsActive: .constant(false),
             element: .Loans,
             viewModel: LoanVM()
         ).previewLayout(.sizeThatFits)

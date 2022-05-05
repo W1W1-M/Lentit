@@ -19,8 +19,6 @@ struct BorrowerDetailView: View {
                     BorrowerHistorySectionView(borrowerVM: borrowerVM)
                     if(borrowerVM.status == StatusModel.new) {
                         SaveButtonView(
-                            editDisabled: $borrowerVM.editDisabled,
-                            navigationLinkIsActive: $borrowerVM.navigationLinkActive,
                             element: .Borrowers,
                             viewModel: borrowerVM
                         )
