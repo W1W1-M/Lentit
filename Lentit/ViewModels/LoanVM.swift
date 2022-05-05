@@ -44,6 +44,8 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
     @Published var loanBorrowerName: String
     @Published var loanItemName: String
     @Published var loanItemCategory: ItemModel.Category
+    @Published var editDisabled: Bool
+    @Published var navigationLinkActive: Bool
 // MARK: - Init & deinit
     init() {
         print("LoanVM init ...")
@@ -58,6 +60,8 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         self.loanBorrowerName = BorrowerModel.defaultBorrowerData.name
         self.loanItemName = ItemModel.defaultItemData.name
         self.loanItemCategory = ItemModel.defaultItemData.category
+        self.editDisabled = true
+        self.navigationLinkActive = false
         //
         self.loanDateText = setLoanDateText(for: loanDate)
     }

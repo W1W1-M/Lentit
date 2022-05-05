@@ -27,7 +27,7 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
         self.id = UUID()
         self.name = name
         self.status = status
-        self.contactLink = false
+        self.contactLink = contactLink
         self.contactId = contactId
         self.loanIds = []
     }

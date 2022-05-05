@@ -16,13 +16,24 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     @Published var name: String
     @Published var status: StatusModel
     @Published var loanCount: Int
-    @Published var contactLink: Bool
+    @Published var contactLink: Bool {
+        didSet {
+            if !contactLink {
+                contactId = nil
+            }
+        }
+    }
     @Published var contactId: String?
     @Published var editDisabled: Bool {
         didSet {
             if editDisabled {
                 updateModel()
             }
+        }
+    }
+    @Published var navigationLinkActive: Bool {
+        didSet {
+            updateModel()
         }
     }
 // MARK: - Init & deinit
@@ -37,6 +48,7 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
         self.contactId = nil
         self.loanIds = BorrowerModel.defaultBorrowerData.loanIds
         self.editDisabled = true
+        self.navigationLinkActive = false
     }
     deinit {
         print("... deinit BorrowerVM \(id)")

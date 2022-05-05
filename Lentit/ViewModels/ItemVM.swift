@@ -40,6 +40,8 @@ final class ItemVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         }
     }
     @Published var loanCount: Int
+    @Published var editDisabled: Bool
+    @Published var navigationLinkActive: Bool
 // MARK: - Init & deinit
     init() {
         print("ItemVM init ...")
@@ -53,6 +55,8 @@ final class ItemVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         self.status = ItemModel.defaultItemData.status
         self.category = ItemModel.defaultItemData.category
         self.loanCount = 0
+        self.editDisabled = true
+        self.navigationLinkActive = false
     }
     deinit {
         print("... deinit ItemVM \(id)")

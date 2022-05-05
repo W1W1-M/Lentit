@@ -42,14 +42,10 @@ struct BorrowerListView: View {
 struct BorrowerListItemView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerVM: BorrowerVM
-    @State var navigationLinkIsActive: Bool = false
     var body: some View {
         NavigationLink(
-            destination: BorrowerDetailView(
-                borrowerVM: borrowerVM,
-                navigationLinkIsActive: $navigationLinkIsActive
-            ),
-            isActive: $navigationLinkIsActive
+            destination: BorrowerDetailView(borrowerVM: borrowerVM),
+            isActive: $borrowerVM.navigationLinkActive
         ) {
             HStack {
                 ZStack {
@@ -63,7 +59,12 @@ struct BorrowerListItemView: View {
                 Spacer()
                 Text("\(borrowerVM.loanCount) loans").foregroundColor(.secondary)
             }
-        }
+        }.onAppear(perform: {
+            if(borrowerVM.status == StatusModel.new) {
+                print("Programmatic navigation to new borrower \(borrowerVM.id)...")
+                borrowerVM.navigationLinkActive = true
+            }
+        })
     }
 }
 // MARK: -

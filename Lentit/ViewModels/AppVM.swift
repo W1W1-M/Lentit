@@ -443,7 +443,7 @@ final class AppVM: ObservableObject {
         let newBorrower = BorrowerModel(
             name: name,
             status: StatusModel.new,
-            contactLink: false,
+            contactLink: true,
             contactId: nil,
             loanIds: []
         )
@@ -452,10 +452,11 @@ final class AppVM: ObservableObject {
         return newBorrower.id
     }
     func createEmptyBorrower() {
+        print("createEmptyBorrower ...")
         let newBorrower = BorrowerModel(
             name: "",
             status: StatusModel.new,
-            contactLink: false,
+            contactLink: true,
             contactId: nil,
             loanIds: []
         )

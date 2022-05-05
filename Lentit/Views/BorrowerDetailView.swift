@@ -10,7 +10,6 @@ import SwiftUI
 struct BorrowerDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerVM: BorrowerVM
-    @Binding var navigationLinkIsActive: Bool
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
@@ -21,7 +20,7 @@ struct BorrowerDetailView: View {
                     if(borrowerVM.status == StatusModel.new) {
                         SaveButtonView(
                             editDisabled: $borrowerVM.editDisabled,
-                            navigationLinkIsActive: $navigationLinkIsActive,
+                            navigationLinkIsActive: $borrowerVM.navigationLinkActive,
                             element: .Borrowers,
                             viewModel: borrowerVM
                         )
@@ -51,7 +50,7 @@ struct BorrowerDetailView: View {
                     secondaryButton: .destructive(
                         Text("Delete"),
                         action: {
-                            navigationLinkIsActive = false // Navigate back to borrower list
+                            borrowerVM.navigationLinkActive = false // Navigate back to borrower list
                             appVM.deleteBorrower(for: borrowerVM.id)
                         }
                     )
@@ -83,18 +82,14 @@ struct BorrowerDetailSectionView: View {
     @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Section {
-            Toggle(isOn: $borrowerVM.contactLink) {
-                Text("Apple iOS Contacts link")
-            }
-            if borrowerVM.contactLink {
-                BorrowerDetailSectionContactView(
-                    borrowerVM: borrowerVM,
-                    contactsVM: ContactsVM(
-                        contactsStore: appVM.contactsStore,
-                        contactsAccess: appVM.contactsAccess
-                    )
+            BorrowerDetailSectionContactView(
+                borrowerVM: borrowerVM,
+                contactsVM: ContactsVM(
+                    contactsStore: appVM.contactsStore,
+                    contactsAccess: appVM.contactsAccess
                 )
-            } else {
+            )
+            if borrowerVM.contactLink == false {
                 TextField("Name", text: $borrowerVM.name).foregroundColor(borrowerVM.editDisabled ? .secondary : .primary)
             }
         } header: {
@@ -109,12 +104,19 @@ struct BorrowerDetailSectionContactView: View {
     @ObservedObject var contactsVM: ContactsVM
     var body: some View {
         Button {
+            borrowerVM.contactLink = true
             appVM.activeSheet = .contactsList
             appVM.sheetPresented = true
         } label: {
-            HStack {
-                Text("\(borrowerVM.name)")
-                Image(systemName: "person")
+            Toggle(isOn: $borrowerVM.contactLink) {
+                HStack {
+                    Image(systemName: "person")
+                    if borrowerVM.contactId != nil && borrowerVM.contactLink {
+                        Text("\(borrowerVM.name)")
+                    } else {
+                        Text("Select iOS contact")
+                    }
+                }
             }
         }.onAppear(perform: {
             contactsVM.checkBorrowerContact(for: borrowerVM)
@@ -136,15 +138,15 @@ struct BorrowerHistorySectionView: View {
                 EmptyView()
             case 1:
                 HStack {
-                    Text("borrowed")
+                    Text("history")
                     Spacer()
-                    Text("\(borrowerVM.loanCount) time")
+                    Text("\(borrowerVM.loanCount) loan")
                 }
             default:
                 HStack {
-                    Text("borrowed")
+                    Text("history")
                     Spacer()
-                    Text("\(borrowerVM.loanCount) times")
+                    Text("\(borrowerVM.loanCount) loans")
                 }
             }
         }
@@ -165,10 +167,7 @@ struct BorrowerHistoryItemView: View {
 struct BorrowerDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BorrowerDetailView(
-                borrowerVM: BorrowerVM(),
-                navigationLinkIsActive: .constant(true)
-            ).environmentObject(AppVM())
+            BorrowerDetailView(borrowerVM: BorrowerVM()).environmentObject(AppVM())
         }
     }
 }

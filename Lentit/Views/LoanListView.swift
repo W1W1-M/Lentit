@@ -130,7 +130,7 @@ struct LoanListItemView: View {
             }.padding(2)
         }.onAppear(perform: {
             if(loanVM.status == StatusModel.new) {
-                print("Programmatic navigation to new loan ...")
+                print("Programmatic navigation to new loan \(loanVM.id) ...")
                 navigationLinkIsActive = true
             }
         })
