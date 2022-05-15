@@ -62,7 +62,7 @@ final class ContactsVM: ObservableObject {
     func getContacts() throws -> [CNContact] {
         print("getContacts ...")
         var contacts: Array<CNContact> = []
-        let keys = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)]
+        let keys = [CNContactGivenNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
         let request = CNContactFetchRequest(keysToFetch: keys)
         do {
             try contactsStore.enumerateContacts(with: request) {
@@ -109,10 +109,13 @@ final class ContactsVM: ObservableObject {
         print("checkBorrowerContact ...")
         let contact = getBorrowerContact(for: borrowerVM)
         if let contact = contact {
-            let contactName = "\(contact.givenName) \(contact.familyName)"
+            let contactName = contact.givenName
             if borrowerVM.name != contactName {
                 borrowerVM.name = contactName
             }
         }
+    }
+    func getBorrowerContactVM(for borrower: BorrowerModel) -> ContactVM {
+        contactsVMs.first(where: { $0.contact.identifier == borrower.contactId } ) ?? ContactVM()
     }
 }

@@ -68,11 +68,14 @@ final class LoanModel: ModelProtocol, ObservableObject, Equatable, Hashable {
 extension LoanModel {
     /// Predefined loan sort orders
     struct SortingOrder: Identifiable, Equatable, Hashable, CaseIterable {
+        // MARK: - Properties
         let id: UUID = UUID()
+        static let byStatus: SortingOrder = SortingOrder()
         static let byItemName: SortingOrder = SortingOrder()
         static let byBorrowerName: SortingOrder = SortingOrder()
         static let byLoanDate: SortingOrder = SortingOrder()
-        static let allCases: Array<SortingOrder> = [byItemName, byBorrowerName, byLoanDate]
+        static let allCases: Array<SortingOrder> = [byStatus, byItemName, byBorrowerName, byLoanDate]
+        // MARK: - Methods
     }
 }
 

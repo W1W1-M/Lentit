@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
+import Contacts
 // MARK: - Views
 struct BorrowerDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var contactsVM: ContactsVM
     var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
                 Form {
-                    BorrowerDetailSectionView(borrowerVM: borrowerVM).disabled(borrowerVM.editDisabled)
+                    BorrowerDetailSectionView(
+                        borrowerVM: borrowerVM,
+                        contactsVM: contactsVM
+                    ).disabled(borrowerVM.editDisabled)
                     BorrowerHistorySectionView(borrowerVM: borrowerVM)
                     if(borrowerVM.status == StatusModel.new) {
                         SaveButtonView(
@@ -23,7 +28,17 @@ struct BorrowerDetailView: View {
                             viewModel: borrowerVM
                         )
                     } else {
-                        DeleteButtonView(element: .Borrowers)
+                        if borrowerVM.contactLink {
+                            Section {
+                                CallBorrowerButtonView(contactVM: contactsVM.getBorrowerContactVM(for: borrowerVM.model))
+                            }
+                            Section {
+                                MessageBorrowerButtonView(contactVM: contactsVM.getBorrowerContactVM(for: borrowerVM.model))
+                            }
+                        }
+                        Section {
+                            DeleteButtonView(element: .Borrowers)
+                        }
                     }
                 }
             }
@@ -58,11 +73,7 @@ struct BorrowerDetailView: View {
             }
         }
         .sheet(isPresented: $appVM.sheetPresented) {
-            ContactsListView(contactsVM: ContactsVM(
-                contactsStore: appVM.contactsStore,
-                contactsAccess: appVM.contactsAccess
-            ), borrowerVM: borrowerVM
-            )
+            ContactsListView(contactsVM: contactsVM, borrowerVM: borrowerVM)
         }
         .onAppear(perform: {
             // Background color fix
@@ -78,14 +89,12 @@ struct BorrowerDetailView: View {
 struct BorrowerDetailSectionView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var contactsVM: ContactsVM
     var body: some View {
         Section {
             BorrowerDetailSectionContactView(
                 borrowerVM: borrowerVM,
-                contactsVM: ContactsVM(
-                    contactsStore: appVM.contactsStore,
-                    contactsAccess: appVM.contactsAccess
-                )
+                contactsVM: contactsVM
             )
             if borrowerVM.contactLink == false {
                 TextField("Name", text: $borrowerVM.name).foregroundColor(borrowerVM.editDisabled ? .secondary : .primary)
@@ -108,7 +117,7 @@ struct BorrowerDetailSectionContactView: View {
         } label: {
             Toggle(isOn: $borrowerVM.contactLink) {
                 HStack {
-                    Image(systemName: "person")
+                    Image(systemName: "person.crop.circle.fill")
                     if borrowerVM.contactId != nil && borrowerVM.contactLink {
                         Text("\(borrowerVM.name)")
                     } else {
@@ -165,7 +174,13 @@ struct BorrowerHistoryItemView: View {
 struct BorrowerDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            BorrowerDetailView(borrowerVM: BorrowerVM()).environmentObject(AppVM())
+            BorrowerDetailView(
+                borrowerVM: BorrowerVM(),
+                contactsVM: ContactsVM(
+                    contactsStore: CNContactStore(),
+                    contactsAccess: .authorized
+                )
+            ).environmentObject(AppVM())
         }
     }
 }

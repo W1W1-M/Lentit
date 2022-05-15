@@ -44,7 +44,13 @@ struct BorrowerListItemView: View {
     @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         NavigationLink(
-            destination: BorrowerDetailView(borrowerVM: borrowerVM),
+            destination: BorrowerDetailView(
+                borrowerVM: borrowerVM,
+                contactsVM: ContactsVM(
+                    contactsStore: appVM.contactsStore,
+                    contactsAccess: appVM.contactsAccess
+                )
+            ),
             isActive: $borrowerVM.navigationLinkActive
         ) {
             HStack {
@@ -144,6 +150,7 @@ struct BorrowerListItemSheetView: View {
     var body: some View {
         Button {
             loanVM.setLoanBorrower(to: borrowerVM.model)
+            loanVM.updateModel()
             appVM.sheetPresented = false
         } label: {
             HStack {

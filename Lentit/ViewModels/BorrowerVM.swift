@@ -33,7 +33,9 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     }
     @Published var navigationLinkActive: Bool {
         didSet {
-            updateModel()
+            if !navigationLinkActive {
+                editDisabled = true
+            }
         }
     }
 // MARK: - Init & deinit

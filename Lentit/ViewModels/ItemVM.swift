@@ -40,8 +40,20 @@ final class ItemVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         }
     }
     @Published var loanCount: Int
-    @Published var editDisabled: Bool
-    @Published var navigationLinkActive: Bool
+    @Published var editDisabled: Bool {
+        didSet {
+            if editDisabled {
+                updateModel()
+            }
+        }
+    }
+    @Published var navigationLinkActive: Bool {
+        didSet {
+            if !navigationLinkActive {
+                editDisabled = true
+            }
+        }
+    }
 // MARK: - Init & deinit
     init() {
         print("ItemVM init ...")

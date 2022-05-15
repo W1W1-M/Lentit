@@ -75,11 +75,17 @@ final class AppVM: ObservableObject {
     }
     @Published var activeLoanSort: LoanModel.SortingOrder {
         didSet {
+            if activeLoanSort == .byStatus {
+                self.activeLoanStatus = .all
+            }
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
         }
     }
     @Published var activeLoanStatus: StatusModel {
         didSet {
+            if activeLoanStatus != .all && activeLoanSort == .byStatus {
+                self.activeLoanSort = .byLoanDate
+            }
             self.loanVMs = setLoanVMs(for: dataStore.readStoredLoans(), dataStore.readStoredItems(), dataStore.readStoredBorrowers())
             self.loanVMs = filterLoanVMs(for: loanVMs, by: activeLoanStatus)
             self.loanVMs = filterLoanVMs(for: loanVMs, by: activeItemCategory)
@@ -153,7 +159,7 @@ final class AppVM: ObservableObject {
         self.activeItemCategory = .all
         self.activeItemStatus = .all
         self.activeItemSort = .byName
-        self.activeLoanSort = .byItemName
+        self.activeLoanSort = .byLoanDate
         self.activeLoanStatus = .current
         self.activeBorrowerStatus = .regular
         self.activeBorrower = BorrowerVM()
@@ -313,17 +319,21 @@ final class AppVM: ObservableObject {
         var sortedLoanVMs = loanVMs
         // Use switch case to sort array
         switch activeSort {
-        case LoanModel.SortingOrder.byItemName:
+        case .byItemName:
             sortedLoanVMs.sort {
                 $0.loanItemName < $1.loanItemName
             }
-        case LoanModel.SortingOrder.byBorrowerName:
+        case .byBorrowerName:
             sortedLoanVMs.sort {
                 $0.loanBorrowerName < $1.loanBorrowerName
             }
-        case LoanModel.SortingOrder.byLoanDate:
+        case .byLoanDate:
             sortedLoanVMs.sort {
                 $0.loanDate < $1.loanDate
+            }
+        case .byStatus:
+            sortedLoanVMs.sort {
+                $0.status.sortingOrder < $1.status.sortingOrder
             }
         default:
             sortedLoanVMs.sort {

@@ -59,7 +59,7 @@ struct LoanListStatusView: View {
                 default:
                     Text("unknown")
                 }
-                ActiveLoanStatusIconView()
+                ActiveStatusIconView(activeStatus: appVM.activeLoanStatus)
             }
         }.font(.title3)
         .textCase(.lowercase)
@@ -92,13 +92,17 @@ struct LoanListItemView: View {
             isActive: $loanVM.navigationLinkActive
         ) {
             HStack {
-                ZStack {
-                    Circle()
-                        .frame(width: 40, height: 40)
-                    Text("\(String(loanVM.loanItemName.prefix(2)))")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                }.padding(.horizontal, 4)
+                if appVM.activeLoanStatus == .all {
+                    ActiveStatusIconView(activeStatus: loanVM.status)
+                } else {
+                    ZStack {
+                        Circle()
+                            .frame(width: 40, height: 40)
+                        Text("\(String(loanVM.loanItemName.prefix(2)))")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }.padding(.horizontal, 4)
+                }
                 HStack {
                     Text("\(loanVM.loanItemName)").font(.headline)
                 }
@@ -152,12 +156,14 @@ struct LoanListBottomToolbarView: View {
                     } label: {
                         HStack {
                             switch SortingOrder {
-                            case LoanModel.SortingOrder.byItemName:
+                            case .byItemName:
                                 Text("by Item")
-                            case LoanModel.SortingOrder.byBorrowerName:
+                            case .byBorrowerName:
                                 Text("by Borrower")
-                            case LoanModel.SortingOrder.byLoanDate:
+                            case .byLoanDate:
                                 Text("by Date")
+                            case .byStatus:
+                                Text("by Status")
                             default:
                                 Text("")
                             }

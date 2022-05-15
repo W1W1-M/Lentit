@@ -14,6 +14,7 @@ final class ContactVM: ObservableObject, Identifiable, Equatable, Comparable {
     internal var contact: CNContact
     @Published var name: String
     @Published var borrowerContactLink: Bool
+    @Published var phoneNumbers: Array<CNLabeledValue<CNPhoneNumber>>?
     // MARK: - Init & deinit
     init() {
         print("ContactVM init ...")
@@ -21,6 +22,7 @@ final class ContactVM: ObservableObject, Identifiable, Equatable, Comparable {
         self.contact = CNContact()
         self.name = ""
         self.borrowerContactLink = false
+        self.phoneNumbers = nil
     }
     deinit {
         print("... deinit ContactVM \(id)")
@@ -30,8 +32,9 @@ final class ContactVM: ObservableObject, Identifiable, Equatable, Comparable {
         print("setVM \(contact.identifier) ...")
         self.contact = contact
         self.id = UUID(uuidString: contact.identifier) ?? UUID()
-        self.name = "\(contact.givenName) \(contact.familyName)"
+        self.name = contact.givenName
         self.borrowerContactLink = false
+        self.phoneNumbers = contact.phoneNumbers
     }
     static func == (lhs: ContactVM, rhs: ContactVM) -> Bool {
         lhs.id == rhs.id

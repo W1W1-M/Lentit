@@ -25,14 +25,12 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
     }
     @Published var loanDate: Date {
         didSet{
-            model.loanDate = self.loanDate
             loanDateText = setLoanDateText(for: loanDate)
         }
     }
     @Published var loanDateText: String
     @Published var returned: Bool {
         didSet{
-            model.returned = self.returned
             setReturnedLoanStatus()
         }
     }
@@ -44,8 +42,20 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
     @Published var loanBorrowerName: String
     @Published var loanItemName: String
     @Published var loanItemCategory: ItemModel.Category
-    @Published var editDisabled: Bool
-    @Published var navigationLinkActive: Bool
+    @Published var editDisabled: Bool {
+        didSet {
+            if editDisabled {
+                updateModel()
+            }
+        }
+    }
+    @Published var navigationLinkActive: Bool {
+        didSet {
+            if !navigationLinkActive {
+                editDisabled = true
+            }
+        }
+    }
 // MARK: - Init & deinit
     init() {
         print("LoanVM init ...")

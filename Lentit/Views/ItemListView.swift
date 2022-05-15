@@ -42,7 +42,7 @@ struct ItemListStatusView: View {
                 default:
                     Text("unknown")
                 }
-                ActiveItemStatusIconView()
+                ActiveStatusIconView(activeStatus: appVM.activeItemStatus)
             }
         }.font(.title3)
         .textCase(.lowercase)
@@ -71,9 +71,7 @@ struct ItemListItemView: View {
     @ObservedObject var itemVM: ItemVM
     var body: some View {
         NavigationLink(
-            destination: ItemDetailView(
-                itemVM: appVM.getItemVM(for: itemVM.id)
-            ),
+            destination: ItemDetailView(itemVM: itemVM),
             isActive: $itemVM.navigationLinkActive
         ) {
             HStack {
@@ -221,6 +219,7 @@ struct ItemListItemButtonView: View {
     var body: some View {
         Button {
             loanVM.setLoanItem(to: itemVM.model)
+            loanVM.updateModel()
             appVM.sheetPresented = false
         } label: {
             HStack {

@@ -38,6 +38,11 @@ final class RemindersVM: ObservableObject, Identifiable {
         didSet {
             self.loan.reminderDate = reminderDate
             self.reminderDateText = setReminderDateText(for: reminderDate)
+            do {
+                try updateReminder()
+            } catch {
+                print(error)
+            }
         }
     }
     @Published var reminderDateText: String
@@ -50,6 +55,8 @@ final class RemindersVM: ObservableObject, Identifiable {
         case defaultCalendarNotSet
         case reminderNotSaved
         case reminderNotDeleted
+        case reminderNotUpdated
+        case alarmsNotFound
     }
 // MARK: - Init & deinit
     init(
@@ -166,6 +173,30 @@ final class RemindersVM: ObservableObject, Identifiable {
             throw reminderErrors.reminderNotSaved
         }
     }
+    func updateReminder() throws {
+        print("updateReminder \(ekReminderId) ...")
+        self.ekReminderExists = checkReminderExists(self.ekReminderId)
+        if ekReminderExists {
+            do {
+                let reminder = try getReminder(ekReminderId)
+                let alarm = EKAlarm(absoluteDate: self.reminderDate)
+                try deleteAlarms(for: reminder)
+                reminder.calendar = self.reminderDefaultCalendar
+                reminder.title = self.reminderTitle
+                reminder.startDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: self.loanDate)
+                reminder.dueDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: self.reminderDate)
+                reminder.notes = self.reminderNotes
+                reminder.addAlarm(alarm)
+                try saveReminder(newReminder: reminder)
+            } catch {
+                print("Reminder update error \(error)")
+                throw reminderErrors.reminderNotUpdated
+            }
+        } else {
+            print("Reminder update error")
+            throw reminderErrors.reminderNotFound
+        }
+    }
     func deleteReminder() throws {
         print("deleteReminder ...")
         do {
@@ -221,5 +252,17 @@ final class RemindersVM: ObservableObject, Identifiable {
     func resetEventStore() {
         print("resetEventStore ...")
         self.eventStore = EKEventStore()
+    }
+    func deleteAlarms(for reminder: EKReminder) throws {
+        print("deleteAlarms ...")
+        if let alarms = reminder.alarms {
+            for EKAlarm in alarms {
+                reminder.removeAlarm(EKAlarm)
+            }
+        } else {
+            print("Alarms not found")
+            throw reminderErrors.alarmsNotFound
+        }
+        
     }
 }

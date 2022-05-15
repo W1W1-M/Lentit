@@ -212,11 +212,9 @@ struct LoanReminderSectionView: View {
     var body: some View {
         Section {
             HStack {
-                Text("Reminder").foregroundColor(.secondary)
-                Spacer()
+                Text("Reminder (iOS)").foregroundColor(.secondary)
                 if(loanVM.editDisabled) {
                     if(remindersVM.reminderActive) {
-                        Text("\(remindersVM.reminderDateText)")
                         if(remindersVM.ekReminderExists) {
                             Image(systemName: "checkmark.circle")
                                 .foregroundColor(.green)
@@ -226,13 +224,25 @@ struct LoanReminderSectionView: View {
                                 .foregroundColor(.red)
                                 .imageScale(.large)
                         }
+                        Spacer()
+                        Text("\(remindersVM.reminderDateText)")
                     } else {
+                        Spacer()
                         Toggle(isOn: $remindersVM.reminderActive) {
                             Text("Reminder")
                         }.disabled(loanVM.editDisabled)
                         .labelsHidden()
                     }
                 } else {
+                    if(remindersVM.ekReminderExists) {
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(.green)
+                            .imageScale(.large)
+                    } else {
+                        Image(systemName: "xmark.circle")
+                            .foregroundColor(.red)
+                            .imageScale(.large)
+                    }
                     Spacer()
                     Toggle(isOn: $remindersVM.reminderActive) {
                         Text("Reminder")
@@ -260,21 +270,6 @@ struct LoanReminderDetailView: View {
             in: loanVM.loanDate...,
             displayedComponents: .date
         ).foregroundColor(.secondary)
-        HStack {
-            Text("Apple iOS Reminder")
-            Spacer()
-            if(remindersVM.ekReminderExists) {
-                Text("Set")
-                Image(systemName: "checkmark.circle")
-                    .foregroundColor(.green)
-                    .imageScale(.large)
-            } else {
-                Text("Unset")
-                Image(systemName: "xmark.circle")
-                    .foregroundColor(.red)
-                    .imageScale(.large)
-            }
-        }.foregroundColor(.secondary)
         if(remindersVM.ekReminderExists) {
             Button {
                 do {
