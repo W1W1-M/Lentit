@@ -30,10 +30,7 @@ struct BorrowerDetailView: View {
                     } else {
                         if borrowerVM.contactLink {
                             Section {
-                                CallBorrowerButtonView(contactVM: contactsVM.getBorrowerContactVM(for: borrowerVM.model))
-                            }
-                            Section {
-                                MessageBorrowerButtonView(contactVM: contactsVM.getBorrowerContactVM(for: borrowerVM.model))
+                                CallMessageBorrowerButtonView(contactVM: contactsVM.getBorrowerContactVM(for: borrowerVM.model))
                             }
                         }
                         Section {
