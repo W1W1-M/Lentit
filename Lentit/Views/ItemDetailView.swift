@@ -15,7 +15,7 @@ struct ItemDetailView: View {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
                 Form {
-                    ItemImageView()
+                    CircleImageView()
                     ItemDetailSectionView(itemVM: itemVM).disabled(itemVM.editDisabled)
                     ItemHistorySectionView(itemVM: itemVM)
                     if(itemVM.status == StatusModel.new) {

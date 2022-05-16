@@ -17,6 +17,28 @@ struct BorrowerDetailView: View {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
                 Form {
+                    if borrowerVM.contactLink {
+                        HStack {
+                            Spacer()
+                            if borrowerVM.thumbnailImage != nil {
+                                Image(uiImage: UIImage(data: borrowerVM.thumbnailImage ?? Data()) ?? UIImage())
+                                    .resizable()
+                                    .frame(width: 200, height: 200)
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                            } else {
+                                ZStack {
+                                    Circle()
+                                        .frame(width: 200, height: 200)
+                                        .foregroundColor(.accentColor)
+                                    Text("\(String(borrowerVM.name.prefix(2)))")
+                                        .font(.largeTitle)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                            Spacer()
+                        }.listRowBackground(Color("BackgroundColor"))
+                    }
                     BorrowerDetailSectionView(
                         borrowerVM: borrowerVM,
                         contactsVM: contactsVM

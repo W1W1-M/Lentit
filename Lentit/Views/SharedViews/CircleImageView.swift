@@ -1,5 +1,5 @@
 //
-//  ItemImageView.swift
+//  CircleImageView.swift
 //  Lentit
 //
 //  Created by William Mead on 28/03/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 // MARK: - Views
-struct ItemImageView: View {
+struct CircleImageView: View {
     var body: some View {
         HStack {
             Spacer()
@@ -24,8 +24,8 @@ struct ItemImageView: View {
     }
 }
 // MARK: - Previews
-struct ItemImageView_Previews: PreviewProvider {
+struct CircleImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemImageView().previewLayout(.sizeThatFits)
+        CircleImageView().previewLayout(.sizeThatFits)
     }
 }

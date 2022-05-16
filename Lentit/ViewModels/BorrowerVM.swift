@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Contacts
 /// Borrower view model
 final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable, Hashable {
 // MARK: - Properties
@@ -14,6 +15,7 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     internal var id: UUID
     internal var loanIds: Set<UUID>
     @Published var name: String
+    @Published var thumbnailImage: Data?
     @Published var status: StatusModel
     @Published var loanCount: Int
     @Published var contactLink: Bool {
@@ -44,6 +46,7 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
         self.model = BorrowerModel.defaultBorrowerData
         self.id = BorrowerModel.defaultBorrowerData.id
         self.name = BorrowerModel.defaultBorrowerData.name
+        self.thumbnailImage = nil
         self.status = BorrowerModel.defaultBorrowerData.status
         self.loanCount = 0
         self.contactLink = BorrowerModel.defaultBorrowerData.contactLink
@@ -80,13 +83,11 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     func countBorrowerLoans(for borrower: BorrowerModel) -> Int {
         borrower.loanIds.count
     }
-    func updateName(to newName: String) {
-        print("updateName \(newName) ...")
-        self.name = newName
-    }
-    func updateContactId(to newContactId: String) {
-        print("updateContactId \(newContactId) ...")
-        self.contactId = newContactId
+    func updateVM(from contactVM: ContactVM) {
+        print("updateVM ...")
+        self.name = contactVM.name
+        self.contactId = contactVM.contact.identifier
+        self.thumbnailImage = contactVM.thumbnailImageData
     }
     func updateBorrowerLoans(with loanVMId: UUID) {
         self.loanIds.insert(loanVMId)

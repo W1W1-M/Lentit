@@ -48,8 +48,7 @@ struct ContactsListEntryView: View {
     @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         Button {
-            borrowerVM.updateContactId(to: contactVM.contact.identifier)
-            borrowerVM.updateName(to: contactVM.name)
+            borrowerVM.updateVM(from: contactVM)
             appVM.sheetPresented = false
         } label: {
             HStack {
