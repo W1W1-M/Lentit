@@ -19,3 +19,8 @@ protocol ViewModelProtocol: ObservableObject {
     func setVM(from model: ModelType)
     func updateModel()
 }
+extension ViewModelProtocol {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}

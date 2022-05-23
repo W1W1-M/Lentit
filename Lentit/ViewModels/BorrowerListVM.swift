@@ -13,6 +13,7 @@ final class BorrowerListVM: ObservableObject {
     @Published var newBorrowerPresented: Bool
     @Published var newBorrowerId: UUID
     @Published var newBorrowerName: String
+    @Published var newBorrowerStatus: StatusModel
 // MARK: - Init & deinit
     init() {
         print("BorrowerListVM init ...")
@@ -20,6 +21,7 @@ final class BorrowerListVM: ObservableObject {
         self.newBorrowerPresented = false
         self.newBorrowerId = UUID()
         self.newBorrowerName = ""
+        self.newBorrowerStatus = .regular
     }
     deinit {
         print("... deinit BorrowerListVM")

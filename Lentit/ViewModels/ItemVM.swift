@@ -57,15 +57,15 @@ final class ItemVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
 // MARK: - Init & deinit
     init() {
         print("ItemVM init ...")
-        self.model = ItemModel.defaultItemData
-        self.id = ItemModel.defaultItemData.id
-        self.loanIds = ItemModel.defaultItemData.loanIds
-        self.name = ItemModel.defaultItemData.name
-        self.notes = ItemModel.defaultItemData.notes
-        self.value = ItemModel.defaultItemData.value
+        self.model = ItemModel.defaultData
+        self.id = ItemModel.defaultData.id
+        self.loanIds = ItemModel.defaultData.loanIds
+        self.name = ItemModel.defaultData.name
+        self.notes = ItemModel.defaultData.notes
+        self.value = ItemModel.defaultData.value
         self.valueText = ""
-        self.status = ItemModel.defaultItemData.status
-        self.category = ItemModel.defaultItemData.category
+        self.status = ItemModel.defaultData.status
+        self.category = ItemModel.defaultData.category
         self.loanCount = 0
         self.editDisabled = true
         self.navigationLinkActive = false
@@ -137,9 +137,6 @@ final class ItemVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
     func updateItemLoans(with loanVMId: UUID) {
         self.loanIds.insert(loanVMId)
         self.model.loanIds = self.loanIds
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
     static func == (lhs: ItemVM, rhs: ItemVM) -> Bool {
         lhs.id == rhs.id

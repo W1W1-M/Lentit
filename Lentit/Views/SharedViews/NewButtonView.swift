@@ -14,11 +14,11 @@ struct NewButtonView: View {
         Button {
             switch element {
             case .Loans:
-                appVM.createEmptyLoan()
+                appVM.createLoan()
             case .Borrowers:
-                appVM.createEmptyBorrower()
+                appVM.createBorrower()
             case .Items:
-                appVM.createEmptyItem()
+                appVM.createItem()
             }
         } label: {
             HStack {

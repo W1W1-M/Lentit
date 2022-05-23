@@ -157,9 +157,10 @@ struct ItemListSheetView: View {
                             Button {
                                 itemListVM.newItemId = appVM.createItem(
                                     named: itemListVM.newItemName,
-                                    typed: itemListVM.newItemCategory
+                                    typed: itemListVM.newItemCategory,
+                                    is: itemListVM.newItemStatus
                                 )
-                                // loanVM.setLoanItem(to: try appVM.dataStore.readStoredItem(itemListVM.newItemId))
+                                loanVM.setLoanItem(to: appVM.getItem(with: itemListVM.newItemId))
                                 itemListVM.hideNewItem()
                                 appVM.sheetPresented = false
                             } label: {

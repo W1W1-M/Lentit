@@ -44,9 +44,6 @@ final class ItemModel: ModelProtocol, ObservableObject, Equatable, Hashable {
     func removeLoanId(with loanId: UUID) {
         self.loanIds.remove(loanId)
     }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
     static func == (lhs: ItemModel, rhs: ItemModel) -> Bool {
         lhs.id == rhs.id
     }
@@ -92,7 +89,7 @@ extension ItemModel {
 }
 
 extension ItemModel {
-    static var defaultItemData: ItemModel = ItemModel(
+    static let defaultData: ItemModel = ItemModel(
         name: "Unknown item",
         notes: "Unknown description",
         value: 100,

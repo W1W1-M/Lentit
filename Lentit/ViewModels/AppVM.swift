@@ -132,7 +132,13 @@ final class AppVM: ObservableObject {
     @Published var alertPresented: Bool
     @Published var sheetPresented: Bool
     @Published var activeAlert: AlertModel
-    @Published var activeSheet: SheetModel
+    @Published var activeSheet: Sheet
+    enum Sheet {
+        case borrowersList
+        case itemsList
+        case contactsList
+        case borrowerDetail
+    }
     enum Element {
         case Loans
         case Items
@@ -203,8 +209,8 @@ final class AppVM: ObservableObject {
         print("... setLoanVMs")
         return loanVMs
     }
-    func createEmptyLoan() {
-        print("createEmptyLoan ...")
+    func createLoan() {
+        print("createLoan ...")
         let newLoan = LoanModel(
             loanDate: Date(),
             loanTime: 100000.0, // WIP
@@ -236,12 +242,12 @@ final class AppVM: ObservableObject {
             if let loanItemId = loan.itemId {
                 loanItem = try dataStore.readStoredItem(loanItemId)
             } else {
-                loanItem = ItemModel.defaultItemData
+                loanItem = ItemModel.defaultData
             }
             if let loanBorrowerId = loan.borrowerId {
                 loanBorrower = try dataStore.readStoredBorrower(loanBorrowerId)
             } else {
-                loanBorrower = BorrowerModel.defaultBorrowerData
+                loanBorrower = BorrowerModel.defaultData
             }
             let loanVM = LoanVM()
             loanVM.setVM(from: loan, loanItem, loanBorrower)
@@ -269,7 +275,7 @@ final class AppVM: ObservableObject {
         return loanItemVM
     }
     func getLoanItem(in items: [ItemModel], for loan: LoanModel) -> ItemModel {
-        var loanItem: ItemModel = ItemModel.defaultItemData
+        var loanItem: ItemModel = ItemModel.defaultData
         for item in items {
             if(item.id == loan.itemId) {
                 loanItem = item
@@ -287,7 +293,7 @@ final class AppVM: ObservableObject {
         return loanBorrowerVM
     }
     func getLoanBorrower(in borrowers: [BorrowerModel], for loan: LoanModel) -> BorrowerModel {
-        var loanBorrower: BorrowerModel = BorrowerModel.defaultBorrowerData
+        var loanBorrower: BorrowerModel = BorrowerModel.defaultData
         for borrower in borrowers {
             if(borrower.id == loan.borrowerId) {
                 loanBorrower = borrower
@@ -352,20 +358,22 @@ final class AppVM: ObservableObject {
         }
         return itemVMs
     }
-    func createItem(named name: String, typed category: ItemModel.Category) -> UUID {
+    func createItem(named name: String, typed category: ItemModel.Category = .other, is status: StatusModel = .new) -> UUID {
+        print("createItem ...")
         let newItem = ItemModel(
             name: name,
             notes: "",
             value: 0,
             category: category,
-            status: StatusModel.new,
+            status: status,
             loanIds: []
         )
         self.dataStore.createItem(newItem: newItem)
         self.itemVMs = setItemVMs(for: dataStore.readStoredItems())
         return newItem.id
     }
-    func createEmptyItem() {
+    func createItem() {
+        print("createItem ...")
         let newItem = ItemModel(
             name: "",
             notes: "",
@@ -389,6 +397,17 @@ final class AppVM: ObservableObject {
         } catch {
             print(error)
             return ItemVM()
+        }
+    }
+    func getItem(with id: UUID) -> ItemModel {
+        print("getItem ...")
+        var item = ItemModel.defaultData
+        do {
+            item = try dataStore.readStoredItem(id)
+            return item
+        } catch {
+            print("item \(id) not found, defaulting to unknown item")
+            return item
         }
     }
     func getListEntryItemVM(with id: UUID) -> ItemVM {
@@ -449,25 +468,28 @@ final class AppVM: ObservableObject {
         }
         return borrowerVMs
     }
-    func createBorrower(named name: String) -> UUID {
+    func createBorrower(named name: String, is status: StatusModel = .new) -> UUID {
+        print("createBorrower ...")
         let newBorrower = BorrowerModel(
             name: name,
-            status: StatusModel.new,
+            status: status,
             contactLink: true,
             contactId: nil,
+            thumbnailImage: nil,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
         return newBorrower.id
     }
-    func createEmptyBorrower() {
-        print("createEmptyBorrower ...")
+    func createBorrower() {
+        print("createBorrower ...")
         let newBorrower = BorrowerModel(
             name: "",
             status: StatusModel.new,
             contactLink: true,
             contactId: nil,
+            thumbnailImage: nil,
             loanIds: []
         )
         self.dataStore.createBorrower(newBorrower: newBorrower)
@@ -496,7 +518,7 @@ final class AppVM: ObservableObject {
     }
     func getBorrower(with id: UUID) -> BorrowerModel {
         print("getBorrower ...")
-        var borrower = BorrowerModel.defaultBorrowerData
+        var borrower = BorrowerModel.defaultData
         do {
             borrower = try dataStore.readStoredBorrower(id)
             return borrower

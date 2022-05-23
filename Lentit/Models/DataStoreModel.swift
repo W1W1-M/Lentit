@@ -218,6 +218,7 @@ extension DataStoreModel {
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,
+            thumbnailImage: nil,
             loanIds: []
         ),
         BorrowerModel(
@@ -225,6 +226,7 @@ extension DataStoreModel {
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,
+            thumbnailImage: nil,
             loanIds: []
         ),
         BorrowerModel(
@@ -232,6 +234,7 @@ extension DataStoreModel {
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,
+            thumbnailImage: nil,
             loanIds: []
         ),
         BorrowerModel(
@@ -239,6 +242,7 @@ extension DataStoreModel {
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,
+            thumbnailImage: nil,
             loanIds: []
         )
     ]

@@ -18,6 +18,7 @@ final class ContactsVM: ObservableObject {
     }
     internal var contacts: Array<CNContact>
     @Published var contactsVMs: Array<ContactVM>
+    @Published var listSections: Array<String>
 // MARK: - Init & deinit
     init(
         contactsStore: CNContactStore,
@@ -28,11 +29,13 @@ final class ContactsVM: ObservableObject {
         self.contactsAccess = contactsAccess
         self.contacts = []
         self.contactsVMs = []
+        self.listSections = []
         //
         checkContactsAccess()
         setContacts()
         setContactsVMs()
         sortContactsVMs()
+        setListSections(for: contactsVMs)
     }
     deinit {
         print("... deinit ContactsVM")
@@ -88,7 +91,7 @@ final class ContactsVM: ObservableObject {
         print("setContactsVMs ...")
         for contact in self.contacts {
             let contactVM = ContactVM()
-            contactVM.setVM(contact: contact)
+            contactVM.setVM(from: contact)
             contactsVMs.append(contactVM)
         }
     }
@@ -99,7 +102,9 @@ final class ContactsVM: ObservableObject {
         print("getBorrowerContact ...")
         do {
             let contacts = try getContacts()
-            return contacts.first(where: { $0.identifier == borrowerVM.contactId } )
+            return contacts.first(where: { ContactVM in
+                ContactVM.identifier == borrowerVM.contactId
+            })
         } catch {
             print("getBorrowerContact error")
             return nil
@@ -116,6 +121,15 @@ final class ContactsVM: ObservableObject {
         }
     }
     func getBorrowerContactVM(for borrower: BorrowerModel) -> ContactVM {
-        contactsVMs.first(where: { $0.contact.identifier == borrower.contactId } ) ?? ContactVM()
+        contactsVMs.first(where: { ContactVM in
+            ContactVM.model.identifier == borrower.contactId
+        }) ?? ContactVM()
+    }
+    func setListSections(for contactsVMs: [ContactVM]) {
+        var listSectionsStrings: Set<String> = []
+        for contactVM in contactsVMs {
+            listSectionsStrings.insert(String(contactVM.name.prefix(1)))
+        }
+        listSections = listSectionsStrings.sorted(by: { $0 < $1 })
     }
 }

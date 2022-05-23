@@ -43,15 +43,15 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
 // MARK: - Init & deinit
     init() {
         print("BorrowerVM init ...")
-        self.model = BorrowerModel.defaultBorrowerData
-        self.id = BorrowerModel.defaultBorrowerData.id
-        self.name = BorrowerModel.defaultBorrowerData.name
-        self.thumbnailImage = nil
-        self.status = BorrowerModel.defaultBorrowerData.status
+        self.model = BorrowerModel.defaultData
+        self.id = BorrowerModel.defaultData.id
+        self.name = BorrowerModel.defaultData.name
+        self.thumbnailImage = BorrowerModel.defaultData.thumbnailImage
+        self.status = BorrowerModel.defaultData.status
         self.loanCount = 0
-        self.contactLink = BorrowerModel.defaultBorrowerData.contactLink
-        self.contactId = nil
-        self.loanIds = BorrowerModel.defaultBorrowerData.loanIds
+        self.contactLink = BorrowerModel.defaultData.contactLink
+        self.contactId = BorrowerModel.defaultData.contactId
+        self.loanIds = BorrowerModel.defaultData.loanIds
         self.editDisabled = true
         self.navigationLinkActive = false
     }
@@ -64,6 +64,7 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
         self.model = model
         self.id = model.id // Shared with borrower data object
         self.name = model.name
+        self.thumbnailImage = model.thumbnailImage
         self.status = model.status
         self.loanCount = countBorrowerLoans(for: model)
         self.contactLink = model.contactLink
@@ -75,6 +76,7 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
         print("updateModel \(self.id) ...")
         self.model.id = self.id
         self.model.name = self.name
+        self.model.thumbnailImage = self.thumbnailImage
         self.model.status = self.status
         self.model.contactLink = self.contactLink
         self.model.contactId = self.contactId
@@ -86,14 +88,11 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     func updateVM(from contactVM: ContactVM) {
         print("updateVM ...")
         self.name = contactVM.name
-        self.contactId = contactVM.contact.identifier
         self.thumbnailImage = contactVM.thumbnailImageData
+        self.contactId = contactVM.model.identifier
     }
     func updateBorrowerLoans(with loanVMId: UUID) {
         self.loanIds.insert(loanVMId)
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
     static func == (lhs: BorrowerVM, rhs: BorrowerVM) -> Bool {
         lhs.id == rhs.id

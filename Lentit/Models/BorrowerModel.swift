@@ -14,6 +14,7 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
     internal var status: StatusModel
     internal var contactLink: Bool
     internal var contactId: String?
+    internal var thumbnailImage: Data?
     internal var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
@@ -21,6 +22,7 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
         status: StatusModel,
         contactLink: Bool,
         contactId: String?,
+        thumbnailImage: Data?,
         loanIds: Set<UUID>
     ) {
         print("BorrowerModel init ...")
@@ -29,6 +31,7 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
         self.status = status
         self.contactLink = contactLink
         self.contactId = contactId
+        self.thumbnailImage = thumbnailImage
         self.loanIds = []
     }
     deinit {
@@ -41,20 +44,18 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
     func removeLoanId(with loanId: UUID) {
         self.loanIds.remove(loanId)
     }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
     static func == (lhs: BorrowerModel, rhs: BorrowerModel) -> Bool {
         lhs.id == rhs.id
     }
 }
 
 extension BorrowerModel {
-    static var defaultBorrowerData: BorrowerModel = BorrowerModel(
+    static let defaultData: BorrowerModel = BorrowerModel(
         name: "Unknown borrower",
         status: StatusModel.unknown,
         contactLink: false,
         contactId: nil,
+        thumbnailImage: nil,
         loanIds: [UUID()]
     )
 }

@@ -18,7 +18,7 @@ struct CallMessageBorrowerButtonView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "phone.fill").imageScale(.large)
-                        Text("Call \(contactVM.name)")
+                        Text("Call")
                         Spacer()
                     }
                 }
@@ -26,7 +26,7 @@ struct CallMessageBorrowerButtonView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "message.fill").imageScale(.large)
-                        Text("Message \(contactVM.name)")
+                        Text("Message")
                         Spacer()
                     }
                 }
@@ -34,7 +34,7 @@ struct CallMessageBorrowerButtonView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "video.fill").imageScale(.large)
-                        Text("Factime \(contactVM.name)")
+                        Text("Factime")
                         Spacer()
                     }
                 }
@@ -44,7 +44,7 @@ struct CallMessageBorrowerButtonView: View {
                     HStack {
                         Spacer()
                         Image(systemName: "envelope.fill").imageScale(.large)
-                        Text("Email \(contactVM.name)")
+                        Text("Email")
                         Spacer()
                     }
                 }

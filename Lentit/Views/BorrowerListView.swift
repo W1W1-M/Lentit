@@ -89,7 +89,10 @@ struct BorrowerListSheetView: View {
                         }
                         Section {
                             Button {
-                                borrowerListVM.newBorrowerId = appVM.createBorrower(named: borrowerListVM.newBorrowerName)
+                                borrowerListVM.newBorrowerId = appVM.createBorrower(
+                                    named: borrowerListVM.newBorrowerName,
+                                    is: borrowerListVM.newBorrowerStatus
+                                )
                                 loanVM.setLoanBorrower(to: appVM.getBorrower(with: borrowerListVM.newBorrowerId))
                                 borrowerListVM.hideNewBorrower()
                                 appVM.sheetPresented = false

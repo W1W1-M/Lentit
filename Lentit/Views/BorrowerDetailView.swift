@@ -13,95 +13,119 @@ struct BorrowerDetailView: View {
     @ObservedObject var borrowerVM: BorrowerVM
     @ObservedObject var contactsVM: ContactsVM
     var body: some View {
+        BorrowerDetailFormView(borrowerVM: borrowerVM, contactsVM: contactsVM)
+            .navigationTitle("\(borrowerVM.name)")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    if borrowerVM.status != StatusModel.new {
+                        EditButtonView(editDisabled: $borrowerVM.editDisabled)
+                    }
+                }
+                ToolbarItemGroup(placement: .bottomBar) {
+                    if !borrowerVM.editDisabled {
+                        Button {
+                            appVM.activeAlert = .deleteBorrower
+                            appVM.alertPresented = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "trash")
+                                Text("Delete Borrower")
+                            }
+                        }
+                    }
+                }
+            }
+            .alert(isPresented: $appVM.alertPresented) {
+                switch appVM.activeAlert {
+                case .deleteBorrower:
+                    return Alert(
+                        title: Text("Delete \(borrowerVM.name)"),
+                        message: Text("Are you sure you want to delete this borrower ?"),
+                        primaryButton: .default(
+                            Text("Cancel")
+                        ),
+                        secondaryButton: .destructive(
+                            Text("Delete"),
+                            action: {
+                                borrowerVM.navigationLinkActive = false // Navigate back to borrower list
+                                appVM.deleteBorrower(for: borrowerVM.id)
+                            }
+                        )
+                    )
+                default:
+                    return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
+                }
+            }
+            .sheet(isPresented: $appVM.sheetPresented) {
+                ContactsListView(contactsVM: contactsVM, borrowerVM: borrowerVM)
+            }
+            .onAppear(perform: {
+                // Background color fix
+                UITableView.appearance().backgroundColor = .clear
+                // Unlock edit mode if item just added
+                if(borrowerVM.status == StatusModel.new) {
+                    borrowerVM.editDisabled = false
+                }
+            })
+    }
+}
+// MARK: -
+struct BorrowerDetailFormView: View {
+    @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var contactsVM: ContactsVM
+    var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
-            VStack {
-                Form {
-                    if borrowerVM.contactLink {
-                        HStack {
-                            Spacer()
-                            if borrowerVM.thumbnailImage != nil {
-                                Image(uiImage: UIImage(data: borrowerVM.thumbnailImage ?? Data()) ?? UIImage())
-                                    .resizable()
-                                    .frame(width: 200, height: 200)
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(Circle())
-                            } else {
-                                ZStack {
-                                    Circle()
-                                        .frame(width: 200, height: 200)
-                                        .foregroundColor(.accentColor)
-                                    Text("\(String(borrowerVM.name.prefix(2)))")
-                                        .font(.largeTitle)
-                                        .foregroundColor(.white)
-                                }
-                            }
-                            Spacer()
-                        }.listRowBackground(Color("BackgroundColor"))
-                    }
-                    BorrowerDetailSectionView(
-                        borrowerVM: borrowerVM,
-                        contactsVM: contactsVM
-                    ).disabled(borrowerVM.editDisabled)
-                    BorrowerHistorySectionView(borrowerVM: borrowerVM)
-                    if(borrowerVM.status == StatusModel.new) {
-                        SaveButtonView(
-                            element: .Borrowers,
-                            viewModel: borrowerVM
-                        )
-                    } else {
-                        if borrowerVM.contactLink {
-                            Section {
-                                CallMessageBorrowerButtonView(contactVM: contactsVM.getBorrowerContactVM(for: borrowerVM.model))
-                            }
-                        }
-                        Section {
-                            DeleteButtonView(element: .Borrowers)
-                        }
-                    }
+            Form {
+                if borrowerVM.contactLink {
+                    BorrowerImageView(borrowerVM: borrowerVM)
                 }
-            }
-        }.navigationTitle("\(borrowerVM.name)")
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                if(borrowerVM.status != StatusModel.new) {
-                    EditButtonView(editDisabled: $borrowerVM.editDisabled)
-                }
-            }
-        }
-        .alert(isPresented: $appVM.alertPresented) {
-            switch appVM.activeAlert {
-            case .deleteBorrower:
-                return Alert(
-                    title: Text("Delete \(borrowerVM.name)"),
-                    message: Text("Are you sure you want to delete this borrower ?"),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(
-                        Text("Delete"),
-                        action: {
-                            borrowerVM.navigationLinkActive = false // Navigate back to borrower list
-                            appVM.deleteBorrower(for: borrowerVM.id)
-                        }
+                BorrowerDetailSectionView(
+                    borrowerVM: borrowerVM,
+                    contactsVM: contactsVM
+                ).disabled(borrowerVM.editDisabled)
+                BorrowerHistorySectionView(borrowerVM: borrowerVM)
+                if(borrowerVM.status == StatusModel.new) {
+                    SaveButtonView(
+                        element: .Borrowers,
+                        viewModel: borrowerVM
                     )
-                )
-            default:
-                return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
+                } else {
+                    if borrowerVM.contactLink {
+                        Section {
+                            CallMessageBorrowerButtonView(contactVM: contactsVM.getBorrowerContactVM(for: borrowerVM.model))
+                        }
+                    }
+                }
             }
         }
-        .sheet(isPresented: $appVM.sheetPresented) {
-            ContactsListView(contactsVM: contactsVM, borrowerVM: borrowerVM)
-        }
-        .onAppear(perform: {
-            // Background color fix
-            UITableView.appearance().backgroundColor = .clear
-            // Unlock edit mode if item just added
-            if(borrowerVM.status == StatusModel.new) {
-                borrowerVM.editDisabled = false
+    }
+}
+// MARK: -
+struct BorrowerImageView: View {
+    @ObservedObject var borrowerVM: BorrowerVM
+    var body: some View {
+        HStack {
+            Spacer()
+            if borrowerVM.thumbnailImage != nil {
+                Image(uiImage: UIImage(data: borrowerVM.thumbnailImage ?? Data()) ?? UIImage())
+                    .resizable()
+                    .frame(width: 200, height: 200)
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+            } else {
+                ZStack {
+                    Circle()
+                        .frame(width: 200, height: 200)
+                        .foregroundColor(.accentColor)
+                    Text("\(String(borrowerVM.name.prefix(2)))")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                }
             }
-        })
+            Spacer()
+        }.listRowBackground(Color("BackgroundColor"))
     }
 }
 // MARK: -
@@ -187,6 +211,24 @@ struct BorrowerHistoryItemView: View {
             Spacer()
             Text("\(loanVM.loanDateText)")
         }
+    }
+}
+// MARK: -
+struct BorrowerDetailSheetView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var borrowerVM: BorrowerVM
+    @ObservedObject var contactsVM: ContactsVM
+    var body: some View {
+        BorrowerDetailFormView(borrowerVM: borrowerVM, contactsVM: contactsVM)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigation) {
+                    Button {
+                        appVM.sheetPresented = false
+                    } label: {
+                        Text("Close")
+                    }
+                }
+            }
     }
 }
 // MARK: - Previews

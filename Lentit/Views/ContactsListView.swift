@@ -17,15 +17,19 @@ struct ContactsListView: View {
             ZStack {
                 Color("BackgroundColor").edgesIgnoringSafeArea(.all)
                 List {
-                    Section {
-                        ForEach(contactsVM.contactsVMs) { ContactVM in
-                            ContactsListEntryView(
-                                contactVM: ContactVM,
-                                borrowerVM: borrowerVM
-                            )
+                    ForEach(contactsVM.listSections, id: \.self) { ListSection in
+                        Section {
+                            ForEach(contactsVM.contactsVMs) { ContactVM in
+                                if String(ContactVM.name.prefix(1)) == ListSection {
+                                    ContactsListEntryView(
+                                        contactVM: ContactVM,
+                                        borrowerVM: borrowerVM
+                                    )
+                                }
+                            }
+                        } header: {
+                            Text("\(ListSection)")
                         }
-                    } header: {
-                        Text("\(contactsVM.contactsVMs.count) contacts")
                     }
                 }.listStyle(.insetGrouped)
             }.navigationTitle(Text("Contacts"))
@@ -54,7 +58,7 @@ struct ContactsListEntryView: View {
             HStack {
                 Text("\(contactVM.name)")
                 Spacer()
-                if borrowerVM.contactId == contactVM.contact.identifier {
+                if borrowerVM.contactId == contactVM.model.identifier {
                     Image(systemName: "checkmark")
                 } else {
                     Image(systemName: "xmark")

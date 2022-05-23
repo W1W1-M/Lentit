@@ -118,8 +118,16 @@ struct LoanDetailView: View {
                     itemListVM: appVM.itemListVM,
                     loanVM: loanVM
                 )
-            default:
+            case .contactsList:
                 EmptyView()
+            case .borrowerDetail:
+                BorrowerDetailFormView(
+                    borrowerVM: appVM.getBorrowerVM(for: loanVM.loanBorrower.id),
+                    contactsVM: ContactsVM(
+                        contactsStore: appVM.contactsStore,
+                        contactsAccess: appVM.contactsAccess
+                    )
+                )
             }
         }
         .onAppear(perform: {
@@ -157,16 +165,10 @@ struct LoanDetailSectionView: View {
                 Text("To").foregroundColor(.secondary)
                 Spacer()
                 if loanVM.editDisabled {
-                    NavigationLink(
-                        destination: BorrowerDetailView(
-                            borrowerVM: appVM.getBorrowerVM(for: loanVM.loanBorrower.id),
-                            contactsVM: ContactsVM(
-                                contactsStore: appVM.contactsStore,
-                                contactsAccess: appVM.contactsAccess
-                            )
-                        )
-                    ) {
-                        Spacer()
+                    Button {
+                        appVM.activeSheet = .borrowerDetail
+                        appVM.sheetPresented = true
+                    } label: {
                         Text(loanVM.loanBorrower.status == StatusModel.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
                             .font(.headline)
                             .italic()
@@ -343,7 +345,7 @@ struct LoanDetailView_Previews: PreviewProvider {
             LoanReminderDetailView(
                 loanVM: LoanVM(),
                 remindersVM: RemindersVM(
-                    loan: LoanModel.defaultLoanData,
+                    loan: LoanModel.defaultData,
                     reminderTitle: "",
                     reminderNotes: "",
                     eventStore: EKEventStore(),

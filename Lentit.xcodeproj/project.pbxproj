@@ -47,7 +47,6 @@
 		3DD3F1C227DF3939000F64D0 /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD3F1C127DF3939000F64D0 /* HintView.swift */; };
 		3DDCED8C280DF295006A2EB5 /* ContactsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */; };
 		3DDCED8E280DF44A006A2EB5 /* ContactVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDCED8D280DF44A006A2EB5 /* ContactVM.swift */; };
-		3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */; };
 		3DDE13E327945D5C00EBB6E7 /* BorrowerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */; };
 		3DE4283227DFDEC3006FA751 /* HintModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE4283127DFDEC3006FA751 /* HintModel.swift */; };
 		3DF022552796FCEB00211124 /* LoanListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF022542796FCEB00211124 /* LoanListVM.swift */; };
@@ -124,7 +123,6 @@
 		3DD3F1C127DF3939000F64D0 /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListView.swift; sourceTree = "<group>"; };
 		3DDCED8D280DF44A006A2EB5 /* ContactVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactVM.swift; sourceTree = "<group>"; };
-		3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetModel.swift; sourceTree = "<group>"; };
 		3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowerListView.swift; sourceTree = "<group>"; };
 		3DE4283127DFDEC3006FA751 /* HintModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintModel.swift; sourceTree = "<group>"; };
 		3DF022542796FCEB00211124 /* LoanListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanListVM.swift; sourceTree = "<group>"; };
@@ -234,18 +232,18 @@
 		3D590200276FD02B00373871 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3D8C9F4327F096740002EA78 /* SharedViews */,
 				3D5901D8276FC92500373871 /* AppView.swift */,
 				3D05A6D527EDBBAA002A17C1 /* BorrowerDetailView.swift */,
 				3DDE13E227945D5C00EBB6E7 /* BorrowerListView.swift */,
+				3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */,
 				3DD3F1C127DF3939000F64D0 /* HintView.swift */,
 				3D590203276FD16100373871 /* HomeView.swift */,
 				3D54BDE32794A920001DF0AD /* ItemDetailView.swift */,
 				3D572C7D279AE1E2002618D7 /* ItemListView.swift */,
 				3D590207276FD91F00373871 /* LoanDetailView.swift */,
 				3D05A6D327EDAFF9002A17C1 /* LoanListView.swift */,
+				3D8C9F4327F096740002EA78 /* SharedViews */,
 				3D590209276FDDF200373871 /* SidebarMenuView.swift */,
-				3DDCED8B280DF295006A2EB5 /* ContactsListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,7 +256,6 @@
 				3D5551F12770E9300007BE3E /* DataStoreModel.swift */,
 				3DF0225C2797592B00211124 /* ItemModel.swift */,
 				3D13A65327960DD6008FDC42 /* LoanModel.swift */,
-				3DDE13E027945C3C00EBB6E7 /* SheetModel.swift */,
 				3DE4283127DFDEC3006FA751 /* HintModel.swift */,
 				3D02550A28006418004D5657 /* ModelProtocol.swift */,
 				3D02550C28006E04004D5657 /* StatableProtocol.swift */,
@@ -453,7 +450,6 @@
 				3D02550928005421004D5657 /* ViewModelProtocol.swift in Sources */,
 				3D59020A276FDDF200373871 /* SidebarMenuView.swift in Sources */,
 				3DDCED8E280DF44A006A2EB5 /* ContactVM.swift in Sources */,
-				3DDE13E127945C3C00EBB6E7 /* SheetModel.swift in Sources */,
 				3D8C9F4527F096B90002EA78 /* ItemCategoryFullNameView.swift in Sources */,
 				3D572C80279B40EB002618D7 /* BorrowerListVM.swift in Sources */,
 				3DCCC1A727FF6D150036A9A7 /* BorrowerVM.swift in Sources */,

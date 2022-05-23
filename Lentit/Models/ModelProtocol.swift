@@ -13,3 +13,8 @@ protocol ModelProtocol: AnyObject {
     var status: StatusModel { get set }
 // MARK: - Methods
 }
+extension ModelProtocol {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}

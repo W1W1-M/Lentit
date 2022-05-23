@@ -14,6 +14,7 @@ class ItemListVM: ObservableObject {
     @Published var newItemId: UUID
     @Published var newItemName: String
     @Published var newItemCategory: ItemModel.Category
+    @Published var newItemStatus: StatusModel
 // MARK: - Init & deinit
     init() {
         print("ItemListVM init ...")
@@ -22,6 +23,7 @@ class ItemListVM: ObservableObject {
         self.newItemId = UUID()
         self.newItemName = ""
         self.newItemCategory = ItemModel.Category.other
+        self.newItemStatus = .unavailable
     }
     deinit {
         print("... deinit ItemListVM")

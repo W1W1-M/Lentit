@@ -57,9 +57,6 @@ final class LoanModel: ModelProtocol, ObservableObject, Equatable, Hashable {
     func updateBorrowerId(_ id: UUID) {
         self.borrowerId = id
     }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
     static func == (lhs: LoanModel, rhs: LoanModel) -> Bool {
         lhs.id == rhs.id
     }
@@ -80,7 +77,7 @@ extension LoanModel {
 }
 
 extension LoanModel {
-    static var defaultLoanData: LoanModel = LoanModel(
+    static let defaultData: LoanModel = LoanModel(
         loanDate: Date(),
         loanTime: 100000.0,
         ekReminderId: nil,

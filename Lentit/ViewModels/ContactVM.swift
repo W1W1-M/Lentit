@@ -8,10 +8,11 @@
 import Foundation
 import Contacts
 /// Description
-final class ContactVM: ObservableObject, Identifiable, Equatable, Comparable {
+final class ContactVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable, Comparable, Hashable {
     // MARK: - Properties
+    typealias ModelType = CNContact
     internal var id: UUID
-    internal var contact: CNContact
+    internal var model: CNContact
     internal var phoneNumbers: Array<CNLabeledValue<CNPhoneNumber>>?
     internal var emailAddresses: Array<CNLabeledValue<NSString>>?
     @Published var name: String
@@ -29,30 +30,39 @@ final class ContactVM: ObservableObject, Identifiable, Equatable, Comparable {
     internal var emailURL: URL? {
         URL(string: "mailto:\(emailAddresses?[0].value ?? "mailto:")")
     }
+    var status: StatusModel
+    var editDisabled: Bool
+    var navigationLinkActive: Bool
     // MARK: - Init & deinit
     init() {
         print("ContactVM init ...")
         self.id = UUID()
-        self.contact = CNContact()
+        self.model = CNContact()
         self.phoneNumbers = nil
         self.emailAddresses = nil
         self.name = ""
         self.borrowerContactLink = false
         self.thumbnailImageData = nil
+        self.status = .unknown
+        self.editDisabled = false
+        self.navigationLinkActive = false
     }
     deinit {
         print("... deinit ContactVM \(id)")
     }
     // MARK: - Methods
-    func setVM(contact: CNContact) {
-        print("setVM \(contact.identifier) ...")
-        self.id = UUID(uuidString: contact.identifier) ?? UUID()
-        self.contact = contact
-        self.phoneNumbers = contact.phoneNumbers
-        self.emailAddresses = contact.emailAddresses
-        self.name = "\(contact.givenName) \(contact.familyName)"
+    func setVM(from model: ModelType) {
+        print("setVM \(model.identifier) ...")
+        self.id = UUID(uuidString: model.identifier) ?? UUID()
+        self.model = model
+        self.phoneNumbers = model.phoneNumbers
+        self.emailAddresses = model.emailAddresses
+        self.name = "\(model.givenName) \(model.familyName)"
         self.borrowerContactLink = false
-        self.thumbnailImageData = contact.thumbnailImageData
+        self.thumbnailImageData = model.thumbnailImageData
+    }
+    func updateModel() {
+        print("updateModel ...")
     }
     static func == (lhs: ContactVM, rhs: ContactVM) -> Bool {
         lhs.id == rhs.id

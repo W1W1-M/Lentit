@@ -59,17 +59,17 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
 // MARK: - Init & deinit
     init() {
         print("LoanVM init ...")
-        self.model = LoanModel.defaultLoanData
-        self.id = LoanModel.defaultLoanData.id
-        self.loanItem = ItemModel.defaultItemData
-        self.loanBorrower = BorrowerModel.defaultBorrowerData
-        self.loanDate = LoanModel.defaultLoanData.loanDate
-        self.loanDateText = "\(LoanModel.defaultLoanData.loanDate)"
-        self.returned = LoanModel.defaultLoanData.returned
-        self.status = LoanModel.defaultLoanData.status
-        self.loanBorrowerName = BorrowerModel.defaultBorrowerData.name
-        self.loanItemName = ItemModel.defaultItemData.name
-        self.loanItemCategory = ItemModel.defaultItemData.category
+        self.model = LoanModel.defaultData
+        self.id = LoanModel.defaultData.id
+        self.loanItem = ItemModel.defaultData
+        self.loanBorrower = BorrowerModel.defaultData
+        self.loanDate = LoanModel.defaultData.loanDate
+        self.loanDateText = "\(LoanModel.defaultData.loanDate)"
+        self.returned = LoanModel.defaultData.returned
+        self.status = LoanModel.defaultData.status
+        self.loanBorrowerName = BorrowerModel.defaultData.name
+        self.loanItemName = ItemModel.defaultData.name
+        self.loanItemCategory = ItemModel.defaultData.category
         self.editDisabled = true
         self.navigationLinkActive = false
         //
@@ -145,9 +145,6 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         } else if(!returned && status == StatusModel.finished) {
             self.status = StatusModel.current
         }
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
     }
     static func == (lhs: LoanVM, rhs: LoanVM) -> Bool {
         lhs.id == rhs.id
