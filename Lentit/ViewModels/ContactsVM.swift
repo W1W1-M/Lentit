@@ -115,8 +115,8 @@ final class ContactsVM: ObservableObject {
         let contact = getBorrowerContact(for: borrowerVM)
         if let contact = contact {
             let contactName = "\(contact.givenName) \(contact.familyName)"
-            if borrowerVM.name != contactName {
-                borrowerVM.name = contactName
+            if borrowerVM.firstName != contactName {
+                borrowerVM.firstName = contactName
             }
         }
     }
@@ -128,7 +128,7 @@ final class ContactsVM: ObservableObject {
     func setListSections(for contactsVMs: [ContactVM]) {
         var listSectionsStrings: Set<String> = []
         for contactVM in contactsVMs {
-            listSectionsStrings.insert(String(contactVM.name.prefix(1)))
+            listSectionsStrings.insert(String(contactVM.firstName.prefix(1)))
         }
         listSections = listSectionsStrings.sorted(by: { $0 < $1 })
     }

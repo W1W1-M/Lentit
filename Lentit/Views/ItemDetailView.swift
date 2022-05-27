@@ -142,7 +142,10 @@ struct ItemHistorySectionView: View {
         if(itemVM.loanCount > 0) {
             Section(header: ItemHistorySectionHeaderView(itemVM: itemVM)) {
                 ForEach(itemVM.loanIds.sorted(by: ==), id: \.self) { Id in
-                    ItemHistoryItemView(loanVM: appVM.getLoanVM(for: Id))
+                    ItemHistoryItemView(
+                        loanVM: appVM.getLoanVM(for: Id),
+                        borrowerVM: appVM.getBorrowerVM(for: appVM.getLoanVM(for: Id).loanBorrower.id)
+                    )
                 }
             }
         } else {
@@ -153,16 +156,28 @@ struct ItemHistorySectionView: View {
 //
 struct ItemHistoryItemView: View {
     @ObservedObject var loanVM: LoanVM
+    @ObservedObject var borrowerVM: BorrowerVM
     var body: some View {
         HStack {
-            ZStack {
-                Circle()
+            if borrowerVM.contactLink {
+                Image(uiImage: UIImage(data: borrowerVM.thumbnailImage ?? Data()) ?? UIImage())
+                    .resizable()
                     .frame(width: 30, height: 30)
-                Text("\(String(loanVM.loanBorrowerName.prefix(2)))")
-                    .font(.headline)
-                    .foregroundColor(.white)
-            }.padding(.horizontal, 4)
-            Text("\(loanVM.loanBorrowerName)")
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(.purple, lineWidth: 2))
+            } else {
+                ZStack {
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.purple)
+                        .overlay(Circle().stroke(.gray, lineWidth: 2))
+                    Text("\(String(borrowerVM.firstName.prefix(2)))")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                }.padding(.horizontal, 4)
+            }
+            Text("\(borrowerVM.firstName)")
             Spacer()
             Text("\(loanVM.loanDateText)")
         }

@@ -214,7 +214,8 @@ extension DataStoreModel {
     ]
     static var sampleBorrowerData: [BorrowerModel] = [
         BorrowerModel(
-            name: "Sarah",
+            firstName: "Sarah",
+            lastName: "Lemming",
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,
@@ -222,7 +223,8 @@ extension DataStoreModel {
             loanIds: []
         ),
         BorrowerModel(
-            name: "Anthony",
+            firstName: "Anthony",
+            lastName: "Legrand",
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,
@@ -230,7 +232,8 @@ extension DataStoreModel {
             loanIds: []
         ),
         BorrowerModel(
-            name: "Charly",
+            firstName: "Charly",
+            lastName: "Marchal",
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,
@@ -238,7 +241,8 @@ extension DataStoreModel {
             loanIds: []
         ),
         BorrowerModel(
-            name: "Bruno",
+            firstName: "Bruno",
+            lastName: "Gatling",
             status: StatusModel.regular,
             contactLink: false,
             contactId: nil,

@@ -10,7 +10,8 @@ import Foundation
 final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable {
 // MARK: - Properties
     internal var id: UUID
-    internal var name: String
+    internal var firstName: String
+    internal var lastName: String
     internal var status: StatusModel
     internal var contactLink: Bool
     internal var contactId: String?
@@ -18,7 +19,8 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
     internal var loanIds: Set<UUID>
 // MARK: - Init & deinit
     init(
-        name: String,
+        firstName: String,
+        lastName: String,
         status: StatusModel,
         contactLink: Bool,
         contactId: String?,
@@ -27,7 +29,8 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
     ) {
         print("BorrowerModel init ...")
         self.id = UUID()
-        self.name = name
+        self.firstName = firstName
+        self.lastName = lastName
         self.status = status
         self.contactLink = contactLink
         self.contactId = contactId
@@ -51,7 +54,8 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
 
 extension BorrowerModel {
     static let defaultData: BorrowerModel = BorrowerModel(
-        name: "Unknown borrower",
+        firstName: "Unknown",
+        lastName: "Unknown",
         status: StatusModel.unknown,
         contactLink: false,
         contactId: nil,

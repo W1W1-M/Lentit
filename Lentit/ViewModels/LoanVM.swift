@@ -20,7 +20,7 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
     }
     internal var loanBorrower: BorrowerModel {
         didSet {
-            self.loanBorrowerName = loanBorrower.name
+            self.loanBorrowerName = loanBorrower.firstName
         }
     }
     @Published var loanDate: Date {
@@ -67,7 +67,7 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         self.loanDateText = "\(LoanModel.defaultData.loanDate)"
         self.returned = LoanModel.defaultData.returned
         self.status = LoanModel.defaultData.status
-        self.loanBorrowerName = BorrowerModel.defaultData.name
+        self.loanBorrowerName = BorrowerModel.defaultData.firstName
         self.loanItemName = ItemModel.defaultData.name
         self.loanItemCategory = ItemModel.defaultData.category
         self.editDisabled = true
@@ -94,7 +94,7 @@ final class LoanVM: ViewModelProtocol, ObservableObject, Identifiable, Equatable
         setVM(from: loan)
         self.loanItem = loanItem
         self.loanBorrower = loanBorrower
-        self.loanBorrowerName = loanBorrower.name
+        self.loanBorrowerName = loanBorrower.firstName
         self.loanItemName = loanItem.name
         self.loanItemCategory = loanItem.category
         print("... setVM Loan \(id)")

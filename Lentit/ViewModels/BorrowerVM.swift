@@ -14,7 +14,8 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     internal var model: ModelType
     internal var id: UUID
     internal var loanIds: Set<UUID>
-    @Published var name: String
+    @Published var firstName: String
+    @Published var lastName: String
     @Published var thumbnailImage: Data?
     @Published var status: StatusModel
     @Published var loanCount: Int
@@ -45,7 +46,8 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
         print("BorrowerVM init ...")
         self.model = BorrowerModel.defaultData
         self.id = BorrowerModel.defaultData.id
-        self.name = BorrowerModel.defaultData.name
+        self.firstName = BorrowerModel.defaultData.firstName
+        self.lastName = BorrowerModel.defaultData.lastName
         self.thumbnailImage = BorrowerModel.defaultData.thumbnailImage
         self.status = BorrowerModel.defaultData.status
         self.loanCount = 0
@@ -63,7 +65,8 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
         print("setVM \(model.id)...")
         self.model = model
         self.id = model.id // Shared with borrower data object
-        self.name = model.name
+        self.firstName = model.firstName
+        self.lastName = model.lastName
         self.thumbnailImage = model.thumbnailImage
         self.status = model.status
         self.loanCount = countBorrowerLoans(for: model)
@@ -75,7 +78,8 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     func updateModel() {
         print("updateModel \(self.id) ...")
         self.model.id = self.id
-        self.model.name = self.name
+        self.model.firstName = self.firstName
+        self.model.lastName = self.lastName
         self.model.thumbnailImage = self.thumbnailImage
         self.model.status = self.status
         self.model.contactLink = self.contactLink
@@ -87,7 +91,8 @@ final class BorrowerVM: ViewModelProtocol, ObservableObject, Identifiable, Equat
     }
     func updateVM(from contactVM: ContactVM) {
         print("updateVM ...")
-        self.name = contactVM.name
+        self.firstName = contactVM.firstName
+        self.lastName = contactVM.lastName
         self.thumbnailImage = contactVM.thumbnailImageData
         self.contactId = contactVM.model.identifier
     }

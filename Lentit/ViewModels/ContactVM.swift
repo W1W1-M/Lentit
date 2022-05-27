@@ -15,7 +15,8 @@ final class ContactVM: ViewModelProtocol, ObservableObject, Identifiable, Equata
     internal var model: CNContact
     internal var phoneNumbers: Array<CNLabeledValue<CNPhoneNumber>>?
     internal var emailAddresses: Array<CNLabeledValue<NSString>>?
-    @Published var name: String
+    @Published var firstName: String
+    @Published var lastName: String
     @Published var borrowerContactLink: Bool
     @Published var thumbnailImageData: Data?
     internal var phoneURL: URL? {
@@ -40,7 +41,8 @@ final class ContactVM: ViewModelProtocol, ObservableObject, Identifiable, Equata
         self.model = CNContact()
         self.phoneNumbers = nil
         self.emailAddresses = nil
-        self.name = ""
+        self.firstName = ""
+        self.lastName = ""
         self.borrowerContactLink = false
         self.thumbnailImageData = nil
         self.status = .unknown
@@ -57,7 +59,8 @@ final class ContactVM: ViewModelProtocol, ObservableObject, Identifiable, Equata
         self.model = model
         self.phoneNumbers = model.phoneNumbers
         self.emailAddresses = model.emailAddresses
-        self.name = "\(model.givenName) \(model.familyName)"
+        self.firstName = model.givenName
+        self.lastName = model.familyName
         self.borrowerContactLink = false
         self.thumbnailImageData = model.thumbnailImageData
     }
@@ -68,6 +71,6 @@ final class ContactVM: ViewModelProtocol, ObservableObject, Identifiable, Equata
         lhs.id == rhs.id
     }
     static func < (lhs: ContactVM, rhs: ContactVM) -> Bool {
-        lhs.name < rhs.name
+        lhs.firstName < rhs.firstName
     }
 }

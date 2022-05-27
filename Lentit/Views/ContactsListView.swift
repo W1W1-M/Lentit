@@ -20,7 +20,7 @@ struct ContactsListView: View {
                     ForEach(contactsVM.listSections, id: \.self) { ListSection in
                         Section {
                             ForEach(contactsVM.contactsVMs) { ContactVM in
-                                if String(ContactVM.name.prefix(1)) == ListSection {
+                                if String(ContactVM.firstName.prefix(1)) == ListSection {
                                     ContactsListEntryView(
                                         contactVM: ContactVM,
                                         borrowerVM: borrowerVM
@@ -56,7 +56,7 @@ struct ContactsListEntryView: View {
             appVM.sheetPresented = false
         } label: {
             HStack {
-                Text("\(contactVM.name)")
+                Text("\(contactVM.firstName)")
                 Spacer()
                 if borrowerVM.contactId == contactVM.model.identifier {
                     Image(systemName: "checkmark")

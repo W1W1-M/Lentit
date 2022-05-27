@@ -316,7 +316,7 @@ final class AppVM: ObservableObject {
         }
     }
     func filterLoanVMs(for loanVMs: [LoanVM], by activeBorrower: BorrowerVM) -> [LoanVM] {
-        loanVMs.filter { $0.loanBorrowerName == activeBorrower.name } // WIP
+        loanVMs.filter { $0.loanBorrowerName == activeBorrower.firstName } // WIP
     }
     func filterLoanVMs(for loanVMs: [LoanVM], by activeItem: ItemVM) -> [LoanVM] {
         loanVMs.filter { $0.loanItemName == activeItem.name } // WIP
@@ -468,10 +468,11 @@ final class AppVM: ObservableObject {
         }
         return borrowerVMs
     }
-    func createBorrower(named name: String, is status: StatusModel = .new) -> UUID {
+    func createBorrower(named firstName: String, _ lastName: String = "", is status: StatusModel = .new) -> UUID {
         print("createBorrower ...")
         let newBorrower = BorrowerModel(
-            name: name,
+            firstName: firstName,
+            lastName: lastName,
             status: status,
             contactLink: true,
             contactId: nil,
@@ -485,7 +486,8 @@ final class AppVM: ObservableObject {
     func createBorrower() {
         print("createBorrower ...")
         let newBorrower = BorrowerModel(
-            name: "",
+            firstName: "",
+            lastName: "",
             status: StatusModel.new,
             contactLink: true,
             contactId: nil,
@@ -535,7 +537,7 @@ final class AppVM: ObservableObject {
     func getRemindersVM(for loan: LoanModel) -> RemindersVM {
         let loanItem = getLoanItem(in: dataStore.readStoredItems(), for: loan)
         let loanBorrower = getLoanBorrower(in: dataStore.readStoredBorrowers(), for: loan)
-        let reminderTitle: String = "Loan to \(loanBorrower.name)"
+        let reminderTitle: String = "Loan to \(loanBorrower.firstName)"
         let reminderNotes: String = "\(loanItem.name)"
         let remindersVM = RemindersVM(
             loan: loan,

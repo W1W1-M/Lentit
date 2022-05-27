@@ -77,16 +77,16 @@ struct BorrowersListMenuItems: View {
     var body: some View {
         ForEach(appVM.borrowerVMs) { BorrowerVM in
             Button {
-                appVM.activeBorrower.name = BorrowerVM.name
+                appVM.activeBorrower.firstName = BorrowerVM.firstName
             } label: {
                 if(appVM.activeBorrower.id == BorrowerVM.id) {
                     HStack {
-                        Text("\(BorrowerVM.name)")
+                        Text("\(BorrowerVM.firstName)")
                         Spacer()
                         Image(systemName: "checkmark").foregroundColor(.accentColor)
                     }
                 } else {
-                    Text("\(BorrowerVM.name)")
+                    Text("\(BorrowerVM.firstName)")
                 }
             }
         }

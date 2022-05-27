@@ -57,11 +57,11 @@ struct BorrowerListItemView: View {
                 ZStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                    Text("\(String(borrowerVM.name.prefix(2)))")
+                    Text("\(String(borrowerVM.firstName.prefix(2)))")
                         .font(.title2)
                         .foregroundColor(.white)
                 }.padding(.horizontal, 4)
-                Text("\(borrowerVM.name)").foregroundColor(.primary)
+                Text("\(borrowerVM.firstName)").foregroundColor(.primary)
                 Spacer()
                 Text("\(borrowerVM.loanCount) loans").foregroundColor(.secondary)
             }
@@ -157,7 +157,25 @@ struct BorrowerListItemSheetView: View {
             appVM.sheetPresented = false
         } label: {
             HStack {
-                Text("\(borrowerVM.name)")
+                if borrowerVM.contactLink {
+                    Image(uiImage: UIImage(data: borrowerVM.thumbnailImage ?? Data()) ?? UIImage())
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(.purple, lineWidth: 2))
+                } else {
+                    ZStack {
+                        Circle()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.purple)
+                            .overlay(Circle().stroke(.gray, lineWidth: 2))
+                        Text("\(String(borrowerVM.firstName.prefix(2)))")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                    }.padding(.horizontal, 4)
+                }
+                Text("\(borrowerVM.firstName)")
                 Spacer()
                 if(loanVM.loanBorrower.id == borrowerVM.id) {
                     Image(systemName: "checkmark")

@@ -53,7 +53,7 @@ struct CallMessageBorrowerButtonView: View {
             HStack {
                 Spacer()
                 Image(systemName: "hand.wave.fill")
-                Text("Contact \(contactVM.name)")
+                Text("Contact \(contactVM.firstName)")
                 Spacer()
             }
         }.font(.headline)

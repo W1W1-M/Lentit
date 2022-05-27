@@ -14,7 +14,7 @@ struct BorrowerDetailView: View {
     @ObservedObject var contactsVM: ContactsVM
     var body: some View {
         BorrowerDetailFormView(borrowerVM: borrowerVM, contactsVM: contactsVM)
-            .navigationTitle("\(borrowerVM.name)")
+            .navigationTitle("\(borrowerVM.firstName)")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
@@ -40,7 +40,7 @@ struct BorrowerDetailView: View {
                 switch appVM.activeAlert {
                 case .deleteBorrower:
                     return Alert(
-                        title: Text("Delete \(borrowerVM.name)"),
+                        title: Text("Delete \(borrowerVM.firstName)"),
                         message: Text("Are you sure you want to delete this borrower ?"),
                         primaryButton: .default(
                             Text("Cancel")
@@ -114,12 +114,14 @@ struct BorrowerImageView: View {
                     .frame(width: 200, height: 200)
                     .aspectRatio(contentMode: .fit)
                     .clipShape(Circle())
+                    .overlay(Circle().stroke(.purple, lineWidth: 4))
             } else {
                 ZStack {
                     Circle()
                         .frame(width: 200, height: 200)
-                        .foregroundColor(.accentColor)
-                    Text("\(String(borrowerVM.name.prefix(2)))")
+                        .foregroundColor(.purple)
+                        .overlay(Circle().stroke(.gray, lineWidth: 4))
+                    Text("\(String(borrowerVM.firstName.prefix(2)))")
                         .font(.largeTitle)
                         .foregroundColor(.white)
                 }
@@ -140,7 +142,7 @@ struct BorrowerDetailSectionView: View {
                 contactsVM: contactsVM
             )
             if borrowerVM.contactLink == false {
-                TextField("Name", text: $borrowerVM.name).foregroundColor(borrowerVM.editDisabled ? .secondary : .primary)
+                TextField("Name", text: $borrowerVM.firstName).foregroundColor(borrowerVM.editDisabled ? .secondary : .primary)
             }
         } header: {
             Text("Borrower")
@@ -162,7 +164,7 @@ struct BorrowerDetailSectionContactView: View {
                 HStack {
                     Image(systemName: "person.crop.circle.fill")
                     if borrowerVM.contactId != nil && borrowerVM.contactLink {
-                        Text("\(borrowerVM.name)")
+                        Text("\(borrowerVM.firstName)")
                     } else {
                         Text("Select iOS contact")
                     }
