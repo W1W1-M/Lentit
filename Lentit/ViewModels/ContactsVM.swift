@@ -114,9 +114,13 @@ final class ContactsVM: ObservableObject {
         print("checkBorrowerContact ...")
         let contact = getBorrowerContact(for: borrowerVM)
         if let contact = contact {
-            let contactName = "\(contact.givenName) \(contact.familyName)"
-            if borrowerVM.firstName != contactName {
-                borrowerVM.firstName = contactName
+            let contactFirstName = "\(contact.givenName)"
+            if borrowerVM.firstName != contactFirstName {
+                borrowerVM.firstName = contactFirstName
+            }
+            let contactLastName = "\(contact.familyName)"
+            if borrowerVM.lastName != contactLastName {
+                borrowerVM.lastName = contactLastName
             }
         }
     }

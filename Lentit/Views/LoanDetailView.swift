@@ -28,8 +28,6 @@ struct LoanDetailView: View {
                         element: .Loans,
                         viewModel: loanVM
                     )
-                } else {
-                    DeleteButtonView(element: .Loans)
                 }
             }
         }.navigationTitle(loanVM.loanBorrower.status == StatusModel.unknown ? "New loan" : "Loan to \(loanVM.loanBorrowerName)")
@@ -38,6 +36,17 @@ struct LoanDetailView: View {
             ToolbarItemGroup(placement: .primaryAction) {
                 if(loanVM.status != StatusModel.new) {
                     EditButtonView(editDisabled: $loanVM.editDisabled)
+                }
+            }
+            ToolbarItemGroup(placement: .bottomBar) {
+                Button {
+                    appVM.activeAlert = .deleteLoan
+                    appVM.alertPresented = true
+                } label: {
+                    HStack {
+                        Image(systemName: "trash")
+                        Text("Delete Loan")
+                    }
                 }
             }
         }
@@ -121,13 +130,15 @@ struct LoanDetailView: View {
             case .contactsList:
                 EmptyView()
             case .borrowerDetail:
-                BorrowerDetailFormView(
+                BorrowerDetailSheetView(
                     borrowerVM: appVM.getBorrowerVM(for: loanVM.loanBorrower.id),
                     contactsVM: ContactsVM(
                         contactsStore: appVM.contactsStore,
                         contactsAccess: appVM.contactsAccess
                     )
                 )
+            case .itemDetail:
+                ItemDetailSheetView(itemVM: appVM.getItemVM(for: loanVM.loanItem.id))
             }
         }
         .onAppear(perform: {
@@ -152,14 +163,31 @@ struct LoanDetailSectionView: View {
             HStack {
                 Text("Of").foregroundColor(.secondary)
                 Spacer()
-                Button {
-                    appVM.activeSheet = .itemsList
-                    appVM.sheetPresented = true
-                } label: {
-                    Text(loanVM.loanItem.status == StatusModel.unknown ? "Select item" : "\(loanVM.loanItemName)")
-                        .font(.headline)
-                        .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
-                }.disabled(loanVM.editDisabled)
+                if loanVM.editDisabled {
+                    Button {
+                        appVM.activeSheet = .itemDetail
+                        appVM.sheetPresented = true
+                    } label: {
+                        HStack {
+                            Text(loanVM.loanItem.status == StatusModel.unknown ? "Select item" : "\(loanVM.loanItemName)")
+                                .font(.headline)
+                            .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                            Image(systemName: "info.circle").imageScale(.large)
+                        }
+                    }
+                } else {
+                    Button {
+                        appVM.activeSheet = .itemsList
+                        appVM.sheetPresented = true
+                    } label: {
+                        HStack {
+                            Text(loanVM.loanItem.status == StatusModel.unknown ? "Select item" : "\(loanVM.loanItemName)")
+                                .font(.headline)
+                            .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                            Image(systemName: "archivebox.circle.fill").imageScale(.large)
+                        }
+                    }
+                }
             }
             HStack {
                 Text("To").foregroundColor(.secondary)
@@ -169,20 +197,26 @@ struct LoanDetailSectionView: View {
                         appVM.activeSheet = .borrowerDetail
                         appVM.sheetPresented = true
                     } label: {
-                        Text(loanVM.loanBorrower.status == StatusModel.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
-                            .font(.headline)
-                            .italic()
+                        HStack {
+                            Text(loanVM.loanBorrower.status == StatusModel.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
+                                .font(.headline)
+                                .italic()
                             .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                            Image(systemName: "info.circle").imageScale(.large)
+                        }
                     }
                 } else  {
                     Button {
                         appVM.activeSheet = .borrowersList
                         appVM.sheetPresented = true
                     } label: {
-                        Text(loanVM.loanBorrower.status == StatusModel.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
-                            .font(.headline)
-                            .italic()
+                        HStack {
+                            Text(loanVM.loanBorrower.status == StatusModel.unknown ? "Select borrower" : "\(loanVM.loanBorrowerName)")
+                                .font(.headline)
+                                .italic()
                             .foregroundColor(loanVM.editDisabled ? .primary : .accentColor)
+                            Image(systemName: "person.circle.fill").imageScale(.large)
+                        }
                     }
                 }
             }

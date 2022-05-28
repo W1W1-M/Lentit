@@ -138,6 +138,7 @@ final class AppVM: ObservableObject {
         case itemsList
         case contactsList
         case borrowerDetail
+        case itemDetail
     }
     enum Element {
         case Loans

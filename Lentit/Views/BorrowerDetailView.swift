@@ -23,15 +23,13 @@ struct BorrowerDetailView: View {
                     }
                 }
                 ToolbarItemGroup(placement: .bottomBar) {
-                    if !borrowerVM.editDisabled {
-                        Button {
-                            appVM.activeAlert = .deleteBorrower
-                            appVM.alertPresented = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "trash")
-                                Text("Delete Borrower")
-                            }
+                    Button {
+                        appVM.activeAlert = .deleteBorrower
+                        appVM.alertPresented = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash")
+                            Text("Delete Borrower")
                         }
                     }
                 }
@@ -164,7 +162,7 @@ struct BorrowerDetailSectionContactView: View {
                 HStack {
                     Image(systemName: "person.crop.circle.fill")
                     if borrowerVM.contactId != nil && borrowerVM.contactLink {
-                        Text("\(borrowerVM.firstName)")
+                        Text("\(borrowerVM.firstName) \(borrowerVM.lastName)")
                     } else {
                         Text("Select iOS contact")
                     }
@@ -221,16 +219,19 @@ struct BorrowerDetailSheetView: View {
     @ObservedObject var borrowerVM: BorrowerVM
     @ObservedObject var contactsVM: ContactsVM
     var body: some View {
-        BorrowerDetailFormView(borrowerVM: borrowerVM, contactsVM: contactsVM)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigation) {
-                    Button {
-                        appVM.sheetPresented = false
-                    } label: {
-                        Text("Close")
+        NavigationView {
+            BorrowerDetailFormView(borrowerVM: borrowerVM, contactsVM: contactsVM)
+                .navigationTitle("\(borrowerVM.firstName)")
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigation) {
+                        Button {
+                            appVM.sheetPresented = false
+                        } label: {
+                            Text("Close")
+                        }
                     }
                 }
-            }
+        }
     }
 }
 // MARK: - Previews

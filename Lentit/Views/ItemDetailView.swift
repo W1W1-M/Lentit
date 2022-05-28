@@ -11,6 +11,67 @@ struct ItemDetailView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemVM: ItemVM
     var body: some View {
+        ItemDetailFormView(itemVM: itemVM)
+            .navigationTitle("\(itemVM.name)")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    if(itemVM.status != StatusModel.new) {
+                        EditButtonView(editDisabled: $itemVM.editDisabled)
+                    }
+                }
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Button {
+                        appVM.activeAlert = .deleteItem
+                        appVM.alertPresented = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash")
+                            Text("Delete Item")
+                        }
+                    }
+                }
+            }
+            .alert(isPresented: $appVM.alertPresented) {
+                switch appVM.activeAlert {
+                case .deleteItem:
+                    return Alert(
+                        title: Text("Delete \(itemVM.name)"),
+                        message: Text("Are you sure you want to delete this item ?"),
+                        primaryButton: .default(
+                            Text("Cancel")
+                        ),
+                        secondaryButton: .destructive(
+                            Text("Delete"),
+                            action: {
+                                itemVM.navigationLinkActive = false // Navigate back to item list
+                                appVM.deleteItem(for: itemVM)
+                            }
+                        )
+                    )
+                default:
+                    return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
+                }
+            }
+            .onAppear(perform: {
+                // Background color fix
+                UITableView.appearance().backgroundColor = .clear
+                // Unlock edit mode if item just added
+                if(itemVM.status == StatusModel.new) {
+                    itemVM.editDisabled = false
+                }
+            })
+            .onChange(of: itemVM.valueText, perform: { _ in
+                // Filter unwanted characters & set value text
+                itemVM.valueText = itemVM.filterItemValueText(for: itemVM.valueText)
+                itemVM.valueText = itemVM.setItemValueText(for: itemVM.valueText)
+            })
+    }
+}
+// MARK: -
+struct ItemDetailFormView: View {
+    @ObservedObject var itemVM: ItemVM
+    var body: some View {
         ZStack {
             Color("BackgroundColor").edgesIgnoringSafeArea(.all)
             VStack {
@@ -23,57 +84,13 @@ struct ItemDetailView: View {
                             element: .Items,
                             viewModel: itemVM
                         )
-                    } else {
-                        DeleteButtonView(element: .Items)
                     }
                 }
             }
-        }.navigationTitle("\(itemVM.name)")
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                if(itemVM.status != StatusModel.new) {
-                    EditButtonView(editDisabled: $itemVM.editDisabled)
-                }
-            }
         }
-        .alert(isPresented: $appVM.alertPresented) {
-            switch appVM.activeAlert {
-            case .deleteItem:
-                return Alert(
-                    title: Text("Delete \(itemVM.name)"),
-                    message: Text("Are you sure you want to delete this item ?"),
-                    primaryButton: .default(
-                        Text("Cancel")
-                    ),
-                    secondaryButton: .destructive(
-                        Text("Delete"),
-                        action: {
-                            itemVM.navigationLinkActive = false // Navigate back to item list
-                            appVM.deleteItem(for: itemVM)
-                        }
-                    )
-                )
-            default:
-                return Alert(title: Text(""), message: Text(""), dismissButton: .default(Text("")))
-            }
-        }
-        .onAppear(perform: {
-            // Background color fix
-            UITableView.appearance().backgroundColor = .clear
-            // Unlock edit mode if item just added
-            if(itemVM.status == StatusModel.new) {
-                itemVM.editDisabled = false
-            }
-        })
-        .onChange(of: itemVM.valueText, perform: { _ in
-            // Filter unwanted characters & set value text
-            itemVM.valueText = itemVM.filterItemValueText(for: itemVM.valueText)
-            itemVM.valueText = itemVM.setItemValueText(for: itemVM.valueText)
-        })
     }
 }
-//
+// MARK: -
 struct ItemDetailSectionView: View {
     @ObservedObject var itemVM: ItemVM
     var body: some View {
@@ -101,7 +118,7 @@ struct ItemDetailSectionView: View {
         }
     }
 }
-//
+// MARK: -
 struct ItemDetailSectionHeaderView: View {
     @ObservedObject var itemVM: ItemVM
     var body: some View {
@@ -112,7 +129,7 @@ struct ItemDetailSectionHeaderView: View {
         }
     }
 }
-//
+// MARK: -
 struct ItemHistorySectionHeaderView: View {
     @ObservedObject var itemVM: ItemVM
     var body: some View {
@@ -134,7 +151,7 @@ struct ItemHistorySectionHeaderView: View {
         }
     }
 }
-//
+// MARK: -
 struct ItemHistorySectionView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var itemVM: ItemVM
@@ -153,7 +170,7 @@ struct ItemHistorySectionView: View {
         }
     }
 }
-//
+// MARK: -
 struct ItemHistoryItemView: View {
     @ObservedObject var loanVM: LoanVM
     @ObservedObject var borrowerVM: BorrowerVM
@@ -180,6 +197,26 @@ struct ItemHistoryItemView: View {
             Text("\(borrowerVM.firstName)")
             Spacer()
             Text("\(loanVM.loanDateText)")
+        }
+    }
+}
+// MARK: -
+struct ItemDetailSheetView: View {
+    @EnvironmentObject var appVM: AppVM
+    @ObservedObject var itemVM: ItemVM
+    var body: some View {
+        NavigationView {
+            ItemDetailFormView(itemVM: itemVM)
+                .navigationTitle("\(itemVM.name)")
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigation) {
+                        Button {
+                            appVM.sheetPresented = false
+                        } label: {
+                            Text("Close")
+                        }
+                    }
+                }
         }
     }
 }

@@ -56,7 +56,7 @@ struct ContactsListEntryView: View {
             appVM.sheetPresented = false
         } label: {
             HStack {
-                Text("\(contactVM.firstName)")
+                Text("\(contactVM.firstName) \(contactVM.lastName)")
                 Spacer()
                 if borrowerVM.contactId == contactVM.model.identifier {
                     Image(systemName: "checkmark")
