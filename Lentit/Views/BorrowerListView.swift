@@ -74,6 +74,41 @@ struct BorrowerListItemView: View {
     }
 }
 // MARK: -
+struct BorrowerListBottomToolbarView: View {
+    @EnvironmentObject var appVM: AppVM
+    var body: some View {
+        Group {
+            Spacer()
+            Menu {
+                ForEach(BorrowerModel.SortingOrder.allCases) { SortingOrder in
+                    Button {
+                        appVM.activeBorrowerSort = SortingOrder
+                    } label: {
+                        HStack {
+                            switch SortingOrder {
+                            case .byName:
+                                Text("by Name")
+                            case .byLoanCount:
+                                Text("by Loans")
+                            default:
+                                Text("")
+                            }
+                            if(appVM.activeBorrowerSort == SortingOrder) {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Sort")
+                    Image(systemName: "arrow.up.arrow.down.circle")
+                }
+            }
+        }
+    }
+}
+// MARK: -
 struct BorrowerListSheetView: View {
     @EnvironmentObject var appVM: AppVM
     @ObservedObject var borrowerListVM: BorrowerListVM

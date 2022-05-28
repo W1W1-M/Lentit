@@ -91,10 +91,10 @@ struct HomeView: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
-                    
+                    appVM.dataStore.addSampleData()
                 } label: {
                     HStack {
-                        Text("Settings")
+                        Text("Sample Data")
                         Image(systemName: "gear")
                     }
                 }
@@ -106,7 +106,7 @@ struct HomeView: View {
                 case .Items:
                     ItemListBottomToolbarView()
                 case .Borrowers:
-                    EmptyView()
+                    BorrowerListBottomToolbarView()
                 }
             }
         }

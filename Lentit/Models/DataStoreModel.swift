@@ -19,14 +19,19 @@ final class DataStoreModel: ObservableObject {
 // MARK: - Init & deinit
     init() {
         print("DataStoreModel init ...")
-        self.storedLoans = DataStoreModel.sampleLoanData
-        self.storedItems = DataStoreModel.sampleItemData
-        self.storedBorrowers = DataStoreModel.sampleBorrowerData
+        self.storedLoans = []
+        self.storedItems = []
+        self.storedBorrowers = []
     }
     deinit {
         print("... deinit DataStoreModel")
     }
 // MARK: - Methods
+    func addSampleData() {
+        self.storedLoans = DataStoreModel.sampleLoanData
+        self.storedItems = DataStoreModel.sampleItemData
+        self.storedBorrowers = DataStoreModel.sampleBorrowerData
+    }
     // MARK: - Loan
     /// Method to add a loan to store
     /// - Parameter loan: LoanModel

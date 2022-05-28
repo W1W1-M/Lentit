@@ -12,9 +12,18 @@ struct ItemListStatusView: View {
     @ObservedObject var itemListVM: ItemListVM
     var body: some View {
         HStack {
-            Text("\(itemListVM.itemsCount) items")
-                .fontWeight(.bold)
-                .foregroundColor(.secondary)
+            switch itemListVM.itemsCount {
+            case 0:
+                EmptyView()
+            case 1:
+                Text("\(itemListVM.itemsCount) item")
+                    .fontWeight(.bold)
+                    .foregroundColor(.secondary)
+            default:
+                Text("\(itemListVM.itemsCount) items")
+                    .fontWeight(.bold)
+                    .foregroundColor(.secondary)
+            }
             Spacer()
             Menu {
                 ForEach(StatusModel.itemStatusCases) { Status in

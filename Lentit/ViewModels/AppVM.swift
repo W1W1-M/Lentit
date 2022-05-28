@@ -92,6 +92,11 @@ final class AppVM: ObservableObject {
             self.loanVMs = sortLoanVMs(for: loanVMs, by: activeLoanSort)
         }
     }
+    @Published var activeBorrowerSort: BorrowerModel.SortingOrder {
+        didSet {
+            self.borrowerVMs = sortBorrowerVMs(for: borrowerVMs, by: activeBorrowerSort)
+        }
+    }
     @Published var activeBorrowerStatus: StatusModel {
         didSet {
             
@@ -168,6 +173,7 @@ final class AppVM: ObservableObject {
         self.activeItemSort = .byName
         self.activeLoanSort = .byLoanDate
         self.activeLoanStatus = .current
+        self.activeBorrowerSort = .byName
         self.activeBorrowerStatus = .regular
         self.activeBorrower = BorrowerVM()
         self.activeItem = ItemVM()
@@ -448,7 +454,7 @@ final class AppVM: ObservableObject {
         var sortedItemVMs = itemVMs
         // Use switch case to sort array
         switch activeSort {
-        case ItemModel.SortingOrder.byName:
+        case .byName:
             sortedItemVMs.sort {
                 $0.name < $1.name
             }
@@ -533,6 +539,25 @@ final class AppVM: ObservableObject {
     func deleteBorrower(for id: UUID) {
         self.dataStore.deleteBorrower(oldBorrowerId: id)
         self.borrowerVMs = setBorrowerVMs(for: dataStore.readStoredBorrowers())
+    }
+    func sortBorrowerVMs(for borrowerVMs: [BorrowerVM], by activeSort: BorrowerModel.SortingOrder) -> [BorrowerVM] {
+        var sortedBorrowerVMs = borrowerVMs
+        // Use switch case to sort array
+        switch activeSort {
+        case .byName:
+            sortedBorrowerVMs.sort {
+                $0.firstName < $1.firstName
+            }
+        case .byLoanCount:
+            sortedBorrowerVMs.sort {
+                $0.loanCount < $1.loanCount
+            }
+        default:
+            sortedBorrowerVMs.sort {
+                $0.firstName < $1.firstName
+            }
+        }
+        return sortedBorrowerVMs
     }
 // MARK: - Reminders
     func getRemindersVM(for loan: LoanModel) -> RemindersVM {

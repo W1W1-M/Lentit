@@ -53,6 +53,17 @@ final class BorrowerModel: ModelProtocol, ObservableObject, Equatable, Hashable 
 }
 
 extension BorrowerModel {
+    /// Predefined borrower sorting orders
+    struct SortingOrder: Identifiable, Equatable, Hashable, CaseIterable {
+        // Properties
+        let id: UUID = UUID()
+        static let byName: SortingOrder = SortingOrder()
+        static let byLoanCount: SortingOrder = SortingOrder()
+        static let allCases: [BorrowerModel.SortingOrder] = [byName, byLoanCount]
+    }
+}
+
+extension BorrowerModel {
     static let defaultData: BorrowerModel = BorrowerModel(
         firstName: "Unknown",
         lastName: "Unknown",
